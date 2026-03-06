@@ -289,28 +289,38 @@
             </div>
     </div>
     </main>
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation Bar (Fixed) -->
     <nav
-        class="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-40 dark:bg-[#121520]">
-        <a class="flex flex-col items-center gap-1 text-primary" href="#">
-            <span class="material-symbols-outlined font-fill">home</span>
+        class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 px-6 py-3 flex justify-between items-center z-50 pb-safe pb-4">
+        <a class="flex flex-col items-center gap-1 text-primary group" href="#">
+            <span
+                class="material-symbols-outlined font-fill text-[28px] group-hover:scale-110 transition-transform">home</span>
             <span class="text-[10px] font-bold">Início</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-            <span class="material-symbols-outlined">history</span>
+        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+            href="#">
+            <span class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
             <span class="text-[10px] font-medium">Viagens</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-            <span class="material-symbols-outlined">notifications</span>
+        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+            href="#">
+            <span
+                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">notifications</span>
             <span class="text-[10px] font-medium">Alertas</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-            <span class="material-symbols-outlined">person</span>
+        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+            href="#">
+            <span
+                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
             <span class="text-[10px] font-medium">Perfil</span>
         </a>
     </nav>
     </div>
     <style>
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
