@@ -171,6 +171,22 @@
                     
                     <!-- Scrollable Body Content -->
                     <div class="space-y-6">
+                    <!-- Ride Type Section (Call Now/Schedule) -->
+                    <section id="ride-type-section" class="rounded-xl transition-all duration-500 p-2 -mx-2">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Como
+                            chamar?</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button id="btn-ride-now" type="button" class="flex items-center gap-3 p-4 rounded-xl bg-primary text-white font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">bolt</span>
+                                <span>Agora</span>
+                            </button>
+                            <button id="btn-ride-schedule" type="button" class="flex items-center gap-3 p-4 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold border border-slate-300 dark:border-slate-700 transition-all active:scale-95">
+                                <span class="material-symbols-outlined">calendar_today</span>
+                                <span>Agendar</span>
+                            </button>
+                        </div>
+                    </section>
+
                     <!-- Quick Favorites -->
                     <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x snap-mandatory">
                         <button
@@ -200,9 +216,8 @@
                         </button>
                     </div>
                     <!-- Ride Options (Driver Cards) -->
-                    <div class="space-y-3 flex flex-col pb-2">
-                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 shrink-0">Motoristas
-                            Disponíveis</p>
+                    <div id="drivers-section" class="space-y-3 flex flex-col pb-2 rounded-xl transition-all duration-500 p-2 -mx-2">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 shrink-0">ESCOLHA O MOTORISTA</p>
                         <div class="space-y-3 flex flex-col pb-4">
                             <!-- Driver Card 1 -->
                             <div
@@ -354,7 +369,7 @@
                         <button class="text-primary text-sm font-bold">Alterar</button>
                     </div>
                     <!-- Action Button -->
-                    <button
+                    <button id="btn-request-ride"
                         class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
                         Solicitar Viagem
                     </button>
@@ -709,6 +724,82 @@
                 }
             });
 
+            // Ride Type Toggle Logic
+            const btnNow = document.getElementById('btn-ride-now');
+            const btnSchedule = document.getElementById('btn-ride-schedule');
+
+            const activeClasses = ['bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30', 'border-transparent'];
+            const inactiveClasses = ['bg-slate-200', 'dark:bg-slate-800', 'text-slate-900', 'dark:text-slate-100', 'border', 'border-slate-300', 'dark:border-slate-700'];
+
+            function toggleRideType(selected) {
+                // Remove highlight from Ride Type Section if present
+                const rideTypeSection = document.getElementById('ride-type-section');
+                if(rideTypeSection) {
+                    rideTypeSection.classList.remove('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
+                }
+
+                if (selected === 'now') {
+                    btnNow.classList.add(...activeClasses);
+                    btnNow.classList.remove(...inactiveClasses);
+                    btnNow.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+                    
+                    btnSchedule.classList.remove(...activeClasses);
+                    btnSchedule.classList.add(...inactiveClasses);
+                    btnSchedule.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+                } else {
+                    btnSchedule.classList.add(...activeClasses);
+                    btnSchedule.classList.remove(...inactiveClasses);
+                    btnSchedule.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+
+                    btnNow.classList.remove(...activeClasses);
+                    btnNow.classList.add(...inactiveClasses);
+                    btnNow.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+                }
+
+                // Move highlight to Drivers Section
+                const driversSection = document.getElementById('drivers-section');
+                if(driversSection) {
+                    driversSection.classList.add('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
+                    setTimeout(() => {
+                        driversSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            }
+
+            if (btnNow && btnSchedule) {
+                btnNow.addEventListener('click', () => toggleRideType('now'));
+                btnSchedule.addEventListener('click', () => toggleRideType('schedule'));
+            }
+
+            // Driver Selection Logic
+            const driverInputs = document.querySelectorAll('input[name="driver_selection"]');
+            driverInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    // Remove highlight from Drivers Section
+                    const driversSection = document.getElementById('drivers-section');
+                    if(driversSection) {
+                        driversSection.classList.remove('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
+                    }
+
+                    // Highlight Request Button
+                    const requestBtn = document.getElementById('btn-request-ride');
+                    if(requestBtn) {
+                        // Add highlight effects (pulsing ring for attention)
+                        requestBtn.classList.add('ring-4', 'ring-primary/40', 'scale-105');
+                        
+                        // Scroll to it
+                        setTimeout(() => {
+                            requestBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 300);
+
+                        // Remove scale effect slightly after to settle
+                        setTimeout(() => {
+                            requestBtn.classList.remove('scale-105');
+                        }, 600);
+                    }
+                });
+            });
+
             // Address Autocomplete Logic
             (function () {
                 const input = document.getElementById('destino-input');
@@ -751,7 +842,18 @@
                             e.preventDefault();
                             input.value = label;
                             list.classList.add('hidden');
-                            // Optional: Focus next element or trigger search
+                            
+                            // Highlight Ride Type Section
+                            const rideTypeSection = document.getElementById('ride-type-section');
+                            if(rideTypeSection) {
+                                // Add highlight classes
+                                rideTypeSection.classList.add('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
+                                
+                                // Scroll to it smoothly
+                                setTimeout(() => {
+                                    rideTypeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }, 300);
+                            }
                         });
 
                         list.appendChild(li);
