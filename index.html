@@ -168,9 +168,9 @@
         <div class="relative z-10 flex flex-col items-center gap-8 px-6 text-center animate-logo-entrance">
             <!-- Logo Container -->
             <div
-                class="flex items-center justify-center size-32 rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden border-2 border-primary">
-                <video autoplay muted loop playsinline class="w-full h-full object-cover">
-                    <source src="videoSplash.mp4" type="video/mp4">
+                class="flex items-center justify-center w-[180px] aspect-[9/16] rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden border-2 border-primary relative">
+                <video id="splashVideo" autoplay muted loop playsinline class="w-full h-full object-cover">
+                    <source src="https://i.imgur.com/nPfHf20.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -188,7 +188,7 @@
         <div class="absolute bottom-12 left-0 w-full px-8 flex flex-col items-center gap-4">
             <div class="w-full max-w-xs space-y-4">
                 <div class="flex justify-between items-center">
-                    <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Iniciando serviços...</p>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Iniciando servi&ccedil;os...</p>
                     <span class="material-symbols-outlined text-primary text-xl animate-spin">
                         sync
                     </span>
@@ -207,7 +207,41 @@
             </div>
         </div>
     </div>
+    <style>
+        /* Hide any default video controls or play overlays */
+        video::-webkit-media-controls {
+            display: none !important;
+        }
+        video::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
+        video::-webkit-media-controls-panel {
+            display: none !important;
+        }
+        video::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+        video::-webkit-media-controls-start-playback-button {
+            display: none !important;
+        }
+    </style>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('splashVideo');
+            if (video) {
+                // Force play
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Autoplay prevented:", error);
+                        // Fallback: Mute again and try playing
+                        video.muted = true;
+                        video.play();
+                    });
+                }
+            }
+        });
+
         setTimeout(() => {
             window.location.href = 'homepage.html';
         }, 5000);
