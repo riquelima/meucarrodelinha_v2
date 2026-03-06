@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="pt-BR">
 
@@ -38,84 +38,40 @@
     </script>
     <style>
         body {
-            min-height: max(884px, 100dvh);
+            min-height: 100dvh;
         }
-    </style>
-
-    <!-- Page Transitions Settings -->
-    <meta name="view-transition" content="same-origin" />
-    <style>
-        /* View Transitions API */
-        @view-transition {
-            navigation: auto;
+        
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+        .font-fill {
+            font-variation-settings: 'FILL' 1;
         }
 
-        ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 4px;
         }
 
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
 
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Fallback Fade */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body.fade-out {
-            animation: fadeOut 0.2s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(25, 73, 230, 0.2);
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased overflow-hidden">
     <!-- Header -->
     <header
-        class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/20">
+        class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/20 shrink-0">
         <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
-            <a href="homepage.html"
+            <a href="minhasViagens.html"
                 class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-primary/20 transition-colors">
                 <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
             </a>
@@ -123,7 +79,8 @@
             <div class="size-10"></div> <!-- Spacer for centering -->
         </div>
     </header>
-    <main class="flex-1 w-full max-w-md mx-auto px-4 py-6 overflow-y-auto">
+
+    <main class="flex-1 w-full max-w-md mx-auto px-4 py-6 overflow-y-auto pb-24">
         <!-- Title Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-bold mb-2">Como podemos ajudar?</h2>
@@ -156,9 +113,9 @@
                     class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-none"
                     id="subject">
                     <option disabled="" selected="" value="">Selecione um assunto</option>
-                    <option value="duvida">DÃºvidas sobre viagens</option>
-                    <option value="reclamacao">ReclamaÃ§Ãµes</option>
-                    <option value="sugestao">SugestÃµes</option>
+                    <option value="duvida">Dúvidas sobre viagens</option>
+                    <option value="reclamacao">Reclamações</option>
+                    <option value="sugestao">Sugestões</option>
                     <option value="financeiro">Financeiro / Pagamentos</option>
                 </select>
             </div>
@@ -186,7 +143,7 @@
             </div>
         </div>
         <!-- Quick Contact Buttons -->
-        <div class="grid grid-cols-2 gap-4 mb-20">
+        <div class="grid grid-cols-2 gap-4 mb-8">
             <a class="flex flex-col items-center justify-center p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all group"
                 href="#">
                 <span
@@ -203,39 +160,37 @@
         </div>
     </main>
 
-    <style>
-        .pb-safe {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        /* Custom scrollbar for dark mode */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(25, 73, 230, 0.2);
-            border-radius: 10px;
-        }
-    </style>
+    <!-- Bottom Navigation Bar (Fixed) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+        <div class="grid grid-cols-4 w-full items-end">
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                href="passageiro.html">
+                <span
+                    class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
+                <span class="text-[10px] font-medium">Início</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="minhasViagens.html">
+                <span
+                    class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
+                <span class="text-[10px] font-medium">Viagens</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                href="#">
+                <span
+                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">notifications</span>
+                <span class="text-[10px] font-medium">Alertas</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                href="perfilPassageiro.html">
+                <span
+                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                <span class="text-[10px] font-medium">Perfil</span>
+            </a>
+        </div>
+    </nav>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('a[href]').forEach(link => {
-                link.addEventListener('click', e => {
-                    const href = link.getAttribute('href');
-                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
-                        e.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = href; }, 200);
-                    }
-                });
-            });
-
             // Phone mask handler
             const phoneInput = document.getElementById('phone');
             if (phoneInput) {

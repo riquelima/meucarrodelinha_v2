@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Meu Carro de Linha Salinas - Perfil</title>
+    <title>Meu Carro de Linha Salinas - Confirmar Saída</title>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
@@ -166,7 +166,7 @@
             </div>
 
             <!-- Logout -->
-            <a href="confirmarSaida.html" class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
+            <a href="#" class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
                 <span class="material-symbols-outlined">logout</span>
                 Sair da Conta
             </a>
@@ -201,6 +201,27 @@
                 </a>
             </div>
         </nav>
+    </div>
+
+    <!-- Modal de Confirmação de Saída -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-[fadeIn_0.2s_ease-out]">
+            <div class="p-6 text-center">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4">
+                    <span class="material-symbols-outlined text-4xl">logout</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Deseja realmente sair?</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-base">Sua sessão será encerrada e você precisará fazer login novamente para acessar o Salinas.</p>
+            </div>
+            <div class="flex flex-col gap-3 p-6 pt-0">
+                <a href="index.html" class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 text-center">
+                    Sair agora
+                </a>
+                <a href="perfilPassageiro.html" class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors text-center">
+                    Cancelar
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

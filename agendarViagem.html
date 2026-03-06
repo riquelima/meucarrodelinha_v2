@@ -132,33 +132,84 @@
             <!-- Time Picker Section -->
             <section class="mb-6">
                 <h3 class="text-md font-bold mb-4">Selecione o Horário</h3>
-                <div class="flex gap-4 px-2 py-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative h-40">
-                    <!-- Selection Indicator (Center Line) -->
-                    <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
-                        <div class="w-full h-10 bg-primary/10 border-y border-primary/30 z-0"></div>
+                <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <!-- Labels -->
+                    <div class="flex pt-4 pb-2 border-b border-slate-100 dark:border-slate-700/50">
+                        <div class="flex-1 text-center text-[10px] font-bold uppercase text-slate-400">Hora</div>
+                        <div class="w-8"></div>
+                        <div class="flex-1 text-center text-[10px] font-bold uppercase text-slate-400">Min</div>
                     </div>
                     
-                    <!-- Hours Column -->
-                    <div class="flex-1 relative z-10">
-                        <div class="text-center text-[10px] font-bold uppercase text-slate-400 mb-1">Hora</div>
-                        <div class="h-24 overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y" id="hours-scroll">
-                            <div class="h-8"></div> <!-- Spacer -->
-                            <!-- JS populated -->
-                            <div class="h-8"></div> <!-- Spacer -->
+                    <!-- Scroll Area -->
+                    <div class="relative h-[120px]">
+                        <!-- Selection Indicator (Center Line) -->
+                        <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
+                            <div class="w-full h-10 bg-primary/10 border-y border-primary/30"></div>
+                        </div>
+
+                        <div class="flex h-full relative z-10">
+                            <!-- Hours Column -->
+                            <div class="flex-1 h-full overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y" id="hours-scroll">
+                                <div class="h-10"></div> <!-- Spacer matches item height -->
+                                <!-- JS populated -->
+                                <div class="h-10"></div> <!-- Spacer matches item height -->
+                            </div>
+
+                            <!-- Separator -->
+                            <div class="w-8 flex items-center justify-center text-slate-300 font-bold text-xl pb-1">:</div>
+
+                            <!-- Minutes Column -->
+                            <div class="flex-1 h-full overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y" id="minutes-scroll">
+                                <div class="h-10"></div> <!-- Spacer matches item height -->
+                                <!-- JS populated -->
+                                <div class="h-10"></div> <!-- Spacer matches item height -->
+                            </div>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    <!-- Separator -->
-                    <div class="flex items-center justify-center pb-4 text-slate-300 font-bold text-xl">:</div>
-
-                    <!-- Minutes Column -->
-                    <div class="flex-1 relative z-10">
-                        <div class="text-center text-[10px] font-bold uppercase text-slate-400 mb-1">Min</div>
-                        <div class="h-24 overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y" id="minutes-scroll">
-                             <div class="h-8"></div> <!-- Spacer -->
-                            <!-- JS populated -->
-                             <div class="h-8"></div> <!-- Spacer -->
+            <!-- Driver Selection -->
+            <section class="mb-6">
+                <h3 class="text-md font-bold mb-4">Escolha seu Motorista</h3>
+                <div class="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 custom-scrollbar snap-x snap-mandatory">
+                    <!-- Driver Card 1 -->
+                    <div class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
+                                <img alt="Ricardo Silva" class="w-full h-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg"/>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold truncate">Ricardo Silva</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Toyota Corolla • Prata</p>
+                            </div>
+                            <div class="flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-yellow-500 text-sm font-fill">star</span>
+                                <span class="text-xs font-bold">4.9</span>
+                            </div>
                         </div>
+                        <button class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            Selecionar
+                        </button>
+                    </div>
+                    <!-- Driver Card 2 -->
+                    <div class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
+                                <img alt="Ana Oliveira" class="w-full h-full object-cover" src="https://randomuser.me/api/portraits/women/44.jpg"/>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold truncate">Ana Oliveira</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Hyundai HB20 • Branco</p>
+                            </div>
+                            <div class="flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-yellow-500 text-sm font-fill">star</span>
+                                <span class="text-xs font-bold">5.0</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-1">
+                            Selecionar
+                        </button>
                     </div>
                 </div>
             </section>
@@ -181,7 +232,7 @@
                         class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
                     <span class="text-[10px] font-medium">Início</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-primary group" href="#">
+                <a class="flex flex-col items-center gap-1 text-primary group" href="minhasViagens.html">
                     <span
                         class="material-symbols-outlined font-fill text-[28px] group-hover:scale-110 transition-transform">route</span>
                     <span class="text-[10px] font-bold">Viagens</span>
@@ -286,38 +337,99 @@
             const minutesScroll = document.getElementById('minutes-scroll');
 
             function populateTime(container, start, end, step = 1, format = true) {
+                // Clear existing content except spacers (if any, but we will rebuild)
+                // Actually, let's just clear and re-add spacers to be safe
+                container.innerHTML = '<div class="h-10 flex-shrink-0"></div>'; // Top Spacer
+                
                 for (let i = start; i <= end; i += step) {
                     const div = document.createElement('div');
-                    div.className = 'h-8 flex items-center justify-center snap-center text-sm font-medium text-slate-500 dark:text-slate-400 select-none cursor-pointer hover:text-primary transition-colors';
+                    // Change height to h-10 (40px) to match indicator
+                    div.className = 'h-10 flex items-center justify-center snap-center text-sm font-medium text-slate-500 dark:text-slate-400 select-none cursor-pointer hover:text-primary transition-colors flex-shrink-0';
                     div.textContent = format ? i.toString().padStart(2, '0') : i;
                     
                     div.addEventListener('click', function() {
                         // Scroll to this element
+                        // Container height 120. Center is 60. Item height 40. Center is 20.
+                        // We want top of item to be at (60 - 20) = 40px from top of container.
+                        // But spacer is 40px.
+                        // If we scroll to 0, Item 0 is at 40px (Spacer pushes it).
+                        // So Item N top position relative to container content is (N * 40) + 40.
+                        // We want Item N to be at scroll position that places it in middle.
+                        // Middle of view is 60px.
+                        // Middle of Item is (N*40 + 40 + 20).
+                        // ScrollTop = (N*40 + 40 + 20) - 60 = N*40.
+                        // So simply N * 40.
+                        
+                        // Or simply div.offsetTop - spacerHeight
+                        // div.offsetTop includes spacer (40).
+                        // So offsetTop - 40.
+                        
+                        // Let's use the spacer approach logic:
+                        // Top spacer is 40px.
+                        // To center item at index 0: scrollTop = 0.
+                        // Item 0 offsetTop is 40.
+                        // So scrollTop = offsetTop - 40.
+                        
                         container.scrollTo({
-                            top: div.offsetTop - container.offsetTop - 32, // Adjust for spacer
+                            top: div.offsetTop - 40,
                             behavior: 'smooth'
                         });
-                        // Highlight logic would go here (checking scroll position)
+                        
+                        // Highlight logic
+                        updateActiveItem(container);
                     });
                     
                     container.appendChild(div);
                 }
+                
+                // Bottom Spacer
+                const bottomSpacer = document.createElement('div');
+                bottomSpacer.className = 'h-10 flex-shrink-0';
+                container.appendChild(bottomSpacer);
             }
 
             populateTime(hoursScroll, 0, 23);
             populateTime(minutesScroll, 0, 55, 5);
             
+            // Highlight Logic
+            function updateActiveItem(container) {
+                // Find center
+                const center = container.scrollTop + (container.offsetHeight / 2);
+                const items = container.querySelectorAll('div.snap-center');
+                
+                items.forEach(item => {
+                    const itemCenter = item.offsetTop + (item.offsetHeight / 2);
+                    // Check if close to center (within half item height)
+                    if (Math.abs(center - itemCenter) < 20) {
+                        item.classList.add('text-primary', 'font-bold', 'scale-110');
+                        item.classList.remove('text-slate-500', 'dark:text-slate-400');
+                    } else {
+                        item.classList.remove('text-primary', 'font-bold', 'scale-110');
+                        item.classList.add('text-slate-500', 'dark:text-slate-400');
+                    }
+                });
+            }
+
             // Set initial scroll position to roughly "Now" (e.g., 09:00)
             setTimeout(() => {
-                hoursScroll.scrollTop = 9 * 32; // Approx
+                // Scroll to 09:00 -> 9th item. 9 * 40 = 360.
+                hoursScroll.scrollTop = 9 * 40;
                 minutesScroll.scrollTop = 0;
+                updateActiveItem(hoursScroll);
+                updateActiveItem(minutesScroll);
             }, 100);
             
-            // Simple Active State for Scroll (Visual only for prototype)
-            const highlightActive = (container) => {
-                 // In a real implementation, calculate closest element to center
+            // Listen for scroll end to update highlight
+            let isScrolling;
+            const onScroll = (e) => {
+                window.clearTimeout(isScrolling);
+                isScrolling = setTimeout(() => {
+                    updateActiveItem(e.target);
+                }, 50);
             };
-            hoursScroll.addEventListener('scroll', () => highlightActive(hoursScroll));
+            
+            hoursScroll.addEventListener('scroll', onScroll);
+            minutesScroll.addEventListener('scroll', onScroll);
 
             // --- Address Autocomplete Logic ---
             function setupAutocomplete(inputId, listId) {

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Histórico de Viagens</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e3fae",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100dvh;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .font-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-10 bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shrink-0">
+            <div class="flex items-center p-4 gap-4">
+                <a href="passageiro.html"
+                    class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+                </a>
+                <h1 class="text-xl font-bold tracking-tight">Minhas Viagens</h1>
+            </div>
+            <div class="flex px-4 relative">
+                <button id="btn-recentes" class="flex-1 py-3 text-sm font-bold border-b-2 border-primary text-primary transition-colors duration-300">
+                    Recentes
+                </button>
+                <button id="btn-anteriores" class="flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors duration-300">
+                    Anteriores
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content (Scrollable) -->
+        <main class="flex-1 relative overflow-hidden">
+            <!-- Recentes View -->
+            <div id="view-recentes" class="absolute inset-0 overflow-y-auto p-4 space-y-4 pb-24 transition-all duration-300 ease-in-out opacity-100 translate-x-0">
+                <!-- Trip Card 1 -->
+                <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="p-4 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                                    <img class="w-full h-full object-cover" alt="Foto de perfil do motorista Ricardo"
+                                        src="https://randomuser.me/api/portraits/men/32.jpg" />
+                                </div>
+                                <div>
+                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        15 Out, 14:30 • Concluída</p>
+                                    <p class="font-semibold text-slate-900 dark:text-slate-100">Motorista: Ricardo</p>
+                                </div>
+                            </div>
+                            <p class="text-lg font-bold text-primary dark:text-slate-100">R$ 15,50</p>
+                        </div>
+                        <div class="space-y-3 relative pl-6">
+                            <div class="absolute left-1.5 top-1.5 bottom-1.5 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+                            <div class="absolute left-0 top-1 w-3 h-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark">
+                            </div>
+                            <div class="absolute left-0 bottom-1 w-3 h-3 bg-primary rounded-sm"></div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Origem</span>
+                                <span class="text-sm font-medium truncate">Rua Augusta, 120</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Destino</span>
+                                <span class="text-sm font-medium truncate">Av. Paulista, 1000</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                                <span class="material-symbols-outlined text-sm">payments</span>
+                                <span class="text-xs font-medium">PIX</span>
+                            </div>
+                            <a href="faleConosco.html" class="px-4 py-2 bg-primary/10 dark:bg-primary/20 text-primary dark:text-blue-400 rounded-lg text-xs font-bold hover:bg-primary/20 transition-colors">
+                                Precisa de ajuda?
+                            </a>
+                        </div>
+                    </div>
+                    <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
+                            alt="Mapa do trajeto da viagem"
+                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                </div>
+
+                <!-- Trip Card 2 -->
+                <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="p-4 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                                    <img class="w-full h-full object-cover" alt="Foto de perfil da motorista Ana"
+                                        src="https://randomuser.me/api/portraits/women/44.jpg" />
+                                </div>
+                                <div>
+                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        14 Out, 09:15 • Concluída</p>
+                                    <p class="font-semibold text-slate-900 dark:text-slate-100">Motorista: Ana</p>
+                                </div>
+                            </div>
+                            <p class="text-lg font-bold text-primary dark:text-slate-100">R$ 22,90</p>
+                        </div>
+                        <div class="space-y-3 relative pl-6">
+                            <div class="absolute left-1.5 top-1.5 bottom-1.5 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+                            <div class="absolute left-0 top-1 w-3 h-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark">
+                            </div>
+                            <div class="absolute left-0 bottom-1 w-3 h-3 bg-primary rounded-sm"></div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Origem</span>
+                                <span class="text-sm font-medium truncate">Aeroporto Congonhas</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Destino</span>
+                                <span class="text-sm font-medium truncate">Itaim Bibi</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                                <span class="material-symbols-outlined text-sm">payments</span>
+                                <span class="text-xs font-medium">PIX</span>
+                            </div>
+                            <a href="faleConosco.html" class="px-4 py-2 bg-primary/10 dark:bg-primary/20 text-primary dark:text-blue-400 rounded-lg text-xs font-bold hover:bg-primary/20 transition-colors">
+                                Precisa de ajuda?
+                            </a>
+                        </div>
+                    </div>
+                    <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
+                            alt="Mapa do trajeto da viagem"
+                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anteriores View -->
+            <div id="view-anteriores" class="absolute inset-0 overflow-y-auto p-4 space-y-4 pb-24 transition-all duration-300 ease-in-out opacity-0 translate-x-full pointer-events-none">
+                <!-- Old Trip 1 -->
+                <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="p-4 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                                    <img class="w-full h-full object-cover" alt="Foto de perfil do motorista Carlos"
+                                        src="https://randomuser.me/api/portraits/men/85.jpg" />
+                                </div>
+                                <div>
+                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        02 Set, 18:45 • Concluída</p>
+                                    <p class="font-semibold text-slate-900 dark:text-slate-100">Motorista: Carlos</p>
+                                </div>
+                            </div>
+                            <p class="text-lg font-bold text-primary dark:text-slate-100">R$ 45,00</p>
+                        </div>
+                        <div class="space-y-3 relative pl-6">
+                            <div class="absolute left-1.5 top-1.5 bottom-1.5 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+                            <div class="absolute left-0 top-1 w-3 h-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark">
+                            </div>
+                            <div class="absolute left-0 bottom-1 w-3 h-3 bg-primary rounded-sm"></div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Origem</span>
+                                <span class="text-sm font-medium truncate">Shopping da Bahia</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Destino</span>
+                                <span class="text-sm font-medium truncate">Rodoviária de Salvador</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+                              <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                                 <span class="material-symbols-outlined text-sm">payments</span>
+                                 <span class="text-xs font-medium">PIX</span>
+                             </div>
+                             <a href="faleConosco.html" class="px-4 py-2 bg-primary/10 dark:bg-primary/20 text-primary dark:text-blue-400 rounded-lg text-xs font-bold hover:bg-primary/20 transition-colors">
+                                 Precisa de ajuda?
+                             </a>
+                         </div>
+                    </div>
+                    <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
+                            alt="Mapa do trajeto da viagem"
+                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                </div>
+
+                <!-- Old Trip 2 -->
+                <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="p-4 space-y-4">
+                         <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                                     <img class="w-full h-full object-cover" alt="Foto de perfil do motorista Ricardo"
+                                        src="https://randomuser.me/api/portraits/men/32.jpg" />
+                                </div>
+                                <div>
+                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        28 Ago, 07:10 • Concluída</p>
+                                    <p class="font-semibold text-slate-900 dark:text-slate-100">Motorista: Ricardo</p>
+                                </div>
+                            </div>
+                            <p class="text-lg font-bold text-primary dark:text-slate-100">R$ 12,00</p>
+                        </div>
+                        <div class="space-y-3 relative pl-6">
+                            <div class="absolute left-1.5 top-1.5 bottom-1.5 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+                            <div class="absolute left-0 top-1 w-3 h-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark">
+                            </div>
+                            <div class="absolute left-0 bottom-1 w-3 h-3 bg-primary rounded-sm"></div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Origem</span>
+                                <span class="text-sm font-medium truncate">Casa</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Destino</span>
+                                <span class="text-sm font-medium truncate">Padaria Central</span>
+                            </div>
+                        </div>
+                         <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+                              <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                                 <span class="material-symbols-outlined text-sm">payments</span>
+                                 <span class="text-xs font-medium">PIX</span>
+                             </div>
+                             <a href="faleConosco.html" class="px-4 py-2 bg-primary/10 dark:bg-primary/20 text-primary dark:text-blue-400 rounded-lg text-xs font-bold hover:bg-primary/20 transition-colors">
+                                 Precisa de ajuda?
+                             </a>
+                         </div>
+                    </div>
+                    <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
+                            alt="Mapa do trajeto da viagem"
+                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation Bar (Fixed) -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+            <div class="grid grid-cols-4 w-full items-end">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="passageiro.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
+                    <span class="text-[10px] font-medium">Início</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-primary group" href="minhasViagens.html">
+                    <span
+                        class="material-symbols-outlined font-fill text-[28px] group-hover:scale-110 transition-transform">route</span>
+                    <span class="text-[10px] font-bold">Viagens</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="#">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">notifications</span>
+                    <span class="text-[10px] font-medium">Alertas</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="perfilPassageiro.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                    <span class="text-[10px] font-medium">Perfil</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnRecentes = document.getElementById('btn-recentes');
+            const btnAnteriores = document.getElementById('btn-anteriores');
+            const viewRecentes = document.getElementById('view-recentes');
+            const viewAnteriores = document.getElementById('view-anteriores');
+
+            function switchTo(tab) {
+                if (tab === 'recentes') {
+                    // Update Buttons
+                    btnRecentes.classList.add('border-primary', 'text-primary');
+                    btnRecentes.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    
+                    btnAnteriores.classList.remove('border-primary', 'text-primary');
+                    btnAnteriores.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+
+                    // Update Views (Animation)
+                    viewRecentes.classList.remove('opacity-0', 'translate-x-[-100%]', 'pointer-events-none');
+                    viewRecentes.classList.add('opacity-100', 'translate-x-0', 'pointer-events-auto');
+
+                    viewAnteriores.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
+                    viewAnteriores.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
+                } else {
+                    // Update Buttons
+                    btnAnteriores.classList.add('border-primary', 'text-primary');
+                    btnAnteriores.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+
+                    btnRecentes.classList.remove('border-primary', 'text-primary');
+                    btnRecentes.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+
+                    // Update Views (Animation)
+                    viewAnteriores.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none');
+                    viewAnteriores.classList.add('opacity-100', 'translate-x-0', 'pointer-events-auto');
+
+                    viewRecentes.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
+                    viewRecentes.classList.add('opacity-0', 'translate-x-[-100%]', 'pointer-events-none');
+                }
+            }
+
+            btnRecentes.addEventListener('click', () => switchTo('recentes'));
+            btnAnteriores.addEventListener('click', () => switchTo('anteriores'));
+        });
+    </script>
+</body>
+
+</html>
