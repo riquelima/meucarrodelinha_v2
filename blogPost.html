@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1949e6",
+                        "accent-cyan": "#06b6d4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111521",
+                        "card-dark": "#1a2032",
+                        "border-dark": "#242c47",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .prose p {
+            margin-bottom: 1.25rem;
+            line-height: 1.75;
+        }
+
+        .prose strong {
+            color: #f1f5f9;
+        }
+
+        .prose a {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+
+    <!-- Page Transitions Settings -->
+    <meta name="view-transition" content="same-origin" />
+    <style>
+        /* View Transitions API */
+        @view-transition {
+            navigation: auto;
+        }
+
+        ::view-transition-old(root) {
+            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+        }
+
+        ::view-transition-new(root) {
+            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Fallback Fade */
+        body {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        body.fade-out {
+            animation: fadeOut 0.2s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+    <div
+        class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-[430px] mx-auto bg-background-light dark:bg-background-dark">
+        <!-- Header Image & Back Button -->
+        <div class="relative w-full h-72 @container">
+            <div class="absolute inset-0 bg-cover bg-center"
+                data-alt="Modern blue transit bus on a city street at sunset"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwY0sIQzmVfyEFw8yA2YZPdyqTAwG1LbbSuvWywjezBwTqOfyuFYkYshxhxKg_iKNYx70giicQPfpIALdoFRM_Jyl7kzkQ1Me0WPUKVJNoBPM0g41ONzWVfN7RdL_qMamtRoo7KhYib8VrDN0xN4Hl987XFPekO3E2M2Z2ZFjvI28OSZR9pmgvpwbUkOluKtMlAS_R1gK1S4pHPKxIfKUySMxY0kkgHBiLqz_wNlDRDUZS492uzIU7FzDx4WK9wxvu2qymSziC2VcQ");'>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+            <div class="absolute top-4 left-4">
+                <a href="blog.html"
+                    class="flex items-center justify-center size-10 rounded-full bg-background-dark/50 backdrop-blur-md text-white border border-white/10">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+            </div>
+            <div class="absolute top-4 right-4">
+                <button
+                    class="flex items-center justify-center size-10 rounded-full bg-background-dark/50 backdrop-blur-md text-white border border-white/10">
+                    <span class="material-symbols-outlined">bookmark</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Post Content Header -->
+    <div class="px-6 -mt-10 relative z-10">
+        <div
+            class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-accent-cyan text-xs font-bold uppercase tracking-wider mb-4">
+            Inovação
+        </div>
+        <h1 class="text-3xl font-bold leading-tight text-slate-900 dark:text-white mb-6">
+            A Evolução do Transporte em Salinas: O que esperar para 2024
+        </h1>
+        <div class="flex items-center gap-3 pb-8 border-b border-border-dark">
+            <div class="size-12 rounded-full bg-cover bg-center border-2 border-primary"
+                data-alt="Professional portrait of author Carlos Silva"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz8ax6U0mTRFr7y9s-pfcnbH7bnqBOD3OdR_wd7_8Jwh3XAFsT8g_e36xT4DXVeoLGSylXgI0LuYN_MtguWnebm-28TGhiGMj7puvQM2uPAx_Ic7ZgMVyAreydQ3eVwJs6f25ImjavmGMTeBOHhxfAvcS_-E6PDQqfpKqA430nue8p4dzOTwlY4Z1uoCE6aR7KS46JMQzSjqLmrMnDLxIwgkfqSQhyB3qyz_x67a_3XY7eQYzf3EqC4AK6024Z63StQLjsmYUXCodY");'>
+            </div>
+            <div class="flex flex-col">
+                <p class="text-base font-semibold text-slate-900 dark:text-slate-100">Carlos Silva</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">24 de Out, 2023 • 5 min de leitura</p>
+            </div>
+        </div>
+    </div>
+    <!-- Main Body Text -->
+    <div class="px-6 py-8 prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
+        <p>
+            O cenário do transporte público em Salinas está passando por uma transformação sem precedentes. Com a
+            implementação do novo sistema <strong>"Meu Carro de Linha"</strong>, a mobilidade urbana atingiu um novo
+            patamar de eficiência e conforto para os passageiros.
+        </p>
+        <p>
+            A integração de tecnologias de monitoramento em tempo real permitiu que os usuários pudessem planejar
+            suas viagens com precisão cirúrgica. Você pode conferir as novas rotas através do nosso <a href="#">mapa
+                interativo atualizado</a>.
+        </p>
+        <p>
+            <strong>Destaques da nova frota:</strong>
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-2">
+            <li>Ar-condicionado em 100% dos veículos;</li>
+            <li>Wi-Fi gratuito de alta velocidade;</li>
+            <li>Sistemas de pagamento por aproximação;</li>
+            <li>Redução de 30% na emissão de poluentes.</li>
+        </ul>
+        <p></p>
+        <p>
+            Esta mudança não é apenas sobre veículos novos, mas sobre criar um ecossistema sustentável que conecte
+            todos os pontos da nossa cidade de forma inteligente e humana.
+        </p>
+    </div>
+    <!-- Share & Interaction -->
+    <div class="px-6 py-6 flex items-center justify-between border-y border-border-dark bg-card-dark/30">
+        <div class="flex gap-4">
+            <button class="flex items-center gap-2 text-slate-400">
+                <span class="material-symbols-outlined text-primary">thumb_up</span>
+                <span class="text-sm font-medium">124</span>
+            </button>
+            <button class="flex items-center gap-2 text-slate-400">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <span class="text-sm font-medium">18</span>
+            </button>
+        </div>
+        <button
+            class="flex items-center gap-2 bg-primary px-6 py-2.5 rounded-full text-white font-bold text-sm shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined text-[20px]">share</span>
+            Compartilhar
+        </button>
+    </div>
+    <!-- Related Posts Section -->
+    <div class="px-6 py-10">
+        <h3 class="text-xl font-bold text-white mb-6">Postagens Relacionadas</h3>
+        <div class="space-y-4">
+            <!-- Related Item 1 -->
+            <a class="flex gap-4 p-3 rounded-xl bg-card-dark border border-border-dark hover:border-primary/50 transition-colors"
+                href="#">
+                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center"
+                    data-alt="Inside view of a modern clean bus interior"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-tefo6-tmVJTs29SedBhmk4AwRloKQLSyfe8ImF52d1gftrhtfGG8k4dcWMqfwJss5k9ziWxK-UsRcbfg4uO6jpXbEs7lGhB4P7mDlntsWyceMVi_zjYGzMFctUc7AUvuC4dBf5hhrw3Dz46KxGjrPvlBrs4cWE4ROJjWl_d6MJ7-CHR0IlnIte43_SXPlqGQ5AwNRMyUTMGaKWvQOoE6q6uI5zvpkNpxfRVdd1xsfKIaG9UU2viwN1WL8G_QOioRQzBvZC4GUUNO");'>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p class="text-xs font-bold text-accent-cyan uppercase mb-1">Dicas</p>
+                    <h4 class="text-sm font-bold text-white line-clamp-2">Como economizar usando o passe digital em
+                        Salinas</h4>
+                </div>
+            </a>
+            <!-- Related Item 2 -->
+            <a class="flex gap-4 p-3 rounded-xl bg-card-dark border border-border-dark hover:border-primary/50 transition-colors"
+                href="#">
+                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center" data-alt="Yellow school bus on a rural road"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3_lCbSbDqv8_seHdSZPa5Eio8bmD69Su8lcJF-uMMeoTlY01wnXsEQVmQKva9jb5_-cRQ1fu7DmERoHp3SkoIkg_PKznhCYQ1vJ0QT51-7_8DEFThJ_-3veGRczL0L-Y7EFGYPk2iCDSj7rer9OUGratmMDBI8mGsEFo_gRjKPtLjaZgfFdOiX_S-aRf1oWArY9ra5Zce9AKu-VcZh6_pU56oY6pnpC4uV3CQVOaQmJbGPEMBcBYXg5fYXw3NJPt0jA-YV54W9PFA");'>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p class="text-xs font-bold text-accent-cyan uppercase mb-1">Notícias</p>
+                    <h4 class="text-sm font-bold text-white line-clamp-2">Novas linhas rurais começam a operar na
+                        próxima segunda</h4>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    </div>
+
+    <script>
+        // Mock database of blog posts based on the ones in blog.html
+        const pbPosts = {
+            "1": { // Reajuste da Tarifa
+                tag: "Comunicado",
+                title: "Reajuste da tarifa anual",
+                author: "Marcos Pereira",
+                date: "Há 2 horas",
+                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuAz-xZ0U2w22kQyO0B1tOOhY7A9pG7-3vQY00bH56V4EcwgU7Hnt3T2f84N8Qy232B_0jM05A7cEDs4s6sN8x4I-CgI714YjOFyq13H9l1nJpZ-e9PZ43B_-zLtsqZ2sQh9Z81uCq1n44d0E7-cQQlW3Y1O48oXp4B3aHtwuO2e4y-UfS-l3P3m_Wz2A-iFjOUwA",
+                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDE19kDV-x7mt2u8gj35BAPT_FN9jQXljohoUvNlSUW70cT-Hq2omOZAECnLc0mRHEPiZp48XwfWUqnoSgM4NL1js39hDWcgW_9QPolKM6uKd6bin1NZvha1LKEFdALE03SL6AVW39iA04RdyimjlFh4lTI3Y5JfZdSm8zsHdkfggIEk_MOJMDGTRzioD_XYYb3xUqyC6yQLerSjnNaSmfMAZwLCQjT11-OfH5hwoZXIK5oWCKD0lJVcYu1HPPj9TkUTAto7YxrBlw",
+                content: `
+                <p>Informamos a todos os nossos usuários e parceiros que, a partir do início do próximo mês, a tarifa padrão do serviço <strong>"Meu Carro de Linha"</strong> sofrerá um pequeno reajuste.</p>
+                <p>Este ajuste é essencial para continuarmos oferecendo um serviço de alta qualidade, garantindo a manutenção da frota e a inclusão de novas tecnologias que trazem mais segurança para suas viagens diárias.</p>
+                <p><strong>Por que estamos reajustando?</strong></p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Inflação acumulada no período de operação.</li>
+                    <li>Aumento do custo de repasses aos motoristas para garantir lucros justos.</li>
+                    <li>Investimento em melhorias no aplicativo, incluindo novo rastreio em tempo real.</li>
+                </ul>
+                <p>Agradecemos a compreensão de todos e seguimos compromissados com a qualidade.</p>
+            `
+            },
+            "2": { // Cinto de Segurança
+                tag: "Segurança",
+                title: "A importância do uso do cinto de segurança no banco de trás",
+                author: "Regina Faria",
+                date: "Há 1 dia",
+                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuD22HDErXq-z0r9B7I3q6R8M0L-1K1X10Z7k4n179_1V9lU8X9-J01_X62tI2q9yP_Q1F6tB2G9T6k9r9O1T_w0U9N2w9q9G8sH0a9I_F7D4j9s2P5T9x8w1y6s5s5r1V8a1T8B7R9x_Q6L8N9w5x8I4p1b8o5T_q7Z5f8m3s1H9e4t_",
+                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuCM_KxJ_9O28oQ_TzW_2O19m_C8P_m8lT_209C_a8_42_M7_O8zH_R2W_H71K_a9s2N9z7m0N7B0m_Q8Q8I9p1m_a6B8R1y1v_I7b9v_r00sB3h0O1b8K8O6O2H3c0t2u9f5V_8T8d7_T0p2X1t8c5H1m_4K0R9",
+                content: `
+                <p>Usar o cinto de segurança no banco de trás deixou de ser uma "opção" e é, por lei, uma <strong>obrigatoriedade</strong>.</p>
+                <p>Diariamente, centenas de vidas são poupadas em incidentes inesperados exclusivamente por causa desse dispositivo tão simples, rápido de ser colocado e extremamente necessário. Mesmo em viagens curtas dentro de Salinas, exija colocar o seu.</p>
+                <p><strong>Nossos Motoristas São Orientados:</strong></p>
+                <p>Antes de iniciar a viagem, você deve ter notado que nossos motoristas parceiros solicitam que todos coloquem os cintos. Essa não é apenas a norma da empresa, mas um cuidado legítimo com a sua família e amigos a bordo.</p>
+                <p>Faça a sua parte e garanta chegar ao seu destino com segurança.</p>
+            `
+            },
+            "3": { // Treinamento
+                tag: "Segurança",
+                title: "Treinamento de motoristas parceiros",
+                author: "Carlos Silva",
+                date: "Postado há 1 semana",
+                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBc49J00D6L6_W8s2oG-N8T09C_-2i-5Z7q9I6p5X5T9d5j22J-Q9N6T54G8H5L0o-U_N0L2X3n_O1j0c5P5n0s2B_t3D1Q_N9X7x6O_V1g2T9s76-C-9s6Z0K1l8o-G1M_c9S1M8E-b2r-7J-U1q6U6p1D1m1n1Q0W0h0U1z0Q0Q",
+                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDz8ax6U0mTRFr7y9s-pfcnbH7bnqBOD3OdR_wd7_8Jwh3XAFsT8g_e36xT4DXVeoLGSylXgI0LuYN_MtguWnebm-28TGhiGMj7puvQM2uPAx_Ic7ZgMVyAreydQ3eVwJs6f25ImjavmGMTeBOHhxfAvcS_-E6PDQqfpKqA430nue8p4dzOTwlY4Z1uoCE6aR7KS46JMQzSjqLmrMnDLxIwgkfqSQhyB3qyz_x67a_3XY7eQYzf3EqC4AK6024Z63StQLjsmYUXCodY",
+                content: `
+                 <p>
+                    O cenário do transporte público em Salinas está passando por uma transformação sem precedentes. Com a implementação do novo sistema <strong>"Meu Carro de Linha"</strong>, a mobilidade urbana atingiu um novo patamar de eficiência e conforto para os passageiros.
+                </p>
+                <p>
+                    A integração de tecnologias de monitoramento em tempo real permitiu que os usuários pudessem planejar suas viagens com precisão cirúrgica. E tudo isso passa por um rígido processo de treinamento da frota dos nossos motoristas parceiros.
+                </p>
+                <p>
+                    <strong>Destaques da nova frota e motoristas:</strong>
+                </p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Motoristas com certificação de primeiros socorros;</li>
+                    <li>Sistemas e manuais de boa conduta com os cidadãos;</li>
+                    <li>Testes bimestrais de manutenção preventiva;</li>
+                </ul>
+                <p>
+                    Esta mudança não é apenas sobre veículos novos, mas sobre criar um ecossistema sustentável que conecte todos os pontos da nossa cidade de forma inteligente e humana.
+                </p>
+            `
+            },
+            "4": { // Rastreio
+                tag: "Inovação",
+                title: "Como usar o novo rastreio em tempo real",
+                author: "Time de Suporte",
+                date: "Postado há 1 semana",
+                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIyRnzhhRu9014WifcrJIuJefHWDn9FGkJLcd0qa324WgQlFmO9Qhf5bOVAk0BxhVveZFnvo6Yg_MdqqBgBPKQYAvc9ObaQrP-_bckLllC6gJR3H2jDqKzTN6dTnSJxD5vDsbiLnAaFbVwTr-bSaTsc79KU4-xdCbvw3pi5yqlCqV-bj1PuATKF1eoEtVNuchMrolPlCYaGVqDyUTy9FiWgGUEVHkBqI5rZ2sP_hvBbc_bq27tg-ppyOQgDTsk5jRJ0L3lCaubUtTr",
+                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDMPCTUX-3QcIclRa90_cwJwCPaCd42OFrijjZ350NSBGmf3RGt8zzpl9leo6n3N08lkt-0MFUFGZUD8M4imZe7hzD4Y_zu-IxpNUcr5t5m03aGbiuqhvgStaF4_g9zDWxiwAJJw0_khqGwGT_61ics8LfsU0INuSIsdtAHzSpXZuQHQ9LjdUgGxcODCUrIWGBRfYoTsO5DYRHWv36RisQ3Pa8hlUJzCs6r316NKXxxrCdXlHL-AyVw2CkiKQpeaBfh_EoXQe26Wj6",
+                content: `
+                <p>É com orgulho que estreamos oficialmente o nosso novo mapa de roteirizações na palma da sua mão! Com a nossa mais nova tecnologia embarcada no "Meu Carro de Linha", acabaram as dúvidas de <em>"Será que ele já passou?"</em></p>
+                <p><strong>Para utilizar:</strong></p>
+                <ol class="list-decimal pl-5 mt-2 space-y-2">
+                    <li>Abra o aplicativo e navegue até a tela "Viagens" no menu inferior;</li>
+                    <li>Clique em "Rastrear Meu Carro" na corrida atual solicitada;</li>
+                    <li>Acompanhe ao vivo pelo GPS enquanto ele chega até você!</li>
+                </ol>
+                <p>Esta é uma atualização disponível para todos os cidadãos da rede cadastrados. Mantenha seu app sempre atualizado na loja do seu smartphone.</p>
+            `
+            }
+        };
+
+        // Load content dynamically
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let postId = urlParams.get('id');
+
+            // Render post dynamically
+            const post = pbPosts[postId];
+            if (post) {
+
+                // Header
+                document.querySelector("div[data-alt='Modern blue transit bus on a city street at sunset']").style.backgroundImage = 'url("' + post.bgImage + '")';
+
+                // Tag
+                const tagEl = document.querySelector(".inline-flex.items-center.px-3.py-1");
+                tagEl.innerHTML = post.tag;
+
+                // Title
+                document.querySelector("h1.text-3xl").innerText = post.title;
+
+                // Author Img
+                document.querySelector("div[data-alt='Professional portrait of author Carlos Silva']").style.backgroundImage = 'url("' + post.authorImg + '")';
+
+                // Author Texts
+                const authorRows = document.querySelectorAll(".flex.flex-col > p");
+                authorRows[0].innerText = post.author;
+                authorRows[1].innerText = post.date + " • 3 min de leitura"; // static time append
+
+                // Content
+                document.querySelector(".prose").innerHTML = post.content;
+            }
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href]').forEach(link => {
+                link.addEventListener('click', e => {
+                    const href = link.getAttribute('href');
+                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
+                        e.preventDefault();
+                        document.body.classList.add('fade-out');
+                        setTimeout(() => { window.location.href = href; }, 200);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

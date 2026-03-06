@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e3fae",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        @keyframes scale-pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-logo-entrance {
+            animation: scale-pulse 5s ease-out forwards;
+        }
+
+        @keyframes fill-loading {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .animate-loading-bar {
+            width: 0%;
+            animation: fill-loading 5s linear forwards;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+
+    <!-- Page Transitions Settings -->
+    <meta name="view-transition" content="same-origin" />
+    <style>
+        /* View Transitions API */
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in; }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+        
+        /* Fallback Fade */
+        body { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden">
+        <!-- Background Gradient Decor -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px]"></div>
+            <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full bg-primary/15 blur-[120px]">
+            </div>
+        </div>
+        <!-- Central Content Wrapper -->
+        <div class="relative z-10 flex flex-col items-center gap-8 px-6 text-center animate-logo-entrance">
+            <!-- Logo Container -->
+            <div
+                class="flex items-center justify-center size-32 rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden border-2 border-primary">
+                <img src="splashScreen.jpeg" alt="Logo Meu Carro de Linha Salinas" class="w-full h-full object-cover" />
+            </div>
+            <!-- App Identity -->
+            <div class="space-y-2">
+                <h1 class="text-slate-900 dark:text-slate-100 text-4xl font-bold tracking-tight">
+                    Meu Carro de Linha
+                </h1>
+                <p class="text-primary text-2xl font-semibold tracking-widest uppercase">
+                    Salinas
+                </p>
+            </div>
+        </div>
+        <!-- Footer Loading State -->
+        <div class="absolute bottom-12 left-0 w-full px-8 flex flex-col items-center gap-4">
+            <div class="w-full max-w-xs space-y-4">
+                <div class="flex justify-between items-center">
+                    <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Iniciando serviços...</p>
+                    <span class="material-symbols-outlined text-primary text-xl animate-spin">
+                        sync
+                    </span>
+                </div>
+                <div class="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                        class="h-full bg-primary rounded-full animate-loading-bar shadow-[0_0_8px_rgba(30,63,174,0.5)]">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Background Image Element (Decorative) -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none">
+            <div class="w-full h-full bg-cover bg-center" data-alt="Abstract dark city map with transit lines"
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAWdPzqKD9Ho8KpItDLc-PS4b8JnH86Z-TEPzrw8amdUZj3tlkjpgU9_ox8RuMKJTw0vggyfkl1B3lu-0MUFIZwa6KObsMCqQwzH4yX81BrWWR2LbsVv2f5VHQScuKQXhlvencX2IEn6q8xKGg-3qu6HckZYmZPQUeWRAMFMQhely8aKVq30s9nGV05oL2YQr7TQ6kCQfy4lnU1VK5mspGnIEYF-VqMDJNW0RMKeqD9nV9yREYfZHfp8yTELR5RoTMcQLT0chHoCfog')">
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(() => {
+            window.location.href = 'homepage.html';
+        }, 5000);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href]').forEach(link => {
+                link.addEventListener('click', e => {
+                    const href = link.getAttribute('href');
+                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
+                        e.preventDefault();
+                        document.body.classList.add('fade-out');
+                        setTimeout(() => { window.location.href = href; }, 200);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

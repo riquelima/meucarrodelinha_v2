@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Acesso ao Painel do Motorista - Salinas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 10px rgba(19, 91, 236, 0.4)' },
+                            '50%': { boxShadow: '0 0 20px rgba(19, 91, 236, 0.8)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        @keyframes custom-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.05); }
+        }
+        .animate-subtle-pulse {
+            animation: custom-pulse 2s infinite ease-in-out;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+
+    <!-- Page Transitions Settings -->
+    <meta name="view-transition" content="same-origin" />
+    <style>
+        /* View Transitions API */
+        @view-transition {
+            navigation: auto;
+        }
+
+        ::view-transition-old(root) {
+            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+        }
+
+        ::view-transition-new(root) {
+            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Fallback Fade */
+        body {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        body.fade-out {
+            animation: fadeOut 0.2s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="relative flex h-screen w-full flex-col overflow-x-hidden pt-16">
+        <!-- Back Button - Top Left Screen -->
+        <a href="homepage.html"
+            class="absolute top-6 left-6 size-10 flex items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors shadow-md z-50">
+            <span class="material-symbols-outlined text-2xl">chevron_left</span>
+        </a>
+
+        <main class="flex-1 flex flex-col px-6 pt-4 overflow-y-auto">
+            <div class="@container w-full mb-8 relative">
+                <div class="absolute -top-2 -right-1 z-10 animate-float">
+                    <a class="flex items-center gap-1.5 bg-primary text-white text-[10px] font-bold px-3 py-2 rounded-full shadow-lg shadow-primary/40 border border-primary/50 animate-subtle-pulse"
+                        href="cadastroMotorista.html">
+                        <span class="material-symbols-outlined text-[14px] fill-1">person_add</span>
+                        QUERO SER MOTORISTA
+                    </a>
+                </div>
+                <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden rounded-xl min-h-[180px] shadow-2xl shadow-primary/10 border border-slate-800"
+                    data-alt="Modern steering wheel and dashboard in low light"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7igMAeJiRAC10hiEUBPfPqdPZyPFZWSi1T-JjQyBj2VnXsEeKFTQpDJwOE0_vMMxJEvLChdl-HRxG7-oJ1g7lUQaBUoHMpMPQLxFmAw7KFcoiINDNGKilhN7zj7-5uvI2PGCF5ErmFo2dx4aHS3df5dNTZ5IqYhy7hH0i95s8-whS0ykVbyK1J_3SgkfvPR8ilxZFKuTxs49OUmzmpolAxVU1buVsQMwKq-s4Cs-rikp8lHVvmjQFRYANd5q3_Mn7uVepUEmE3icA");'>
+                    <div class="bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent p-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-primary mb-1 block">Meu Carro de
+                            Linha Salinas</span>
+                        <h1 class="text-2xl font-bold text-white leading-none">Bem-vindo, Motorista</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-8">
+                <p class="text-slate-400 text-base font-normal">Faça login para gerenciar suas rotas, passageiros e
+                    ganhos diários.</p>
+            </div>
+            <form class="space-y-6">
+                <div class="space-y-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-slate-300 text-sm font-medium ml-1">E-mail ou CPF</label>
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span
+                                    class="material-symbols-outlined text-slate-500 group-focus-within:text-primary transition-colors">account_circle</span>
+                            </div>
+                            <input
+                                class="block w-full bg-slate-900/50 border border-slate-700 rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                                placeholder="000.000.000-00" type="text" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-slate-300 text-sm font-medium ml-1">Senha de Acesso</label>
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span
+                                    class="material-symbols-outlined text-slate-500 group-focus-within:text-primary transition-colors">lock</span>
+                            </div>
+                            <input
+                                class="block w-full bg-slate-900/50 border border-slate-700 rounded-xl py-4 pl-12 pr-12 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                                placeholder="••••••••" type="password" />
+                            <button class="absolute inset-y-0 right-0 pr-4 flex items-center" type="button">
+                                <span
+                                    class="material-symbols-outlined text-slate-500 hover:text-slate-300 transition-colors">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button
+                        class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                        type="submit">
+                        <span>Acessar Painel do Motorista</span>
+                        <span class="material-symbols-outlined">login</span>
+                    </button>
+                </div>
+                <div class="text-center">
+                    <a class="text-slate-500 text-sm font-medium hover:text-primary transition-colors" href="#">Esqueceu
+                        sua senha?</a>
+                </div>
+            </form>
+            <footer class="mt-auto py-8">
+                <div class="bg-primary/5 border border-primary/10 rounded-xl p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">support_agent</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-100 text-sm font-semibold">Precisa de ajuda?</p>
+                            <p class="text-slate-500 text-xs">Fale com o suporte técnico</p>
+                        </div>
+                    </div>
+                    <a class="bg-primary/20 hover:bg-primary/30 text-primary text-xs font-bold py-2 px-4 rounded-lg transition-colors"
+                        href="#">
+                        SUPORTE
+                    </a>
+                </div>
+                <div class="mt-6 text-center">
+                    <p class="text-slate-600 text-xs uppercase tracking-tighter">Powered by Salinas Mobility System</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href]').forEach(link => {
+                link.addEventListener('click', e => {
+                    const href = link.getAttribute('href');
+                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
+                        e.preventDefault();
+                        document.body.classList.add('fade-out');
+                        setTimeout(() => { window.location.href = href; }, 200);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

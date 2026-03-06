@@ -1,0 +1,93 @@
+{
+    "version": 2,
+    "buildCommand": "",
+    "outputDirectory": ".",
+    "framework": null,
+    "rewrites": [
+        {
+            "source": "/homepage",
+            "destination": "/homepage.html"
+        },
+        {
+            "source": "/loginPassageiro",
+            "destination": "/loginPassageiro.html"
+        },
+        {
+            "source": "/loginMotorista",
+            "destination": "/loginMotorista.html"
+        },
+        {
+            "source": "/cadastroMotorista",
+            "destination": "/cadastroMotorista.html"
+        },
+        {
+            "source": "/blog",
+            "destination": "/blog.html"
+        },
+        {
+            "source": "/blogPost",
+            "destination": "/blogPost.html"
+        },
+        {
+            "source": "/anuncios",
+            "destination": "/anuncios.html"
+        },
+        {
+            "source": "/faleConosco",
+            "destination": "/faleConosco.html"
+        },
+        {
+            "source": "/criarConta",
+            "destination": "/criarConta.html"
+        },
+        {
+            "source": "/contaCriada",
+            "destination": "/contaCriada.html"
+        },
+        {
+            "source": "/todosmotoristas",
+            "destination": "/todosmotoristas.html"
+        },
+        {
+            "source": "/menu",
+            "destination": "/menu.html"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-XSS-Protection",
+                    "value": "1; mode=block"
+                }
+            ]
+        },
+        {
+            "source": "/logoTransparente.png",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        },
+        {
+            "source": "/splashScreen.jpeg",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        }
+    ]
+}

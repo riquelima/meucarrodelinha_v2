@@ -1,0 +1,16 @@
+# Dependency folders
+node_modules/
+.npm
+
+# Vercel local
+.vercel/
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Skill/tool internals (not part of the app)
+~/
+~\.gemini/
