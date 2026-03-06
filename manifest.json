@@ -1,0 +1,19 @@
+{
+    "name": "Meu Carro de Linha Salinas",
+    "short_name": "Carro de Linha",
+    "description": "Chame seu transporte em Salinas da Margarida, BA",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#121520",
+    "theme_color": "#1e3fae",
+    "icons": [
+        {
+            "src": "/splashScreen.jpeg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
+    ]
+}
