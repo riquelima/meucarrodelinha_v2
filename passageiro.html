@@ -5,6 +5,17 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Social Share & PWA Icons -->
+    <meta property="og:title" content="Meu Carro de Linha Salinas - Passageiro">
+    <meta property="og:description" content="Chame seu transporte em Salinas da Margarida, BA">
+    <meta property="og:image" content="https://meucarrodelinhasalinas.vercel.app/splashScreen.jpeg">
+    <meta property="og:url" content="https://meucarrodelinhasalinas.vercel.app/passageiro.html">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/jpeg" href="/splashScreen.jpeg">
+    <link rel="apple-touch-icon" href="/splashScreen.jpeg">
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
@@ -37,7 +48,9 @@
     <title>Meu Carro de Linha Salinas</title>
     <style>
         body {
-            min-height: max(884px, 100dvh);
+            /* Use dvh to account for dynamic mobile browser toolbars */
+            min-height: 100vh;
+            min-height: 100dvh;
         }
         /* Pulse Animation for User Location */
         .user-location-marker {
@@ -83,7 +96,8 @@
 
 <body
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
-    <div class="relative flex h-screen w-full flex-col overflow-hidden">
+    <!-- Use h-[100dvh] for the main container to ensure it fits the dynamic viewport -->
+    <div class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
         <!-- Header -->
         <header
             class="absolute top-0 left-0 right-0 z-20 flex items-center bg-white/90 dark:bg-background-dark/90 backdrop-blur-md p-4 shadow-sm dark:bg-[#121520]/90">
@@ -121,8 +135,9 @@
                 </div>
             </div>
             <!-- Search and Overlay Content (Draggable Bottom Sheet) -->
+            <!-- Adjusted bottom offset to 80px to clear navbar + browser UI spacing -->
             <div id="bottom-sheet"
-                class="absolute bottom-[72px] left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-6 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col max-h-[calc(100vh-140px)]"
+                class="absolute bottom-[80px] left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-6 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col max-h-[calc(100dvh-140px)]"
                 style="transform: translateY(0px)">
                 <!-- Drag Handle -->
                 <div id="drag-handle-area" class="flex justify-center py-5 -mt-2 cursor-pointer touch-none shrink-0"
