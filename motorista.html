@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meu Carro de Linha Salinas - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e40ae",
+                        "success": "#10b981",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                        "surface-dark": "#1c2131",
+                        "accent-blue": "#272e45"
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        /* Pulse Animation for User Location */
+        .user-location-marker {
+            position: relative;
+        }
+        .user-location-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #4285F4;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        .user-location-pulse {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(66, 133, 244, 0.4);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-ring 2s infinite;
+            z-index: 1;
+        }
+        @keyframes pulse-ring {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Page Transitions & Click Animations */
+        .page-enter {
+            animation: fade-in 0.3s ease-out forwards;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .active-scale:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display overflow-hidden page-enter">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Notification Container -->
+<div id="notification-container" class="absolute top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transform -translate-y-full transition-transform duration-500">
+    <div id="notification-box" class="mt-4 bg-green-500 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2">
+        <span id="notification-icon" class="material-symbols-outlined">check_circle</span>
+        <span id="notification-text" class="font-bold text-sm">Você está online</span>
+    </div>
+</div>
+<!-- Header / Top Bar -->
+<header class="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-background-dark/80 to-transparent">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full border-2 border-primary overflow-hidden bg-surface-dark">
+<img class="w-full h-full object-cover" data-alt="Profile picture of a professional driver" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD627-BeU1gC_HNClizGCx9bN-a-wIVbc8sCHJ1kEUcJxgz5UHBS90CbXE-aCsIWzgi1sU60B560ZqrHmswoOtIIrWjknwhSbeeUu1xuV9qQlkdAXldToogyaTO3GfXrz9oThcNeRodXD9LsP4ekDm9SlJxE5ebrKZJTVz1Ztj1-M46vnqJwCmJgxQahl3SO9w1Si22lMsmxicP0vWcjkr5LLnveL69up9rKHhSPSks6wflWueXGqNMAkO1hhgq4SSVwGJYW9loyk7n"/>
+</div>
+<div>
+<h1 class="text-sm font-semibold text-slate-100">Olá, Marcos</h1>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-yellow-400">star</span>
+<span class="text-xs text-slate-300">4.95</span>
+</div>
+</div>
+</div>
+<button class="size-10 flex items-center justify-center rounded-full bg-surface-dark/90 text-slate-100 shadow-lg backdrop-blur-md">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Main Map Area (Interactive background) -->
+<main class="relative flex-1 w-full bg-surface-dark overflow-hidden">
+<div id="motorista-map" class="absolute inset-0 z-0 h-full w-full"></div>
+<!-- Earnings Summary Card Overlay Removed -->
+<!-- Map Controls Removed -->
+<!-- Search bar for manual location/destinations Removed -->
+</main>
+<!-- Bottom Action & Navigation Area -->
+<footer class="relative z-20 bg-background-dark border-t border-slate-800">
+<!-- Go Online Button Area -->
+<div class="p-4 flex flex-col items-center">
+<button id="toggle-online-btn" class="group relative flex w-full max-w-md cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-white text-base font-bold transition-all active:scale-95 shadow-lg shadow-primary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" id="toggle-icon">power_settings_new</span>
+<span class="uppercase tracking-widest" id="toggle-text">Ficar Online</span>
+</div>
+</button>
+<p id="status-text" class="mt-2 text-[10px] text-slate-500 font-medium">Você está offline no momento</p>
+</div>
+<!-- Navigation Bar -->
+<nav class="flex justify-around items-end px-2 pb-6 pt-2 border-t border-slate-800/50">
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold">Ganhos</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+<span class="material-symbols-outlined">chat</span>
+<span class="text-[10px] font-bold">Chat</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-bold">Histórico</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] font-bold">Perfil</span>
+</a>
+</nav>
+</footer>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize Interactive Leaflet Map
+        const map = L.map('motorista-map', {
+            zoomControl: false,
+            attributionControl: false,
+            touchZoom: true,
+            zoomAnimation: true
+        }).setView([-12.8711, -38.7614], 14);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Geolocation Logic
+        const defaultLocation = [-12.8711, -38.7614];
+        let userMarker = null;
+        let isFirstLocationUpdate = true;
+        
+        // Custom Pulse Icon
+        const pulseIcon = L.divIcon({
+            className: 'user-location-marker',
+            html: '<div class="user-location-pulse"></div><div class="user-location-dot"></div>',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+
+        function updateUserMarker(lat, lng) {
+            if (userMarker) {
+                userMarker.setLatLng([lat, lng]);
+            } else {
+                userMarker = L.marker([lat, lng], { icon: pulseIcon }).addTo(map)
+                    .bindPopup('Você está aqui');
+            }
+            
+            if (isFirstLocationUpdate) {
+                map.setView([lat, lng], 16);
+                isFirstLocationUpdate = false;
+            }
+        }
+
+        function handleLocationError(error) {
+            console.warn('Geolocation error:', error);
+            if (!userMarker) {
+                userMarker = L.marker(defaultLocation, { icon: pulseIcon }).addTo(map)
+                    .bindPopup('Localização indisponível (Padrão: Salinas)');
+                map.setView(defaultLocation, 14);
+            }
+        }
+
+        const geoOptions = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        };
+
+        // Start watching position
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    updateUserMarker(position.coords.latitude, position.coords.longitude);
+                },
+                handleLocationError,
+                geoOptions
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+            updateUserMarker(defaultLocation[0], defaultLocation[1]);
+        }
+
+        // Toggle Online/Offline Logic
+        const toggleBtn = document.getElementById('toggle-online-btn');
+        const toggleIcon = document.getElementById('toggle-icon');
+        const toggleText = document.getElementById('toggle-text');
+        const statusText = document.getElementById('status-text');
+        const notificationContainer = document.getElementById('notification-container');
+        const notificationBox = document.getElementById('notification-box');
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationText = document.getElementById('notification-text');
+        let isOnline = false;
+
+        function showNotification(message, isOnlineStatus) {
+            notificationText.textContent = message;
+            if (isOnlineStatus) {
+                notificationBox.classList.remove('bg-slate-700');
+                notificationBox.classList.add('bg-green-500');
+                notificationIcon.textContent = 'check_circle';
+            } else {
+                notificationBox.classList.remove('bg-green-500');
+                notificationBox.classList.add('bg-slate-700');
+                notificationIcon.textContent = 'power_settings_new';
+            }
+            
+            notificationContainer.classList.remove('-translate-y-full');
+            setTimeout(() => {
+                notificationContainer.classList.add('-translate-y-full');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            isOnline = !isOnline;
+            
+            if (isOnline) {
+                // Go Online State
+                toggleBtn.classList.remove('bg-primary', 'shadow-primary/20', 'text-white');
+                toggleBtn.classList.add('bg-slate-700', 'text-slate-300', 'shadow-none');
+                toggleText.textContent = 'Ficar Offline';
+                statusText.textContent = 'Você está online e visível para passageiros';
+                statusText.classList.add('text-green-500');
+                statusText.classList.remove('text-slate-500');
+                
+                showNotification('Você está online', true);
+                
+            } else {
+                // Go Offline State
+                toggleBtn.classList.add('bg-primary', 'shadow-primary/20', 'text-white');
+                toggleBtn.classList.remove('bg-slate-700', 'text-slate-300', 'shadow-none');
+                toggleText.textContent = 'Ficar Online';
+                statusText.textContent = 'Você está offline no momento';
+                statusText.classList.remove('text-green-500');
+                statusText.classList.add('text-slate-500');
+                
+                showNotification('Você está offline', false);
+            }
+        });
+    });
+</script>
+</body></html>

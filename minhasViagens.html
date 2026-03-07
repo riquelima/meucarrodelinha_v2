@@ -13,6 +13,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -119,11 +124,8 @@
                         </div>
                     </div>
                     <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
-                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
-                            alt="Mapa do trajeto da viagem"
-                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div id="map-trip-1" class="absolute inset-0 z-0"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
                     </div>
                 </div>
 
@@ -169,11 +171,8 @@
                         </div>
                     </div>
                     <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
-                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
-                            alt="Mapa do trajeto da viagem"
-                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div id="map-trip-2" class="absolute inset-0 z-0"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
                     </div>
                 </div>
             </div>
@@ -222,11 +221,8 @@
                          </div>
                     </div>
                     <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
-                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
-                            alt="Mapa do trajeto da viagem"
-                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div id="map-trip-3" class="absolute inset-0 z-0"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
                     </div>
                 </div>
 
@@ -272,11 +268,8 @@
                          </div>
                     </div>
                     <div class="h-48 w-full bg-slate-200 dark:bg-slate-800 relative">
-                        <div class="absolute inset-0 bg-cover bg-center opacity-80"
-                            alt="Mapa do trajeto da viagem"
-                            style="background-image: url('https://placehold.co/600x200/e2e8f0/1e3fae?text=Mapa+do+Trajeto');">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div id="map-trip-4" class="absolute inset-0 z-0"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none"></div>
                     </div>
                 </div>
             </div>
@@ -297,10 +290,10 @@
                     <span class="text-[10px] font-bold">Viagens</span>
                 </a>
                 <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="#">
+                    href="conversas.html">
                     <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">notifications</span>
-                    <span class="text-[10px] font-medium">Alertas</span>
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
+                    <span class="text-[10px] font-medium">Chats</span>
                 </a>
                 <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
                     href="perfilPassageiro.html">
@@ -319,6 +312,37 @@
             const viewRecentes = document.getElementById('view-recentes');
             const viewAnteriores = document.getElementById('view-anteriores');
 
+            // Initialize Maps
+            const maps = {};
+            const tripCoordinates = [
+                { id: 'map-trip-1', center: [-12.8711, -38.7614], zoom: 14 },
+                { id: 'map-trip-2', center: [-12.8750, -38.7650], zoom: 14 },
+                { id: 'map-trip-3', center: [-12.8800, -38.7700], zoom: 14 },
+                { id: 'map-trip-4', center: [-12.8600, -38.7500], zoom: 14 }
+            ];
+
+            tripCoordinates.forEach(trip => {
+                const map = L.map(trip.id, {
+                    zoomControl: false,
+                    attributionControl: false,
+                    dragging: false,
+                    scrollWheelZoom: false,
+                    doubleClickZoom: false,
+                    boxZoom: false,
+                    keyboard: false,
+                    tap: false
+                }).setView(trip.center, trip.zoom);
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                }).addTo(map);
+
+                // Add a simple marker
+                L.marker(trip.center).addTo(map);
+                
+                maps[trip.id] = map;
+            });
+
             function switchTo(tab) {
                 if (tab === 'recentes') {
                     // Update Buttons
@@ -334,6 +358,13 @@
 
                     viewAnteriores.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
                     viewAnteriores.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
+                    
+                    // Refresh maps
+                    setTimeout(() => {
+                        maps['map-trip-1'].invalidateSize();
+                        maps['map-trip-2'].invalidateSize();
+                    }, 300);
+
                 } else {
                     // Update Buttons
                     btnAnteriores.classList.add('border-primary', 'text-primary');
@@ -348,11 +379,23 @@
 
                     viewRecentes.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
                     viewRecentes.classList.add('opacity-0', 'translate-x-[-100%]', 'pointer-events-none');
+
+                    // Refresh maps
+                    setTimeout(() => {
+                        maps['map-trip-3'].invalidateSize();
+                        maps['map-trip-4'].invalidateSize();
+                    }, 300);
                 }
             }
 
             btnRecentes.addEventListener('click', () => switchTo('recentes'));
             btnAnteriores.addEventListener('click', () => switchTo('anteriores'));
+            
+            // Initial invalidation to ensure first tab maps are correct
+            setTimeout(() => {
+                 maps['map-trip-1'].invalidateSize();
+                 maps['map-trip-2'].invalidateSize();
+            }, 100);
         });
     </script>
 </body>

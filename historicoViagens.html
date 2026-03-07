@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e3fae",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Page Transitions */
+        .page-enter {
+            animation: fade-in 0.3s ease-out forwards;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col page-enter">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-4">
+<div class="flex items-center justify-between max-w-md mx-auto">
+<a href="motorista.html" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</a>
+<h1 class="text-lg font-bold tracking-tight">Histórico de Viagens</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<main class="flex-1 max-w-md mx-auto w-full pb-24">
+<!-- Driver Summary Profile -->
+<!-- Earnings Summary Card -->
+<!-- Filters -->
+<div class="flex gap-2 px-4 mb-6 overflow-x-auto pb-2 no-scrollbar pt-4">
+<button id="btn-hoje" class="filter-btn flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-white text-sm font-semibold transition-colors" onclick="filterTrips('hoje')">
+                Hoje
+</button>
+<button id="btn-semana" class="filter-btn flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300 text-sm font-medium transition-colors" onclick="filterTrips('semana')">
+                Esta Semana
+</button>
+<button id="btn-todos" class="filter-btn flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300 text-sm font-medium transition-colors" onclick="filterTrips('todos')">
+                Todos
+</button>
+</div>
+<!-- Trip List Section -->
+<div class="px-4">
+<h2 id="section-title" class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Viagens de Hoje</h2>
+
+<div id="trips-hoje" class="trip-section space-y-4">
+    <!-- Trip Item 1 (Hoje) -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="Carlos" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArWg-pIZVHlHxOG4bsA9yJ1DiLwP5MsjJ9-Cyr7Mvr69q-LXF8QBzTqf3ky9CdQGluyp4MTQ6A2mD5A4SBOheuvK7uHxoT5us-LGDAoo7nbc8JfI8AyOh18JlMeXYpMmugVTUNCAEoJnp32zmU0yx5hzQrOe43BcQhz-hnbbvLdC3eWFkGxrJLnj1Rm5-0Y3XPek6tSxYTJ1TAO7TkSd8bFfkGYH7vFNmLJaNs-fuzhs7ePEirysXMxpGvS9PIfSkNehGw1gLfG9Bh"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">Carlos Silva</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">Hoje • 14:30</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 18,50</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Rodoviária de Salinas</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Centro, Praça da Matriz</p>
+    </div>
+    </div>
+    </div>
+    <!-- Trip Item 2 (Hoje) -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="Maria" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrrLvSIKTLq_tD8zgodbXlLjlYCD2BPP1eehBTLvAx0MIUKZve_rvCgFb8MbjcSe92LHjSiBhrdGh9eG2YkL1Miw7YKjp_Y2E9Wn9XLD4IQsMQdNLYp7tnohXmVVK8xPhZzBMjwdy1aBUB-PMx6U8OsTxUgmakakr5jdrn3TKA9gLxUnA0HykNDk6EJ0p6auusjLjLmCSfhnG27q0Kv08qC-HeOs3x7QHDiJnF7PgqLEb6PpHWC13hNwfuJacTjZhmmUg6xJxdY2aj"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">Maria Oliveira</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">Hoje • 11:15</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 24,00</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Bairro Santa Cruz</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Hospital Municipal</p>
+    </div>
+    </div>
+    </div>
+    <!-- Trip Item 4 (Hoje) -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="Ana" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrrLvSIKTLq_tD8zgodbXlLjlYCD2BPP1eehBTLvAx0MIUKZve_rvCgFb8MbjcSe92LHjSiBhrdGh9eG2YkL1Miw7YKjp_Y2E9Wn9XLD4IQsMQdNLYp7tnohXmVVK8xPhZzBMjwdy1aBUB-PMx6U8OsTxUgmakakr5jdrn3TKA9gLxUnA0HykNDk6EJ0p6auusjLjLmCSfhnG27q0Kv08qC-HeOs3x7QHDiJnF7PgqLEb6PpHWC13hNwfuJacTjZhmmUg6xJxdY2aj"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">Ana Souza</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">Hoje • 09:15</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 22,00</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Bairro Esperança</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Shopping Salinas</p>
+    </div>
+    </div>
+    </div>
+</div>
+
+<div id="trips-semana" class="trip-section space-y-4 hidden">
+    <!-- Trip Item 3 (Ontem) -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-80">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="João" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfPBKmBQ6nZSNSDwRsYJ3bIvg7xHpFIUq-nsjP0yNNRnL_AB-Aa6tZcgPd9viZXdhJ3dAemnoqsGoPz8dQx_SkAAC3S-T5sE9zEpPm-f9saNwwPi7eUWfQ8YxOi3p2nPHmRqEgcvV3k0cDBcseblq3NNW983m5LTmXR8eyamD6d5QwihIzFfKe4CRD_Mdq9gXWxYmTnSg_7yFTPbDP8zKLi2qM56e64hrwa11GvcWJKPAGpQehPB3HJm3afxSIkGIiZgPsBG1Ih60v"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">João Mendes</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">Ontem • 20:45</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 15,00</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Praça Cel. José Alkmim</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Uai Salinas</p>
+    </div>
+    </div>
+    </div>
+    <!-- Trip Item 5 (Ontem) -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-80">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="Pedro" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArWg-pIZVHlHxOG4bsA9yJ1DiLwP5MsjJ9-Cyr7Mvr69q-LXF8QBzTqf3ky9CdQGluyp4MTQ6A2mD5A4SBOheuvK7uHxoT5us-LGDAoo7nbc8JfI8AyOh18JlMeXYpMmugVTUNCAEoJnp32zmU0yx5hzQrOe43BcQhz-hnbbvLdC3eWFkGxrJLnj1Rm5-0Y3XPek6tSxYTJ1TAO7TkSd8bFfkGYH7vFNmLJaNs-fuzhs7ePEirysXMxpGvS9PIfSkNehGw1gLfG9Bh"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">Pedro Lima</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">Ontem • 18:45</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 12,50</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Terminal Rodoviário</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Hotel Plaza</p>
+    </div>
+    </div>
+    </div>
+    <!-- New Trip for Week -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-70">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="Fernanda" class="w-full h-full object-cover" src="https://randomuser.me/api/portraits/women/65.jpg"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">Fernanda Costa</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">Segunda • 08:30</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 35,00</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Aeroporto Regional</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Centro de Eventos</p>
+    </div>
+    </div>
+    </div>
+</div>
+
+<div id="trips-todos" class="trip-section space-y-4 hidden">
+    <!-- Placeholder for All Trips - showing a few older ones -->
+    <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-60">
+    <div class="flex justify-between items-start mb-3">
+    <div class="flex items-center gap-3">
+    <div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+    <img alt="Roberto" class="w-full h-full object-cover" src="https://randomuser.me/api/portraits/men/22.jpg"/>
+    </div>
+    <div>
+    <h3 class="font-bold text-slate-900 dark:text-slate-100">Roberto Alves</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">12/10/2023 • 15:00</p>
+    </div>
+    </div>
+    <div class="text-right">
+    <p class="font-bold text-primary dark:text-blue-400">R$ 28,00</p>
+    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 uppercase">PIX</span>
+    </div>
+    </div>
+    <div class="space-y-2 relative pl-6">
+    <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Shopping Salinas</p>
+    </div>
+    <div class="flex items-start gap-2 relative">
+    <div class="absolute -left-[23px] top-1 size-3 bg-primary rounded-sm"></div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 truncate">Bairro Nova Esperança</p>
+    </div>
+    </div>
+    </div>
+</div>
+
+</div>
+<script>
+    function filterTrips(period) {
+        // Update Buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-white');
+            btn.classList.add('bg-slate-200', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+        });
+        const activeBtn = document.getElementById('btn-' + period);
+        activeBtn.classList.remove('bg-slate-200', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+        activeBtn.classList.add('bg-primary', 'text-white');
+
+        // Update Content
+        document.querySelectorAll('.trip-section').forEach(section => {
+            section.classList.add('hidden');
+        });
+
+        // Update Title
+        const title = document.getElementById('section-title');
+        
+        if (period === 'hoje') {
+            document.getElementById('trips-hoje').classList.remove('hidden');
+            title.textContent = 'Viagens de Hoje';
+        } else if (period === 'semana') {
+            document.getElementById('trips-hoje').classList.remove('hidden'); // Show today's too
+            document.getElementById('trips-semana').classList.remove('hidden');
+            title.textContent = 'Viagens desta Semana';
+        } else {
+            document.getElementById('trips-hoje').classList.remove('hidden');
+            document.getElementById('trips-semana').classList.remove('hidden');
+            document.getElementById('trips-todos').classList.remove('hidden');
+            title.textContent = 'Todas as Viagens';
+        }
+    }
+</script>
+</main>
+<!-- Bottom Navigation Bar (Fixed) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+    <div class="flex justify-around items-end px-2">
+        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold">Início</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+            <span class="material-symbols-outlined">payments</span>
+            <span class="text-[10px] font-bold">Ganhos</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+            <span class="material-symbols-outlined">chat</span>
+            <span class="text-[10px] font-bold">Chat</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="historicoViagens.html">
+            <span class="material-symbols-outlined font-fill">history</span>
+            <span class="text-[10px] font-bold">Histórico</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="text-[10px] font-bold">Perfil</span>
+        </a>
+    </div>
+</nav>
+<style>
+    .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    .font-fill {
+        font-variation-settings: 'FILL' 1;
+    }
+</style>
+</body></html>

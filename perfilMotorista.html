@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Meu Carro de Linha Salinas - Perfil</title>
+    <title>Meu Carro de Linha Salinas - Perfil Motorista</title>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
@@ -20,9 +20,10 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#1e40ae",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
+                        "surface-dark": "#1c2131",
                     },
                     fontFamily: {
                         "display": ["Inter"]
@@ -52,16 +53,24 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Page Transitions */
+        .page-enter {
+            animation: fade-in 0.3s ease-out forwards;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden page-enter">
     <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
         <!-- Header -->
         <header
             class="flex items-center justify-between bg-white dark:bg-[#121520] p-4 shadow-sm z-20 shrink-0 border-b border-slate-200 dark:border-slate-800">
-            <a href="passageiro.html" class="text-primary p-2 -ml-2 rounded-full hover:bg-primary/10 transition-colors">
+            <a href="motorista.html" class="text-slate-900 dark:text-slate-100 p-2 -ml-2 rounded-full hover:bg-slate-200 dark:hover:bg-surface-dark transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
             <h1 class="text-lg font-bold">Meu Perfil</h1>
@@ -75,29 +84,32 @@
             <!-- Profile Hero Section -->
             <div class="flex flex-col items-center mb-8">
                 <div class="relative">
-                    <div class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img src="https://randomuser.me/api/portraits/men/99.jpg" 
-                             alt="Carlos Silva" class="w-full h-full object-cover">
+                    <div class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-surface-dark">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD627-BeU1gC_HNClizGCx9bN-a-wIVbc8sCHJ1kEUcJxgz5UHBS90CbXE-aCsIWzgi1sU60B560ZqrHmswoOtIIrWjknwhSbeeUu1xuV9qQlkdAXldToogyaTO3GfXrz9oThcNeRodXD9LsP4ekDm9SlJxE5ebrKZJTVz1Ztj1-M46vnqJwCmJgxQahl3SO9w1Si22lMsmxicP0vWcjkr5LLnveL69up9rKHhSPSks6wflWueXGqNMAkO1hhgq4SSVwGJYW9loyk7n" 
+                             alt="Marcos" class="w-full h-full object-cover">
                     </div>
                     <button class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-background-light dark:border-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform">
                         <span class="material-symbols-outlined text-sm">edit</span>
                     </button>
                 </div>
                 <div class="flex flex-col items-center mt-4 text-center">
-                    <h2 class="text-2xl font-bold">Carlos Silva</h2>
-                    <p class="text-primary font-medium text-sm">Passageiro Nível Ouro</p>
+                    <h2 class="text-2xl font-bold">Marcos</h2>
+                    <p class="text-primary font-medium text-sm">Motorista Parceiro</p>
                 </div>
             </div>
 
             <!-- Stats Grid -->
             <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm">
                     <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Viagens</p>
-                    <p class="text-2xl font-black text-slate-900 dark:text-white">154</p>
+                    <p class="text-2xl font-black text-slate-900 dark:text-white">842</p>
                 </div>
-                <div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Membro desde</p>
-                    <p class="text-2xl font-black text-slate-900 dark:text-white">Jan '23</p>
+                <div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Avaliação</p>
+                    <div class="flex items-center gap-1">
+                        <p class="text-2xl font-black text-slate-900 dark:text-white">4.95</p>
+                        <span class="material-symbols-outlined text-yellow-500">star</span>
+                    </div>
                 </div>
             </div>
 
@@ -105,35 +117,35 @@
             <div class="space-y-1 mb-8">
                 <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">Conta</p>
                 
-                <a href="minhasViagens.html" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
-                    <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
-                        <span class="material-symbols-outlined">directions_car</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-semibold text-sm">Minhas Viagens</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Histórico completo</p>
-                    </div>
-                    <span class="material-symbols-outlined text-slate-400">chevron_right</span>
-                </a>
-
-                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <a href="meusganhos.html" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">payments</span>
                     </div>
                     <div class="flex-1">
-                        <p class="font-semibold text-sm">Pagamentos</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">PIX e Cartões</p>
+                        <p class="font-semibold text-sm">Meus Ganhos</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Extrato detalhado</p>
                     </div>
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
-                        <span class="material-symbols-outlined">favorite</span>
+                        <span class="material-symbols-outlined">directions_car</span>
                     </div>
                     <div class="flex-1">
-                        <p class="font-semibold text-sm">Endereços Favoritos</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Casa, Trabalho</p>
+                        <p class="font-semibold text-sm">Meu Veículo</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Documentação e fotos</p>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-400">chevron_right</span>
+                </a>
+
+                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm active:scale-[0.99] transition-all">
+                    <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined">settings</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-sm">Configurações</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">App e preferências</p>
                     </div>
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                 </a>
@@ -142,61 +154,48 @@
             <div class="space-y-1 mb-8">
                 <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">Suporte</p>
                 
-                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
-                    <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
-                        <span class="material-symbols-outlined">shield_person</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-semibold text-sm">Segurança</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Configurações de privacidade</p>
-                    </div>
-                    <span class="material-symbols-outlined text-slate-400">chevron_right</span>
-                </a>
-
-                <a href="faleConosco.html" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <a href="faleConoscoMotorista.html" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">help</span>
                     </div>
                     <div class="flex-1">
                         <p class="font-semibold text-sm">Ajuda</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Fale conosco</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Fale com o suporte</p>
                     </div>
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                 </a>
             </div>
 
             <!-- Logout -->
-            <a href="confirmarSaida.html" class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
+            <a href="index.html" class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
                 <span class="material-symbols-outlined">logout</span>
                 Sair da Conta
             </a>
             
-            <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
+            <p class="text-center text-slate-400 text-xs pb-4">Versão 1.2.0</p>
         </main>
 
         <!-- Bottom Navigation Bar (Fixed) -->
         <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="grid grid-cols-4 w-full items-end">
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="passageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
-                    <span class="text-[10px] font-medium">Início</span>
+            <div class="flex justify-around items-end px-2">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="text-[10px] font-bold">Início</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="minhasViagens.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
-                    <span class="text-[10px] font-medium">Viagens</span>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+                    <span class="material-symbols-outlined">payments</span>
+                    <span class="text-[10px] font-bold">Ganhos</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="conversas.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
-                    <span class="text-[10px] font-medium">Chats</span>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+                    <span class="material-symbols-outlined">chat</span>
+                    <span class="text-[10px] font-bold">Chat</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-primary group" href="perfilPassageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+                    <span class="material-symbols-outlined">history</span>
+                    <span class="text-[10px] font-bold">Histórico</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="perfilMotorista.html">
+                    <span class="material-symbols-outlined font-fill">account_circle</span>
                     <span class="text-[10px] font-bold">Perfil</span>
                 </a>
             </div>

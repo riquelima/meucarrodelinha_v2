@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Fale Conosco - Atendimento</title>
+    <title>Fale Conosco - Atendimento Motorista</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
@@ -62,16 +62,24 @@
             background: rgba(25, 73, 230, 0.2);
             border-radius: 10px;
         }
+        /* Page Transitions */
+        .page-enter {
+            animation: fade-in 0.3s ease-out forwards;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased overflow-hidden">
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased overflow-hidden page-enter">
     <!-- Header -->
     <header
         class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/20 shrink-0">
         <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
-            <a href="minhasViagens.html"
+            <a href="motorista.html"
                 class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-primary/20 transition-colors">
                 <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
             </a>
@@ -162,29 +170,26 @@
 
     <!-- Bottom Navigation Bar (Fixed) -->
     <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-        <div class="grid grid-cols-4 w-full items-end">
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                href="passageiro.html">
-                <span
-                    class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
-                <span class="text-[10px] font-medium">Início</span>
+        <div class="flex justify-around items-end px-2">
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold">Início</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="minhasViagens.html">
-                <span
-                    class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
-                <span class="text-[10px] font-medium">Viagens</span>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+                <span class="material-symbols-outlined">payments</span>
+                <span class="text-[10px] font-bold">Ganhos</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="conversas.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
-                    <span class="text-[10px] font-medium">Chats</span>
-                </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                href="perfilPassageiro.html">
-                <span
-                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                <span class="text-[10px] font-medium">Perfil</span>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+                <span class="material-symbols-outlined">chat</span>
+                <span class="text-[10px] font-bold">Chat</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+                <span class="material-symbols-outlined">history</span>
+                <span class="text-[10px] font-bold">Histórico</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+                <span class="material-symbols-outlined">account_circle</span>
+                <span class="text-[10px] font-bold">Perfil</span>
             </a>
         </div>
     </nav>

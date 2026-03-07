@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meu Carro de Linha Salinas - Conversas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e3fae",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased">
+<!-- Main Container (Mobile Screen) -->
+<div class="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+<!-- Header / TopAppBar -->
+<header class="sticky top-0 z-10 flex items-center bg-background-light dark:bg-background-dark p-4 border-b border-slate-200 dark:border-slate-800 justify-between">
+<div class="flex items-center gap-3">
+<a href="passageiro.html" class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div class="flex flex-col">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Conversas</h2>
+<span class="text-xs text-primary font-medium">Meu Carro de Linha Salinas</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="flex size-10 items-center justify-center rounded-full text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Chat List Content -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Chat Card: Roberto (Delivered) -->
+<a href="chat.html?name=Roberto%20Santos&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F11.jpg&car=Chevrolet%20Onix%20Prata&plate=ABC-1234" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-200 dark:border-slate-800/50 block">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-primary/20" data-alt="Professional male driver profile picture" style='background-image: url("https://randomuser.me/api/portraits/men/11.jpg");'>
+</div>
+<div class="absolute bottom-0 right-0 size-3.5 bg-green-500 rounded-full border-2 border-background-dark"></div>
+</div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold truncate">Roberto Santos</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal">14:05</p>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-primary">done_all</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal truncate leading-snug">Estou a caminho, chego em 5 min.</p>
+</div>
+</div>
+</a>
+<!-- Chat Card: Marcos (Unread) -->
+<a href="chat.html?name=Marcos%20Oliveira&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F22.jpg&car=Fiat%20Argo%20Branco&plate=XYZ-5678" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-200 dark:border-slate-800/50 bg-primary/5 block">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-primary/20" data-alt="Experienced middle-aged driver avatar" style='background-image: url("https://randomuser.me/api/portraits/men/22.jpg");'>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold truncate">Marcos Oliveira</p>
+<p class="text-primary text-xs font-bold">13:42</p>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-slate-900 dark:text-slate-200 text-sm font-semibold truncate leading-snug">Ok, aguardo no ponto combinado.</p>
+<div class="flex size-5 shrink-0 items-center justify-center rounded-full bg-primary">
+<span class="text-[10px] font-bold text-white">1</span>
+</div>
+</div>
+</div>
+</a>
+<!-- Chat Card: Ana Clara (Older) -->
+<a href="chat.html?name=Ana%20Clara%20Silva&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fwomen%2F33.jpg&car=Hyundai%20HB20%20Preto&plate=DEF-9012" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-200 dark:border-slate-800/50 block">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-primary/20" data-alt="Friendly female driver profile photo" style='background-image: url("https://randomuser.me/api/portraits/women/33.jpg");'>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold truncate">Ana Clara Silva</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal">Ontem</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal truncate leading-snug">Viagem confirmada para as 08:00.</p>
+</div>
+</a>
+<!-- Chat Card: João Paulo (System message) -->
+<a href="chat.html?name=Jo%C3%A3o%20Paulo%20Costa&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F44.jpg&car=Renault%20Kwid%20Vermelho&plate=GHI-3456" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-200 dark:border-slate-800/50 block">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-primary/20" data-alt="Male driver portrait with glasses" style='background-image: url("https://randomuser.me/api/portraits/men/44.jpg");'>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold truncate">João Paulo Costa</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal">Ontem</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal truncate leading-snug">Pode cancelar por favor? Tive um imprevisto.</p>
+</div>
+</a>
+<!-- Chat Card: Ricardo (Older) -->
+<a href="chat.html?name=Ricardo%20Mendes&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F55.jpg&car=Toyota%20Corolla%20Cinza&plate=JKL-7890" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-200 dark:border-slate-800/50 block">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-primary/20" data-alt="Professional driver smiling avatar" style='background-image: url("https://randomuser.me/api/portraits/men/55.jpg");'>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold truncate">Ricardo Mendes</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal">02 Dez</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal truncate leading-snug">Obrigado pela preferência!</p>
+</div>
+</a>
+</main>
+
+<!-- Bottom Navigation Bar (Fixed) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+    <div class="grid grid-cols-4 w-full items-end">
+        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+            href="passageiro.html">
+            <span
+                class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
+            <span class="text-[10px] font-medium">Início</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="minhasViagens.html">
+            <span
+                class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
+            <span class="text-[10px] font-medium">Viagens</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-primary group"
+            href="conversas.html">
+            <span
+                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
+            <span class="text-[10px] font-bold">Chats</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="perfilPassageiro.html">
+            <span
+                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+            <span class="text-[10px] font-medium">Perfil</span>
+        </a>
+    </div>
+</nav>
+<!-- Floating Action Button for New Chat -->
+<button class="absolute bottom-6 right-6 flex size-14 items-center justify-center rounded-full bg-primary text-white shadow-xl hover:scale-105 transition-transform active:scale-95 shadow-primary/20">
+<span class="material-symbols-outlined text-2xl">chat_add_on</span>
+</button>
+</div>
+</body></html>
