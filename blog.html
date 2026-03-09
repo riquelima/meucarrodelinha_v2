@@ -175,47 +175,47 @@
         </header>
         <!-- Category Tabs -->
         <nav class="bg-background-light dark:bg-background-dark sticky top-[73px] z-40">
-            <div class="flex border-b border-slate-200 dark:border-slate-800 px-4 gap-6 overflow-x-auto no-scrollbar">
-                <a class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-4 shrink-0"
-                    href="blogPost.html?id=1">
+            <div class="flex border-b border-slate-200 dark:border-slate-800 px-4 gap-6 overflow-x-auto no-scrollbar" id="category-tabs">
+                <button class="category-tab flex flex-col items-center justify-center border-b-2 border-[#f97316] text-[#f97316] pb-3 pt-4 shrink-0 transition-colors"
+                    data-category="all">
                     <span class="text-sm font-bold">Tudo</span>
-                </a>
-                <a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-primary transition-colors"
-                    href="blogPost.html?id=2">
+                </button>
+                <button class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
+                    data-category="noticias">
                     <span class="text-sm font-bold">Notícias</span>
-                </a>
-                <a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-primary transition-colors"
-                    href="blogPost.html?id=3">
+                </button>
+                <button class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
+                    data-category="dicas">
                     <span class="text-sm font-bold">Dicas</span>
-                </a>
-                <a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-primary transition-colors"
-                    href="blogPost.html?id=4">
+                </button>
+                <button class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
+                    data-category="viagens">
                     <span class="text-sm font-bold">Viagens</span>
-                </a>
-                <a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-primary transition-colors"
-                    href="blogPost.html?id=5">
+                </button>
+                <button class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
+                    data-category="seguranca">
                     <span class="text-sm font-bold">Segurança</span>
-                </a>
+                </button>
             </div>
         </nav>
         <!-- Main Grid -->
-        <main class="p-4 grid grid-cols-1 gap-6 pb-24">
+        <main class="p-4 grid grid-cols-1 gap-6 pb-24" id="blog-grid">
             <!-- Featured Card (Full Width) -->
-            <a href="blogPost.html?id=1"
-                class="flex flex-col overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 cursor-pointer transition-colors hover:border-primary/50 group block">
+            <a href="blogPost.html?id=1" data-category="noticias viagens"
+                class="blog-card flex flex-col overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block">
                 <div class="w-full aspect-video bg-cover bg-center" data-alt="Ônibus de viagem em estrada ensolarada"
                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAz4OT0jnXSztxvVfCNWb_59ZjpAVf2VHIjl5aEm412uty2v5cpMYpQ9WZYum7WcdcplSwwAkH5EOE6xUXppXbKPW70Ep9ve4I9nQ_fzI2YP6cA1-VPBUv2Z04JauoU2FSgH77tEybPZwqsVvC8nCRMk-kAgAQwCkd68gW3WHn4eY0ZE3MPwCwiPfXzkv36XhFXQx2e4r9-D7KZSBPxZ_6eUEX4FqtpidTIvnuJYN4GtQUAVK26dBEX7OEf_ZjlNX3RjBBupgLnr2ye");'>
                 </div>
                 <div class="p-4 flex flex-col gap-2">
-                    <span class="text-primary text-xs font-bold uppercase tracking-wider">Destaque</span>
-                    <h2 class="text-xl font-bold leading-tight group-hover:text-primary transition-colors">Novos
+                    <span class="text-[#f97316] text-xs font-bold uppercase tracking-wider">Destaque</span>
+                    <h2 class="text-xl font-bold leading-tight group-hover:text-[#f97316] transition-colors">Novos
                         horários para o trecho Salinas-BH</h2>
                     <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">A partir da próxima
                         segunda-feira, teremos novas opções de horários noturnos para sua maior conveniência.</p>
                     <div class="flex items-center justify-between mt-2">
                         <span class="text-slate-500 text-xs italic">5 min de leitura</span>
                         <div
-                            class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors group-hover:bg-primary/90">
+                            class="bg-[#f97316] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors group-hover:bg-[#f97316]/90">
                             Ler
                             post</div>
                     </div>
@@ -224,86 +224,86 @@
             <!-- Standard Cards Grid -->
             <div class="grid grid-cols-1 gap-4">
                 <!-- Card 1 -->
-                <a href="blogPost.html?id=2"
-                    class="flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-colors hover:border-primary/50 group block">
+                <a href="blogPost.html?id=2" data-category="dicas viagens"
+                    class="blog-card flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block">
                     <div class="w-24 h-24 shrink-0 rounded-lg bg-cover bg-center"
                         data-alt="Pessoas sorrindo dentro de um transporte público"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCCjafhNl7yOlX6QHZPDrKRs-hwmEArq-Ucv9erTaNmetR1w071fzBwg2XNY42GaB0SRd0nlKkHuGSawqNoB9KaFPTea4ZDSryU0FBnzPlKgJwrVoN2qJXJU-nAFxNlw0n47SEZk0d2neobGdTTl6ZyQ2UHuZJfAzOaNUn0zrLVKY2SBReX5gu7LzSDwvNPb4cgUk9tQP9L3vbBN1u_giLds9wHJLYgFJcKLDxOvisyITxZKeWyz0VyrV09PuHIJtjaiJR5xGzMlAbn");'>
                     </div>
                     <div class="flex flex-col justify-between py-1 relative w-full">
                         <div>
-                            <span class="text-primary text-[10px] font-bold uppercase">Dicas</span>
+                            <span class="text-[#f97316] text-[10px] font-bold uppercase">Dicas</span>
                             <h3
-                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-primary transition-colors">
+                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-[#f97316] transition-colors">
                                 Dicas para uma viagem
                                 confortável e segura</h3>
                         </div>
                         <span class="text-slate-500 text-[10px] mt-2">Postado há 2 dias</span>
                         <div
-                            class="absolute right-0 bottom-1 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-primary/90">
+                            class="absolute right-0 bottom-1 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-[#f97316]/90">
                             Ler post</div>
                     </div>
                 </a>
                 <!-- Card 2 -->
-                <a href="blogPost.html?id=3"
-                    class="flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-colors hover:border-primary/50 group block">
+                <a href="blogPost.html?id=3" data-category="noticias"
+                    class="blog-card flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block">
                     <div class="w-24 h-24 shrink-0 rounded-lg bg-cover bg-center"
                         data-alt="Cidade de Salinas vista de cima ao entardecer"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCejgVbGQ3pVn0bEMnkTWgLoOChuermjSzwASdfz0lB0nnIUP8liBW_gzj47NtDR2dF_niUecZsy4VT8WBQN4Kbs5Hl4_VQbWFLYoHxpIQGaHYeAQwLzQjgHeBkfRxAlU0LtlSX_bQTaa3LUYwWs7YydXLcmhsH9U9Z0Lm_yYCpOG0G6Vkm0XQV0Vjeik69auriIBtaVtwMvu7AZSbpowZehLHHohSNEcvEi4aTGXRI_o09YDFQp2zQQWb5Xp6lUTV_-utXhhavQSpa");'>
                     </div>
                     <div class="flex flex-col justify-between py-1 relative w-full">
                         <div>
-                            <span class="text-primary text-[10px] font-bold uppercase">Notícias</span>
+                            <span class="text-[#f97316] text-[10px] font-bold uppercase">Notícias</span>
                             <h3
-                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-primary transition-colors">
+                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-[#f97316] transition-colors">
                                 Expansão da frota Salinas 2024
                             </h3>
                         </div>
                         <span class="text-slate-500 text-[10px] mt-2">Postado há 5 dias</span>
                         <div
-                            class="absolute right-0 bottom-1 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-primary/90">
+                            class="absolute right-0 bottom-1 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-[#f97316]/90">
                             Ler post</div>
                     </div>
                 </a>
                 <!-- Card 3 -->
-                <a href="blogPost.html?id=4"
-                    class="flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-colors hover:border-primary/50 group block">
+                <a href="blogPost.html?id=4" data-category="seguranca"
+                    class="blog-card flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block">
                     <div class="w-24 h-24 shrink-0 rounded-lg bg-cover bg-center"
                         data-alt="Mão segurando volante de um veículo"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDACu37IdaSg7HPdERfd9WHahJTSSaZ-1SPFvRaOMfpU_X86jJTP89ezCG3tIALOzo0MBLSGMt9WBCiUxE59lLCVeXus5AlNlFY_vGlF5lMCq5joTlENZxEh5mtRj4P4EswGU-dIOrf8zVs0LnlW6H3-Xjb5chRUARBOTrWk80bZkyLKg22z7nFviHiucrC37MrbsPtrc5ESH0GBO_7R5vG7S6i6yJZHX73GKuvoLHkbCrjExIxvlDcbAdBInu_EuD9royr5tch5E16");'>
                     </div>
                     <div class="flex flex-col justify-between py-1 relative w-full">
                         <div>
-                            <span class="text-primary text-[10px] font-bold uppercase">Segurança</span>
+                            <span class="text-[#f97316] text-[10px] font-bold uppercase">Segurança</span>
                             <h3
-                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-primary transition-colors">
+                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-[#f97316] transition-colors">
                                 Treinamento de motoristas
                                 parceiros</h3>
                         </div>
                         <span class="text-slate-500 text-[10px] mt-2">Postado há 1 semana</span>
                         <div
-                            class="absolute right-0 bottom-1 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-primary/90">
+                            class="absolute right-0 bottom-1 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-[#f97316]/90">
                             Ler post</div>
                     </div>
                 </a>
                 <!-- Card 4 -->
-                <a href="blogPost.html?id=5"
-                    class="flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-colors hover:border-primary/50 group block">
+                <a href="blogPost.html?id=5" data-category="noticias"
+                    class="blog-card flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block">
                     <div class="w-24 h-24 shrink-0 rounded-lg bg-cover bg-center"
                         data-alt="Smartphone mostrando aplicativo de mapas"
                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDIyRnzhhRu9014WifcrJIuJefHWDn9FGkJLcd0qa324WgQlFmO9Qhf5bOVAk0BxhVveZFnvo6Yg_MdqqBgBPKQYAvc9ObaQrP-_bckLllC6gJR3H2jDqKzTN6dTnSJxD5vDsbiLnAaFbVwTr-bSaTsc79KU4-xdCbvw3pi5yqlCqV-bj1PuATKF1eoEtVNuchMrolPlCYaGVqDyUTy9FiWgGUEVHkBqI5rZ2sP_hvBbc_bq27tg-ppyOQgDTsk5jRJ0L3lCaubUtTr");'>
                     </div>
                     <div class="flex flex-col justify-between py-1 relative w-full">
                         <div>
-                            <span class="text-primary text-[10px] font-bold uppercase">Inovação</span>
+                            <span class="text-[#f97316] text-[10px] font-bold uppercase">Inovação</span>
                             <h3
-                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-primary transition-colors">
+                                class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-[#f97316] transition-colors">
                                 Como usar o novo rastreio em
                                 tempo real</h3>
                         </div>
                         <span class="text-slate-500 text-[10px] mt-2">Postado há 1 semana</span>
                         <div
-                            class="absolute right-0 bottom-1 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-primary/90">
+                            class="absolute right-0 bottom-1 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-[#f97316]/90">
                             Ler post</div>
                     </div>
                 </a>
@@ -314,14 +314,62 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Link Navigation Transition
             document.querySelectorAll('a[href]').forEach(link => {
                 link.addEventListener('click', e => {
                     const href = link.getAttribute('href');
                     if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
+                        // Allow default if it's just a filter button (though we changed them to buttons now)
+                        if (link.classList.contains('category-tab')) return; 
+                        
                         e.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = href; }, 200);
+                        // Use View Transition API if available
+                        if (document.startViewTransition) {
+                            document.startViewTransition(() => {
+                                window.location.href = href;
+                            });
+                        } else {
+                            // Fallback
+                            document.body.classList.add('fade-out');
+                            setTimeout(() => { window.location.href = href; }, 200);
+                        }
                     }
+                });
+            });
+
+            // Category Filtering Logic
+            const tabs = document.querySelectorAll('.category-tab');
+            const cards = document.querySelectorAll('.blog-card');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const category = tab.getAttribute('data-category');
+
+                    // Update Tab Styles
+                    tabs.forEach(t => {
+                        t.classList.remove('border-[#f97316]', 'text-[#f97316]');
+                        t.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    });
+                    
+                    tab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                    tab.classList.add('border-[#f97316]', 'text-[#f97316]');
+
+                    // Filter Cards
+                    cards.forEach(card => {
+                        const cardCategories = card.getAttribute('data-category');
+                        
+                        if (category === 'all' || cardCategories.includes(category)) {
+                            card.classList.remove('hidden');
+                            card.classList.add('animate-fade-in');
+                            // Reset animation
+                            card.style.animation = 'none';
+                            card.offsetHeight; /* trigger reflow */
+                            card.style.animation = null; 
+                        } else {
+                            card.classList.add('hidden');
+                            card.classList.remove('animate-fade-in');
+                        }
+                    });
                 });
             });
         });

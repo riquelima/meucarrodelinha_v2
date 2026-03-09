@@ -89,10 +89,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50">
                     <span class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                        <span class="material-symbols-outlined text-lg text-primary">local_taxi</span>
+                        <span class="material-symbols-outlined text-lg text-[#f97316]">local_taxi</span>
                         ${driver.modelo_veiculo || 'Veículo'} • ${driver.cor_veiculo || 'Cor não inf.'}
                     </span>
-                    <a href="loginPassageiro.html" class="text-primary text-sm font-bold flex items-center active-scale">
+                    <a href="loginPassageiro.html" class="text-[#f97316] text-sm font-bold flex items-center active-scale">
                         Chamar
                         <span class="material-symbols-outlined text-sm">chevron_right</span>
                     </a>
