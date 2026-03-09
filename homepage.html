@@ -99,35 +99,43 @@
         }
         /* Native-like click effect */
         .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1);
+            will-change: transform;
         }
         .active-scale:active {
-            transform: scale(0.96);
+            transform: scale(0.97);
         }
+        
+        /* Smooth Scroll Gradient Mask */
+        .mask-gradient-x {
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
+
         /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
+            animation: fadeIn 0.5s ease-out forwards;
         }
         .animate-slide-up {
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform: translateY(15px);
+            animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
         .animate-slide-in-right {
             opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform: translateX(15px);
+            animation: slideInRight 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
         /* Stagger Delays */
         .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
+        .delay-200 { animation-delay: 150ms; }
+        .delay-300 { animation-delay: 200ms; }
+        .delay-400 { animation-delay: 250ms; }
+        .delay-500 { animation-delay: 300ms; }
 
     </style>
     <style>
@@ -275,7 +283,7 @@
                 Meu Carro de Linha Salinas
             </h1>
             <div id="menu-toggle-btn"
-                class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800 ml-2 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800 ml-2 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors active-scale">
                 <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">menu</span>
             </div>
         </header>
@@ -352,12 +360,12 @@
                 </a>
             </div>
         </section>
-        <section class="py-6 overflow-hidden">
+        <section class="py-6 overflow-hidden animate-slide-up delay-300">
             <div class="flex items-center justify-between px-4 mb-4">
                 <h3 class="text-lg font-bold">Motoristas em Destaque</h3>
                 <a class="text-primary text-sm font-semibold" href="todosmotoristas.html">Ver todos</a>
             </div>
-            <div class="flex overflow-hidden w-full group">
+            <div class="flex overflow-hidden w-full group mask-gradient-x">
                 <div class="flex animate-scroll group-hover:[animation-play-state:paused] w-max"
                     id="drivers-scroll-wrapper">
                     <!-- Dynamic drivers list will be injected here -->
@@ -374,7 +382,7 @@
             </div>
         </section>
         <section
-            class="px-4 py-6 bg-slate-100 dark:bg-slate-900/50 rounded-t-3xl border-t border-slate-200 dark:border-slate-800">
+            class="px-4 py-6 bg-slate-100 dark:bg-slate-900/50 rounded-t-3xl border-t border-slate-200 dark:border-slate-800 animate-slide-up delay-400">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-bold">Blog</h3>
                 <a class="text-primary text-sm font-semibold" href="blog.html">Ver todos</a>
@@ -404,12 +412,12 @@
                 </div>
             </div>
         </section>
-        <section class="py-6 overflow-hidden bg-slate-100 dark:bg-slate-900/50">
+        <section class="py-6 overflow-hidden bg-slate-100 dark:bg-slate-900/50 animate-slide-up delay-500">
             <div class="flex items-center justify-between px-4 mb-4">
                 <h3 class="text-lg font-bold">Anúncios</h3>
                 <a class="text-primary text-sm font-semibold" href="anuncios.html">Ver todos</a>
             </div>
-            <div class="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar">
+            <div class="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar mask-gradient-x">
                 <div
                     class="flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
