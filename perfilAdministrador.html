@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configurações do Sistema Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f38bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        /* Page Transition */
+        main {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Click Animation */
+        .active-scale:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center bg-white/80 dark:bg-slate-900/80 ios-blur sticky top-0 z-30 p-4 justify-between border-b border-slate-200 dark:border-slate-800">
+<a href="admin.html" class="flex items-center justify-center h-10 w-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</a>
+<h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center">Configurações</h1>
+<div class="w-10"></div>
+</header>
+<main class="flex flex-col p-4 gap-6 pb-24">
+<section class="flex flex-col items-center gap-4 py-4">
+<div class="relative">
+<div class="size-24 rounded-full bg-slate-200 dark:bg-slate-800 border-2 border-primary/30 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>
+</div>
+<div class="absolute bottom-0 right-0 size-8 bg-primary rounded-full border-4 border-background-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xs">edit</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="text-xl font-bold">Administrador Geral</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400">admin@meucarrosalinas.com.br</p>
+</div>
+</section>
+<div class="flex flex-col gap-6">
+<section>
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 px-2">Gestão do Sistema</h3>
+<div class="flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 shadow-sm">
+<button onclick="window.location.href='gerenciarUsuarios.html'" class="flex items-center gap-4 p-4 active:bg-slate-100 dark:active:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex size-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-sm font-semibold">Gerenciar Usuários</span>
+<span class="material-symbols-outlined ml-auto text-slate-400 text-lg">chevron_right</span>
+</button>
+<button onclick="window.location.href='gerenciarBlog.html'" class="flex items-center gap-4 p-4 active:bg-slate-100 dark:active:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
+<span class="material-symbols-outlined">newspaper</span>
+</div>
+<span class="text-sm font-semibold">Blog</span>
+<span class="material-symbols-outlined ml-auto text-slate-400 text-lg">chevron_right</span>
+</button>
+<button onclick="window.location.href='gerenciarAnuncios.html'" class="flex items-center gap-4 p-4 active:bg-slate-100 dark:active:bg-slate-800 transition-colors">
+<div class="flex size-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<span class="text-sm font-semibold">Anúncios</span>
+<span class="material-symbols-outlined ml-auto text-slate-400 text-lg">chevron_right</span>
+</button>
+</div>
+</section>
+<section>
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 px-2">Análise e Aplicativo</h3>
+<div class="flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 shadow-sm">
+<button class="flex items-center gap-4 p-4 active:bg-slate-100 dark:active:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex size-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="text-sm font-semibold">Relatórios</span>
+<span class="material-symbols-outlined ml-auto text-slate-400 text-lg">chevron_right</span>
+</button>
+<button class="flex items-center gap-4 p-4 active:bg-slate-100 dark:active:bg-slate-800 transition-colors">
+<div class="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined">settings_applications</span>
+</div>
+<span class="text-sm font-semibold">Configurações do App</span>
+<span class="material-symbols-outlined ml-auto text-slate-400 text-lg">chevron_right</span>
+</button>
+</div>
+</section>
+<section class="mt-4">
+<button onclick="openLogoffModal()" class="flex items-center justify-center gap-2 w-full p-4 rounded-2xl bg-red-500/10 text-red-500 font-bold transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">logout</span>
+<span>Sair da Conta</span>
+</button>
+</section>
+</div>
+</main>
+
+<!-- Logoff Confirmation Modal -->
+<div id="logoff-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] p-8 border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col items-center text-center transform scale-95 transition-transform duration-300">
+        <div class="size-20 bg-rose-500/10 rounded-full flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-rose-500 text-4xl" style="font-variation-settings: 'wght' 600">logout</span>
+        </div>
+        <h2 class="text-slate-900 dark:text-white text-xl font-bold mb-3">Deseja sair do sistema?</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-8">
+            Você precisará inserir suas credenciais novamente para acessar o painel administrativo.
+        </p>
+        <div class="flex flex-col w-full gap-3">
+            <button onclick="window.location.href='index.html'" class="w-full py-4 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-2xl transition-colors active:scale-[0.98]">
+                Sair
+            </button>
+            <button onclick="closeLogoffModal()" class="w-full py-4 bg-transparent border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-semibold rounded-2xl transition-colors active:bg-slate-100 dark:active:bg-slate-800">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openLogoffModal() {
+        const modal = document.getElementById('logoff-modal');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeLogoffModal() {
+        const modal = document.getElementById('logoff-modal');
+        modal.classList.add('opacity-0');
+        modal.querySelector('div').classList.remove('scale-100');
+        modal.querySelector('div').classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+</script>
+
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50" style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
+<div class="flex gap-2 max-w-lg mx-auto">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 active-scale" href="admin.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">dashboard</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 active-scale" href="gerenciarUsuarios.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">group</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 active-scale" href="historicoGeral.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">route</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary active-scale" href="perfilAdministrador.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
+</div>
+<p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

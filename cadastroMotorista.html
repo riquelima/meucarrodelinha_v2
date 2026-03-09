@@ -65,24 +65,36 @@
         </div>
         <div class="w-12"></div>
     </div>
-    <div class="flex flex-col gap-6 px-4 py-8 pb-32">
+    <form class="flex flex-col gap-6 px-4 py-8 pb-32" onsubmit="handleMotoristaSignup(event)">
         <div class="space-y-4">
             <label class="flex flex-col">
                 <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Nome Completo</span>
-                <input
+                <input id="nomeCompleto" required
                     class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
                     placeholder="Digite o nome do motorista" type="text" />
+            </label>
+            <label class="flex flex-col">
+                <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">E-mail</span>
+                <input id="email" required
+                    class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
+                    placeholder="seu@email.com" type="email" />
+            </label>
+            <label class="flex flex-col">
+                <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Senha</span>
+                <input id="senha" required
+                    class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
+                    placeholder="••••••••" type="password" />
             </label>
             <div class="grid grid-cols-2 gap-4">
                 <label class="flex flex-col">
                     <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">CPF</span>
-                    <input
+                    <input id="cpf" required
                         class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
                         placeholder="000.000.000-00" type="text" />
                 </label>
                 <label class="flex flex-col">
                     <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Telefone</span>
-                    <input
+                    <input id="telefone" required
                         class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
                         placeholder="(00) 00000-0000" type="tel" />
                 </label>
@@ -94,13 +106,13 @@
             <div class="space-y-4">
                 <label class="flex flex-col">
                     <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Modelo do Veículo</span>
-                    <input
+                    <input id="modeloVeiculo" required
                         class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
                         placeholder="Ex: Toyota Corolla 2023" type="text" />
                 </label>
                 <label class="flex flex-col">
                     <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Placa</span>
-                    <input
+                    <input id="placaVeiculo" required
                         class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base uppercase"
                         placeholder="ABC-1234" type="text" />
                 </label>
@@ -124,24 +136,53 @@
                 </div>
             </div>
         </div>
-        <div class="flex items-start gap-3 mt-2">
-            <input
+        <div class="flex items-start gap-3 mt-2 mb-10">
+            <input required
                 class="rounded text-primary focus:ring-primary mt-1 border-slate-300 dark:border-slate-700 bg-transparent"
                 type="checkbox" />
             <p class="text-sm text-slate-600 dark:text-slate-400 leading-snug">
                 Confirmo que verifiquei todos os documentos originais e o motorista está apto para operar.
             </p>
         </div>
-    </div>
-    <div
-        class="fixed bottom-0 left-0 right-0 p-4 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800">
-        <button
-            class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98]">
-            <span class="material-symbols-outlined">person_add</span>
-            Cadastrar Motorista
-        </button>
-    </div>
+        <div
+            class="fixed bottom-0 left-0 right-0 p-4 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800">
+            <button type="submit"
+                class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98]">
+                <span class="material-symbols-outlined">person_add</span>
+                Cadastrar Motorista
+            </button>
+        </div>
+    </form>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        async function handleMotoristaSignup(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Aguarde...';
+            btn.disabled = true;
+
+            const nome = document.getElementById('nomeCompleto').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const cpf = document.getElementById('cpf').value;
+            const telefone = document.getElementById('telefone').value;
+            const modelo = document.getElementById('modeloVeiculo').value;
+            const placa = document.getElementById('placaVeiculo').value;
+
+            const result = await signUpMotorista(nome, email, senha, cpf, telefone, modelo, placa);
+            if (result.success) {
+                document.body.classList.add('fade-out');
+                setTimeout(() => { window.location.href = 'motorista.html'; }, 200);
+            } else {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
 </body>
 
 </html>

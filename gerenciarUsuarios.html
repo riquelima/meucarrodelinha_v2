@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meu Carro de Linha Salinas - Gerenciar Usuários</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#0f38bd",
+                "background-light": "#f6f6f8",
+                "background-dark": "#101422",
+              },
+              fontFamily: {
+                "display": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<!-- Top Navigation & Header -->
+<header class="sticky top-0 z-50 bg-background-light dark:bg-background-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center p-4 justify-between max-w-2xl mx-auto w-full">
+<a href="perfilAdministrador.html" class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<h1 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 px-4">Gerenciar Usuários</h1>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-full size-10 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Tab Bar -->
+<div class="max-w-2xl mx-auto w-full px-4">
+<div class="flex border-b border-slate-200 dark:border-slate-800">
+<button id="tab-motoristas" class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-4 flex-1 transition-colors">
+<span class="text-sm font-bold tracking-wide">Motoristas</span>
+</button>
+<button id="tab-passageiros" class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 flex-1 hover:text-primary transition-colors">
+<span class="text-sm font-bold tracking-wide">Passageiros</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-2xl mx-auto w-full p-4 space-y-4">
+<!-- Search Bar -->
+<div class="relative">
+<label class="flex flex-col w-full group">
+<div class="flex w-full items-stretch rounded-xl h-12 bg-slate-200 dark:bg-slate-800 focus-within:ring-2 ring-primary/50 transition-all">
+<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 px-3 text-base" placeholder="Pesquisar motoristas em Salinas..." value=""/>
+<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pr-4">
+<span class="material-symbols-outlined text-xl">tune</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Filters/Stats Section Removed -->
+<!-- User List -->
+<div id="drivers-list" class="space-y-3">
+<!-- User Card 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative shrink-0">
+<div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover rounded-full h-14 w-14 ring-2 ring-primary/10" data-alt="Profile picture of a professional male driver" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdAi0eKQhmnuueI8XybBGDpI4zh60WKIjbBXYXR18j31G4xlK0oZXa9mb_ZWwFZ99pQFHMOKWtob0a5Uo7XknKkik9aRIXPNWxDTZlaxu7IJP_o_ZcYOkY4zzBq-GSgekBsux8nuREJ0mMG8xrArP2SY6A_702QVyjfJ-532nGr3V3PUFitPy6pEoxVgZSLdbLcdZDMmhCq9qcYY2bgrOJTdHWzxUWhQqUJC65BWQ297sS7xiXAxmEYfgsuhejSI7EdN6iSzSTaOR7");'></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">João da Silva Costa</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+<p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+</div>
+</div>
+<div class="shrink-0"><div class="flex gap-1"><button class="flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95"><span class="material-symbols-outlined">edit</span></button><button class="flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95"><span class="material-symbols-outlined">delete</span></button></div></div>
+</div>
+<!-- User Card 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative shrink-0">
+<div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover rounded-full h-14 w-14 ring-2 ring-primary/10" data-alt="Profile picture of a professional female passenger" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8g3HS6QW3J5aFF0KEw_gUqiZf6c4a90x8FuymxvBypmamrBs3DCiS9JWxAbAyGhEMA7p6bNngx5sUxlIQnqKBuMJYT0AZ7Eof04wUQciF5J43_rkYll20GooTCRET-s6T73tZ1DDKlcYUTx1Z0zGVZJPezBLcYt3_oWtC0_87d1kqpN2YUxxDKhFkZOziWU0RtUBFwsGc0tT6kgTfA5l-EZG9F5HDE5x9lEzJ1zgduD8yHdp-tvXZvO7SoS5koSHdLlHK0fEmW-QH");'></div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">Maria Oliveira Santos</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+<p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+</div>
+</div>
+<div class="shrink-0"><div class="flex gap-1"><button class="flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95"><span class="material-symbols-outlined">edit</span></button><button class="flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95"><span class="material-symbols-outlined">delete</span></button></div></div>
+</div>
+<!-- User Card 3 (Blocked State) -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm opacity-90">
+<div class="relative shrink-0">
+<div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover rounded-full h-14 w-14 grayscale" data-alt="Profile picture of a blocked male user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAr3_SDaa4tvbWP3_WFZLNi07EBYMyAxtq5MgVyO1w_Qjc_JvO87lYMjAMwscOmT8wy72yGDEWpHKox4PQvu01SpcuCXQyMoOS0jvXojX7CnTgGpfL49Za_lAO25OJxg-gStkDYpLrqaCiuNiwLmP4vgSH30wszjn5JGQ5GTECi3XiSoSjHJqWTlZSNrVtwfrD-71m0LI1pnEUedLczJKU0UcBWqbgkAQzPqRmoFfrKTKEs8F64dWT2Qzh683Dz_SiBlD9RWPJgaHuu");'></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">Ricardo Ferreira</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+<p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+</div>
+</div>
+<div class="shrink-0"><div class="flex gap-1"><button class="flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95"><span class="material-symbols-outlined">edit</span></button><button class="flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95"><span class="material-symbols-outlined">delete</span></button></div></div>
+</div>
+<!-- User Card 4 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative shrink-0">
+<div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover rounded-full h-14 w-14 ring-2 ring-primary/10" data-alt="Profile picture of a driver avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8HjZNbdRxy6t0CT9HjQCkrVfKLgMJJTk6F9tyYelcdRG1ITliZ6kNXLDtw3n6DarcwAFDqVlaVhQmGHmWHwOTu6DfAHL1woteT21GruK3BTjzsrg5nh3exr3rAZWwlqcz9jj_vUndpk1ZNF7_6PVqU0oaJLQ1DQ-EZqlCkkirH0uNO78TQi4XGnE0MDcmoy7bUocNCS-un330Iju3L7IqVyGu45S5Y-bRfEtfQx4Fh4hFdS-lVvMJwnR7TdH428IlrpVjpN6CJF9G");'></div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">Lucas Mendes Lima</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+<p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+</div>
+</div>
+<div class="shrink-0"><div class="flex gap-1"><button class="flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95"><span class="material-symbols-outlined">edit</span></button><button class="flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95"><span class="material-symbols-outlined">delete</span></button></div></div>
+</div>
+</div>
+
+<div id="passengers-list" class="space-y-3 hidden">
+<!-- Passenger Card 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative shrink-0">
+<div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover rounded-full h-14 w-14 ring-2 ring-primary/10" data-alt="Profile picture of passenger" style='background-image: url("https://randomuser.me/api/portraits/women/44.jpg");'></div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">Ana Oliveira</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+<p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+</div>
+</div>
+<div class="shrink-0"><div class="flex gap-1"><button class="flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95"><span class="material-symbols-outlined">edit</span></button><button class="flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95"><span class="material-symbols-outlined">delete</span></button></div></div>
+</div>
+<!-- Passenger Card 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative shrink-0">
+<div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover rounded-full h-14 w-14 ring-2 ring-primary/10" data-alt="Profile picture of passenger" style='background-image: url("https://randomuser.me/api/portraits/men/85.jpg");'></div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">João Santos</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+<p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+</div>
+</div>
+<div class="shrink-0"><div class="flex gap-1"><button class="flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95"><span class="material-symbols-outlined">edit</span></button><button class="flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95"><span class="material-symbols-outlined">delete</span></button></div></div>
+</div>
+</div>
+<!-- Pagination/Footer State Info -->
+<div class="py-6 text-center pb-24">
+<p class="text-slate-500 dark:text-slate-400 text-xs">Exibindo 4 de 29 motoristas cadastrados</p>
+<button class="mt-4 text-primary font-bold text-sm px-6 py-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors">
+                Carregar mais
+            </button>
+</div>
+</main>
+<!-- Floating Action Button (Optional for Admin Screens) -->
+<!-- Edit User Modal -->
+<div id="edit-user-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
+    <div class="bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-800 overflow-hidden transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-slate-800">
+            <h2 class="text-xl font-bold text-white">Editar Usuário</h2>
+            <button class="text-slate-400 hover:text-white transition-colors" onclick="closeModal()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <!-- Modal Body / Form -->
+        <form class="p-6 space-y-4">
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300" for="nome">Nome Completo</label>
+                <input class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500" id="nome" type="text" value="João da Silva Costa"/>
+            </div>
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300" for="email">E-mail</label>
+                <input class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500" id="email" type="email" value="joao.silva@email.com"/>
+            </div>
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300" for="telefone">Telefone</label>
+                <input class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500" id="telefone" type="tel" value="(99) 99999-9999"/>
+            </div>
+        </form>
+        <!-- Modal Footer -->
+        <div class="p-6 pt-0 flex gap-3">
+            <button class="flex-1 px-4 py-2.5 rounded-lg font-bold text-slate-300 bg-slate-800 hover:bg-slate-700 transition-colors" onclick="closeModal()">
+                Cancelar
+            </button>
+            <button class="flex-1 px-4 py-2.5 rounded-lg font-bold text-white bg-[#1e40af] hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20" onclick="saveUser()">
+                Salvar Alterações
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        const modal = document.getElementById('edit-user-modal');
+        modal.classList.remove('hidden');
+        // Small timeout to allow display change before opacity transition
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('edit-user-modal');
+        modal.classList.add('opacity-0');
+        modal.querySelector('div').classList.remove('scale-100');
+        modal.querySelector('div').classList.add('scale-95');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    function saveUser() {
+        // Implement save logic here
+        closeModal();
+        // Optional: Show success message
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('edit-user-modal').addEventListener('click', function(event) {
+        if (event.target === this) {
+            closeModal();
+        }
+    });
+
+    // Tab Switching Logic
+    const tabMotoristas = document.getElementById('tab-motoristas');
+    const tabPassageiros = document.getElementById('tab-passageiros');
+    const listDrivers = document.getElementById('drivers-list');
+    const listPassengers = document.getElementById('passengers-list');
+
+    function switchTab(isMotorista) {
+        if (isMotorista) {
+            tabMotoristas.classList.add('border-primary', 'text-primary');
+            tabMotoristas.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+            tabPassageiros.classList.remove('border-primary', 'text-primary');
+            tabPassageiros.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+            
+            listDrivers.classList.remove('hidden');
+            listPassengers.classList.add('hidden');
+        } else {
+            tabPassageiros.classList.add('border-primary', 'text-primary');
+            tabPassageiros.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+            tabMotoristas.classList.remove('border-primary', 'text-primary');
+            tabMotoristas.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+            
+            listPassengers.classList.remove('hidden');
+            listDrivers.classList.add('hidden');
+        }
+    }
+
+    tabMotoristas.addEventListener('click', () => switchTab(true));
+    tabPassageiros.addEventListener('click', () => switchTab(false));
+
+    // Attach openModal to all edit buttons
+    document.querySelectorAll('button span.material-symbols-outlined').forEach(span => {
+        if (span.textContent === 'edit') {
+            span.parentElement.addEventListener('click', openModal);
+        }
+    });
+</script>
+
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
+<div class="flex gap-2 max-w-lg mx-auto">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">dashboard</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="gerenciarUsuarios.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">group</span>
+</div>
+<p class="text-[10px] font-bold leading-normal tracking-tight">Usuários</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500 dark:text-slate-400" href="historicoGeral.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">route</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500 dark:text-slate-400" href="perfilAdministrador.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
+</a>
+</div>
+</nav>
+</body></html>

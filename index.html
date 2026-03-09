@@ -168,8 +168,8 @@
         <div class="relative z-10 flex flex-col items-center gap-8 px-6 text-center animate-logo-entrance">
             <!-- Logo Container -->
             <div
-                class="flex items-center justify-center w-[180px] aspect-[9/16] rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden border-2 border-primary relative">
-                <video id="splashVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="splashScreen.jpeg" class="w-full h-full object-cover">
+                class="flex items-center justify-center w-[180px] aspect-[9/16] rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden relative">
+                <video id="splashVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="splashScreen.jpeg" class="w-full h-full object-cover border-none outline-none">
                     <source src="https://i.imgur.com/nPfHf20.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -229,16 +229,36 @@
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('splashVideo');
             if (video) {
-                // Force play
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Autoplay prevented:", error);
-                        // Fallback: Mute again and try playing
+                // Ensure muted is set (required for autoplay)
+                video.muted = true;
+                video.setAttribute('muted', '');
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                
+                // Force play with promise handling
+                const playVideo = async () => {
+                    try {
+                        await video.play();
+                    } catch (err) {
+                        console.log("Autoplay failed, retrying with user interaction logic if needed:", err);
+                        // Retry once more with mute forced
                         video.muted = true;
-                        video.play();
-                    });
-                }
+                        try {
+                            await video.play();
+                        } catch (e) {
+                            console.error("Autoplay completely failed:", e);
+                        }
+                    }
+                };
+                
+                playVideo();
+                
+                // Backup: try playing on any first interaction (though splash should be auto)
+                document.body.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play().catch(e => console.error("Click play failed:", e));
+                    }
+                }, { once: true });
             }
         });
 

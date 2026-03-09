@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gerenciar Anúncios - Meu Carro de Linha Salinas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f38bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark/95 backdrop-blur-md p-4 border-b border-slate-200 dark:border-slate-800 justify-between">
+<a href="perfilAdministrador.html" class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</a>
+<h1 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Anúncios</h1>
+<div class="size-10"></div> <!-- Spacer for centering -->
+</header>
+<main class="flex-1 pb-24">
+<!-- Preview Section -->
+<!-- List Section -->
+<section class="mt-4 px-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-slate-900 dark:text-slate-100 text-md font-semibold">Todos os Anúncios</h2>
+<span class="text-xs font-medium text-slate-500 bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded-full">8 anúncios</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Ad Item 1 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"><div class="flex items-center gap-3 w-full">
+<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNIqoBt_lENEllsQwdn0__WGIkXmg9mJxdhsJyFvALwxyfNPqLzRGpxL2uaK4NbaisZYHxznF34YwXVNov3MJmpRnE-PiNsheWBe8YBYBIoasAb5BydvM3huCTcJEUU3lsMi0WhRXI6Hx14qfbM64UqDydpuPvOWTm3JaiXzsrazHixhNwHY1SxNxZoN3HrpWJScQsQCE48rHeMY7_QmHezDoP-LgUoqpaQ4TtxxnC2phMbiP__MWr4XUtGudhW3WfVGlXxeBcNHyw');"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Oferta Especial Salinas</h3>
+<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Ativo</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expira em: 25 Dez 2023</p>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div></div>
+<!-- Ad Item 2 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm opacity-75"><div class="flex items-center gap-3 w-full">
+<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnkSwQZm8sLEiEaVDwXAtd0qYvrFUAo3I0xAuKVSWUbmFFE6UzXPi1AQE_hEGe373K_vajMKUadk5PsSpjM2kp0qvu14GtgnEPb7GllTDzG3AB8mH20kJnCZvpuK9srrlrxaw1Hzx86vuX1SVLt2evMb47bNnVIM74DakxP6xNdyQkkPSsayPYvg9k-bqQc-oLWl446xSLFcfVmX2AxifgxZaPaokZQQxgzAu70LrisMhk72ro3Q2nnShtFP-2Bxw59u-D16JIr7lK');"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Promoção Dia dos Pais</h3>
+<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">Expirado</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expirou em: 15 Ago 2023</p>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div></div>
+<!-- Ad Item 3 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"><div class="flex items-center gap-3 w-full">
+<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZXcBhB-HhA-VqF2C_2vNGUdAmJsvWHizx9G1dCCK-tArXOLP4OFc_FTmF4Y-KRBr5hxCP9DHH4isLyqhgnDjzDOWgLMNSLBye8DEF5S0qfs7Ouk88JzLrjLdnywAEUUMAKw9EM0QvRPUGoYrJX_gzxwQKjvWPzzRaIqAycnLvYH65zKFf3uMwfdyu_D5ew5oTe41_HZy5b1wObh2Yc7RGZtZMA-wHl-vmp-jWr2aiRZmj9mvQHepQ71jLjEea7U31yeiKWRwFU8KK');"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Novo Lançamento 2024</h3>
+<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Ativo</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expira em: 30 Jan 2024</p>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div></div>
+<!-- Ad Item 4 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"><div class="flex items-center gap-3 w-full">
+<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnkSwQZm8sLEiEaVDwXAtd0qYvrFUAo3I0xAuKVSWUbmFFE6UzXPi1AQE_hEGe373K_vajMKUadk5PsSpjM2kp0qvu14GtgnEPb7GllTDzG3AB8mH20kJnCZvpuK9srrlrxaw1Hzx86vuX1SVLt2evMb47bNnVIM74DakxP6xNdyQkkPSsayPYvg9k-bqQc-oLWl446xSLFcfVmX2AxifgxZaPaokZQQxgzAu70LrisMhk72ro3Q2nnShtFP-2Bxw59u-D16JIr7lK');"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Feirão de Seminovos</h3>
+<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Ativo</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expira em: 10 Nov 2023</p>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div></div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button onclick="window.location.href='novoAnuncio.html'" class="fixed bottom-24 right-4 z-40 flex items-center justify-center size-14 rounded-full bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+    <span class="material-symbols-outlined text-2xl">add</span>
+</button>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
+<div class="flex gap-2 max-w-lg mx-auto">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">dashboard</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="gerenciarUsuarios.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">group</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="historicoGeral.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">route</span>
+</div>
+<p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="perfilAdministrador.html">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
+</div>
+<p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

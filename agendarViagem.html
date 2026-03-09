@@ -53,6 +53,21 @@
         .font-fill {
             font-variation-settings: 'FILL' 1;
         }
+
+        /* Page Transition */
+        main {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Click Animation */
+        .active-scale:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
     </style>
 </head>
 
@@ -225,25 +240,25 @@
 
         <!-- Bottom Navigation Bar (Fixed) -->
         <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="grid grid-cols-4 w-full items-end">
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+            <div class="flex justify-around items-end">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors active-scale"
                     href="passageiro.html">
                     <span
                         class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
                     <span class="text-[10px] font-medium">Início</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-primary group" href="minhasViagens.html">
+                <a class="flex flex-col items-center gap-1 text-primary group active-scale" href="minhasViagens.html">
                     <span
-                        class="material-symbols-outlined font-fill text-[28px] group-hover:scale-110 transition-transform">route</span>
+                        class="material-symbols-outlined font-fill text-[28px] group-hover:scale-110 transition-transform">history</span>
                     <span class="text-[10px] font-bold">Viagens</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors active-scale"
                     href="conversas.html">
                     <span
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
                     <span class="text-[10px] font-medium">Chats</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="perfilPassageiro.html">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors active-scale" href="perfilPassageiro.html">
                     <span
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
                     <span class="text-[10px] font-medium">Perfil</span>

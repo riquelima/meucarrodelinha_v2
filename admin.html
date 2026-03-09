@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Painel Administrativo: Estatísticas e Ações</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f38bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: max(884px, 100dvh);
+        }
+
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(15, 56, 189, 0.2) 0%, rgba(15, 56, 189, 0) 100%);
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Page Transition */
+        main {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Click Animation */
+        .active-scale:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
+        <!-- Header -->
+        <header
+            class="flex items-center bg-slate-900/50 dark:bg-slate-800/40 backdrop-blur-md sticky top-0 z-10 p-4 justify-between border-b border-slate-200 dark:border-slate-800">
+            <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <span class="material-symbols-outlined">menu</span>
+            </div>
+            <h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center">Meu Carro Salinas</h1>
+            <div class="flex w-10 items-center justify-end">
+                <button
+                    class="relative flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-slate-400">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500"></span>
+                </button>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <main class="flex flex-col gap-6 p-4">
+            <!-- Statistical Grid -->
+            <section>
+                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3 px-1">Resumo Geral</h2>
+                <div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
+                    <div
+                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="material-symbols-outlined text-primary bg-primary/10 rounded-lg p-2">group</span>
+                            <span class="text-emerald-500 text-xs font-bold leading-normal">+12%</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
+                                Clientes</p>
+                            <p class="text-2xl font-bold leading-tight">1,240</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-lg p-2">directions_car</span>
+                            <span class="text-emerald-500 text-xs font-bold leading-normal">+5%</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
+                                Corridas</p>
+                            <p class="text-2xl font-bold leading-tight">856</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="material-symbols-outlined text-purple-500 bg-purple-500/10 rounded-lg p-2">person</span>
+                            <span class="text-emerald-500 text-xs font-bold leading-normal">+8%</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
+                                Passageiros</p>
+                            <p class="text-2xl font-bold leading-tight">1,180</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="material-symbols-outlined text-orange-500 bg-orange-500/10 rounded-lg p-2">badge</span>
+                            <span class="text-emerald-500 text-xs font-bold leading-normal">+2%</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
+                                Motoristas</p>
+                            <p class="text-2xl font-bold leading-tight">60</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="material-symbols-outlined text-green-500 bg-green-500/10 rounded-lg p-2">payments</span>
+                            <span class="text-emerald-500 text-xs font-bold leading-normal">+15%</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
+                                Financeiro</p>
+                            <p class="text-2xl font-bold leading-tight">R$ 12k</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Chart Section -->
+            <section
+                class="rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-base font-bold leading-tight">Desempenho Diário</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs">Atividade nos últimos 7 dias</p>
+                    </div>
+                    <div class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+                        +8.2%
+                    </div>
+                </div>
+                <div class="relative h-40 w-full mb-4">
+                    <svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 472 150" width="100%"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                            stroke="#0f38bd" stroke-linecap="round" stroke-width="3"></path>
+                        <path
+                            d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V150H0V109Z"
+                            fill="url(#chartFill)"></path>
+                        <defs>
+                            <lineargradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#0f38bd" stop-opacity="0.2"></stop>
+                                <stop offset="100%" stop-color="#0f38bd" stop-opacity="0"></stop>
+                            </lineargradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="flex justify-between px-1">
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Seg</span>
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Ter</span>
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qua</span>
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qui</span>
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sex</span>
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sab</span>
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Dom</span>
+                </div>
+            </section>
+            <!-- Quick Actions Section -->
+            <section class="flex flex-col gap-3">
+                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 px-1">Ações Rápidas</h2>
+                <div class="flex flex-col gap-3">
+                    <button onclick="window.location.href='novoPost.html'"
+                        class="flex items-center gap-4 w-full p-4 rounded-xl bg-primary text-white font-bold transition-all active:scale-95 shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined bg-white/20 p-2 rounded-lg">edit_document</span>
+                        <div class="flex flex-col items-start">
+                            <span class="text-sm">Nova Postagem no Blog</span>
+                            <span class="text-[10px] font-normal opacity-80 text-left">Atualize os passageiros com
+                                novidades</span>
+                        </div>
+                        <span class="material-symbols-outlined ml-auto text-sm">chevron_right</span>
+                    </button>
+                    <button onclick="window.location.href='novoAnuncio.html'"
+                        class="flex items-center gap-4 w-full p-4 rounded-xl bg-slate-800 dark:bg-slate-700/50 text-white font-bold border border-slate-700 transition-all active:scale-95">
+                        <span
+                            class="material-symbols-outlined text-cyan-400 bg-cyan-400/10 p-2 rounded-lg">campaign</span>
+                        <div class="flex flex-col items-start">
+                            <span class="text-sm">Criar Anúncio</span>
+                            <span class="text-[10px] font-normal text-slate-400 text-left">Promova parceiros locais na
+                                cidade</span>
+                        </div>
+                        <span class="material-symbols-outlined ml-auto text-sm text-slate-500">chevron_right</span>
+                    </button>
+                    <button onclick="window.location.href='novoMotorista.html'"
+                        class="flex items-center gap-4 w-full p-4 rounded-xl bg-slate-800 dark:bg-slate-700/50 text-white font-bold border border-slate-700 transition-all active:scale-95">
+                        <span
+                            class="material-symbols-outlined text-primary bg-primary/20 p-2 rounded-lg">person_add</span>
+                        <div class="flex flex-col items-start">
+                            <span class="text-sm">Cadastrar Motorista</span>
+                            <span class="text-[10px] font-normal text-slate-400 text-left">Aumente sua frota de
+                                transporte</span>
+                        </div>
+                        <span class="material-symbols-outlined ml-auto text-sm text-slate-500">chevron_right</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+        <!-- Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50"
+            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
+            <div class="flex gap-2 max-w-lg mx-auto">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary active-scale"
+                    href="admin.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+                    </div>
+                    <p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 active-scale"
+                    href="gerenciarUsuarios.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined">group</span>
+                    </div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 active-scale"
+                    href="historicoGeral.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined">route</span>
+                    </div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 active-scale"
+                    href="perfilAdministrador.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined">settings</span>
+                    </div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/authGuard.js"></script>
+</body>
+
+</html>
