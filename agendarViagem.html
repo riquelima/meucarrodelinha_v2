@@ -40,7 +40,7 @@
         .custom-scrollbar::-webkit-scrollbar {
             display: none;
         }
-        
+
         .custom-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -49,7 +49,7 @@
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
         }
-        
+
         .font-fill {
             font-variation-settings: 'FILL' 1;
         }
@@ -58,9 +58,16 @@
         main {
             animation: fadeIn 0.3s ease-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Click Animation */
@@ -68,49 +75,87 @@
             transform: scale(0.95);
             transition: transform 0.1s;
         }
-    
+
         /* Global Mobile Native Fixes */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
         }
-        input, textarea {
+
+        input,
+        textarea {
             user-select: text;
             -webkit-user-select: text;
         }
+
         /* Native-like click effect */
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .active-scale:active {
             transform: scale(0.96);
         }
+
         /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
             animation: fadeIn 0.4s ease-out forwards;
         }
+
         .animate-slide-up {
             opacity: 0;
             transform: translateY(20px);
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         .animate-slide-in-right {
             opacity: 0;
             transform: translateX(20px);
             animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
 
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
     </style>
 </head>
 
@@ -120,8 +165,7 @@
         <!-- Header -->
         <header
             class="flex items-center bg-white dark:bg-[#121520] p-4 sticky top-0 z-20 border-b border-slate-200 dark:border-slate-800 shadow-sm shrink-0">
-            <a href="passageiro.html"
-                class="text-primary p-2 -ml-2 rounded-full hover:bg-primary/10 transition-colors">
+            <a href="passageiro.html" class="text-primary p-2 -ml-2 rounded-full hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
             <h1 class="text-lg font-bold leading-tight tracking-tight ml-2">Agendar Viagem</h1>
@@ -131,23 +175,34 @@
         <main class="flex-1 overflow-y-auto pb-24 px-4 pt-4">
             <!-- Trip Summary -->
             <section class="mb-6">
-                <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm">
                     <div class="flex items-center gap-3">
                         <div class="flex flex-col items-center gap-1">
-                            <span class="material-symbols-outlined text-primary text-sm font-fill">radio_button_checked</span>
+                            <span
+                                class="material-symbols-outlined text-primary text-sm font-fill">radio_button_checked</span>
                             <div class="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 my-0.5"></div>
                             <span class="material-symbols-outlined text-red-500 text-sm font-fill">location_on</span>
                         </div>
                         <div class="flex-1 space-y-4">
                             <div class="flex flex-col relative">
-                                <span class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Origem</span>
-                                <input type="text" id="origin-input" placeholder="Onde você está?" value="Minha Localização Atual" class="bg-transparent border-none p-0 text-sm font-semibold placeholder:text-slate-400 focus:ring-0 text-slate-900 dark:text-slate-100 w-full" />
-                                <ul id="origin-suggestions" class="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-48 overflow-y-auto"></ul>
+                                <span
+                                    class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Origem</span>
+                                <input type="text" id="origin-input" placeholder="Onde você está?"
+                                    value="Minha Localização Atual"
+                                    class="bg-transparent border-none p-0 text-sm font-semibold placeholder:text-slate-400 focus:ring-0 text-slate-900 dark:text-slate-100 w-full" />
+                                <ul id="origin-suggestions"
+                                    class="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-48 overflow-y-auto">
+                                </ul>
                             </div>
                             <div class="flex flex-col border-t border-slate-100 dark:border-slate-700/50 pt-2 relative">
-                                <span class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Destino</span>
-                                <input type="text" id="destination-input" placeholder="Para onde você vai?" class="bg-transparent border-none p-0 text-sm font-semibold placeholder:text-slate-400 focus:ring-0 text-slate-900 dark:text-slate-100 w-full" />
-                                <ul id="destination-suggestions" class="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-48 overflow-y-auto"></ul>
+                                <span
+                                    class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Destino</span>
+                                <input type="text" id="destination-input" placeholder="Para onde você vai?"
+                                    class="bg-transparent border-none p-0 text-sm font-semibold placeholder:text-slate-400 focus:ring-0 text-slate-900 dark:text-slate-100 w-full" />
+                                <ul id="destination-suggestions"
+                                    class="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-48 overflow-y-auto">
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -158,18 +213,23 @@
             <section class="mb-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-md font-bold">Selecione a Data</h3>
-                    <div class="flex items-center bg-white dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
-                        <button id="prev-month" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors">
+                    <div
+                        class="flex items-center bg-white dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
+                        <button id="prev-month"
+                            class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors">
                             <span class="material-symbols-outlined text-sm">chevron_left</span>
                         </button>
-                        <span id="current-month-display" class="mx-3 text-xs font-bold uppercase w-24 text-center">...</span>
-                        <button id="next-month" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors">
+                        <span id="current-month-display"
+                            class="mx-3 text-xs font-bold uppercase w-24 text-center">...</span>
+                        <button id="next-month"
+                            class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors">
                             <span class="material-symbols-outlined text-sm">chevron_right</span>
                         </button>
                     </div>
                 </div>
-                
-                <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm">
+
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm">
                     <!-- Weekday Headers -->
                     <div class="grid grid-cols-7 text-center mb-2">
                         <p class="text-red-500 text-[10px] font-black uppercase">D</p>
@@ -190,14 +250,15 @@
             <!-- Time Picker Section -->
             <section class="mb-6">
                 <h3 class="text-md font-bold mb-4">Selecione o Horário</h3>
-                <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                     <!-- Labels -->
                     <div class="flex pt-4 pb-2 border-b border-slate-100 dark:border-slate-700/50">
                         <div class="flex-1 text-center text-[10px] font-bold uppercase text-slate-400">Hora</div>
                         <div class="w-8"></div>
                         <div class="flex-1 text-center text-[10px] font-bold uppercase text-slate-400">Min</div>
                     </div>
-                    
+
                     <!-- Scroll Area -->
                     <div class="relative h-[120px]">
                         <!-- Selection Indicator (Center Line) -->
@@ -207,17 +268,20 @@
 
                         <div class="flex h-full relative z-10">
                             <!-- Hours Column -->
-                            <div class="flex-1 h-full overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y" id="hours-scroll">
+                            <div class="flex-1 h-full overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y"
+                                id="hours-scroll">
                                 <div class="h-10"></div> <!-- Spacer matches item height -->
                                 <!-- JS populated -->
                                 <div class="h-10"></div> <!-- Spacer matches item height -->
                             </div>
 
                             <!-- Separator -->
-                            <div class="w-8 flex items-center justify-center text-slate-300 font-bold text-xl pb-1">:</div>
+                            <div class="w-8 flex items-center justify-center text-slate-300 font-bold text-xl pb-1">:
+                            </div>
 
                             <!-- Minutes Column -->
-                            <div class="flex-1 h-full overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y" id="minutes-scroll">
+                            <div class="flex-1 h-full overflow-y-auto custom-scrollbar snap-y snap-mandatory text-center touch-pan-y"
+                                id="minutes-scroll">
                                 <div class="h-10"></div> <!-- Spacer matches item height -->
                                 <!-- JS populated -->
                                 <div class="h-10"></div> <!-- Spacer matches item height -->
@@ -232,10 +296,13 @@
                 <h3 class="text-md font-bold mb-4">Escolha seu Motorista</h3>
                 <div class="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 custom-scrollbar snap-x snap-mandatory">
                     <!-- Driver Card 1 -->
-                    <div class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
+                    <div
+                        class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
-                                <img alt="Ricardo Silva" class="w-full h-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg"/>
+                            <div
+                                class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
+                                <img alt="Ricardo Silva" class="w-full h-full object-cover"
+                                    src="https://randomuser.me/api/portraits/men/32.jpg" />
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold truncate">Ricardo Silva</p>
@@ -246,15 +313,19 @@
                                 <span class="text-xs font-bold">4.9</span>
                             </div>
                         </div>
-                        <button class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-1 shadow-sm">
+                        <button
+                            class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-1 shadow-sm">
                             Selecionar
                         </button>
                     </div>
                     <!-- Driver Card 2 -->
-                    <div class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
+                    <div
+                        class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
-                                <img alt="Ana Oliveira" class="w-full h-full object-cover" src="https://randomuser.me/api/portraits/women/44.jpg"/>
+                            <div
+                                class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
+                                <img alt="Ana Oliveira" class="w-full h-full object-cover"
+                                    src="https://randomuser.me/api/portraits/women/44.jpg" />
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold truncate">Ana Oliveira</p>
@@ -265,7 +336,8 @@
                                 <span class="text-xs font-bold">5.0</span>
                             </div>
                         </div>
-                        <button class="w-full py-2 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-1">
+                        <button
+                            class="w-full py-2 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-1">
                             Selecionar
                         </button>
                     </div>
@@ -274,7 +346,8 @@
 
             <!-- Confirm Button (Scrollable) -->
             <div class="mt-6">
-                <button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                <button
+                    class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                     Confirmar Agendamento
                     <span class="material-symbols-outlined">check_circle</span>
                 </button>
@@ -301,7 +374,8 @@
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
                     <span class="text-[10px] font-medium">Chats</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors " href="perfilPassageiro.html">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                    href="perfilPassageiro.html">
                     <span
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
                     <span class="text-[10px] font-medium">Perfil</span>
@@ -343,27 +417,27 @@
 
                 // Days
                 const today = new Date();
-                
+
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayBtn = document.createElement('button');
                     dayBtn.textContent = day;
                     dayBtn.className = 'h-10 w-full text-sm font-medium rounded-full transition-all flex items-center justify-center relative';
-                    
+
                     // Check if it's the selected date (visual selection)
-                    const isSelected = selectedDate.getDate() === day && 
-                                     selectedDate.getMonth() === month && 
-                                     selectedDate.getFullYear() === year;
+                    const isSelected = selectedDate.getDate() === day &&
+                        selectedDate.getMonth() === month &&
+                        selectedDate.getFullYear() === year;
 
                     // Check if it's "Today" (current real date)
-                    const isToday = today.getDate() === day && 
-                                  today.getMonth() === month && 
-                                  today.getFullYear() === year;
+                    const isToday = today.getDate() === day &&
+                        today.getMonth() === month &&
+                        today.getFullYear() === year;
 
                     if (isSelected) {
                         dayBtn.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30', 'font-bold');
                     } else if (isToday) {
-                         // Today but not selected (if user selects another day)
-                         dayBtn.classList.add('text-primary', 'border', 'border-primary/30', 'bg-primary/5');
+                        // Today but not selected (if user selects another day)
+                        dayBtn.classList.add('text-primary', 'border', 'border-primary/30', 'bg-primary/5');
                     } else {
                         dayBtn.classList.add('text-slate-700', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-700');
                     }
@@ -398,14 +472,14 @@
                 // Clear existing content except spacers (if any, but we will rebuild)
                 // Actually, let's just clear and re-add spacers to be safe
                 container.innerHTML = '<div class="h-10 flex-shrink-0"></div>'; // Top Spacer
-                
+
                 for (let i = start; i <= end; i += step) {
                     const div = document.createElement('div');
                     // Change height to h-10 (40px) to match indicator
                     div.className = 'h-10 flex items-center justify-center snap-center text-sm font-medium text-slate-500 dark:text-slate-400 select-none cursor-pointer hover:text-primary transition-colors flex-shrink-0';
                     div.textContent = format ? i.toString().padStart(2, '0') : i;
-                    
-                    div.addEventListener('click', function() {
+
+                    div.addEventListener('click', function () {
                         // Scroll to this element
                         // Container height 120. Center is 60. Item height 40. Center is 20.
                         // We want top of item to be at (60 - 20) = 40px from top of container.
@@ -417,29 +491,29 @@
                         // Middle of Item is (N*40 + 40 + 20).
                         // ScrollTop = (N*40 + 40 + 20) - 60 = N*40.
                         // So simply N * 40.
-                        
+
                         // Or simply div.offsetTop - spacerHeight
                         // div.offsetTop includes spacer (40).
                         // So offsetTop - 40.
-                        
+
                         // Let's use the spacer approach logic:
                         // Top spacer is 40px.
                         // To center item at index 0: scrollTop = 0.
                         // Item 0 offsetTop is 40.
                         // So scrollTop = offsetTop - 40.
-                        
+
                         container.scrollTo({
                             top: div.offsetTop - 40,
                             behavior: 'smooth'
                         });
-                        
+
                         // Highlight logic
                         updateActiveItem(container);
                     });
-                    
+
                     container.appendChild(div);
                 }
-                
+
                 // Bottom Spacer
                 const bottomSpacer = document.createElement('div');
                 bottomSpacer.className = 'h-10 flex-shrink-0';
@@ -448,13 +522,13 @@
 
             populateTime(hoursScroll, 0, 23);
             populateTime(minutesScroll, 0, 55, 5);
-            
+
             // Highlight Logic
             function updateActiveItem(container) {
                 // Find center
                 const center = container.scrollTop + (container.offsetHeight / 2);
                 const items = container.querySelectorAll('div.snap-center');
-                
+
                 items.forEach(item => {
                     const itemCenter = item.offsetTop + (item.offsetHeight / 2);
                     // Check if close to center (within half item height)
@@ -476,7 +550,7 @@
                 updateActiveItem(hoursScroll);
                 updateActiveItem(minutesScroll);
             }, 100);
-            
+
             // Listen for scroll end to update highlight
             let isScrolling;
             const onScroll = (e) => {
@@ -485,7 +559,7 @@
                     updateActiveItem(e.target);
                 }, 50);
             };
-            
+
             hoursScroll.addEventListener('scroll', onScroll);
             minutesScroll.addEventListener('scroll', onScroll);
 
@@ -584,6 +658,7 @@
             setupAutocomplete('destination-input', 'destination-suggestions');
         });
     </script>
+    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>

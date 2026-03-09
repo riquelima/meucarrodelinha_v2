@@ -57,9 +57,16 @@
         main {
             animation: fadeIn 0.3s ease-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Click Animation */
@@ -67,49 +74,87 @@
             transform: scale(0.95);
             transition: transform 0.1s;
         }
-    
+
         /* Global Mobile Native Fixes */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
         }
-        input, textarea {
+
+        input,
+        textarea {
             user-select: text;
             -webkit-user-select: text;
         }
+
         /* Native-like click effect */
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .active-scale:active {
             transform: scale(0.96);
         }
+
         /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
             animation: fadeIn 0.4s ease-out forwards;
         }
+
         .animate-slide-up {
             opacity: 0;
             transform: translateY(20px);
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         .animate-slide-in-right {
             opacity: 0;
             transform: translateX(20px);
             animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
 
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
     </style>
 </head>
 
@@ -133,11 +178,13 @@
             <!-- Profile Hero Section -->
             <div class="flex flex-col items-center mb-8">
                 <div class="relative">
-                    <div class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img src="https://randomuser.me/api/portraits/men/99.jpg" 
-                             alt="Carlos Silva" class="w-full h-full object-cover">
+                    <div
+                        class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700">
+                        <img src="https://randomuser.me/api/portraits/men/99.jpg" alt="Carlos Silva"
+                            class="w-full h-full object-cover">
                     </div>
-                    <button class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-background-light dark:border-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+                    <button
+                        class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-background-light dark:border-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform">
                         <span class="material-symbols-outlined text-sm">edit</span>
                     </button>
                 </div>
@@ -149,21 +196,26 @@
 
             <!-- Stats Grid -->
             <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div
+                    class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
                     <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Viagens</p>
                     <p class="text-2xl font-black text-slate-900 dark:text-white">154</p>
                 </div>
-                <div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Membro desde</p>
+                <div
+                    class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Membro
+                        desde</p>
                     <p class="text-2xl font-black text-slate-900 dark:text-white">Jan '23</p>
                 </div>
             </div>
 
             <!-- Menu List -->
             <div class="space-y-1 mb-8">
-                <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">Conta</p>
-                
-                <a href="minhasViagens.html" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">
+                    Conta</p>
+
+                <a href="minhasViagens.html"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">directions_car</span>
                     </div>
@@ -174,7 +226,8 @@
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <a href="#"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">payments</span>
                     </div>
@@ -185,7 +238,8 @@
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <a href="#"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">favorite</span>
                     </div>
@@ -198,9 +252,11 @@
             </div>
 
             <div class="space-y-1 mb-8">
-                <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">Suporte</p>
-                
-                <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">
+                    Suporte</p>
+
+                <a href="#"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">shield_person</span>
                     </div>
@@ -211,7 +267,8 @@
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                 </a>
 
-                <a href="faleConosco.html" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                <a href="faleConosco.html"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
                     <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">help</span>
                     </div>
@@ -224,11 +281,12 @@
             </div>
 
             <!-- Logout -->
-            <a href="confirmarSaida.html" class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
+            <a href="confirmarSaida.html"
+                class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
                 <span class="material-symbols-outlined">logout</span>
                 Sair da Conta
             </a>
-            
+
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
 
@@ -262,5 +320,7 @@
             </div>
         </nav>
     </div>
+    <script src="js/pwa-register.js"></script>
 </body>
+
 </html>

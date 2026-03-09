@@ -17,6 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
+    <meta name="theme-color" content="#1e3fae" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
@@ -357,520 +358,16 @@
                 <a class="text-primary text-sm font-semibold" href="todosmotoristas.html">Ver todos</a>
             </div>
             <div class="flex overflow-hidden w-full group">
-                <div class="flex animate-scroll group-hover:[animation-play-state:paused] w-max">
-                    <!-- original pool of 12 drivers (2 + 10 new ones) -->
-                    <div class="flex gap-4 px-4 pb-4 no-scrollbar">
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700">
-                                    <img alt="Driver Profile" class="w-full h-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE19kDV-x7mt2u8gj35BAPT_FN9jQXljohoUvNlSUW70cT-Hq2omOZAECnLc0mRHEPiZp48XwfWUqnoSgM4NL1js39hDWcgW_9QPolKM6uKd6bin1NZvha1LKEFdALE03SL6AVW39iA04RdyimjlFh4lTI3Y5JfZdSm8zsHdkfggIEk_MOJMDqGTRzioD_XYYb3xUqyC6yQLerSjnNaSmfMAZwLCQjT11-OfH5hwoZXIK5oWCKD0lJVcYu1HPPj9TkUTAto7YxrBlw" />
-                                </div>
-                                <div>
-                                    <p class="font-bold">Ricardo Silva</p>
-                                    <div class="flex items-center gap-1 text-yellow-500">
-                                        <span class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.9</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(128 viagens)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Toyota
-                                    Corolla</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
+                <div class="flex animate-scroll group-hover:[animation-play-state:paused] w-max"
+                    id="drivers-scroll-wrapper">
+                    <!-- Dynamic drivers list will be injected here -->
+                    <div id="drivers-container" class="flex gap-4 px-4 pb-4 no-scrollbar">
+                        <!-- Loading Skeleton (Optional) -->
+                        <div class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24">
                         </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700">
-                                    <img alt="Driver Profile" class="w-full h-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMPCTUX-3QcIclRa90_cwJwCPaCd42OFrijyZ350NSBGmf3RGt8zzpl9leo6n3N08lkt-0MFUFGZUD8M4imZe7hzD4Y_zu-IxpNUcr5t9m03aGbiuqhvgStaF4_g9zDWxiwAJJw0_khqGwGT_61ics8LfsU0INuSIsdtAHzSpXZuQHQ9LjdUgGxcODCUrIWGBRfYoTsO5DYhRHVv36RisQ3Pa8hlUJzCs6r316NKXxxrCdXlHL-AyVw2CkiKQpeaBfh_EoXQe26Wj6" />
-                                </div>
-                                <div>
-                                    <p class="font-bold">Ana Oliveira</p>
-                                    <div class="flex items-center gap-1 text-yellow-500">
-                                        <span class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.8</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(95 viagens)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Honda
-                                    Civic</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
+                        <div class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24">
                         </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-primary/20 text-primary">
-                                    JB</div>
-                                <div>
-                                    <p class="font-bold">João Batista</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">5.0</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(210 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Chevrolet
-                                    Onix</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-pink-500/20 text-pink-500">
-                                    MF</div>
-                                <div>
-                                    <p class="font-bold">Maria Fernanda</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.7</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(56 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Hyundai
-                                    HB20</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-blue-500/20 text-blue-500">
-                                    CM</div>
-                                <div>
-                                    <p class="font-bold">Carlos Mendes</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.9</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(342 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> VW
-                                    Virtus</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-teal-500/20 text-teal-500">
-                                    LC</div>
-                                <div>
-                                    <p class="font-bold">Lúcia Costa</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.6</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(89 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Renault
-                                    Kwid</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-purple-500/20 text-purple-500">
-                                    PA</div>
-                                <div>
-                                    <p class="font-bold">Paulo Almeida</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">5.0</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(115 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Fiat
-                                    Argo</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-indigo-500/20 text-indigo-500">
-                                    FP</div>
-                                <div>
-                                    <p class="font-bold">Fernanda Pereira</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.8</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(240 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Jeep
-                                    Renegade</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-red-500/20 text-red-500">
-                                    RD</div>
-                                <div>
-                                    <p class="font-bold">Roberto Dias</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.5</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(42 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Ford Ka</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-green-600/20 text-green-600">
-                                    BR</div>
-                                <div>
-                                    <p class="font-bold">Bruna Ribeiro</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.9</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(189 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> VW Nivus</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-blue-500/20 text-blue-500">
-                                    MG</div>
-                                <div>
-                                    <p class="font-bold">Marcelo Gomes</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.7</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(91 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Nissan
-                                    Kicks</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-rose-500/20 text-rose-500">
-                                    SN</div>
-                                <div>
-                                    <p class="font-bold">Sônia Nogueira</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">5.0</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(310 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Toyota
-                                    Yaris</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Duplicated pool of 12 drivers for infinite scroll effect (exact clone minus some side margin inside) -->
-                    <div class="flex gap-4 pr-4 pb-4 no-scrollbar" aria-hidden="true">
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700">
-                                    <img alt="Driver Profile" class="w-full h-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE19kDV-x7mt2u8gj35BAPT_FN9jQXljohoUvNlSUW70cT-Hq2omOZAECnLc0mRHEPiZp48XwfWUqnoSgM4NL1js39hDWcgW_9QPolKM6uKd6bin1NZvha1LKEFdALE03SL6AVW39iA04RdyimjlFh4lTI3Y5JfZdSm8zsHdkfggIEk_MOJMDqGTRzioD_XYYb3xUqyC6yQLerSjnNaSmfMAZwLCQjT11-OfH5hwoZXIK5oWCKD0lJVcYu1HPPj9TkUTAto7YxrBlw" />
-                                </div>
-                                <div>
-                                    <p class="font-bold">Ricardo Silva</p>
-                                    <div class="flex items-center gap-1 text-yellow-500">
-                                        <span class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.9</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(128 viagens)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Toyota
-                                    Corolla</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700">
-                                    <img alt="Driver Profile" class="w-full h-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMPCTUX-3QcIclRa90_cwJwCPaCd42OFrijyZ350NSBGmf3RGt8zzpl9leo6n3N08lkt-0MFUFGZUD8M4imZe7hzD4Y_zu-IxpNUcr5t9m03aGbiuqhvgStaF4_g9zDWxiwAJJw0_khqGwGT_61ics8LfsU0INuSIsdtAHzSpXZuQHQ9LjdUgGxcODCUrIWGBRfYoTsO5DYhRHVv36RisQ3Pa8hlUJzCs6r316NKXxxrCdXlHL-AyVw2CkiKQpeaBfh_EoXQe26Wj6" />
-                                </div>
-                                <div>
-                                    <p class="font-bold">Ana Oliveira</p>
-                                    <div class="flex items-center gap-1 text-yellow-500">
-                                        <span class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.8</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(95 viagens)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Honda
-                                    Civic</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-primary/20 text-primary">
-                                    JB</div>
-                                <div>
-                                    <p class="font-bold">João Batista</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">5.0</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(210 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Chevrolet
-                                    Onix</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-pink-500/20 text-pink-500">
-                                    MF</div>
-                                <div>
-                                    <p class="font-bold">Maria Fernanda</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.7</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(56 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Hyundai
-                                    HB20</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-blue-500/20 text-blue-500">
-                                    CM</div>
-                                <div>
-                                    <p class="font-bold">Carlos Mendes</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.9</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(342 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> VW
-                                    Virtus</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-teal-500/20 text-teal-500">
-                                    LC</div>
-                                <div>
-                                    <p class="font-bold">Lúcia Costa</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.6</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(89 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Renault
-                                    Kwid</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-purple-500/20 text-purple-500">
-                                    PA</div>
-                                <div>
-                                    <p class="font-bold">Paulo Almeida</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">5.0</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(115 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Fiat
-                                    Argo</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-indigo-500/20 text-indigo-500">
-                                    FP</div>
-                                <div>
-                                    <p class="font-bold">Fernanda Pereira</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.8</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(240 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Jeep
-                                    Renegade</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-red-500/20 text-red-500">
-                                    RD</div>
-                                <div>
-                                    <p class="font-bold">Roberto Dias</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.5</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(42 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Ford Ka</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-green-600/20 text-green-600">
-                                    BR</div>
-                                <div>
-                                    <p class="font-bold">Bruna Ribeiro</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.9</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(189 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> VW Nivus</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-blue-500/20 text-blue-500">
-                                    MG</div>
-                                <div>
-                                    <p class="font-bold">Marcelo Gomes</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">4.7</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(91 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Nissan
-                                    Kicks</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-rose-500/20 text-rose-500">
-                                    SN</div>
-                                <div>
-                                    <p class="font-bold">Sônia Nogueira</p>
-                                    <div class="flex items-center gap-1 text-yellow-500"><span
-                                            class="material-symbols-outlined text-sm fill-1">star</span><span
-                                            class="text-xs font-bold">5.0</span><span
-                                            class="text-slate-500 text-[10px] font-normal">(310 viagens)</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">local_taxi</span> Toyota
-                                    Yaris</span><span
-                                    class="px-2 py-1 rounded-full bg-green-500/10 text-green-500 font-bold uppercase tracking-tight">Disponível</span>
-                            </div>
+                        <div class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24">
                         </div>
                     </div>
                 </div>
@@ -951,6 +448,28 @@
                 </div>
             </div>
         </section>
+
+        <!-- Bottom Navigation Bar (Fixed) -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+            <div class="flex justify-around items-end px-2">
+                <a class="flex flex-col items-center gap-1 text-primary active-scale" href="homepage.html">
+                    <span class="material-symbols-outlined font-fill">home</span>
+                    <span class="text-[10px] font-bold">Início</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-500 active-scale" href="minhasViagens.html">
+                    <span class="material-symbols-outlined">history</span>
+                    <span class="text-[10px] font-bold">Viagens</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-500 active-scale" href="conversas.html">
+                    <span class="material-symbols-outlined">chat</span>
+                    <span class="text-[10px] font-bold">Chat</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-500 active-scale" href="perfilPassageiro.html">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="text-[10px] font-bold">Perfil</span>
+                </a>
+            </div>
+        </nav>
     </div>
 
     <!-- Sliding Menu Overlay and Drawer -->
@@ -1000,235 +519,80 @@
                     <span class="font-medium">Quero Ser Motorista</span>
                 </a>
                 <a class="flex items-center gap-3 p-4 rounded-xl text-slate-300 hover:bg-slate-800/50 transition-colors"
-                    href="#">
-                    <span class="material-symbols-outlined text-primary">campaign</span>
-                    <span class="font-medium">Anuncie</span>
-                </a>
-                <a class="flex items-center gap-3 p-4 rounded-xl text-slate-300 hover:bg-slate-800/50 transition-colors"
-                    href="blog.html">
-                    <span class="material-symbols-outlined text-primary">newspaper</span>
-                    <span class="font-medium">Blog</span>
-                </a>
-                <a class="flex items-center gap-3 p-4 rounded-xl text-slate-300 hover:bg-slate-800/50 transition-colors"
                     href="faleConosco.html">
-                    <span class="material-symbols-outlined text-primary">chat</span>
+                    <span class="material-symbols-outlined text-primary">support_agent</span>
                     <span class="font-medium">Fale Conosco</span>
                 </a>
-                <div class="pt-6 mt-6 border-t border-slate-800 space-y-1">
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs text-slate-500 hover:text-slate-300"
-                        href="#">
-                        <span class="material-symbols-outlined text-lg">description</span>
-                        <span>Termos de Uso</span>
-                    </a>
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs text-slate-500 hover:text-slate-300"
-                        href="#">
-                        <span class="material-symbols-outlined text-lg">gavel</span>
-                        <span>Política de Privacidade</span>
-                    </a>
-                </div>
+                <a class="flex items-center gap-3 p-4 rounded-xl text-slate-300 hover:bg-slate-800/50 transition-colors"
+                    href="sobre.html">
+                    <span class="material-symbols-outlined text-primary">info</span>
+                    <span class="font-medium">Sobre o App</span>
+                </a>
             </nav>
-            <div class="p-6">
-                <div class="p-4 rounded-2xl bg-primary/10 border border-primary/20">
-                    <p class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Versão 1.2.0</p>
-                    <p class="text-xs text-slate-400">Desenvolvido para sua segurança em Salinas.</p>
-                </div>
+            <div class="p-6 border-t border-slate-800">
+                <p class="text-xs text-center text-slate-500">
+                    &copy; 2024 Meu Carro de Linha Salinas<br />Versão 2.0.0
+                </p>
             </div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/homepage.js"></script>
     <script>
-        const menuToggleBtn = document.getElementById('menu-toggle-btn');
-        const menuCloseBtn = document.getElementById('menu-close-btn');
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+    <script>
+        // Drawer Menu Logic
+        const menuBtn = document.getElementById('menu-toggle-btn');
         const menuOverlay = document.getElementById('menu-overlay');
-        const menuBackdrop = document.getElementById('menu-backdrop');
         const menuDrawer = document.getElementById('menu-drawer');
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        const menuCloseBtn = document.getElementById('menu-close-btn');
 
         function openMenu() {
             menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
-            menuOverlay.classList.add('opacity-100', 'pointer-events-auto');
             menuDrawer.classList.remove('translate-x-full');
-            menuDrawer.classList.add('translate-x-0');
-            document.body.classList.add('overflow-hidden');
         }
 
         function closeMenu() {
-            menuDrawer.classList.remove('translate-x-0');
-            menuDrawer.classList.add('translate-x-full');
-            menuOverlay.classList.remove('opacity-100', 'pointer-events-auto');
             menuOverlay.classList.add('opacity-0', 'pointer-events-none');
-            document.body.classList.remove('overflow-hidden');
+            menuDrawer.classList.add('translate-x-full');
         }
 
-        menuToggleBtn.addEventListener('click', openMenu);
+        menuBtn.addEventListener('click', openMenu);
         menuCloseBtn.addEventListener('click', closeMenu);
         menuBackdrop.addEventListener('click', closeMenu);
-    </script>
 
-
-    <script>
+        // Map Initialization
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('a[href]').forEach(link => {
-                link.addEventListener('click', e => {
-                    const href = link.getAttribute('href');
-                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
-                        e.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = href; }, 200);
-                    }
-                });
-            });
+            const mapContainer = document.getElementById('homepage-map');
+            if (mapContainer && typeof L !== 'undefined') {
+                const map = L.map('homepage-map', {
+                    zoomControl: false,
+                    attributionControl: false
+                }).setView([-12.8700, -38.8000], 14); // Salinas da Margarida approx coords
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 20
+                }).addTo(map);
+            }
         });
     </script>
-
-    <!-- Leaflet OpenStreetMap initialization -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Salinas da Margarida, Bahia, Brasil
-            const LAT = -12.8711;
-            const LNG = -38.7614;
-            const ZOOM = 14;
-
-            const map = L.map('homepage-map', {
-                center: [LAT, LNG],
-                zoom: ZOOM,
-                zoomControl: false,
-                dragging: false,
-                scrollWheelZoom: false,
-                doubleClickZoom: false,
-                boxZoom: false,
-                keyboard: false,
-                attributionControl: false,
-                touchZoom: false
-            });
-
-            // Standard OpenStreetMap tiles — fully visible, no filter
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
-        });
-    </script>
-
-    <!-- Address Autocomplete — Nominatim (OpenStreetMap) -->
-    <script>
-        (function () {
-            const input = document.getElementById('destino-input');
-            const list = document.getElementById('destino-suggestions');
-            if (!input || !list) return;
-
-            let debounceTimer = null;
-            let currentFetch = null; // AbortController for in-flight requests
-
-            // ── Loading item ──────────────────────────────────────────────
-            function showLoading() {
-                list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando endereços…</li>';
-                list.classList.remove('hidden');
-            }
-
-            // ── Results ───────────────────────────────────────────────────
-            function showResults(items) {
-                list.innerHTML = '';
-                if (!items || !items.length) {
-                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic">Nenhum resultado encontrado</li>';
-                    list.classList.remove('hidden');
-                    return;
-                }
-                items.forEach(item => {
-                    const label = item.display_name || '';
-                    if (!label) return;
-                    const li = document.createElement('li');
-                    li.className = 'flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-700/50 transition-colors';
-
-                    const icon = document.createElement('span');
-                    icon.className = 'material-symbols-outlined text-primary text-base flex-none';
-                    icon.textContent = 'location_on';
-
-                    const text = document.createElement('span');
-                    text.className = 'truncate leading-snug';
-                    text.textContent = label;
-
-                    li.appendChild(icon);
-                    li.appendChild(text);
-
-                    li.addEventListener('mousedown', e => {
-                        e.preventDefault(); // prevent blur before click
-                        input.value = label;
-                        list.classList.add('hidden');
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = 'loginPassageiro.html'; }, 200);
-                    });
-
-                    list.appendChild(li);
-                });
-                list.classList.remove('hidden');
-            }
-
-            // ── Fetch from Nominatim ───────────────────────────────────────
-            async function fetchSuggestions(query) {
-                if (query.length < 3) { list.classList.add('hidden'); return; }
-
-                // Cancel any in-flight request
-                if (currentFetch) currentFetch.abort();
-                currentFetch = new AbortController();
-
-                showLoading();
-
-                const url = 'https://nominatim.openstreetmap.org/search?' +
-                    new URLSearchParams({
-                        q: query + ' Salinas da Margarida Bahia Brasil',
-                        format: 'json',
-                        limit: '6',
-                        countrycodes: 'br',
-                        'accept-language': 'pt-BR',
-                        addressdetails: '0'
-                    }).toString();
-
-                try {
-                    const res = await fetch(url, { signal: currentFetch.signal });
-                    const data = await res.json();
-                    showResults(data);
-                } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        list.innerHTML = '<li class="px-4 py-3 text-sm text-red-400">Erro ao buscar endereços</li>';
-                    }
-                } finally {
-                    currentFetch = null;
-                }
-            }
-
-            input.addEventListener('input', () => {
-                clearTimeout(debounceTimer);
-                const q = input.value.trim();
-                if (q.length < 3) { list.classList.add('hidden'); return; }
-                debounceTimer = setTimeout(() => fetchSuggestions(q), 500);
-            });
-
-            input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
-            input.addEventListener('focus', () => { if (list.children.length && !list.querySelector('[class*=animate-spin]')) list.classList.remove('hidden'); });
-
-            document.addEventListener('click', e => {
-                if (!input.contains(e.target) && !list.contains(e.target)) list.classList.add('hidden');
-            });
-
-            // Keyboard navigation
-            input.addEventListener('keydown', e => {
-                const items = [...list.querySelectorAll('li[class*=cursor-pointer]')];
-                if (!items.length) return;
-                const idx = items.findIndex(li => li.classList.contains('bg-primary/10'));
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    if (idx >= 0) items[idx].classList.remove('bg-primary/10');
-                    items[Math.min(idx + 1, items.length - 1)].classList.add('bg-primary/10');
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    if (idx >= 0) items[idx].classList.remove('bg-primary/10');
-                    items[Math.max(idx - 1, 0)].classList.add('bg-primary/10');
-                } else if (e.key === 'Escape') {
-                    list.classList.add('hidden');
-                }
-            });
-        })();
-    </script>
+    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>

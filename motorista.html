@@ -102,7 +102,9 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
+            from {
+                opacity: 0;
+            }
 
             to {
                 opacity: 1;
@@ -221,14 +223,15 @@
             class="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-background-dark/80 to-transparent animate-fade-in">
             <div class="flex items-center gap-3">
                 <div class="size-10 rounded-full border-2 border-primary overflow-hidden bg-surface-dark">
-                    <img class="w-full h-full object-cover" data-alt="Profile picture of a professional driver"
+                    <img id="header-avatar" class="w-full h-full object-cover"
+                        data-alt="Profile picture of a professional driver"
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuD627-BeU1gC_HNClizGCx9bN-a-wIVbc8sCHJ1kEUcJxgz5UHBS90CbXE-aCsIWzgi1sU60B560ZqrHmswoOtIIrWjknwhSbeeUu1xuV9qQlkdAXldToogyaTO3GfXrz9oThcNeRodXD9LsP4ekDm9SlJxE5ebrKZJTVz1Ztj1-M46vnqJwCmJgxQahl3SO9w1Si22lMsmxicP0vWcjkr5LLnveL69up9rKHhSPSks6wflWueXGqNMAkO1hhgq4SSVwGJYW9loyk7n" />
                 </div>
                 <div>
-                    <h1 class="text-sm font-semibold text-slate-100">Olá, Marcos</h1>
+                    <h1 class="text-sm font-semibold text-slate-100">Olá, <span id="header-username">Marcos</span></h1>
                     <div class="flex items-center gap-1">
                         <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span>
-                        <span class="text-xs text-slate-300">4.95</span>
+                        <span id="header-rating" class="text-xs text-slate-300">4.95</span>
                     </div>
                 </div>
             </div>
@@ -264,23 +267,19 @@
                     <span class="material-symbols-outlined">home</span>
                     <span class="text-[10px] font-bold">Início</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 "
-                    href="meusganhos.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="meusganhos.html">
                     <span class="material-symbols-outlined">payments</span>
                     <span class="text-[10px] font-bold">Ganhos</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 "
-                    href="conversasMotorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="conversasMotorista.html">
                     <span class="material-symbols-outlined">chat</span>
                     <span class="text-[10px] font-bold">Chat</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 "
-                    href="historicoViagens.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="historicoViagens.html">
                     <span class="material-symbols-outlined">history</span>
                     <span class="text-[10px] font-bold">Histórico</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 "
-                    href="perfilMotorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="perfilMotorista.html">
                     <span class="material-symbols-outlined">account_circle</span>
                     <span class="text-[10px] font-bold">Perfil</span>
                 </a>
@@ -418,6 +417,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
+    <script src="js/motorista-dashboard.js"></script>
+    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>

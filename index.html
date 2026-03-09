@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="manifest" href="/manifest.json" />
-    
+
     <!-- Social Share & PWA Icons -->
     <meta property="og:title" content="Meu Carro de Linha Salinas">
     <meta property="og:description" content="Chame seu transporte em Salinas da Margarida, BA">
@@ -14,10 +14,11 @@
     <meta property="og:type" content="website">
     <link rel="icon" type="image/jpeg" href="/splashScreen.jpeg">
     <link rel="apple-touch-icon" href="/splashScreen.jpeg">
-    
+
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
+    <meta name="theme-color" content="#1e3fae" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
@@ -82,49 +83,87 @@
             width: 0%;
             animation: fill-loading 5s linear forwards;
         }
-    
+
         /* Global Mobile Native Fixes */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
         }
-        input, textarea {
+
+        input,
+        textarea {
             user-select: text;
             -webkit-user-select: text;
         }
+
         /* Native-like click effect */
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .active-scale:active {
             transform: scale(0.96);
         }
+
         /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
             animation: fadeIn 0.4s ease-out forwards;
         }
+
         .animate-slide-up {
             opacity: 0;
             transform: translateY(20px);
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         .animate-slide-in-right {
             opacity: 0;
             transform: translateX(20px);
             animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
 
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
     </style>
     <style>
         body {
@@ -212,7 +251,8 @@
             <!-- Logo Container -->
             <div
                 class="flex items-center justify-center w-[180px] aspect-[9/16] rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden relative">
-                <video id="splashVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="splashScreen.jpeg" class="w-full h-full object-cover border-none outline-none">
+                <video id="splashVideo" autoplay muted loop playsinline webkit-playsinline preload="auto"
+                    poster="splashScreen.jpeg" class="w-full h-full object-cover border-none outline-none">
                     <source src="https://i.imgur.com/nPfHf20.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -255,15 +295,19 @@
         video::-webkit-media-controls {
             display: none !important;
         }
+
         video::-webkit-media-controls-enclosure {
             display: none !important;
         }
+
         video::-webkit-media-controls-panel {
             display: none !important;
         }
+
         video::-webkit-media-controls-play-button {
             display: none !important;
         }
+
         video::-webkit-media-controls-start-playback-button {
             display: none !important;
         }
@@ -290,7 +334,7 @@
                 video.setAttribute('muted', '');
                 video.setAttribute('playsinline', '');
                 video.setAttribute('webkit-playsinline', '');
-                
+
                 // Force play with promise handling
                 const playVideo = async () => {
                     try {
@@ -306,9 +350,9 @@
                         }
                     }
                 };
-                
+
                 playVideo();
-                
+
                 // Backup: try playing on any first interaction (though splash should be auto)
                 document.body.addEventListener('click', () => {
                     if (video.paused) {
@@ -337,6 +381,7 @@
             });
         });
     </script>
+    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>

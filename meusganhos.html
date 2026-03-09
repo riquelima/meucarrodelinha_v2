@@ -1,248 +1,166 @@
 <!DOCTYPE html>
+<html class="dark" lang="pt-BR">
 
-<html class="dark" lang="pt-br"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Meu Carro de Linha Salinas - Meus Ganhos</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#1e40ae",
                         "success": "#22c55e",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
                         "surface-dark": "#1c2131",
-                        "border-dark": "#272e45",
+                        "border-dark": "#2d3446",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-<style>
-        body { font-family: 'Inter', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        /* Page Transitions */
-        .page-enter {
-            animation: fade-in 0.3s ease-out forwards;
-        }
-        @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    
-        /* Global Mobile Native Fixes */
+    <style>
         body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
+            min-height: 100dvh;
         }
-        input, textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
 
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col pt-[120px] page-enter">
-<!-- Header Section -->
-<header class="fixed top-0 left-0 right-0 z-50 bg-background-light dark:bg-background-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-border-dark">
-<div class="flex items-center p-4 justify-between max-w-md mx-auto w-full">
-<a href="motorista.html" class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-surface-dark transition-colors">
-<span class="material-symbols-outlined">arrow_back</span>
-</a>
-<h1 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight flex-1 text-center">Resumo de Ganhos</h1>
-<div class="size-10"></div> <!-- Spacer for centering -->
-</div>
-<!-- Period Selector -->
-<div class="px-4 pb-4 max-w-md mx-auto w-full">
-<div class="flex h-11 items-center justify-center rounded-xl bg-slate-200 dark:bg-surface-dark p-1">
-<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-background-dark has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary dark:has-[:checked]:text-white text-sm font-semibold transition-all">
-<span class="truncate">Hoje</span>
-<input checked="" class="hidden" name="period" type="radio" value="Hoje"/>
-</label>
-<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-background-dark has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary dark:has-[:checked]:text-white text-sm font-semibold transition-all">
-<span class="truncate">Semana</span>
-<input class="hidden" name="period" type="radio" value="Semana"/>
-</label>
-<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-background-dark has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary dark:has-[:checked]:text-white text-sm font-semibold transition-all">
-<span class="truncate">Mês</span>
-<input class="hidden" name="period" type="radio" value="Mês"/>
-</label>
-</div>
-</div>
-</header>
-<main class="flex-1 overflow-y-auto pb-32">
-<div class="max-w-md mx-auto w-full px-4 pt-6 space-y-6">
-<!-- Main Earnings Card -->
-<div class="text-center space-y-1 py-4">
-<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Ganhos Totais</p>
-<h2 class="text-success text-5xl font-bold tracking-tight">R$ 158,40</h2>
-<div class="inline-flex items-center gap-1 text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full mt-2">
-<span class="material-symbols-outlined text-sm">trending_up</span>
-<span>+12% vs ontem</span>
-</div>
-</div>
-<!-- Secondary Metrics Grid -->
-<div class="grid grid-cols-3 gap-3">
-<div class="bg-white dark:bg-surface-dark p-4 rounded-2xl border border-slate-200 dark:border-border-dark flex flex-col items-center text-center">
-<span class="material-symbols-outlined text-primary mb-2">directions_car</span>
-<span class="text-xl font-bold">12</span>
-<span class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">Corridas</span>
-</div>
-<div class="bg-white dark:bg-surface-dark p-4 rounded-2xl border border-slate-200 dark:border-border-dark flex flex-col items-center text-center">
-<span class="material-symbols-outlined text-primary mb-2">schedule</span>
-<span class="text-xl font-bold">6h 30m</span>
-<span class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">Online</span>
-</div>
-<div class="bg-white dark:bg-surface-dark p-4 rounded-2xl border border-slate-200 dark:border-border-dark flex flex-col items-center text-center">
-<span class="material-symbols-outlined text-yellow-500 mb-2">star</span>
-<span class="text-xl font-bold">4.9</span>
-<span class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">Avaliação</span>
-</div>
-</div>
-<!-- History Section -->
-<div class="space-y-4">
-<div class="flex items-center justify-between">
-<h3 class="text-lg font-bold">Histórico de Hoje</h3>
-<button class="text-primary text-sm font-semibold">Ver tudo</button>
-</div>
-<div class="space-y-3">
-<!-- Ride Item 1 -->
-<div class="flex items-center justify-between p-4 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark">
-<div class="flex items-center gap-3">
-<div class="size-10 rounded-full bg-slate-100 dark:bg-background-dark flex items-center justify-center">
-<span class="material-symbols-outlined text-slate-500">payments</span>
-</div>
-<div>
-<p class="font-bold">Corrida #842</p>
-<p class="text-xs text-slate-500 dark:text-slate-400">14:20 • PIX</p>
-</div>
-</div>
-<div class="text-right">
-<p class="font-bold text-success">R$ 18,40</p>
-<p class="text-[10px] text-slate-400">Finalizada</p>
-</div>
-</div>
-<!-- Ride Item 2 -->
-<div class="flex items-center justify-between p-4 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark">
-<div class="flex items-center gap-3">
-<div class="size-10 rounded-full bg-slate-100 dark:bg-background-dark flex items-center justify-center">
-<span class="material-symbols-outlined text-slate-500">credit_card</span>
-</div>
-<div>
-<p class="font-bold">Corrida #841</p>
-<p class="text-xs text-slate-500 dark:text-slate-400">13:45 • Cartão</p>
-</div>
-</div>
-<div class="text-right">
-<p class="font-bold text-success">R$ 12,40</p>
-<p class="text-[10px] text-slate-400">Finalizada</p>
-</div>
-</div>
-<!-- Ride Item 3 -->
-<div class="flex items-center justify-between p-4 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark">
-<div class="flex items-center gap-3">
-<div class="size-10 rounded-full bg-slate-100 dark:bg-background-dark flex items-center justify-center">
-<span class="material-symbols-outlined text-slate-500">payments</span>
-</div>
-<div>
-<p class="font-bold">Corrida #840</p>
-<p class="text-xs text-slate-500 dark:text-slate-400">13:10 • PIX</p>
-</div>
-</div>
-<div class="text-right">
-<p class="font-bold text-success">R$ 22,90</p>
-<p class="text-[10px] text-slate-400">Finalizada</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Bottom Actions & Navigation -->
-<div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-border-dark pb-safe">
-<!-- Floating Action Button Area -->
-<div class="px-4 py-4 max-w-md mx-auto">
-<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
-<span class="material-symbols-outlined">account_balance_wallet</span>
-                Solicitar Saque
-            </button>
-</div>
-<!-- Navigation Bar -->
-<nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-    <div class="flex justify-around items-end px-2">
-        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
-            <span class="material-symbols-outlined">home</span>
-            <span class="text-[10px] font-bold">Início</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="#">
-            <span class="material-symbols-outlined">payments</span>
-            <span class="text-[10px] font-bold">Ganhos</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
-            <span class="material-symbols-outlined">chat</span>
-            <span class="text-[10px] font-bold">Chat</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
-            <span class="material-symbols-outlined">history</span>
-            <span class="text-[10px] font-bold">Histórico</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
-            <span class="material-symbols-outlined">account_circle</span>
-            <span class="text-[10px] font-bold">Perfil</span>
-        </a>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
+        <!-- Header -->
+        <header
+            class="flex items-center justify-between bg-white dark:bg-[#121520] p-4 shadow-sm z-20 shrink-0 border-b border-slate-200 dark:border-slate-800">
+            <a href="motorista.html"
+                class="text-slate-900 dark:text-slate-100 p-2 -ml-2 rounded-full hover:bg-slate-200 dark:hover:bg-surface-dark transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <h1 class="text-lg font-bold">Meus Ganhos</h1>
+            <div class="w-10"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto pb-48 px-4 pt-6 no-scrollbar">
+            <!-- Balance Card -->
+            <div class="bg-primary p-6 rounded-2xl shadow-xl shadow-primary/20 mb-8 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+                <p class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">Saldo Disponível</p>
+                <h2 class="text-4xl font-black text-white mb-6">R$ 1.254,80</h2>
+                <div class="flex gap-4">
+                    <div class="flex-1 bg-white/10 p-3 rounded-xl backdrop-blur-sm">
+                        <p class="text-white/60 text-[10px] uppercase font-bold">Hoje</p>
+                        <p class="text-white font-bold text-lg">R$ 142,50</p>
+                    </div>
+                    <div class="flex-1 bg-white/10 p-3 rounded-xl backdrop-blur-sm">
+                        <p class="text-white/60 text-[10px] uppercase font-bold">Semana</p>
+                        <p class="text-white font-bold text-lg">R$ 845,00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="font-bold text-slate-900 dark:text-slate-100">Últimos Lançamentos</h3>
+                    <span class="material-symbols-outlined text-slate-400">tune</span>
+                </div>
+
+                <!-- Single Item -->
+                <div
+                    class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-border-dark flex items-center gap-4">
+                    <div class="size-10 rounded-lg bg-success/10 text-success flex items-center justify-center">
+                        <span class="material-symbols-outlined">add_circle</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">Viagem #8421</p>
+                        <p class="text-xs text-slate-500">Hoje, 14:20</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-success">R$ 18,50</p>
+                        <p class="text-[10px] text-slate-400">Finalizada</p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-border-dark flex items-center gap-4">
+                    <div class="size-10 rounded-lg bg-success/10 text-success flex items-center justify-center">
+                        <span class="material-symbols-outlined">add_circle</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">Viagem #8420</p>
+                        <p class="text-xs text-slate-500">Hoje, 12:45</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-success">R$ 22,90</p>
+                        <p class="text-[10px] text-slate-400">Finalizada</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Actions & Navigation -->
+        <div
+            class="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-border-dark pb-safe">
+            <!-- Floating Action Button Area -->
+            <div class="px-4 py-4 max-w-md mx-auto">
+                <button
+                    class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                    Solicitar Saque
+                </button>
+            </div>
+            <!-- Navigation Bar -->
+            <nav class="bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+                <div class="flex justify-around items-end px-2">
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="text-[10px] font-bold">Início</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="#">
+                        <span class="material-symbols-outlined">payments</span>
+                        <span class="text-[10px] font-bold">Ganhos</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+                        <span class="material-symbols-outlined">chat</span>
+                        <span class="text-[10px] font-bold">Chat</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+                        <span class="material-symbols-outlined">history</span>
+                        <span class="text-[10px] font-bold">Histórico</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span class="text-[10px] font-bold">Perfil</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
     </div>
-</nav>
-<style>
-    .pb-safe {
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-</style>
+    <script src="js/pwa-register.js"></script>
+</body>
+
+</html>
