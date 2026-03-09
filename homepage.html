@@ -152,32 +152,63 @@
             navigation: auto;
         }
 
+        /* Forward Animation */
+        :root[data-transition="forward"] ::view-transition-old(root) {
+            animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-out-left;
+        }
+
+        :root[data-transition="forward"] ::view-transition-new(root) {
+            animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-in-right;
+        }
+
+        /* Backward Animation */
+        :root[data-transition="back"] ::view-transition-old(root) {
+            animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-out-right;
+            z-index: 1;
+        }
+
+        :root[data-transition="back"] ::view-transition-new(root) {
+            animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-in-left;
+            z-index: 2;
+        }
+
+        /* Default / Fade */
         ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+            animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
         }
 
         ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+            animation: 200ms cubic-bezier(0, 0, 0.2, 1) both fade-in;
+        }
+
+        @keyframes slide-in-right {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes slide-out-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-30%); opacity: 0.5; }
+        }
+
+        @keyframes slide-in-left {
+            from { transform: translateX(-30%); opacity: 0.5; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slide-out-right {
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
         }
 
         @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
 
         /* Fallback Fade */
@@ -577,6 +608,40 @@
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                     maxZoom: 20
                 }).addTo(map);
+            }
+        });
+
+        // Enhanced Navigation Logic with View Transitions
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
+            
+            // Ignore external links or anchor links on same page
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('http') || href.startsWith('#')) return;
+
+            e.preventDefault();
+
+            // Determine transition direction based on context (simplified for homepage: always forward)
+            // In a real app, you'd track history stack
+            document.documentElement.dataset.transition = 'forward';
+
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    window.location.href = href;
+                });
+            } else {
+                // Fallback
+                window.location.href = href;
+            }
+        });
+
+        // Handle Back Navigation (Browser Back Button)
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                // Page was restored from bfcache
+                // Reset any transition state if needed
+                document.documentElement.dataset.transition = '';
             }
         });
     </script>
