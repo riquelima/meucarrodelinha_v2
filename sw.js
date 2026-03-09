@@ -9,7 +9,6 @@ const ASSETS_TO_CACHE = [
   '/manifest.json',
   '/splashScreen.jpeg',
   '/logoTransparente.png',
-  'https://cdn.tailwindcss.com?plugins=forms,container-queries',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap'
 ];
