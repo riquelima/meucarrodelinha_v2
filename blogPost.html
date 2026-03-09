@@ -178,7 +178,7 @@
         class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-[430px] mx-auto bg-background-light dark:bg-background-dark">
         <!-- Header Image & Back Button -->
         <div class="relative w-full h-72 @container">
-            <div class="absolute inset-0 bg-cover bg-center" data-alt="Modern blue transit bus on a city street at sunset"
+            <div id="post-header-image" class="absolute inset-0 bg-cover bg-center" data-alt="Modern blue transit bus on a city street at sunset"
                 style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz-xZ0U2w22kQyO0B1tOOhY7A9pG7-3vQY00bH56V4EcwgU7Hnt3T2f84N8Qy232B_0jM05A7cEDs4s6sN8x4I-CgI714YjOFyq13H9l1nJpZ-e9PZ43B_-zLtsqZ2sQh9Z81uCq1n44d0E7-cQQlW3Y1O48oXp4B3aHtwuO2e4y-UfS-l3P3m_Wz2A-iFjOUwA');">
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
@@ -198,26 +198,26 @@
     </div>
     <!-- Post Content Header -->
     <div class="px-6 -mt-10 relative z-10">
-        <div
+        <div id="post-tag"
             class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-accent-cyan text-xs font-bold uppercase tracking-wider mb-4">
             Inovação
         </div>
-        <h1 class="text-3xl font-bold leading-tight text-slate-900 dark:text-white mb-6">
+        <h1 id="post-title" class="text-3xl font-bold leading-tight text-slate-900 dark:text-white mb-6">
             A Evolução do Transporte em Salinas: O que esperar para 2024
         </h1>
         <div class="flex items-center gap-3 pb-8 border-b border-border-dark">
-            <div class="size-12 rounded-full bg-cover bg-center border-2 border-primary"
+            <div id="post-author-image" class="size-12 rounded-full bg-cover bg-center border-2 border-primary"
                 data-alt="Professional portrait of author Carlos Silva"
                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz8ax6U0mTRFr7y9s-pfcnbH7bnqBOD3OdR_wd7_8Jwh3XAFsT8g_e36xT4DXVeoLGSylXgI0LuYN_MtguWnebm-28TGhiGMj7puvQM2uPAx_Ic7ZgMVyAreydQ3eVwJs6f25ImjavmGMTeBOHhxfAvcS_-E6PDQqfpKqA430nue8p4dzOTwlY4Z1uoCE6aR7KS46JMQzSjqLmrMnDLxIwgkfqSQhyB3qyz_x67a_3XY7eQYzf3EqC4AK6024Z63StQLjsmYUXCodY");'>
             </div>
             <div class="flex flex-col">
-                <p class="text-base font-semibold text-slate-900 dark:text-slate-100">Carlos Silva</p>
-                <p class="text-sm text-slate-500 dark:text-slate-400">24 de Out, 2023 • 5 min de leitura</p>
+                <p id="post-author-name" class="text-base font-semibold text-slate-900 dark:text-slate-100">Carlos Silva</p>
+                <p id="post-meta" class="text-sm text-slate-500 dark:text-slate-400">24 de Out, 2023 • 5 min de leitura</p>
             </div>
         </div>
     </div>
     <!-- Main Body Text -->
-    <div class="px-6 py-8 prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
+    <div id="post-content" class="px-6 py-8 prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
         <p>
             O cenário do transporte público em Salinas está passando por uma transformação sem precedentes. Com a
             implementação do novo sistema <strong>"Meu Carro de Linha"</strong>, a mobilidade urbana atingiu um novo
@@ -387,27 +387,32 @@
             // Render post dynamically
             const post = pbPosts[postId];
             if (post) {
-
                 // Header
-                document.querySelector("div[data-alt='Modern blue transit bus on a city street at sunset']").style.backgroundImage = 'url("' + post.bgImage + '")';
+                const headerImage = document.getElementById("post-header-image");
+                if (headerImage) headerImage.style.backgroundImage = 'url("' + post.bgImage + '")';
 
                 // Tag
-                const tagEl = document.querySelector(".inline-flex.items-center.px-3.py-1");
-                tagEl.innerHTML = post.tag;
+                const tagEl = document.getElementById("post-tag");
+                if (tagEl) tagEl.innerHTML = post.tag;
 
                 // Title
-                document.querySelector("h1.text-3xl").innerText = post.title;
+                const titleEl = document.getElementById("post-title");
+                if (titleEl) titleEl.innerText = post.title;
 
                 // Author Img
-                document.querySelector("div[data-alt='Professional portrait of author Carlos Silva']").style.backgroundImage = 'url("' + post.authorImg + '")';
+                const authorImage = document.getElementById("post-author-image");
+                if (authorImage) authorImage.style.backgroundImage = 'url("' + post.authorImg + '")';
 
                 // Author Texts
-                const authorRows = document.querySelectorAll(".flex.flex-col > p");
-                authorRows[0].innerText = post.author;
-                authorRows[1].innerText = post.date + " • 3 min de leitura"; // static time append
+                const authorName = document.getElementById("post-author-name");
+                if (authorName) authorName.innerText = post.author;
+                
+                const postMeta = document.getElementById("post-meta");
+                if (postMeta) postMeta.innerText = post.date + " • 3 min de leitura";
 
                 // Content
-                document.querySelector(".prose").innerHTML = post.content;
+                const contentEl = document.getElementById("post-content");
+                if (contentEl) contentEl.innerHTML = post.content;
             }
         });
 
