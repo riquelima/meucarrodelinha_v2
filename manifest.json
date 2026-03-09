@@ -38,17 +38,73 @@
     "screenshots": [
         {
             "src": "/splashScreen.jpeg",
-            "sizes": "1080x1920",
+            "sizes": "1024x1024",
             "type": "image/jpeg",
             "form_factor": "narrow",
             "label": "Tela Inicial"
         },
         {
             "src": "/splashScreen.jpeg",
-            "sizes": "1920x1080",
+            "sizes": "1024x1024",
             "type": "image/jpeg",
             "form_factor": "wide",
             "label": "Versão Desktop"
         }
-    ]
+    ],
+    "shortcuts": [
+        {
+            "name": "Início",
+            "short_name": "Início",
+            "description": "Ir para a página inicial",
+            "url": "/homepage.html",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Agendar Viagem",
+            "short_name": "Agendar",
+            "description": "Agendar uma nova viagem",
+            "url": "/agendarViagem.html",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    },
+    "display_override": [
+        "window-controls-overlay",
+        "minimal-ui",
+        "standalone"
+    ],
+    "prefer_related_applications": false,
+    "related_applications": [],
+    "share_target": {
+        "action": "/homepage.html",
+        "method": "GET",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    },
+    "iarc_rating_id": "",
+    "widgets": [],
+    "protocol_handlers": [],
+    "file_handlers": [],
+    "note_taking": {
+        "new_note_url": "/homepage.html"
+    },
+    "scope_extensions": [],
+    "edge_side_panel": {
+        "preferred_width": 400
+    }
 }
