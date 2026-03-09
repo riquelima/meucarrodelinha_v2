@@ -56,6 +56,49 @@
             color: #3b82f6;
             text-decoration: underline;
         }
+    
+        /* Global Mobile Native Fixes */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overscroll-behavior-y: none;
+        }
+        input, textarea {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+        /* Native-like click effect */
+        .active-scale {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .active-scale:active {
+            transform: scale(0.96);
+        }
+        /* Entrance Animations */
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .animate-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+        /* Stagger Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+
     </style>
     <style>
         body {

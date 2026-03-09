@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="manifest" href="/manifest.json" />
-    
+
     <!-- Social Share & PWA Icons -->
     <meta property="og:title" content="Meu Carro de Linha Salinas">
     <meta property="og:description" content="Chame seu transporte em Salinas da Margarida, BA">
@@ -13,7 +13,7 @@
     <meta property="og:type" content="website">
     <link rel="icon" type="image/jpeg" href="/splashScreen.jpeg">
     <link rel="apple-touch-icon" href="/splashScreen.jpeg">
-    
+
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
@@ -85,6 +85,49 @@
         .fill-1 {
             font-variation-settings: 'FILL' 1;
         }
+    
+        /* Global Mobile Native Fixes */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overscroll-behavior-y: none;
+        }
+        input, textarea {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+        /* Native-like click effect */
+        .active-scale {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .active-scale:active {
+            transform: scale(0.96);
+        }
+        /* Entrance Animations */
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .animate-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+        /* Stagger Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+
     </style>
     <style>
         body {
@@ -277,9 +320,9 @@
                 </div>
             </div>
         </section>
-        <section class="px-4 py-5">
+        <section class="px-4 py-5 animate-slide-up delay-100">
             <a href="cadastroMotorista.html"
-                class="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary to-blue-700 text-white shadow-md">
+                class="active-scale w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary to-blue-700 text-white shadow-md">
                 <div class="flex items-center gap-3">
                     <div class="bg-white/20 p-2 rounded-lg">
                         <span class="material-symbols-outlined">badge</span>
@@ -292,17 +335,17 @@
                 <span class="material-symbols-outlined text-xl">chevron_right</span>
             </a>
         </section>
-        <section class="px-4 py-4">
+        <section class="px-4 py-4 animate-slide-up delay-200">
             <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Como
                 chamar?</h3>
             <div class="grid grid-cols-2 gap-3">
                 <a href="loginPassageiro.html"
-                    class="flex items-center gap-3 p-4 rounded-xl bg-primary text-white font-semibold shadow-lg shadow-primary/30">
+                    class="active-scale flex items-center gap-3 p-4 rounded-xl bg-primary text-white font-semibold shadow-lg shadow-primary/30">
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">bolt</span>
                     <span>Agora</span>
                 </a>
                 <a href="loginPassageiro.html"
-                    class="flex items-center gap-3 p-4 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold border border-slate-300 dark:border-slate-700">
+                    class="active-scale flex items-center gap-3 p-4 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold border border-slate-300 dark:border-slate-700">
                     <span class="material-symbols-outlined">calendar_today</span>
                     <span>Agendar</span>
                 </a>
@@ -409,7 +452,7 @@
                             class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
                             <div class="flex items-center gap-3 mb-3">
                                 <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-orange-500/20 text-orange-500">
+                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-blue-500/20 text-blue-500">
                                     CM</div>
                                 <div>
                                     <p class="font-bold">Carlos Mendes</p>
@@ -667,7 +710,7 @@
                             class="flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
                             <div class="flex items-center gap-3 mb-3">
                                 <div
-                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-orange-500/20 text-orange-500">
+                                    class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold bg-blue-500/20 text-blue-500">
                                     CM</div>
                                 <div>
                                     <p class="font-bold">Carlos Mendes</p>

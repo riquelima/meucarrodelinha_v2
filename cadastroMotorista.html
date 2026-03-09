@@ -42,6 +42,87 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
+        /* Global Mobile Native Fixes */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overscroll-behavior-y: none;
+        }
+
+        input,
+        textarea {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        /* Native-like click effect */
+        .active-scale {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .active-scale:active {
+            transform: scale(0.96);
+        }
+
+        /* Entrance Animations */
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .animate-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
     </style>
     <style>
         body {
@@ -65,7 +146,8 @@
         </div>
         <div class="w-12"></div>
     </div>
-    <form class="flex flex-col gap-6 px-4 py-8 pb-32" onsubmit="handleMotoristaSignup(event)">
+    <form class="flex flex-col gap-6 px-4 py-8 pb-32 animate-slide-up delay-100"
+        onsubmit="handleMotoristaSignup(event)">
         <div class="space-y-4">
             <label class="flex flex-col">
                 <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Nome Completo</span>
@@ -110,11 +192,19 @@
                         class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
                         placeholder="Ex: Toyota Corolla 2023" type="text" />
                 </label>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
                 <label class="flex flex-col">
                     <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Placa</span>
                     <input id="placaVeiculo" required
                         class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base uppercase"
                         placeholder="ABC-1234" type="text" />
+                </label>
+                <label class="flex flex-col">
+                    <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Cor</span>
+                    <input id="corVeiculo" required
+                        class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
+                        placeholder="Ex: Prata" type="text" />
                 </label>
             </div>
         </div>
@@ -122,18 +212,28 @@
             <h3 class="text-slate-500 dark:text-accent text-xs font-bold uppercase tracking-widest mb-4">Documentação
             </h3>
             <div class="grid grid-cols-2 gap-4">
-                <div
+                <!-- CNH Input Wrapper -->
+                <label for="cnh_file"
                     class="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 text-center cursor-pointer hover:border-primary transition-colors">
-                    <span class="material-symbols-outlined text-primary mb-2 text-3xl">badge</span>
-                    <span class="text-xs font-medium text-slate-700 dark:text-slate-300">CNH</span>
-                    <span class="text-[10px] text-slate-500 dark:text-slate-500 mt-1">Clique para enviar</span>
-                </div>
-                <div
+                    <span id="icon-cnh" class="material-symbols-outlined text-primary mb-2 text-3xl">badge</span>
+                    <span id="text-cnh" class="text-xs font-medium text-slate-700 dark:text-slate-300">CNH</span>
+                    <span id="subtext-cnh" class="text-[10px] text-slate-500 dark:text-slate-500 mt-1">Clique para
+                        enviar</span>
+                    <input type="file" id="cnh_file" class="hidden" accept="image/*,application/pdf"
+                        onchange="previewFile(this, 'cnh')" />
+                </label>
+
+                <!-- Documento Veiculo Input Wrapper -->
+                <label for="doc_file"
                     class="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 text-center cursor-pointer hover:border-primary transition-colors">
-                    <span class="material-symbols-outlined text-primary mb-2 text-3xl">description</span>
-                    <span class="text-xs font-medium text-slate-700 dark:text-slate-300">Doc. Veículo</span>
-                    <span class="text-[10px] text-slate-500 dark:text-slate-500 mt-1">Clique para enviar</span>
-                </div>
+                    <span id="icon-doc" class="material-symbols-outlined text-primary mb-2 text-3xl">description</span>
+                    <span id="text-doc" class="text-xs font-medium text-slate-700 dark:text-slate-300">Doc.
+                        Veículo</span>
+                    <span id="subtext-doc" class="text-[10px] text-slate-500 dark:text-slate-500 mt-1">Clique para
+                        enviar</span>
+                    <input type="file" id="doc_file" class="hidden" accept="image/*,application/pdf"
+                        onchange="previewFile(this, 'doc')" />
+                </label>
             </div>
         </div>
         <div class="flex items-start gap-3 mt-2 mb-10">
@@ -146,8 +246,8 @@
         </div>
         <div
             class="fixed bottom-0 left-0 right-0 p-4 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800">
-            <button type="submit"
-                class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98]">
+            <button id="btn-cadastrar-motorista" type="submit"
+                class="active-scale w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
                 <span class="material-symbols-outlined">person_add</span>
                 Cadastrar Motorista
             </button>
@@ -158,11 +258,34 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/auth.js"></script>
     <script>
+        function previewFile(input, type) {
+            const icon = document.getElementById(`icon-${type}`);
+            const text = document.getElementById(`text-${type}`);
+            const subtext = document.getElementById(`subtext-${type}`);
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                icon.textContent = 'check_circle';
+                icon.classList.remove('text-primary');
+                icon.classList.add('text-green-500');
+
+                text.textContent = 'Anexado';
+                subtext.textContent = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
+            } else {
+                icon.textContent = type === 'cnh' ? 'badge' : 'description';
+                icon.classList.add('text-primary');
+                icon.classList.remove('text-green-500');
+
+                text.textContent = type === 'cnh' ? 'CNH' : 'Doc. Veículo';
+                subtext.textContent = 'Clique para enviar';
+            }
+        }
+
         async function handleMotoristaSignup(event) {
             event.preventDefault();
             const btn = event.target.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
-            btn.innerHTML = 'Aguarde...';
+            btn.innerHTML = 'Aguarde... Fazendo upload...';
             btn.disabled = true;
 
             const nome = document.getElementById('nomeCompleto').value;
@@ -172,11 +295,22 @@
             const telefone = document.getElementById('telefone').value;
             const modelo = document.getElementById('modeloVeiculo').value;
             const placa = document.getElementById('placaVeiculo').value;
+            const cor = document.getElementById('corVeiculo').value;
 
-            const result = await signUpMotorista(nome, email, senha, cpf, telefone, modelo, placa);
+            const fileCnh = document.getElementById('cnh_file').files[0];
+            const fileDoc = document.getElementById('doc_file').files[0];
+
+            if (!fileCnh || !fileDoc) {
+                alert('Por favor, anexe a CNH e o Documento do Veículo antes de prosseguir.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const result = await signUpMotorista(nome, email, senha, cpf, telefone, modelo, placa, cor, fileCnh, fileDoc);
             if (result.success) {
                 document.body.classList.add('fade-out');
-                setTimeout(() => { window.location.href = 'motorista.html'; }, 200);
+                setTimeout(() => { window.location.href = 'confirmacaoCadastroMotorista.html'; }, 200);
             } else {
                 btn.innerHTML = originalText;
                 btn.disabled = false;

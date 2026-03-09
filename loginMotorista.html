@@ -68,6 +68,49 @@
         .animate-subtle-pulse {
             animation: custom-pulse 2s infinite ease-in-out;
         }
+    
+        /* Global Mobile Native Fixes */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overscroll-behavior-y: none;
+        }
+        input, textarea {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+        /* Native-like click effect */
+        .active-scale {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .active-scale:active {
+            transform: scale(0.96);
+        }
+        /* Entrance Animations */
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .animate-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+        /* Stagger Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+
     </style>
     <style>
         body {
@@ -152,9 +195,9 @@
         </a>
 
         <main class="flex-1 flex flex-col px-6 pt-4 overflow-y-auto">
-            <div class="@container w-full mb-8 relative">
+            <div class="@container w-full mb-8 relative animate-fade-in">
                 <div class="absolute -top-2 -right-1 z-10 animate-float">
-                    <a class="flex items-center gap-1.5 bg-primary text-white text-[10px] font-bold px-3 py-2 rounded-full shadow-lg shadow-primary/40 border border-primary/50 animate-subtle-pulse"
+                    <a class="active-scale flex items-center gap-1.5 bg-primary text-white text-[10px] font-bold px-3 py-2 rounded-full shadow-lg shadow-primary/40 border border-primary/50 animate-subtle-pulse"
                         href="cadastroMotorista.html">
                         <span class="material-symbols-outlined text-[14px] fill-1">person_add</span>
                         QUERO SER MOTORISTA
@@ -170,11 +213,11 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-8">
+            <div class="mb-8 animate-slide-up delay-100">
                 <p class="text-slate-400 text-base font-normal">Faça login para gerenciar suas rotas, passageiros e
                     ganhos diários.</p>
             </div>
-            <form class="space-y-6" onsubmit="handleLoginMotorista(event)">
+            <form class="space-y-6 animate-slide-up delay-200" onsubmit="handleLoginMotorista(event)">
                 <div class="space-y-4">
                     <div class="flex flex-col gap-2">
                         <label class="text-slate-300 text-sm font-medium ml-1">E-mail</label>

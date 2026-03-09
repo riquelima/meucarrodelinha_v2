@@ -6,7 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Tenta pegar a sessão atual
-    const { data: { session }, error } = await supabase.auth.getSession();
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
 
     if (error || !session) {
         // Redireciona para fora (tela inicial) se não estiver logado
