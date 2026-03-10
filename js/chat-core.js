@@ -129,6 +129,83 @@ class ChatManager {
                 console.error("Erro ao renderizar localização:", e);
                 div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar mapa]</div>`;
             }
+        } else if (msg.conteudo.startsWith('[TRIP_REQUEST]')) {
+            try {
+                const data = JSON.parse(msg.conteudo.replace('[TRIP_REQUEST]', ''));
+                div.innerHTML = `
+                    <div class="bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/10 w-full">
+                        <h3 class="text-primary font-bold text-sm uppercase tracking-wider mb-2">Nova Solicitação de Viagem</h3>
+                        <div class="relative h-32 w-full bg-slate-700 rounded-lg overflow-hidden mb-3 border border-primary/20">
+                            <img alt="Route map" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-nJY_myfbt-ppHWtzIUPIArtqnek1l4npkifJyvzesWDhO3RvhSRCrbbxkq1hM6IiwYE6ZuJJaBTx2RQlyjeTqbitqZUL2jVvdAdhReuyIq8vmvZ8v7adAvbwbitggYbs6zjx-PtEW1a5BV-NQqFLLbYI2kFhPWwLeoCBJ2B9rdScu_XifLi9oS0nOzSjXlka5xmHeeQD65yRPlR4qtAlXg7WT4AdUpXZkahZVgTS0b59fjN5z9uiyCSjew6oqkz09Jxgh23ydrWo"/>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-4xl drop-shadow-lg" style="font-variation-settings: 'FILL' 1">route</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3 mb-4">
+                            <div class="flex gap-3 text-left">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="material-symbols-outlined text-success text-lg" style="font-variation-settings: 'FILL' 1">fiber_manual_record</span>
+                                    <div class="w-0.5 h-4 bg-slate-600"></div>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[10px] text-slate-500 font-bold uppercase">ORIGEM</p>
+                                    <p class="text-sm font-medium text-slate-200">${data.origem}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 text-left">
+                                <div class="flex flex-col items-center">
+                                    <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-[10px] text-slate-500 font-bold uppercase">DESTINO</p>
+                                    <p class="text-sm font-medium text-slate-200">${data.destino}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full bg-primary/20 hover:bg-primary/30 text-primary font-bold py-2 rounded-lg flex items-center justify-center gap-2 transition-colors border border-primary/30">
+                            <span class="material-symbols-outlined text-lg">map</span>
+                            <span class="text-sm">Ver no Maps</span>
+                        </button>
+                    </div>
+                    <div class="text-[9px] text-slate-500 mt-1">${time}</div>
+                `;
+            } catch (e) {
+                console.error("Erro ao renderizar solicitação:", e);
+                div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar solicitação]</div>`;
+            }
+        } else if (msg.conteudo.startsWith('[VALUE_PROPOSAL]')) {
+            try {
+                const data = JSON.parse(msg.conteudo.replace('[VALUE_PROPOSAL]', ''));
+                div.innerHTML = `
+                    <div class="bg-slate-900/40 border border-primary/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full">
+                        <div class="flex flex-col items-center text-center gap-1">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Proposta de Valor</h4>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-xs font-medium text-slate-500">VALOR SUGERIDO:</span>
+                                <span class="text-lg font-bold text-primary">R$ ${data.valor}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
+                                <input class="w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="number" value="${data.valor.replace(',', '.')}" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button class="bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200">+ R$ 5,00</button>
+                                <button class="bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200">+ R$ 10,00</button>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 pt-2">
+                            <button class="flex-1 border border-slate-600 text-slate-400 font-bold py-3 rounded-xl hover:bg-slate-800 transition-colors">Recusar</button>
+                            <button class="flex-[2] bg-success hover:bg-success/90 text-white font-bold py-3 rounded-xl shadow-lg shadow-success/20 transition-all active:scale-[0.98]">Aceitar Corrida</button>
+                        </div>
+                    </div>
+                    <div class="text-[9px] text-slate-500 mt-1">${time}</div>
+                `;
+            } catch (e) {
+                console.error("Erro ao renderizar proposta:", e);
+                div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar proposta]</div>`;
+            }
         } else {
             div.innerHTML = `
                 <div class="flex items-end gap-2 ${isMe ? 'flex-row-reverse' : ''}">

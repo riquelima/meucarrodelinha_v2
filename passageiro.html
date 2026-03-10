@@ -426,8 +426,73 @@
                                 return;
                             }
 
-                            // Simulando a persistência da solicitação no banco se necessário no futuro
-                            window.location.href = 'viagemSolicitada.html';
+                            // 1. Obter dados para o broadcast
+                            const destino = destinoInput.value.trim();
+                            const origem = "Localização Atual (Salinas)"; // Pode ser melhorado pegando o endereço reverso se disponível
+
+                            // 2. Buscar todos os motoristas
+                            async function broadcastTripRequest() {
+                                try {
+                                    // Feedback visual de carregamento
+                                    const btn = document.getElementById('btn-request-ride');
+                                    const originalText = btn.innerHTML;
+                                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Enviando solicitações...';
+                                    btn.disabled = true;
+
+                                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                                    if (!user) {
+                                        window.location.href = 'loginPassageiro.html';
+                                        return;
+                                    }
+
+                                    // Buscar motoristas aprovados e online (ou todos se preferir maior alcance)
+                                    const { data: motoristas, error: errorMot } = await window.supabaseClient
+                                        .from('motoristas')
+                                        .select('usuario_id')
+                                        .eq('status_aprovacao', 'aprovado');
+
+                                    if (errorMot) throw errorMot;
+
+                                    if (motoristas && motoristas.length > 0) {
+                                        const valorSugerido = "85,00"; // Valor fixo ou dinâmico se houver cálculo
+
+                                        const tripData = JSON.stringify({ origem, destino });
+                                        const proposalData = JSON.stringify({ valor: valorSugerido });
+
+                                        const mensagens = [];
+                                        motoristas.forEach(m => {
+                                            mensagens.push({
+                                                remetente_id: user.id,
+                                                destinatario_id: m.usuario_id,
+                                                conteudo: `[TRIP_REQUEST]${tripData}`
+                                            });
+                                            mensagens.push({
+                                                remetente_id: user.id,
+                                                destinatario_id: m.usuario_id,
+                                                conteudo: `[VALUE_PROPOSAL]${proposalData}`
+                                            });
+                                        });
+
+                                        const { error: errorMsg } = await window.supabaseClient
+                                            .from('mensagens')
+                                            .insert(mensagens);
+
+                                        if (errorMsg) throw errorMsg;
+                                    }
+
+                                    // Redirecionar após o broadcast bem sucedido
+                                    window.location.href = 'viagemSolicitada.html';
+
+                                } catch (error) {
+                                    console.error("Erro no broadcast:", error);
+                                    alert("Houve um erro ao enviar sua solicitação. Tente novamente.");
+                                    const btn = document.getElementById('btn-request-ride');
+                                    btn.innerHTML = 'Solicitar Viagem';
+                                    btn.disabled = false;
+                                }
+                            }
+
+                            broadcastTripRequest();
                         });
                     </script>
                 </div>
