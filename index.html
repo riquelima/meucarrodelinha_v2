@@ -250,12 +250,8 @@
         <div class="relative z-10 flex flex-col items-center gap-8 px-6 text-center animate-logo-entrance">
             <!-- Logo Container -->
             <div
-                class="flex items-center justify-center w-[180px] aspect-[9/16] rounded-[22px] bg-primary shadow-[0_0_40px_rgba(30,63,174,0.4)] overflow-hidden relative">
-                <video id="splashVideo" autoplay muted loop playsinline webkit-playsinline preload="auto"
-                    poster="splashScreen.jpeg" class="w-full h-full object-cover border-none outline-none">
-                    <source src="https://i.imgur.com/nPfHf20.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                class="flex items-center justify-center w-[280px] aspect-square rounded-[22px] overflow-hidden relative">
+                <img src="gifSplashScreen.gif" alt="Splash Screen Animation" class="w-full h-full object-contain">
             </div>
             <!-- App Identity -->
             <div class="space-y-2">
@@ -290,28 +286,6 @@
             </div>
         </div>
     </div>
-    <style>
-        /* Hide any default video controls or play overlays */
-        video::-webkit-media-controls {
-            display: none !important;
-        }
-
-        video::-webkit-media-controls-enclosure {
-            display: none !important;
-        }
-
-        video::-webkit-media-controls-panel {
-            display: none !important;
-        }
-
-        video::-webkit-media-controls-play-button {
-            display: none !important;
-        }
-
-        video::-webkit-media-controls-start-playback-button {
-            display: none !important;
-        }
-    </style>
     <script>
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
@@ -326,42 +300,7 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('splashVideo');
-            if (video) {
-                // Ensure muted is set (required for autoplay)
-                video.muted = true;
-                video.setAttribute('muted', '');
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
-
-                // Force play with promise handling
-                const playVideo = async () => {
-                    try {
-                        await video.play();
-                    } catch (err) {
-                        console.log("Autoplay failed, retrying with user interaction logic if needed:", err);
-                        // Retry once more with mute forced
-                        video.muted = true;
-                        try {
-                            await video.play();
-                        } catch (e) {
-                            console.error("Autoplay completely failed:", e);
-                        }
-                    }
-                };
-
-                playVideo();
-
-                // Backup: try playing on any first interaction (though splash should be auto)
-                document.body.addEventListener('click', () => {
-                    if (video.paused) {
-                        video.play().catch(e => console.error("Click play failed:", e));
-                    }
-                }, { once: true });
-            }
-        });
-
+        // Auto-redirect after splash
         setTimeout(() => {
             window.location.href = 'homepage.html';
         }, 5000);
