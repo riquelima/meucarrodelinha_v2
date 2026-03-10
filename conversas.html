@@ -177,8 +177,9 @@
                                             ${lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' :
                                 lastMsg.conteudo.startsWith('[TRIP_REQUEST]') ? '🚗 Solicitação de Viagem' :
                                     lastMsg.conteudo.startsWith('[VALUE_PROPOSAL]') ? '💰 Proposta de Valor' :
-                                        lastMsg.conteudo.startsWith('[TRIP_ACCEPTED]') ? '✅ Viagem Aceita' :
-                                            lastMsg.conteudo}
+                                        lastMsg.conteudo.startsWith('[DRIVER_PROPOSAL]') ? '💰 Proposta do Motorista' :
+                                            lastMsg.conteudo.startsWith('[TRIP_ACCEPTED]') ? '✅ Viagem Aceita' :
+                                                lastMsg.conteudo}
                                         </p>
                                         ${conv.unreadCount > 0 ? `
                                             <div class="flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">${conv.unreadCount}</div>

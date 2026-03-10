@@ -189,18 +189,18 @@ class ChatManager {
                         <div class="flex flex-col gap-3">
                             <div class="relative">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                <input class="w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="text" value="${data.valor}" />
+                                <input class="proposal-input w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="text" value="${data.valor}" />
                             </div>
                             <div class="grid grid-cols-2 gap-2">
-                                <button class="bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200">+ R$ 5,00</button>
-                                <button class="bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200">+ R$ 10,00</button>
+                                <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="5">+ R$ 5,00</button>
+                                <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="10">+ R$ 10,00</button>
                             </div>
                         </div>
                         <div class="flex gap-3 pt-2">
                             <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-red-900/20 active:scale-[0.98]">
                                 Recusar
                             </button>
-                            <button class="flex-[2] bg-success hover:bg-success/90 text-white font-bold py-3 rounded-xl shadow-lg shadow-success/20 transition-all active:scale-[0.98]">
+                            <button class="flex-[2] bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-900/20 transition-all active:scale-[0.98]">
                                 Aceitar Corrida
                             </button>
                         </div>
@@ -212,19 +212,50 @@ class ChatManager {
                 div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar proposta]</div>`;
             }
         } else if (msg.conteudo.startsWith('[TRIP_ACCEPTED]')) {
-            div.innerHTML = `
-                <div class="w-full flex justify-center my-4 animate-bounce">
-                    <div class="bg-success/20 border border-success/30 px-6 py-4 rounded-2xl flex flex-col items-center gap-2 backdrop-blur-md">
-                        <div class="size-12 rounded-full bg-success flex items-center justify-center text-white shadow-lg shadow-success/20">
-                            <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">check_circle</span>
+            // Mensagem de sistema silenciosa, não renderiza card visual no chat
+            // Pode ser usado apenas para atualizar status ou disparar notificações
+            return;
+        } else if (msg.conteudo.startsWith('[DRIVER_PROPOSAL]')) {
+            try {
+                const data = JSON.parse(msg.conteudo.replace('[DRIVER_PROPOSAL]', ''));
+                div.innerHTML = `
+                    <div class="flex flex-col gap-2 w-full">
+                        <div class="ml-auto bg-slate-900/40 border border-primary/20 rounded-xl overflow-hidden shadow-xl w-full max-w-sm">
+                            <div class="h-24 bg-center bg-no-repeat bg-cover relative grayscale-[0.3]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAmZ3BknIvtNQ7SHXGNgqayylCjUfoSSuIdfAojUQR42TKU-gUCFyFzpGeolrciNsQiWhcqe7cizHd1EsNgxfWCx4cMz7Z8qRwcTEETH2pJ21r6abXRIokZa5S8_u0x3uqm7EulKut-fVA-5o3KBfhZ5fZIb2xpGLlzyCc4cotrvSl-7hNhJhfiLjY3YHal7jJhg0f1wIFNCsH5PdAu7gUf3SBYUSW1zwwQOsC3CqhtWV0v1SN0Syjrlt3GjHAgODoKelQLc2CzlgQ')">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                            </div>
+                            <div class="p-4 flex flex-col gap-4">
+                                <div class="flex justify-between items-start">
+                                    <div class="space-y-1">
+                                        <p class="text-primary text-[10px] font-bold uppercase tracking-wider">Proposta de Valor</p>
+                                        <p class="text-slate-100 text-2xl font-black leading-tight">R$ ${data.valor}</p>
+                                        <p class="text-slate-500 text-[10px]">Valor sugerido para a corrida selecionada.</p>
+                                    </div>
+                                    <span class="material-symbols-outlined text-primary/40 text-sm">info</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-bold text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                                        Concordar com o Valor
+                                    </button>
+                                    <div class="flex gap-2">
+                                        <button class="flex-1 border border-primary/30 hover:bg-primary/5 text-primary py-2 rounded-lg font-bold text-xs transition-colors">
+                                            Negociar
+                                        </button>
+                                        <button class="flex-1 border border-slate-700 hover:bg-slate-800 text-slate-500 py-2 rounded-lg font-bold text-xs transition-colors">
+                                            Recusar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-center">
-                            <h3 class="text-success font-bold text-sm">Viagem Confirmada!</h3>
-                            <p class="text-slate-400 text-[10px]">O motorista aceitou sua solicitação.</p>
-                        </div>
+                        <div class="text-[9px] text-slate-500 mt-1">${time}</div>
                     </div>
-                </div>
-            `;
+                `;
+            } catch (e) {
+                console.error("Erro ao renderizar proposta do motorista:", e);
+                div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro na proposta]</div>`;
+            }
         } else {
             div.innerHTML = `
                 <div class="flex items-end gap-2 ${isMe ? 'flex-row-reverse' : ''}">
@@ -402,6 +433,15 @@ class ChatManager {
                 this.handleAcceptTrip(btn);
             } else if (btn.textContent.includes('Recusar')) {
                 this.handleDeclineTrip(btn);
+            } else if (btn.classList.contains('btn-inc-val')) {
+                const card = btn.closest('.bg-slate-900/40');
+                const input = card?.querySelector('.proposal-input');
+                if (input) {
+                    let currentVal = parseFloat(input.value.replace(',', '.')) || 0;
+                    const increment = parseFloat(btn.dataset.val) || 0;
+                    currentVal += increment;
+                    input.value = currentVal.toFixed(2).replace('.', ',');
+                }
             }
         });
     }
@@ -417,14 +457,32 @@ class ChatManager {
             return;
         }
 
+        // Pegar o valor atual do input do card de proposta
+        const cardParent = btn.closest('.bg-slate-900/40');
+        const valueInput = cardParent?.querySelector('input');
+        const acceptedValue = valueInput?.value || "85,00";
+
         // Feedback visual
         const originalContent = btn.innerHTML;
         btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
         btn.disabled = true;
 
         try {
-            // Enviar mensagem de aceitação
-            const { error } = await this.supabase
+            // Enviar mensagem de Proposta do Motorista (Card de Resposta)
+            const proposalData = JSON.stringify({ valor: acceptedValue });
+            const { error: errorProposal } = await this.supabase
+                .from('mensagens')
+                .insert({
+                    remetente_id: this.currentUser.id,
+                    destinatario_id: this.targetUserId,
+                    viagem_id: currentViagemId,
+                    conteudo: `[DRIVER_PROPOSAL]${proposalData}`
+                });
+
+            if (errorProposal) throw errorProposal;
+
+            // Enviar banner de aceitação (Opcional - mas mantém o feedback visual de confirmada)
+            await this.supabase
                 .from('mensagens')
                 .insert({
                     remetente_id: this.currentUser.id,
@@ -432,8 +490,6 @@ class ChatManager {
                     viagem_id: currentViagemId,
                     conteudo: '[TRIP_ACCEPTED]'
                 });
-
-            if (error) throw error;
 
             // Atualizar status da viagem
             await this.supabase

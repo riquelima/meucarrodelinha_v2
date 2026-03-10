@@ -90,8 +90,9 @@ class ConversasMotorista {
             const lastText = lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' :
                 lastMsg.conteudo.startsWith('[TRIP_REQUEST]') ? '🚗 Solicitação de Viagem' :
                     lastMsg.conteudo.startsWith('[VALUE_PROPOSAL]') ? '💰 Proposta de Valor' :
-                        lastMsg.conteudo.startsWith('[TRIP_ACCEPTED]') ? '✅ Viagem Aceita' :
-                            lastMsg.conteudo;
+                        lastMsg.conteudo.startsWith('[DRIVER_PROPOSAL]') ? '💰 Proposta do Motorista' :
+                            lastMsg.conteudo.startsWith('[TRIP_ACCEPTED]') ? '✅ Viagem Aceita' :
+                                lastMsg.conteudo;
 
             const card = document.createElement('a');
             card.href = `chatMotorista.html?userId=${target.id}&name=${encodeURIComponent(target.nome)}&photo=${encodeURIComponent(photoUrl)}`;

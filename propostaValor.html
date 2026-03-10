@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- TopAppBar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark border-b border-primary/10 p-4 justify-between shrink-0">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Carlos</h2>
+<p class="text-primary text-xs font-medium">Motorista • 4.9 ★</p>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Message Date Divider -->
+<div class="flex justify-center">
+<span class="bg-primary/5 text-primary/60 text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Hoje</span>
+</div>
+<!-- Driver Message -->
+<div class="flex items-end gap-3 max-w-[85%]">
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shrink-0 border border-primary/30" data-alt="Close up portrait of driver Carlos" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYIKIMOOVjhHmo-AI9WFiluSJXL-ArLrGYn00eLdhvAMs_ldCyQy_FGr7AoApI3bg9gM6SQWf_gjvnqO3noiAQ8nKEcqCgIp191IL6dWZdvzP-lxoTBr2bwmC8cT828QMdEtrMfwZ1EyqssTq-coE7-EUd5RJ5OlMs9D7uENW0EbfPiayPLm_ekAvdxOoRkV2IwKWnVXjtXTbpuDyw1Ruopq4dCygegq_wM8TT7m57gEYllO0y4O7wFTaojT4j_eHIc25OF-45r45V");'></div>
+<div class="flex flex-col gap-1 items-start">
+<p class="text-primary/70 text-[12px] font-semibold ml-1">Carlos</p>
+<div class="rounded-xl rounded-bl-none px-4 py-3 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm">
+<p class="text-sm">Olá! Verifiquei seu trajeto. É um pouco fora da minha rota habitual, mas posso fazer. Aqui está minha proposta:</p>
+</div>
+</div>
+</div>
+<!-- Price Proposal Card -->
+<div class="flex justify-start w-full @container">
+<div class="ml-12 w-full max-w-sm overflow-hidden rounded-xl bg-white dark:bg-slate-900 border border-primary/20 shadow-xl shadow-black/20">
+<div class="w-full h-32 bg-center bg-no-repeat bg-cover relative" data-alt="Map showing the ride route from A to B" data-location="São Paulo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDAmZ3BknIvtNQ7SHXGNgqayylCjUfoSSuIdfAojUQR42TKU-gUCFyFzpGeolrciNsQiWhcqe7cizHd1EsNgxfWCx4cMz7Z8qRwcTEETH2pJ21r6abXRIokZa5S8_u0x3uqm7EulKut-fVA-5o3KBfhZ5fZIb2xpGLlzyCc4cotrvSl-7hNhJhfiLjY3YHal7jJhg0f1wIFNCsH5PdAu7gUf3SBYUSW1zwwQOsC3CqhtWV0v1SN0Syjrlt3GjHAgODoKelQLc2CzlgQ");'>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<p class="text-primary text-xs font-bold uppercase tracking-wider">Proposta de Valor</p>
+<p class="text-blue-500 dark:text-blue-400 text-3xl font-black leading-tight">R$ 85,00</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Valor sugerido para a corrida selecionada.</p>
+</div>
+<span class="material-symbols-outlined text-primary/40">info</span>
+</div>
+<div class="flex flex-col gap-2">
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-bold text-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                Concordar com o Valor
+                            </button>
+<div class="flex gap-2">
+<button class="flex-1 border border-primary/30 hover:bg-primary/5 text-primary py-2 rounded-lg font-bold text-xs transition-colors">
+                                    Negociar
+                                </button>
+<button class="flex-1 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 py-2 rounded-lg font-bold text-xs transition-colors">
+                                    Recusar
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Passenger Message -->
+<div class="flex items-end gap-3 justify-end ml-auto max-w-[85%]">
+<div class="flex flex-col gap-1 items-end">
+<p class="text-primary/70 text-[12px] font-semibold mr-1">Você</p>
+<div class="rounded-xl rounded-br-none px-4 py-3 bg-primary text-white shadow-sm">
+<p class="text-sm">Vou analisar a proposta agora. Um minuto.</p>
+</div>
+</div>
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shrink-0 border border-primary/30" data-alt="Passenger profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDJTcXwSjaEILxMp-vXDwnBgwlxHCUAyyg9qkUoqEWufZXMjzQtgGvgQ4iZaok1EnbkXAJJ9KoHQeZK5RNSB8CbFXj95v3mB9g0CV3zhLwsrF1HIgs7zmT8ouZf0CA50TCCRcLicfTBlARd96qKnhwENiXRJsrjrlZw8SuywBKAbPxaUcrzhVB4lQ7KKfNZprbsy3tXkFdhkUL8Xpkj1kVo3-j1pMRT_hbd42y4IZzGV-secgXjsopEqG7P2Zv3jCbBMWl6EE3Qx_k0");'></div>
+</div>
+</div>
+<!-- Input Bar -->
+<div class="p-4 bg-background-light dark:bg-background-dark border-t border-primary/10 shrink-0">
+<div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-2 border border-slate-200 dark:border-slate-700">
+<button class="text-primary/60 hover:text-primary">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-1 placeholder:text-slate-500" placeholder="Escreva sua mensagem..." type="text"/>
+<button class="bg-primary text-white size-8 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+<!-- Bottom Indicator for mobile -->
+<div class="w-24 h-1 bg-slate-300 dark:bg-slate-700 mx-auto mt-4 rounded-full opacity-50"></div>
+</div>
+</div>
+</body></html>
