@@ -20,6 +20,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tipoUsuario = user.user_metadata?.tipo_usuario;
     const currentPath = window.location.pathname;
 
+    // Verificação de Foto de Perfil Obrigatória para Motoristas
+    if (tipoUsuario === 'motorista') {
+        const { data: userData } = await supabaseClient
+            .from('usuarios')
+            .select('foto_perfil_url')
+            .eq('id', user.id)
+            .single();
+
+        if (userData && !userData.foto_perfil_url && !currentPath.includes('perfilMotorista.html')) {
+            window.location.href = 'perfilMotorista.html';
+            return;
+        }
+    }
+
     if (currentPath.includes('motorista.html') && tipoUsuario !== 'motorista' && tipoUsuario !== 'admin') {
         const confirmMsg = confirm("Acesso negado. Você precisa ser motorista para acessar aqui. Voltar pro início?");
         if (confirmMsg) {

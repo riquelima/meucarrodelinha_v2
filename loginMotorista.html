@@ -309,15 +309,37 @@
 
             const result = await signIn(email, password);
             if (result.success) {
-                // Checa se é motorista real
-                const session = await getCurrentUser();
-                if (session && session.user_metadata?.tipo_usuario === 'motorista') {
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => { window.location.href = 'motorista.html'; }, 200);
-                } else {
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => { window.location.href = 'passageiro.html'; }, 200);
+                // Busca perfil completo para verificar tipo e foto
+                const { data: userData, error: userError } = await supabaseClient
+                    .from('usuarios')
+                    .select('tipo_usuario, foto_perfil_url')
+                    .eq('id', result.data.user.id)
+                    .single();
+
+                if (userError) {
+                    console.error('Erro ao buscar dados do usuário:', userError);
+                    // Fallback para comportamento anterior caso falhe
+                    if (result.data.user.user_metadata?.tipo_usuario === 'motorista') {
+                        window.location.href = 'motorista.html';
+                    } else {
+                        window.location.href = 'passageiro.html';
+                    }
+                    return;
                 }
+
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    if (userData.tipo_usuario === 'motorista') {
+                        // Se não tem foto, vai direto pro perfil
+                        if (!userData.foto_perfil_url) {
+                            window.location.href = 'perfilMotorista.html';
+                        } else {
+                            window.location.href = 'motorista.html';
+                        }
+                    } else {
+                        window.location.href = 'passageiro.html';
+                    }
+                }, 200);
             } else {
                 btn.innerHTML = originalText;
                 btn.disabled = false;

@@ -413,7 +413,8 @@ class ChatManager {
     setupEventListeners() {
         this.sendBtn?.addEventListener('click', () => this.sendMessage());
         document.getElementById('btn-send-location')?.addEventListener('click', () => this.sendLocation());
-        document.getElementById('btn-call-driver')?.addEventListener('click', () => {
+        const callBtn = document.getElementById('btn-call-driver') || document.getElementById('btn-call-user');
+        callBtn?.addEventListener('click', () => {
             if (this.targetUserPhone) {
                 window.location.href = `tel:${this.targetUserPhone}`;
             } else {
@@ -431,8 +432,14 @@ class ChatManager {
 
             if (btn.textContent.includes('Aceitar Corrida')) {
                 this.handleAcceptTrip(btn);
-            } else if (btn.textContent.includes('Recusar')) {
+            } else if (btn.textContent.includes('Recusar') && this.isMotorista) {
                 this.handleDeclineTrip(btn);
+            } else if (btn.textContent.includes('Negociar')) {
+                this.handlePassengerAction(btn, 'negotiate');
+            } else if (btn.textContent.includes('Concordar com o Valor')) {
+                this.handlePassengerAction(btn, 'agree');
+            } else if (btn.textContent.includes('Recusar') && !this.isMotorista) {
+                this.handlePassengerAction(btn, 'decline');
             } else if (btn.classList.contains('btn-inc-val')) {
                 const card = btn.closest('.bg-slate-900/40');
                 const input = card?.querySelector('.proposal-input');
@@ -444,6 +451,41 @@ class ChatManager {
                 }
             }
         });
+    }
+
+    async handlePassengerAction(btn, action) {
+        // Obter nome do motorista do contexto da página
+        const driverNameEl = document.getElementById('driver-name');
+        const driverName = driverNameEl ? driverNameEl.textContent.trim() : 'Motorista';
+
+        let messageText = '';
+
+        switch (action) {
+            case 'negotiate':
+                messageText = `Olá ${driverName}, você aceita negociar o valor?`;
+                break;
+            case 'agree':
+                messageText = `Olá ${driverName}, Eu concordo com o valor. Me avise quando estiver a caminho.`;
+                break;
+            case 'decline':
+                messageText = `Olá ${driverName}, infelizmente precisarei cancelar a solicitação. Muito obrigado!`;
+                break;
+        }
+
+        if (messageText) {
+            // Preencher input e enviar
+            if (this.input) {
+                this.input.value = messageText;
+                await this.sendMessage();
+            }
+
+            // Opcional: Feedback visual ou desabilitar botões após ação
+            const card = btn.closest('.bg-slate-900/40');
+            if (card) {
+                card.style.opacity = '0.7';
+                card.querySelectorAll('button').forEach(b => b.disabled = true);
+            }
+        }
     }
 
     async handleAcceptTrip(btn) {

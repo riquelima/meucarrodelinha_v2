@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (profile) {
         // Show Full Name
         document.getElementById('profile-name').textContent = profile.nome;
-        
+
         // Update Avatar
         if (profile.foto_perfil_url) {
             document.getElementById('profile-avatar').src = profile.foto_perfil_url;
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Success feedback
             // Unlock app navigation if it was locked
             unlockApp();
-            
+
             // Show toast or alert (optional)
             console.log('Foto atualizada com sucesso!');
 
@@ -102,13 +102,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Visual cue: Pulse animation on avatar
         const avatarContainer = document.getElementById('profile-avatar').parentElement;
         avatarContainer.classList.remove('border-primary/20');
-        avatarContainer.classList.add('animate-pulse-ring', 'border-red-500', 'border-4');
-        
-        // Show instruction toast
-        const toast = document.createElement('div');
-        toast.className = 'fixed top-4 left-4 right-4 bg-red-500 text-white p-4 rounded-xl shadow-lg z-50 text-center animate-bounce';
-        toast.innerHTML = '<p class="font-bold">Foto Obrigatória!</p><p class="text-xs">Para começar a receber corridas, adicione uma foto de perfil.</p>';
-        document.body.appendChild(toast);
+        avatarContainer.classList.add('radar-pulse-indicator', 'border-primary', 'border-4');
+
+        // Exibe o overlay de bloqueio
+        const overlay = document.getElementById('photo-mandatory-overlay');
+        if (overlay) overlay.classList.remove('hidden');
 
         // Lock navigation (Simple implementation: disable links)
         const navLinks = document.querySelectorAll('nav a');
@@ -116,6 +114,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             link.style.pointerEvents = 'none';
             link.style.opacity = '0.5';
         });
+
+        // Bloqueia scroll do body
+        document.body.style.overflow = 'hidden';
     }
 
     function unlockApp() {
@@ -125,9 +126,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             link.style.pointerEvents = 'auto';
             link.style.opacity = '1';
         });
-        
-        // Remove toast
-        const toast = document.querySelector('.fixed.top-4.bg-red-500');
-        if (toast) toast.remove();
+
+        // Remove pulse animation
+        const avatarContainer = document.getElementById('profile-avatar').parentElement;
+        avatarContainer.classList.remove('radar-pulse-indicator', 'border-primary', 'border-4');
+        avatarContainer.classList.add('border-primary/20');
+
+        // Escurece o overlay e remove
+        const overlay = document.getElementById('photo-mandatory-overlay');
+        if (overlay) overlay.classList.add('hidden');
+
+        // Restaura scroll do body
+        document.body.style.overflow = 'auto';
     }
 });
