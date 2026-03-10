@@ -603,11 +603,46 @@
                 const map = L.map('homepage-map', {
                     zoomControl: false,
                     attributionControl: false
-                }).setView([-12.8700, -38.8000], 14); // Salinas da Margarida approx coords
+                }).setView([-12.8700, -38.8000], 14); // Default: Salinas da Margarida
 
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                     maxZoom: 20
                 }).addTo(map);
+
+                // Request User Location
+                if ('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            const userLat = latitude;
+                            const userLng = longitude;
+
+                            // Update map view
+                            map.setView([userLat, userLng], 16);
+
+                            // Add user marker
+                            const userIcon = L.divIcon({
+                                className: 'user-location-marker',
+                                html: `<div class="size-4 bg-blue-500 rounded-full border-2 border-white shadow-lg pulse-ring"></div>`,
+                                iconSize: [16, 16],
+                                iconAnchor: [8, 8]
+                            });
+
+                            L.marker([userLat, userLng], { icon: userIcon }).addTo(map)
+                                .bindPopup('Sua localização atual')
+                                .openPopup();
+                        },
+                        (error) => {
+                            console.warn('Geolocation denied or failed:', error.message);
+                            // Optional: Show a toast or fallback behavior
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 0
+                        }
+                    );
+                }
             }
         });
 
