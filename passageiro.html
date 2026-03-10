@@ -956,10 +956,17 @@
                     }
 
                     for (const motorista of motoristas) {
-                        // Handle potential array from Supabase join
+                        // Access joined user data safely
                         const usuario = Array.isArray(motorista.usuarios) ? motorista.usuarios[0] : motorista.usuarios;
-                        const displayName = usuario ? usuario.nome : `Motorista ${motorista.modelo_veiculo}`;
-                        const photoUrl = (usuario && usuario.foto_perfil_url) ? usuario.foto_perfil_url : `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random`;
+
+                        // Extract name and photo with fallbacks
+                        const displayName = usuario?.nome || `Motorista ${motorista.modelo_veiculo || ''}`;
+                        let photoUrl = usuario?.foto_perfil_url;
+
+                        // If no database photo, use UI-avatars as FIRST fallback
+                        if (!photoUrl) {
+                            photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random&size=128`;
+                        }
 
                         const rating = motorista.avaliacao_media || (4.5 + Math.random() * 0.5);
                         const timeAway = Math.floor(Math.random() * 10) + 2;

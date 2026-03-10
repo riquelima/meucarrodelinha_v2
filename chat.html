@@ -264,14 +264,37 @@
             document.getElementById('driver-plate').textContent = plate;
 
             const imgEl = document.getElementById('driver-photo');
-            if (photo && photo !== 'null' && photo !== 'undefined') {
-                imgEl.src = photo;
-            } else {
-                // Fallback placeholder
-                imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random&size=128';
+
+            async function setPhoto(url) {
+                if (url && url !== 'null' && url !== 'undefined') {
+                    imgEl.src = url;
+                } else {
+                    imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random&size=128';
+                }
             }
 
-            // Fallback for image load error
+            setPhoto(photo);
+
+            // Failsafe: If we only have initials or default, try fetching real photo from DB
+            const targetId = params.get('userId') || params.get('driverId');
+            if (targetId && (!photo || photo.includes('ui-avatars.com'))) {
+                (async () => {
+                    try {
+                        const { data: usuario } = await window.supabaseClient
+                            .from('usuarios')
+                            .select('foto_perfil_url')
+                            .eq('id', targetId)
+                            .single();
+
+                        if (usuario && usuario.foto_perfil_url) {
+                            setPhoto(usuario.foto_perfil_url);
+                        }
+                    } catch (e) {
+                        console.error("Failsafe photo fetch failed:", e);
+                    }
+                })();
+            }
+
             imgEl.onerror = () => {
                 imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random&size=128';
             };
