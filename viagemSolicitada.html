@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Buscando Motorista - Meu Carro de Linha Salinas</title>
+  <!-- Tailwind CSS v3 with plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/ui-style.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'app-dark': '#121520',
+            'app-card': '#1a2233',
+            'app-blue': '#2563eb',
+            'app-text-muted': '#94a3b8',
+          },
+          animation: {
+            'slow-spin': 'spin 3s linear infinite',
+            'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+            'icon-pulse': 'icon-pulse 2s ease-in-out infinite',
+            'text-breathing': 'text-breathing 3s ease-in-out infinite',
+          },
+          keyframes: {
+            'glow-pulse': {
+              '0%, 100%': { opacity: 0.6, transform: 'scale(1)' },
+              '50%': { opacity: 1, transform: 'scale(1.05)' },
+            },
+            'icon-pulse': {
+              '0%, 100%': { transform: 'scale(1)', opacity: 1 },
+              '50%': { transform: 'scale(1.2)', opacity: 0.8 },
+            },
+            'text-breathing': {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.5 },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style data-purpose="custom-animations">
+    /* Custom CSS for the smooth circular loader glow */
+    .loader-ring {
+      border-top-color: #2563eb;
+      box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Subtle background pulse for the message area */
+    .glow-area {
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, rgba(13, 21, 38, 0) 70%);
+    }
+  </style>
+</head>
+
+<body class="bg-app-dark text-white font-sans flex flex-col min-h-screen overflow-hidden">
+  <!-- BEGIN: MainHeader -->
+  <header class="p-4 flex items-center justify-center border-b border-gray-800" data-purpose="header-navigation">
+    <h1 class="text-app-blue font-bold text-lg">Meu Carro de Linha Salinas</h1>
+  </header>
+  <!-- END: MainHeader -->
+  <!-- BEGIN: LoadingSection -->
+  <main class="flex-grow flex flex-col items-center justify-center p-8 relative" data-purpose="loading-content">
+    <!-- Decorative glow background -->
+    <div class="absolute inset-0 glow-area pointer-events-none"></div>
+    <!-- Minimalist Circular Loader -->
+    <div class="relative mb-12" data-purpose="loader-animation">
+      <!-- Outer Pulsing Ring -->
+      <div class="absolute inset-0 rounded-full border-4 border-app-blue/20 animate-glow-pulse"></div>
+      <!-- Inner Spinning Ring -->
+      <div class="w-32 h-32 rounded-full border-4 border-transparent border-t-app-blue loader-ring animate-spin"></div>
+      <!-- Center Icon -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <svg class="h-10 w-10 text-app-blue animate-icon-pulse" fill="none" stroke="currentColor" viewbox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          </path>
+        </svg>
+      </div>
+    </div>
+    <!-- Status Messages -->
+    <div class="text-center z-10 max-w-sm" data-purpose="status-text">
+      <h2 class="text-xl font-semibold mb-4 text-white animate-text-breathing">
+        Estamos solicitando seu motorista, aguarde...
+      </h2>
+      <p class="text-app-text-muted text-base leading-relaxed">
+        Em breve motoristas disponíveis entrarão em contato pelo chat para negociar a viagem
+      </p>
+    </div>
+  </main>
+  <!-- END: LoadingSection -->
+  <!-- BEGIN: ActionButtons -->
+  <footer class="p-6 mb-20" data-purpose="footer-actions">
+    <button onclick="window.location.href='passageiro.html'"
+      class="w-full py-4 bg-app-card text-red-500 font-medium rounded-xl border border-gray-800 active:bg-gray-800 transition-colors">
+      Cancelar Solicitação
+    </button>
+  </footer>
+  <!-- END: ActionButtons -->
+
+  <!-- Bottom Navigation Bar (Fixed) -->
+  <nav class="fixed-navbar">
+    <div class="flex justify-around items-end w-full">
+      <a class="flex flex-col items-center gap-1 text-primary group transition-colors" href="passageiro.html">
+        <span class="material-symbols-outlined text-[28px] font-fill">home</span>
+        <span class="text-[10px] font-bold">Início</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 text-slate-400 group" href="minhasViagens.html">
+        <span class="material-symbols-outlined text-[28px]">history</span>
+        <span class="text-[10px] font-medium">Viagens</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 text-slate-400 group relative" href="conversas.html">
+        <span class="material-symbols-outlined text-[28px]">chat</span>
+        <span class="text-[10px] font-medium">Chats</span>
+        <span id="chat-badge"
+          class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 text-slate-400 group" href="perfilPassageiro.html">
+        <span class="material-symbols-outlined text-[28px]">person</span>
+        <span class="text-[10px] font-medium">Perfil</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="js/ui-transitions.js"></script>
+  <script>
+    // Redirecionamento após 7 segundos
+    setTimeout(() => {
+      document.body.classList.add('opacity-0');
+      document.body.style.transition = 'opacity 0.5s ease-out';
+      setTimeout(() => {
+        window.location.href = 'solicitadaComSucesso.html';
+      }, 500);
+    }, 7000);
+  </script>
+</body>
+
+</html>

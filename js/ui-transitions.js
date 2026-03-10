@@ -68,6 +68,50 @@
                 // Remove qualquer classe de animação que possa ter sido herdada
                 nav.style.animation = 'none';
             }
+        },
+
+        // Exibe um diálogo elegante personalizado
+        showDialog(options = {}) {
+            const { title = 'Aviso', message = '', icon = 'info', buttonText = 'OK', type = 'info' } = options;
+
+            // Remove diálogo anterior se existir
+            const oldDialog = document.querySelector('.dialog-overlay');
+            if (oldDialog) oldDialog.remove();
+
+            const overlay = document.createElement('div');
+            overlay.className = 'dialog-overlay';
+
+            const iconColor = type === 'error' ? 'text-red-500' : 'text-primary';
+
+            overlay.innerHTML = `
+                <div class="dialog-content text-center">
+                    <div class="mb-4">
+                        <span class="material-symbols-outlined text-5xl ${iconColor}">${icon}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">${title}</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">${message}</p>
+                    <button class="w-full py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl active-scale transition-all">
+                        ${buttonText}
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            // Animação de entrada
+            requestAnimationFrame(() => overlay.classList.add('active'));
+
+            // Fechar ao clicar no botão
+            const btn = overlay.querySelector('button');
+            btn.onclick = () => {
+                overlay.classList.remove('active');
+                setTimeout(() => overlay.remove(), 300);
+            };
+
+            // Fechar ao clicar fora (opcional)
+            overlay.onclick = (e) => {
+                if (e.target === overlay) btn.onclick();
+            };
         }
     };
 
