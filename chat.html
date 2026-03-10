@@ -201,25 +201,25 @@
 
         <!-- Bottom Navigation Bar (Fixed) -->
         <nav class="bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4 shrink-0">
-            <div class="grid grid-cols-4 w-full items-end">
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+            <div class="flex justify-around items-end">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
                     href="passageiro.html">
                     <span
-                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
                     <span class="text-[10px] font-medium">Início</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-primary group" href="minhasViagens.html">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                    href="minhasViagens.html">
                     <span
-                        class="material-symbols-outlined font-fill text-[28px] group-hover:scale-110 transition-transform">route</span>
-                    <span class="text-[10px] font-bold">Viagens</span>
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
+                    <span class="text-[10px] font-medium">Viagens</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="conversas.html">
+                <a class="flex flex-col items-center gap-1 text-primary group transition-colors " href="conversas.html">
                     <span
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
-                    <span class="text-[10px] font-medium">Chats</span>
+                    <span class="text-[10px] font-bold">Chats</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
                     href="perfilPassageiro.html">
                     <span
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
@@ -248,6 +248,15 @@
                 // Fallback placeholder if no photo
                 imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random';
             }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/chat-core.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... existing header update code ...
+            new ChatManager(false); // false = passageiro
         });
     </script>
     <script src="js/pwa-register.js"></script>
