@@ -449,65 +449,114 @@
                 return;
             }
 
-            // 2. Fetch Driver Profile (Joined with usuarios table)
-            const { data: driver, error: profileError } = await supabaseClient
-                .from('motoristas')
-                .select(`
-                    *,
-                    usuarios (
-                        nome,
-                        foto_perfil_url
-                    )
-                `)
-                .eq('usuario_id', user.id)
-                .single();
-
-            if (profileError) {
-                console.error('Error fetching driver profile:', profileError);
-                return;
-            }
-
-            // 3. Update Profile UI
-            // Ensure we have a valid name or fallback
-            const driverName = driver.usuarios?.nome || 'Nome Sobrenome';
-            document.getElementById('profile-name').innerText = driverName;
-
-            // Avatar logic
+            // UI Elements
             const avatarEl = document.getElementById('profile-avatar');
-            if (driver.usuarios?.foto_perfil_url) {
-                avatarEl.src = driver.usuarios.foto_perfil_url;
-            } else {
-                // Generate initials avatar if no image
-                const initials = (driverName).split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                // Replace img with div for initials
-                const parent = avatarEl.parentElement;
-                parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold">${initials}</div>`;
+            const nameEl = document.getElementById('profile-name');
+            const editBtn = document.getElementById('edit-photo-btn');
+            const photoInput = document.getElementById('photo-upload-input');
+            const mandatoryOverlay = document.getElementById('photo-mandatory-overlay');
+
+            // 2. Fetch Driver Profile
+            async function loadProfile() {
+                const { data: driver, error: profileError } = await supabaseClient
+                    .from('motoristas')
+                    .select(`
+                        *,
+                        usuarios (
+                            nome,
+                            foto_perfil_url
+                        )
+                    `)
+                    .eq('usuario_id', user.id)
+                    .single();
+
+                if (profileError) {
+                    console.error('Error fetching driver profile:', profileError);
+                    return;
+                }
+
+                const driverName = driver.usuarios?.nome || 'Nome Sobrenome';
+                nameEl.innerText = driverName;
+
+                if (driver.usuarios?.foto_perfil_url) {
+                    avatarEl.src = driver.usuarios.foto_perfil_url;
+                    mandatoryOverlay.classList.add('hidden');
+                } else {
+                    const initials = (driverName).split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const parent = avatarEl.parentElement;
+                    parent.innerHTML = `<div id="profile-avatar-initials" class="w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold">${initials}</div>`;
+                    mandatoryOverlay.classList.remove('hidden');
+                }
             }
+
+            await loadProfile();
+
+            // 3. Photo Upload Logic
+            editBtn.onclick = () => photoInput.click();
+
+            photoInput.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const originalBtnContent = editBtn.innerHTML;
+                editBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span>';
+                editBtn.disabled = true;
+
+                try {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${user.id}-${Math.random()}.${fileExt}`;
+                    const filePath = `avatars/${fileName}`;
+
+                    // Upload to Storage
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('avatars')
+                        .upload(filePath, file, { upsert: true });
+
+                    if (uploadError) throw uploadError;
+
+                    // Get Public URL
+                    const { data: { publicUrl } } = supabaseClient.storage
+                        .from('avatars')
+                        .getPublicUrl(filePath);
+
+                    // Update User Profile
+                    const { error: updateError } = await supabaseClient
+                        .from('usuarios')
+                        .update({ foto_perfil_url: publicUrl })
+                        .eq('id', user.id);
+
+                    if (updateError) throw updateError;
+
+                    // Update UI
+                    const initialsDiv = document.getElementById('profile-avatar-initials');
+                    if (initialsDiv) {
+                        const parent = initialsDiv.parentElement;
+                        parent.innerHTML = `<img id="profile-avatar" src="${publicUrl}" alt="Motorista" class="w-full h-full object-cover">`;
+                    } else {
+                        document.getElementById('profile-avatar').src = publicUrl;
+                    }
+
+                    mandatoryOverlay.classList.add('hidden');
+                    alert('Foto de perfil atualizada com sucesso!');
+
+                } catch (error) {
+                    console.error('Erro ao fazer upload:', error);
+                    alert('Erro ao atualizar foto de perfil.');
+                } finally {
+                    editBtn.innerHTML = originalBtnContent;
+                    editBtn.disabled = false;
+                }
+            };
 
             // 4. Fetch Trips Count
-            // User requested 0 trips for now, so we force 0 in UI but maybe still log real count or just skip update
             const { count, error: tripsError } = await supabaseClient
                 .from('viagens')
                 .select('*', { count: 'exact', head: true })
                 .eq('motorista_id', user.id);
 
-            if (tripsError) {
-                console.error('Error fetching trips count:', tripsError);
-            } else {
+            if (!tripsError) {
                 const statsElements = document.querySelectorAll('.text-2xl.font-bold');
-                // Ensure we don't overwrite the 0 if user wants it fixed, or update it if it should be real.
-                // Given "As viagens do motorista deve ser 0", I will comment out the update line to keep it 0.
-                // if (statsElements.length >= 2) {
-                //     statsElements[1].innerText = count || 0;
-                // }
-
-                // Also update Rating if available in DB
-                if (statsElements.length >= 1 && driver.avaliacao_media) {
-                    // Keep the star if updating rating
-                    // But for now, let's keep the hardcoded 4.95 as requested if it matches.
-                    // If we update, we need to preserve the star HTML.
-                    // statsElements[0].innerHTML = `${driver.avaliacao_media} <span class="material-symbols-outlined text-yellow-500 text-2xl fill-current">star</span>`;
-                }
+                // statsElements[1].innerText = count || 0;
             }
         });
     </script>
