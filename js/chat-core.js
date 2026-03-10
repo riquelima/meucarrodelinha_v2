@@ -13,6 +13,7 @@ class ChatManager {
         this.messagesContainer = document.querySelector('main');
         this.input = document.querySelector('input[type="text"]');
         this.sendBtn = document.querySelector('button .material-symbols-outlined[textContent="send"]')?.parentElement || document.querySelector('button.bg-primary');
+        this.targetUserPhone = null;
 
         this.init();
     }
@@ -30,9 +31,26 @@ class ChatManager {
             this.loadMessages();
             this.setupRealtime();
             this.markAsRead();
+            this.fetchTargetUserInfo();
         }
 
         this.setupEventListeners();
+    }
+
+    async fetchTargetUserInfo() {
+        try {
+            const { data, error } = await this.supabase
+                .from('usuarios')
+                .select('telefone')
+                .eq('id', this.targetUserId)
+                .single();
+
+            if (data) {
+                this.targetUserPhone = data.telefone;
+            }
+        } catch (e) {
+            console.error("Erro ao buscar telefone do motorista:", e);
+        }
     }
 
     async loadMessages() {
@@ -77,28 +95,28 @@ class ChatManager {
                         </div>
                     </div>
                     <div class="w-full max-w-sm overflow-hidden rounded-xl border border-primary/20 bg-slate-800/40 shadow-xl mt-2 backdrop-blur-sm">
-                        <div class="relative h-48 w-full bg-slate-700 bg-cover bg-center" style="background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=400x200&markers=color:blue%7C${lat},${lng}&key=');">
+                        <div class="relative h-32 w-full bg-slate-700 bg-cover bg-center" style="background-image: url('https://static-maps.yandex.ru/1.x/?ll=${lng},${lat}&z=15&l=map&size=400,150&pt=${lng},${lat},pm2blm');">
                             <div class="absolute inset-0 flex items-center justify-center bg-slate-900/20">
                                 <div class="relative">
                                     <div class="absolute -inset-4 bg-primary/30 rounded-full animate-ping"></div>
-                                    <span class="material-symbols-outlined text-primary text-5xl relative z-10 drop-shadow-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
+                                    <span class="material-symbols-outlined text-primary text-4xl relative z-10 drop-shadow-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-4 flex flex-col gap-3">
+                        <div class="p-3 flex flex-col gap-2">
                             <div class="flex justify-between items-start">
-                                <div class="space-y-1">
-                                    <h3 class="font-bold text-sm text-white">Localização em Tempo Real</h3>
+                                <div class="space-y-0.5">
+                                    <h3 class="font-bold text-xs text-white">Localização em Tempo Real</h3>
                                     <div class="flex items-center gap-1.5 text-slate-400">
-                                        <span class="material-symbols-outlined text-xs">my_location</span>
-                                        <span class="text-[10px] uppercase font-semibold tracking-wider">Salinas - MG</span>
+                                        <span class="material-symbols-outlined text-[10px]">my_location</span>
+                                        <span class="text-[9px] uppercase font-semibold tracking-wider">Salinas - MG</span>
                                     </div>
                                 </div>
-                                <div class="bg-primary/10 px-2 py-1 rounded text-[10px] font-bold text-primary uppercase border border-primary/20">Ao vivo</div>
+                                <div class="bg-primary/10 px-1.5 py-0.5 rounded text-[9px] font-bold text-primary uppercase border border-primary/20">Ao vivo</div>
                             </div>
-                            <a href="${mapsUrl}" target="_blank" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-primary/25 decoration-none">
-                                <span class="material-symbols-outlined text-lg">map</span>
-                                <span class="text-sm">Abrir no Google Maps</span>
+                            <a href="${mapsUrl}" target="_blank" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] shadow-lg shadow-primary/25 decoration-none">
+                                <span class="material-symbols-outlined text-sm">map</span>
+                                <span class="text-xs">Abrir no Maps</span>
                             </a>
                         </div>
                     </div>
@@ -238,6 +256,13 @@ class ChatManager {
     setupEventListeners() {
         this.sendBtn?.addEventListener('click', () => this.sendMessage());
         document.getElementById('btn-send-location')?.addEventListener('click', () => this.sendLocation());
+        document.getElementById('btn-call-driver')?.addEventListener('click', () => {
+            if (this.targetUserPhone) {
+                window.location.href = `tel:${this.targetUserPhone}`;
+            } else {
+                alert('Número de telefone não disponível.');
+            }
+        });
         this.input?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.sendMessage();
         });
