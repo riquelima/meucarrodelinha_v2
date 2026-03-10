@@ -76,6 +76,7 @@ class ChatManager {
 
         const div = document.createElement('div');
         div.className = `flex flex-col items-end gap-2 ${isMe ? 'ml-auto' : ''} max-w-[90%] animate-fade-in`;
+        div.setAttribute('data-msg-id', msg.id);
 
         const bubbleClass = this.isMotorista
             ? (isMe ? 'bg-driver-bubble' : 'bg-passenger-bubble')
@@ -121,7 +122,7 @@ class ChatManager {
                         </div>
                     </div>
                     <div class="text-[9px] text-slate-500 mt-1 flex items-center gap-1">
-                        ${time} ${isMe ? `<span class="material-symbols-outlined text-[12px] ${msg.lida ? 'text-accent-cyan' : ''}">done_all</span>` : ''}
+                        ${time} ${isMe ? `<span class="status-icon material-symbols-outlined text-[12px] ${msg.lida ? 'text-accent-cyan' : ''}">done_all</span>` : ''}
                     </div>
                 `;
             } catch (e) {
@@ -134,7 +135,7 @@ class ChatManager {
                     <div class="${bubbleClass} px-4 py-3 rounded-2xl ${isMe ? 'rounded-br-none' : 'rounded-bl-none'} text-sm text-slate-200 shadow-lg">
                         <p>${msg.conteudo}</p>
                         <div class="text-[9px] text-slate-400 mt-1.5 text-right flex items-center justify-end gap-1">
-                            ${time} ${isMe ? `<span class="material-symbols-outlined text-[12px] ${msg.lida ? 'text-accent-cyan' : ''}">done_all</span>` : ''}
+                            ${time} ${isMe ? `<span class="status-icon material-symbols-outlined text-[12px] ${msg.lida ? 'text-accent-cyan' : ''}">done_all</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -222,6 +223,7 @@ class ChatManager {
     }
 
     setupRealtime() {
+        // Canal para mensagens
         this.supabase.channel(`chat-${this.targetUserId}`)
             .on(
                 'postgres_changes',
@@ -229,12 +231,15 @@ class ChatManager {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'mensagens',
-                    filter: `remetente_id=eq.${this.targetUserId},destinatario_id=eq.${this.currentUser.id}`
+                    filter: `destinatario_id=eq.${this.currentUser.id}`
                 },
                 (payload) => {
-                    this.renderMessage(payload.new);
-                    this.scrollToBottom();
-                    this.markAsRead();
+                    // Só renderiza se o remetente for o alvo atual
+                    if (payload.new.remetente_id === this.targetUserId) {
+                        this.renderMessage(payload.new);
+                        this.scrollToBottom();
+                        this.markAsRead();
+                    }
                 }
             )
             .on(
@@ -243,11 +248,36 @@ class ChatManager {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'mensagens',
-                    filter: `remetente_id=eq.${this.currentUser.id},destinatario_id=eq.${this.targetUserId}`
+                    filter: `remetente_id=eq.${this.currentUser.id}`
                 },
                 (payload) => {
-                    this.renderMessage(payload.new);
-                    this.scrollToBottom();
+                    // Mensagem que EU enviei em outro dispositivo ou aba
+                    if (payload.new.destinatario_id === this.targetUserId) {
+                        // Verifica se a mensagem já não está na tela (evitar duplicados de envios locais)
+                        if (!document.querySelector(`[data-msg-id="${payload.new.id}"]`)) {
+                            this.renderMessage(payload.new);
+                            this.scrollToBottom();
+                        }
+                    }
+                }
+            )
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'mensagens',
+                    filter: `remetente_id=eq.${this.currentUser.id}`
+                },
+                (payload) => {
+                    // Quando o destinatário lê minha mensagem
+                    if (payload.new.lida && payload.new.destinatario_id === this.targetUserId) {
+                        const msgEl = document.querySelector(`[data-msg-id="${payload.new.id}"]`);
+                        if (msgEl) {
+                            const icon = msgEl.querySelector('.status-icon');
+                            if (icon) icon.classList.add('text-accent-cyan');
+                        }
+                    }
                 }
             )
             .subscribe();
