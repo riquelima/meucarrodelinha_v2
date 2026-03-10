@@ -16,6 +16,7 @@
 
     <!-- Leaflet CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="css/ui-style.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
     <script id="tailwind-config">
@@ -133,6 +134,12 @@
 
         .delay-500 {
             animation-delay: 500ms;
+        }
+
+        /* Proteção do Navbar */
+        nav {
+            transform: none !important;
+            animation: none !important;
         }
     </style>
 </head>
@@ -397,8 +404,8 @@
             </div>
         </main>
 
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end">
+        <nav class="fixed-navbar">
+            <div class="flex justify-around items-end w-full">
                 <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
                     href="passageiro.html">
                     <span
@@ -525,6 +532,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
     <script src="js/pwa-register.js"></script>
 </body>
 

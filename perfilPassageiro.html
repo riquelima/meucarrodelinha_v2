@@ -14,6 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
 
     <script id="tailwind-config">tailwind.config = {
             darkMode: "class",
@@ -155,6 +156,12 @@
         .delay-500 {
             animation-delay: 500ms;
         }
+
+        /* Proteção do Navbar */
+        nav {
+            transform: none !important;
+            animation: none !important;
+        }
     </style>
 </head>
 
@@ -174,7 +181,7 @@
         </header>
 
         <!-- Main Content (Scrollable) -->
-        <main class="flex-1 overflow-y-auto pb-24 px-4 pt-6 no-scrollbar">
+        <main class="flex-1 overflow-y-auto pb-navbar px-4 pt-6 no-scrollbar">
             <!-- Profile Hero Section -->
             <div class="flex flex-col items-center mb-8">
                 <div class="relative">
@@ -292,8 +299,8 @@
         </main>
 
         <!-- Bottom Navigation Bar (Fixed) -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end">
+        <nav class="fixed-navbar">
+            <div class="flex justify-around items-end w-full">
                 <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
                     href="passageiro.html">
                     <span
@@ -326,6 +333,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
     <script src="js/pwa-register.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {

@@ -62,48 +62,8 @@
             <div class="w-10"></div>
         </header>
 
-        <!-- Main Content (Scrollable List) -->
-        <main class="flex-1 overflow-y-auto pb-24 px-4 pt-6 no-scrollbar">
-            <!-- Active Conversation -->
-            <a href="chatMotorista.html"
-                class="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm mb-4 active:scale-[0.98] transition-all">
-                <div class="relative">
-                    <div class="size-14 rounded-full border-2 border-primary overflow-hidden">
-                        <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Passageira"
-                            class="w-full h-full object-cover">
-                    </div>
-                    <div
-                        class="absolute bottom-0 right-0 size-3.5 bg-green-500 border-2 border-white dark:border-surface-dark rounded-full">
-                    </div>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <div class="flex justify-between items-baseline mb-0.5">
-                        <p class="font-bold text-slate-900 dark:text-slate-100 truncate">Mariana Costa</p>
-                        <p class="text-[10px] text-primary font-bold">14:05</p>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm truncate font-medium">Estou te esperando na
-                        esquina...</p>
-                </div>
-                <div class="size-5 bg-primary rounded-full flex items-center justify-center">
-                    <p class="text-[10px] text-white font-bold">1</p>
-                </div>
-            </a>
-
-            <!-- History -->
-            <a href="#"
-                class="flex items-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-surface-dark/50 border border-slate-200/50 dark:border-slate-800/50 mb-3 opacity-90">
-                <div class="size-14 rounded-full border-2 border-primary/20 overflow-hidden">
-                    <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="Passageiro"
-                        class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <div class="flex justify-between items-baseline mb-0.5">
-                        <p class="font-semibold text-slate-900 dark:text-slate-100 truncate">João Santos</p>
-                        <p class="text-[10px] text-slate-500">Ontem</p>
-                    </div>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm truncate">Obrigado pela viagem!</p>
-                </div>
-            </a>
+        <main id="conversations-list" class="flex-1 overflow-y-auto pb-24 px-4 pt-6 no-scrollbar">
+            <div class="p-8 text-center text-slate-500 animate-pulse">Carregando conversas...</div>
         </main>
 
         <!-- Bottom Navigation Bar (Fixed) -->
@@ -137,7 +97,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
-    <script src="js/chat-notifications.js"></script>
+    <script src="js/conversas-motorista.js"></script>
     <script src="js/pwa-register.js"></script>
 </body>
 

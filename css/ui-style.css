@@ -1,0 +1,84 @@
+/* 
+ * ui-style.css
+ * Estilos centralizados para Navbar fixo, transições e efeitos de clique.
+ */
+
+:root {
+    --primary-color: #1e3fae;
+    --accent-color: #f97316;
+    --bg-dark: #121520;
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --navbar-height: 72px;
+}
+
+/* --- NAVBAR FIXO --- */
+.fixed-navbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: var(--navbar-height);
+    background-color: var(--bg-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 9999 !important;
+    transform: none !important; /* Proteção absoluta contra transições de página */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: border-box;
+}
+
+/* Espaçamento para o conteúdo não ficar atrás do navbar */
+.pb-navbar {
+    padding-bottom: calc(var(--navbar-height) + 1rem);
+}
+
+/* --- EFEITOS DE CLIQUE --- */
+.btn-click-effect {
+    transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.btn-click-effect:active {
+    transform: scale(0.94);
+    filter: brightness(1.1);
+}
+
+/* --- ANIMAÇÕES DE TRANSIÇÃO --- */
+.ui-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: uiReveal var(--transition-smooth) forwards;
+}
+
+@keyframes uiReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger delays para listas */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+
+/* Inverter fade para transição entre abas (opcional) */
+.ui-fade {
+    opacity: 0;
+    animation: uiFade 0.3s ease-in forwards;
+}
+
+@keyframes uiFade {
+    to { opacity: 1; }
+}
+
+/* Glassmorphism utility */
+.glass-effect {
+    background-color: rgba(18, 21, 32, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}

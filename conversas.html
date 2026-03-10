@@ -10,6 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -57,13 +58,13 @@
         </header>
 
         <!-- Dynamic List -->
-        <main id="conversations-list" class="flex-1 overflow-y-auto pb-24">
+        <main id="conversations-list" class="flex-1 overflow-y-auto pb-navbar">
             <div class="p-8 text-center text-slate-500 animate-pulse">Carregando conversas...</div>
         </main>
 
         <!-- Navbar -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end">
+        <nav class="fixed-navbar">
+            <div class="flex justify-around items-end w-full">
                 <a class="flex flex-col items-center gap-1 text-slate-400 group" href="passageiro.html">
                     <span class="material-symbols-outlined text-[28px]">home</span>
                     <span class="text-[10px] font-medium">Início</span>
@@ -89,6 +90,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const listContainer = document.getElementById('conversations-list');
@@ -176,7 +178,37 @@
                 }
             }
 
+            function setupRealtime() {
+                supabaseClient.channel('lista-conversas-passageiro')
+                    .on(
+                        'postgres_changes',
+                        {
+                            event: '*',
+                            schema: 'public',
+                            table: 'mensagens',
+                            filter: `destinatario_id=eq.${user.id}`
+                        },
+                        () => {
+                            loadConversations();
+                        }
+                    )
+                    .on(
+                        'postgres_changes',
+                        {
+                            event: 'INSERT',
+                            schema: 'public',
+                            table: 'mensagens',
+                            filter: `remetente_id=eq.${user.id}`
+                        },
+                        () => {
+                            loadConversations();
+                        }
+                    )
+                    .subscribe();
+            }
+
             loadConversations();
+            setupRealtime();
         });
     </script>
 </body>
