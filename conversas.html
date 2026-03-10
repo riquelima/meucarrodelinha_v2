@@ -117,19 +117,30 @@
                     messages.forEach(msg => {
                         const targetUser = msg.remetente_id === user.id ? msg.destinatario : msg.remetente;
                         if (!targetUser) return;
+
+                        const isBroadcast = msg.conteudo.startsWith('[TRIP_REQUEST]') || msg.conteudo.startsWith('[VALUE_PROPOSAL]');
+                        const isFromMe = msg.remetente_id === user.id;
+
                         if (!conversations[targetUser.id]) {
                             conversations[targetUser.id] = {
                                 user: targetUser,
                                 lastMessage: msg,
-                                unreadCount: msg.destinatario_id === user.id && !msg.lida ? 1 : 0
+                                unreadCount: msg.destinatario_id === user.id && !msg.lida ? 1 : 0,
+                                hasValidInteraction: !isBroadcast || !isFromMe
                             };
-                        } else if (msg.destinatario_id === user.id && !msg.lida) {
-                            conversations[targetUser.id].unreadCount++;
+                        } else {
+                            if (!isBroadcast || !isFromMe) {
+                                conversations[targetUser.id].hasValidInteraction = true;
+                            }
+                            if (msg.destinatario_id === user.id && !msg.lida) {
+                                conversations[targetUser.id].unreadCount++;
+                            }
                         }
                     });
 
                     listContainer.innerHTML = '';
-                    const entries = Object.values(conversations);
+                    // Filtrar apenas conversas que tenham interações reais (não apenas broadcast do passageiro)
+                    const entries = Object.values(conversations).filter(c => c.hasValidInteraction);
 
                     if (entries.length === 0) {
                         listContainer.innerHTML = '<div class="p-8 text-center text-slate-500">Nenhuma conversa iniciada.</div>';
@@ -162,7 +173,13 @@
                                         <p class="text-slate-500 text-xs">${time}</p>
                                     </div>
                                     <div class="flex justify-between items-center">
-                                        <p class="text-slate-500 dark:text-slate-400 text-sm truncate">${lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' : lastMsg.conteudo}</p>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm truncate">
+                                            ${lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' :
+                                lastMsg.conteudo.startsWith('[TRIP_REQUEST]') ? '🚗 Solicitação de Viagem' :
+                                    lastMsg.conteudo.startsWith('[VALUE_PROPOSAL]') ? '💰 Proposta de Valor' :
+                                        lastMsg.conteudo.startsWith('[TRIP_ACCEPTED]') ? '✅ Viagem Aceita' :
+                                            lastMsg.conteudo}
+                                        </p>
                                         ${conv.unreadCount > 0 ? `
                                             <div class="flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">${conv.unreadCount}</div>
                                         ` : ''}

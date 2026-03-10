@@ -87,7 +87,11 @@ class ConversasMotorista {
             const lastMsg = conv.lastMessage;
             const time = new Date(lastMsg.enviada_em).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const photoUrl = target.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(target.nome)}&background=random&size=128`;
-            const lastText = lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' : lastMsg.conteudo;
+            const lastText = lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' :
+                lastMsg.conteudo.startsWith('[TRIP_REQUEST]') ? '🚗 Solicitação de Viagem' :
+                    lastMsg.conteudo.startsWith('[VALUE_PROPOSAL]') ? '💰 Proposta de Valor' :
+                        lastMsg.conteudo.startsWith('[TRIP_ACCEPTED]') ? '✅ Viagem Aceita' :
+                            lastMsg.conteudo;
 
             const card = document.createElement('a');
             card.href = `chatMotorista.html?userId=${target.id}&name=${encodeURIComponent(target.nome)}&photo=${encodeURIComponent(photoUrl)}`;

@@ -71,12 +71,17 @@ class ChatManager {
     }
 
     renderMessage(msg) {
+        // Pular renderização de cards de broadcast para o passageiro
+        const isBroadcast = msg.conteudo.startsWith('[TRIP_REQUEST]') || msg.conteudo.startsWith('[VALUE_PROPOSAL]');
+        if (!this.isMotorista && isBroadcast) return;
+
         const isMe = msg.remetente_id === this.currentUser.id;
         const time = new Date(msg.enviada_em).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         const div = document.createElement('div');
         div.className = `flex flex-col items-end gap-2 ${isMe ? 'ml-auto' : ''} max-w-[90%] animate-fade-in`;
         div.setAttribute('data-msg-id', msg.id);
+        if (msg.viagem_id) div.setAttribute('data-viagem-id', msg.viagem_id);
 
         const bubbleClass = this.isMotorista
             ? (isMe ? 'bg-driver-bubble' : 'bg-passenger-bubble')
@@ -132,8 +137,10 @@ class ChatManager {
         } else if (msg.conteudo.startsWith('[TRIP_REQUEST]')) {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[TRIP_REQUEST]', ''));
+                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.destino)}`;
+
                 div.innerHTML = `
-                    <div class="bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/10 w-full">
+                    <div class="bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/10 w-full text-left">
                         <h3 class="text-primary font-bold text-sm uppercase tracking-wider mb-2">Nova Solicitação de Viagem</h3>
                         <div class="relative h-32 w-full bg-slate-700 rounded-lg overflow-hidden mb-3 border border-primary/20">
                             <img alt="Route map" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-nJY_myfbt-ppHWtzIUPIArtqnek1l4npkifJyvzesWDhO3RvhSRCrbbxkq1hM6IiwYE6ZuJJaBTx2RQlyjeTqbitqZUL2jVvdAdhReuyIq8vmvZ8v7adAvbwbitggYbs6zjx-PtEW1a5BV-NQqFLLbYI2kFhPWwLeoCBJ2B9rdScu_XifLi9oS0nOzSjXlka5xmHeeQD65yRPlR4qtAlXg7WT4AdUpXZkahZVgTS0b59fjN5z9uiyCSjew6oqkz09Jxgh23ydrWo"/>
@@ -162,10 +169,10 @@ class ChatManager {
                                 </div>
                             </div>
                         </div>
-                        <button class="w-full bg-primary/20 hover:bg-primary/30 text-primary font-bold py-2 rounded-lg flex items-center justify-center gap-2 transition-colors border border-primary/30">
+                        <a href="${mapsUrl}" target="_blank" class="w-full bg-primary/20 hover:bg-primary/30 text-primary font-bold py-2 rounded-lg flex items-center justify-center gap-2 transition-colors border border-primary/30 decoration-none no-underline">
                             <span class="material-symbols-outlined text-lg">map</span>
                             <span class="text-sm">Ver no Maps</span>
-                        </button>
+                        </a>
                     </div>
                     <div class="text-[9px] text-slate-500 mt-1">${time}</div>
                 `;
@@ -177,18 +184,12 @@ class ChatManager {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[VALUE_PROPOSAL]', ''));
                 div.innerHTML = `
-                    <div class="bg-slate-900/40 border border-primary/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full">
-                        <div class="flex flex-col items-center text-center gap-1">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Proposta de Valor</h4>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-xs font-medium text-slate-500">VALOR SUGERIDO:</span>
-                                <span class="text-lg font-bold text-primary">R$ ${data.valor}</span>
-                            </div>
-                        </div>
+                    <div class="bg-slate-900/40 border border-primary/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Proposta de Valor</h4>
                         <div class="flex flex-col gap-3">
                             <div class="relative">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                <input class="w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="number" value="${data.valor.replace(',', '.')}" />
+                                <input class="w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="text" value="${data.valor}" />
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <button class="bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200">+ R$ 5,00</button>
@@ -196,8 +197,12 @@ class ChatManager {
                             </div>
                         </div>
                         <div class="flex gap-3 pt-2">
-                            <button class="flex-1 border border-slate-600 text-slate-400 font-bold py-3 rounded-xl hover:bg-slate-800 transition-colors">Recusar</button>
-                            <button class="flex-[2] bg-success hover:bg-success/90 text-white font-bold py-3 rounded-xl shadow-lg shadow-success/20 transition-all active:scale-[0.98]">Aceitar Corrida</button>
+                            <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-red-900/20 active:scale-[0.98]">
+                                Recusar
+                            </button>
+                            <button class="flex-[2] bg-success hover:bg-success/90 text-white font-bold py-3 rounded-xl shadow-lg shadow-success/20 transition-all active:scale-[0.98]">
+                                Aceitar Corrida
+                            </button>
                         </div>
                     </div>
                     <div class="text-[9px] text-slate-500 mt-1">${time}</div>
@@ -206,6 +211,20 @@ class ChatManager {
                 console.error("Erro ao renderizar proposta:", e);
                 div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar proposta]</div>`;
             }
+        } else if (msg.conteudo.startsWith('[TRIP_ACCEPTED]')) {
+            div.innerHTML = `
+                <div class="w-full flex justify-center my-4 animate-bounce">
+                    <div class="bg-success/20 border border-success/30 px-6 py-4 rounded-2xl flex flex-col items-center gap-2 backdrop-blur-md">
+                        <div class="size-12 rounded-full bg-success flex items-center justify-center text-white shadow-lg shadow-success/20">
+                            <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-success font-bold text-sm">Viagem Confirmada!</h3>
+                            <p class="text-slate-400 text-[10px]">O motorista aceitou sua solicitação.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
         } else {
             div.innerHTML = `
                 <div class="flex items-end gap-2 ${isMe ? 'flex-row-reverse' : ''}">
@@ -373,6 +392,72 @@ class ChatManager {
         this.input?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.sendMessage();
         });
+
+        // Event delegation para os botões dos cards
+        this.messagesContainer?.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            if (btn.textContent.includes('Aceitar Corrida')) {
+                this.handleAcceptTrip(btn);
+            } else if (btn.textContent.includes('Recusar')) {
+                this.handleDeclineTrip(btn);
+            }
+        });
+    }
+
+    async handleAcceptTrip(btn) {
+        if (!this.isMotorista) return; // Só motorista aceita
+
+        const msgDiv = btn.closest('[data-viagem-id]');
+        const currentViagemId = msgDiv?.getAttribute('data-viagem-id') || this.viagemId;
+
+        if (!currentViagemId) {
+            console.error("ID da viagem não encontrado no card.");
+            return;
+        }
+
+        // Feedback visual
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
+        btn.disabled = true;
+
+        try {
+            // Enviar mensagem de aceitação
+            const { error } = await this.supabase
+                .from('mensagens')
+                .insert({
+                    remetente_id: this.currentUser.id,
+                    destinatario_id: this.targetUserId,
+                    viagem_id: currentViagemId,
+                    conteudo: '[TRIP_ACCEPTED]'
+                });
+
+            if (error) throw error;
+
+            // Atualizar status da viagem
+            await this.supabase
+                .from('viagens')
+                .update({ status: 'aceita', motorista_id: this.currentUser.id })
+                .eq('id', currentViagemId);
+
+            btn.innerHTML = 'Aceito!';
+            btn.classList.add('bg-slate-600');
+        } catch (err) {
+            console.error('Erro ao aceitar viagem:', err);
+            alert('Erro ao aceitar viagem.');
+            btn.innerHTML = originalContent;
+            btn.disabled = false;
+        }
+    }
+
+    async handleDeclineTrip(btn) {
+        // Apenas oculta o card localmente ou remove a mensagem se desejar
+        const card = btn.closest('.bg-slate-900/40') || btn.closest('.bg-primary/10');
+        if (card) {
+            card.style.opacity = '0.5';
+            card.style.pointerEvents = 'none';
+        }
     }
 
     scrollToBottom() {

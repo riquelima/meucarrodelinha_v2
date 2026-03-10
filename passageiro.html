@@ -445,7 +445,22 @@
                                         return;
                                     }
 
-                                    // Buscar motoristas aprovados e online (ou todos se preferir maior alcance)
+                                    // 3. Criar registro da viagem na tabela 'viagens'
+                                    const { data: viagem, error: errorViagem } = await window.supabaseClient
+                                        .from('viagens')
+                                        .insert({
+                                            passageiro_id: user.id,
+                                            origem_endereco: origem,
+                                            destino_endereco: destino,
+                                            status: 'pendente',
+                                            valor_estimado: 85.00
+                                        })
+                                        .select()
+                                        .single();
+
+                                    if (errorViagem) throw errorViagem;
+
+                                    // 4. Buscar motoristas aprovados
                                     const { data: motoristas, error: errorMot } = await window.supabaseClient
                                         .from('motoristas')
                                         .select('usuario_id')
@@ -454,7 +469,7 @@
                                     if (errorMot) throw errorMot;
 
                                     if (motoristas && motoristas.length > 0) {
-                                        const valorSugerido = "85,00"; // Valor fixo ou dinâmico se houver cálculo
+                                        const valorSugerido = "85,00";
 
                                         const tripData = JSON.stringify({ origem, destino });
                                         const proposalData = JSON.stringify({ valor: valorSugerido });
@@ -464,11 +479,13 @@
                                             mensagens.push({
                                                 remetente_id: user.id,
                                                 destinatario_id: m.usuario_id,
+                                                viagem_id: viagem.id,
                                                 conteudo: `[TRIP_REQUEST]${tripData}`
                                             });
                                             mensagens.push({
                                                 remetente_id: user.id,
                                                 destinatario_id: m.usuario_id,
+                                                viagem_id: viagem.id,
                                                 conteudo: `[VALUE_PROPOSAL]${proposalData}`
                                             });
                                         });
@@ -479,6 +496,7 @@
 
                                         if (errorMsg) throw errorMsg;
                                     }
+
 
                                     // Redirecionar após o broadcast bem sucedido
                                     window.location.href = 'viagemSolicitada.html';
