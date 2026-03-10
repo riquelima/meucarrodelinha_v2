@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e3fae",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Meu Carro de Linha Salinas - Chat</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 border-b border-primary/10">
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="relative">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30" data-alt="Driver Roberto portrait profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCoikYyq93qeEcuYp0V6toYbwsLlzEYEAosvV6j5BDrDTK8vMZ9ZRHv_UNFxEP_-Wq7Ow5TI-swCl0dI_d2UyJ2uY6yOaetP9aqZPpOeMtINCd2BvY2qr6vEMqW2RGWOM1VTGP4PR8wbWM3-iV__WiMWsTSzO4Hp6PHk7wEdYZifqRbxslWgrmI-bcntgdqzYvIpKjlWTCt2nm_dLKlhIc_9t43XNpWBXoDUw8GB96sSxDbz0Db19-EMtpSdvLqjxNod2ryyKTW2r9-"); background-size: cover;'>
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full border-2 border-background-dark"></div>
+</div>
+<div>
+<h2 class="text-base font-bold leading-tight">Roberto</h2>
+<p class="text-xs text-primary font-medium">Motorista • Salinas - MG</p>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-2">
+<button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Chat Content -->
+<main class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Driver Message -->
+<div class="flex items-end gap-2 max-w-[85%]">
+<div class="size-8 rounded-full bg-primary/20 shrink-0 border border-primary/10" data-alt="Driver Roberto small avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCO1F1ZkWZ07bHOtBih8ZOkOut43y65YMPx01BADU5e23AVDWr5JSx8IuJKwQjYbMYfFuC0GbxLq3O-Gct_k-Sg_aduWzJBDDElqr1gZHOAKD7T1UBAZf9KDCVdC36WHYcVZu_IBsDjTpu1Q5xm8xuz0OazZX1t2_FySplQB1RA_2WlsEMxmq60ClIh7yUDk08-BLJg_tTGsk9_VZ4dYM_K5ut8ZlIWnVFnFV2TJyTKiwA9TX2iCgoVIbIa5iJg8LYGqhdMym6PPGTc"); background-size: cover;'>
+</div>
+<div class="flex flex-col gap-1">
+<div class="bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/5">
+<p class="text-sm">Estou a caminho, Carlos. Pode mandar sua localização para eu agilizar?</p>
+</div>
+<span class="text-[10px] text-slate-500 ml-1">14:32</span>
+</div>
+</div>
+<!-- Passenger Message with Location Card -->
+<div class="flex flex-col items-end gap-2 ml-auto max-w-[90%]">
+<div class="flex items-end gap-2">
+<div class="flex flex-col gap-1 items-end">
+<div class="bg-primary text-white px-4 py-3 rounded-xl rounded-br-none shadow-lg shadow-primary/20">
+<p class="text-sm">Claro! Aqui está minha localização atual:</p>
+</div>
+</div>
+<div class="size-8 rounded-full bg-primary/20 shrink-0 border border-primary/10" data-alt="Passenger Carlos small avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC1DwMDvY5muYSK0iYhQveHzQvPqeLMvygo9liopWOM8T9wr3BropEdGjnR7Mako4z7TBiva6k0jS5o6m_LDn6kYZuSSJWO24ocYiesvcuxGfEc-lEgg6B8DyMaHL0SwLwGbNYhF7FRGmyAHDHoCZlk9GabRj0f6HdOVQAIf37sMzqNUErh2eyV1VUzeRM63IUYu1KhUA_5XmCDcxNP1S9xxY_Aak2iEUqqDdUriETlN7tTkEfRQqnv1UgvCnerW6JviP4NxSZrxImv"); background-size: cover;'>
+</div>
+</div>
+<!-- Visual Map-Centric Card -->
+<div class="w-full max-w-sm overflow-hidden rounded-xl border border-primary/20 bg-slate-800/40 shadow-xl mt-2 backdrop-blur-sm">
+<div class="relative h-48 w-full bg-slate-700 group cursor-pointer" data-alt="High contrast map view of Salinas city streets" data-location="Salinas, Minas Gerais" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC-nJY_myfbt-ppHWtzIUPIArtqnek1l4npkifJyvzesWDhO3RvhSRCrbbxkq1hM6IiwYE6ZuJJaBTx2RQlyjeTqbitqZUL2jVvdAdhReuyIq8vmvZ8v7adAvbwbitggYbs6zjx-PtEW1a5BV-NQqFLLbYI2kFhPWwLeoCBJ2B9rdScu_XifLi9oS0nOzSjXlka5xmHeeQD65yRPlR4qtAlXg7WT4AdUpXZkahZVgTS0b59fjN5z9uiyCSjew6oqkz09Jxgh23ydrWo"); background-size: cover;'>
+<!-- Map Overlay Pin -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative">
+<div class="absolute -inset-4 bg-primary/30 rounded-full animate-ping"></div>
+<span class="material-symbols-outlined text-primary text-5xl relative z-10 drop-shadow-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
+</div>
+</div>
+<!-- Zoom Controls -->
+<div class="absolute right-2 bottom-2 flex flex-col gap-1">
+<div class="size-8 bg-background-dark/80 rounded-lg flex items-center justify-center text-white border border-white/10">
+<span class="material-symbols-outlined text-sm">add</span>
+</div>
+<div class="size-8 bg-background-dark/80 rounded-lg flex items-center justify-center text-white border border-white/10">
+<span class="material-symbols-outlined text-sm">remove</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="font-bold text-lg tracking-tight">Rua Central, 123</h3>
+<div class="flex items-center gap-1.5 text-slate-400">
+<span class="material-symbols-outlined text-sm">my_location</span>
+<span class="text-xs uppercase font-semibold tracking-wider">Salinas - MG</span>
+</div>
+</div>
+<div class="bg-primary/10 px-2 py-1 rounded text-[10px] font-bold text-primary uppercase border border-primary/20">
+                            Ao vivo
+                        </div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-primary/25">
+<span class="material-symbols-outlined text-lg">map</span>
+<span>Abrir no Google Maps</span>
+</button>
+</div>
+</div>
+<span class="text-[10px] text-slate-500 mr-10">14:33 • Visualizado</span>
+</div>
+</main>
+<!-- Input Area -->
+<div class="p-4 bg-background-light dark:bg-background-dark border-t border-primary/10">
+<div class="flex items-center gap-3">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<div class="flex-1 relative">
+<input class="w-full bg-slate-800/50 border-none rounded-full py-3 px-5 text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-slate-500" placeholder="Escreva sua mensagem..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+<span class="material-symbols-outlined">sentiment_satisfied</span>
+</button>
+</div>
+<button class="size-11 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined">mic</span>
+</button>
+</div>
+</div>
+<!-- Navigation Bar -->
+<nav class="flex border-t border-primary/10 bg-background-light dark:bg-background-dark px-4 pb-6 pt-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Início</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>
+<span class="text-[10px] font-medium">Chat</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-medium">Histórico</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+</body></html>

@@ -284,26 +284,28 @@
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
 
-        <!-- Bottom Navigation Bar (Fixed) -->
         <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
             <div class="flex justify-around items-end px-2">
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="motorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
                     <span class="material-symbols-outlined">home</span>
                     <span class="text-[10px] font-bold">Início</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="meusganhos.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
                     <span class="material-symbols-outlined">payments</span>
                     <span class="text-[10px] font-bold">Ganhos</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="conversasMotorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 relative"
+                    href="conversasMotorista.html">
                     <span class="material-symbols-outlined">chat</span>
                     <span class="text-[10px] font-bold">Chat</span>
+                    <span id="chat-badge"
+                        class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 " href="historicoViagens.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
                     <span class="material-symbols-outlined">history</span>
                     <span class="text-[10px] font-bold">Histórico</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary " href="perfilMotorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="perfilMotorista.html">
                     <span class="material-symbols-outlined font-fill">account_circle</span>
                     <span class="text-[10px] font-bold">Perfil</span>
                 </a>
@@ -312,20 +314,26 @@
     </div>
 
     <!-- Modal de Confirmação de Saída -->
-    <div id="logout-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
-        <div class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-[fadeIn_0.2s_ease-out]">
+    <div id="logout-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div
+            class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-[fadeIn_0.2s_ease-out]">
             <div class="p-6 text-center">
-                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4">
+                <div
+                    class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4">
                     <span class="material-symbols-outlined text-4xl">logout</span>
                 </div>
                 <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Deseja realmente sair?</h3>
-                <p class="text-slate-500 dark:text-slate-400 text-base">Sua sessão será encerrada e você precisará fazer login novamente para acessar o Salinas.</p>
+                <p class="text-slate-500 dark:text-slate-400 text-base">Sua sessão será encerrada e você precisará fazer
+                    login novamente para acessar o Salinas.</p>
             </div>
             <div class="flex flex-col gap-3 p-6 pt-0">
-                <button onclick="logout()" class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 text-center">
+                <button onclick="logout()"
+                    class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 text-center">
                     Sair agora
                 </button>
-                <button onclick="closeLogoutModal()" class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors text-center">
+                <button onclick="closeLogoutModal()"
+                    class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors text-center">
                     Cancelar
                 </button>
             </div>
@@ -333,6 +341,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script src="js/chat-notifications.js"></script>
     <script>
         // Modal functions
         function openLogoutModal() {
@@ -384,7 +393,7 @@
             // Ensure we have a valid name or fallback
             const driverName = driver.usuarios?.nome || 'Nome Sobrenome';
             document.getElementById('profile-name').innerText = driverName;
-            
+
             // Avatar logic
             const avatarEl = document.getElementById('profile-avatar');
             if (driver.usuarios?.foto_perfil_url) {
@@ -413,7 +422,7 @@
                 // if (statsElements.length >= 2) {
                 //     statsElements[1].innerText = count || 0;
                 // }
-                
+
                 // Also update Rating if available in DB
                 if (statsElements.length >= 1 && driver.avaliacao_media) {
                     // Keep the star if updating rating

@@ -8,7 +8,8 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -99,7 +100,6 @@
             </div>
         </main>
 
-        <!-- Bottom Navigation Bar (Fixed) -->
         <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
             <div class="flex justify-around items-end px-2">
                 <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
@@ -110,11 +110,14 @@
                     <span class="material-symbols-outlined">payments</span>
                     <span class="text-[10px] font-bold">Ganhos</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500 relative"
+                    href="conversasMotorista.html">
                     <span class="material-symbols-outlined">chat</span>
                     <span class="text-[10px] font-bold">Chat</span>
+                    <span id="chat-badge"
+                        class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="#">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="historicoViagens.html">
                     <span class="material-symbols-outlined font-fill">history</span>
                     <span class="text-[10px] font-bold">Histórico</span>
                 </a>
@@ -125,6 +128,9 @@
             </div>
         </nav>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/chat-notifications.js"></script>
     <script src="js/pwa-register.js"></script>
 </body>
 

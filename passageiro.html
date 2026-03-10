@@ -351,12 +351,12 @@
     <!-- Bottom Navigation Bar (Fixed) -->
     <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
         <div class="flex justify-around items-end">
-            <a class="flex flex-col items-center gap-1 text-primary group transition-colors " href="passageiro.html">
+            <a class="flex flex-col items-center gap-1 text-primary group transition-colors" href="passageiro.html">
                 <span
                     class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
                 <span class="text-[10px] font-bold">Início</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
                 href="minhasViagens.html">
                 <span
                     class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
@@ -370,7 +370,7 @@
                 <span id="chat-badge"
                     class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
                 href="perfilPassageiro.html">
                 <span
                     class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
@@ -574,12 +574,12 @@
             function getMinimizeOffset() {
                 const visibleHeight = getVisibleHeaderHeight();
                 const nav = document.querySelector('nav');
-                const navHeight = nav ? nav.offsetHeight :     // We want the header to be visible ABOVE the navbar.
+                const navHeight = nav ? nav.offsetHeight : 0;
                 // The sheet is at bottom: 0, so the bottom part is covered by the navbar.
                 // We need to expose (visibleHeight + navHeight).
                 const totalVisibleNeeded = visibleHeight + navHeight;
 
-           t least some height if calculation fails
+                // Ensure at least some height if calculation fails
                 const safeHeight = totalVisibleNeeded > 50 ? totalVisibleNeeded : 240;
                 return Math.max(0, sheet.offsetHeight - safeHeight);
             }
@@ -902,19 +902,16 @@
             })();
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
     <script src="js/pwa-register.js"></script>
 
-    <!-- Script para carregar motoristas e nome do usuário -->
     <script>
-        document.addtListenntLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const greetingElement = document.getElementById('user-greeting');
             const driversContainer = document.getElementById('drivers-list-container');
 
             // 1. Carregar nome do usuário
-if (greetingElement && window.supabaseClient) {
+            if (greetingElement && window.supabaseClient) {
                 try {
                     const { data: { user } } = await supabaseClient.auth.getUser();
                     if (user && user.user_metadata && user.user_metadata.nome) {
@@ -941,7 +938,7 @@ if (greetingElement && window.supabaseClient) {
                     // e talvez tenhamos que pegar o nome de outra forma.
                     // POR ENQUANTO: Vamos listar da tabela 'motoristas'. Se faltar nome, usaremos um placeholder ou buscaremos.
 
-                    const { data: motoristas, error } = await supabaseClien      .from('motoristas')
+                    const { data: motoristas, error } = await supabaseClient.from('motoristas')
                         .select('*, usuarios(nome, foto_perfil_url)')
                         .eq('status_aprovacao', 'aprovado');
 
@@ -959,11 +956,13 @@ if (greetingElement && window.supabaseClient) {
                     }
 
                     for (const motorista of motoristas) {
-                        const usuario = motorista.usuarios;
+                        // Handle potential array from Supabase join
+                        const usuario = Array.isArray(motorista.usuarios) ? motorista.usuarios[0] : motorista.usuarios;
                         const displayName = usuario ? usuario.nome : `Motorista ${motorista.modelo_veiculo}`;
-                        const photoUrl = usuario && usuario.foto_perfil_url ? usuario.foto_perfil_url : "https://ui-avatars.com/api/?name=Motorista&background=random";
+                        const photoUrl = (usuario && usuario.foto_perfil_url) ? usuario.foto_perfil_url : `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random`;
 
-                        const rating = motorista.avaliacao_media || (4.5 + Math.random() * 0.5)             const timeAway = Math.floor(Math.random() * 10) + 2;
+                        const rating = motorista.avaliacao_media || (4.5 + Math.random() * 0.5);
+                        const timeAway = Math.floor(Math.random() * 10) + 2;
 
                         const cardHtml = `
                             <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary/50">
@@ -995,7 +994,7 @@ if (greetingElement && window.supabaseClient) {
                                 </div>
                                 <div class="flex items-center justify-end pt-3 border-t border-slate-100 dark:border-slate-700/50">
                                     <div class="flex gap-2">
-                                        <a href="chat.html?driverId=${motorista.usuario_id}&name=${encodeURIComponent(displayName)}&car=${encodeURIComponent(motorista.modelo_veiculo)}"
+                                        <a href="chat.html?userId=${motorista.usuario_id}&name=${encodeURIComponent(displayName)}&car=${encodeURIComponent(motorista.modelo_veiculo)}&photo=${encodeURIComponent(photoUrl)}"
                                             class="size-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
                                             title="Chat com motorista">
                                             <span class="material-symbols-outlined text-xl">chat</span>

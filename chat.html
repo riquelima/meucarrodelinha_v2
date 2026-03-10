@@ -61,7 +61,7 @@
         }
         /* Fix for fixed navbar overlapping content */
         main {
-            padding-bottom: 80px; /* Space for navbar */
+            padding-bottom: 180px; /* Space for navbar + input area (approx 160px + safe area) */
         }
     
         /* Global Mobile Native Fixes */
@@ -107,6 +107,22 @@
         .delay-500 { animation-delay: 500ms; }
 
     </style>
+    <script>
+            // Preload driver image immediately to avoid flicker
+            (function () {
+                try {
+                    const params = new URLSearchParams(window.location.search);
+                    const photo = params.get('photo');
+                    if (photo) {
+                        const link = document.createElement('link');
+                        link.rel = 'preload';
+                        link.as = 'image';
+                        link.href = photo;
+                        document.head.appendChild(link);
+                    }
+                } catch (e) { }
+            })();
+    </script>
 </head>
 
 <body class="bg-background-dark font-display text-slate-100 antialiased overflow-hidden">
@@ -176,57 +192,63 @@
             </div>
         </main>
 
-        <!-- Message Input Area -->
-        <div class="bg-card-dark px-4 py-4 border-t border-white/5 shrink-0 z-20">
-            <div class="flex items-center gap-3">
-                <div class="flex items-center gap-1">
-                    <button class="p-2 text-slate-400 hover:text-accent-cyan transition-colors">
-                        <span class="material-symbols-outlined">add_location</span>
-                    </button>
-                    <button class="p-2 text-slate-400 hover:text-accent-cyan transition-colors">
-                        <span class="material-symbols-outlined">image</span>
+        <!-- Fixed Bottom Area (Input + Nav) -->
+        <div class="fixed bottom-0 left-0 right-0 z-50 flex flex-col bg-background-dark">
+            <!-- Message Input Area -->
+            <div
+                class="bg-card-dark px-4 py-4 border-t border-white/5 shrink-0 z-[60] relative shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1">
+                        <button id="btn-send-location"
+                            class="p-2 text-slate-400 hover:text-accent-cyan transition-colors">
+                            <span class="material-symbols-outlined">add_location</span>
+                        </button>
+                        <button class="p-2 text-slate-400 hover:text-accent-cyan transition-colors">
+                            <span class="material-symbols-outlined">image</span>
+                        </button>
+                    </div>
+                    <div class="flex-1 relative">
+                        <input
+                            class="w-full bg-slate-800/50 border-none rounded-full py-3 px-4 text-sm text-white placeholder:text-slate-500 focus:ring-1 focus:ring-accent-cyan/50"
+                            placeholder="Digite uma mensagem..." type="text" />
+                    </div>
+                    <button
+                        class="bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full shadow-lg shadow-primary/30 flex items-center justify-center transition-all active:scale-95">
+                        <span class="material-symbols-outlined filled translate-x-0.5">send</span>
                     </button>
                 </div>
-                <div class="flex-1 relative">
-                    <input
-                        class="w-full bg-slate-800/50 border-none rounded-full py-3 px-4 text-sm text-white placeholder:text-slate-500 focus:ring-1 focus:ring-accent-cyan/50"
-                        placeholder="Digite uma mensagem..." type="text" />
-                </div>
-                <button
-                    class="bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full shadow-lg shadow-primary/30 flex items-center justify-center transition-all active:scale-95">
-                    <span class="material-symbols-outlined filled translate-x-0.5">send</span>
-                </button>
             </div>
-        </div>
 
-        <!-- Bottom Navigation Bar (Fixed) -->
-        <nav class="bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4 shrink-0">
-            <div class="flex justify-around items-end">
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                    href="passageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
-                    <span class="text-[10px] font-medium">Início</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                    href="minhasViagens.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
-                    <span class="text-[10px] font-medium">Viagens</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-primary group transition-colors " href="conversas.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
-                    <span class="text-[10px] font-bold">Chats</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                    href="perfilPassageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                    <span class="text-[10px] font-medium">Perfil</span>
-                </a>
-            </div>
-        </nav>
+            <!-- Bottom Navigation Bar -->
+            <nav class="bg-[#121520] border-t border-slate-800 py-3 pb-safe pb-4 shrink-0">
+                <div class="flex justify-around items-end">
+                    <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                        href="passageiro.html">
+                        <span
+                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
+                        <span class="text-[10px] font-medium">Início</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                        href="minhasViagens.html">
+                        <span
+                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
+                        <span class="text-[10px] font-medium">Viagens</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 text-primary group transition-colors "
+                        href="conversas.html">
+                        <span
+                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
+                        <span class="text-[10px] font-bold">Chats</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                        href="perfilPassageiro.html">
+                        <span
+                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                        <span class="text-[10px] font-medium">Perfil</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -242,17 +264,23 @@
             document.getElementById('driver-plate').textContent = plate;
 
             const imgEl = document.getElementById('driver-photo');
-            if (photo) {
+            if (photo && photo !== 'null' && photo !== 'undefined') {
                 imgEl.src = photo;
             } else {
-                // Fallback placeholder if no photo
-                imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random';
+                // Fallback placeholder
+                imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random&size=128';
             }
+
+            // Fallback for image load error
+            imgEl.onerror = () => {
+                imgEl.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random&size=128';
+            };
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-core.js"></script>
+    <script src="js/chat-notifications.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ... existing header update code ...

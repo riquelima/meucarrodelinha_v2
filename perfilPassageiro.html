@@ -180,10 +180,11 @@
                 <div class="relative">
                     <div
                         class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img id="user-avatar" src="https://randomuser.me/api/portraits/men/99.jpg" alt="Foto de Perfil"
-                            class="w-full h-full object-cover">
+                        <img id="user-avatar" src="https://ui-avatars.com/api/?name=U&background=random"
+                            alt="Foto de Perfil" class="w-full h-full object-cover">
                     </div>
-                    <button
+                    <input type="file" id="photo-input" class="hidden" accept="image/*">
+                    <button id="btn-edit-photo"
                         class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-background-light dark:border-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform">
                         <span class="material-symbols-outlined text-sm">edit</span>
                     </button>
@@ -286,7 +287,7 @@
                 <span class="material-symbols-outlined">logout</span>
                 Sair da Conta
             </a>
-            
+
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
 
@@ -305,11 +306,13 @@
                         class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">history</span>
                     <span class="text-[10px] font-medium">Viagens</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors relative"
                     href="conversas.html">
                     <span
-                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">chat</span>
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
                     <span class="text-[10px] font-medium">Chats</span>
+                    <span id="chat-badge"
+                        class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
                 </a>
                 <a class="flex flex-col items-center gap-1 text-primary group transition-colors "
                     href="perfilPassageiro.html">
@@ -322,6 +325,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script src="js/chat-notifications.js"></script>
     <script src="js/pwa-register.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
@@ -347,7 +351,7 @@
 
             // 3. Update Profile UI
             document.getElementById('user-name').innerText = profile.nome || 'Usuário';
-            
+
             // Format "Member Since" date
             if (profile.criado_em) {
                 const date = new Date(profile.criado_em);
@@ -382,13 +386,89 @@
             } else {
                 // Default to 0 is handled by 'count' being 0 if no rows match
                 document.getElementById('user-trips-count').innerText = count || 0;
-                
+
                 // Update level based on trips (Simple gamification logic)
                 const levelEl = document.getElementById('user-level');
                 if (count >= 50) levelEl.innerText = 'Passageiro Nível Ouro';
                 else if (count >= 20) levelEl.innerText = 'Passageiro Nível Prata';
                 else levelEl.innerText = 'Passageiro Iniciante';
             }
+
+            // 5. Photo Upload Logic
+            const photoInput = document.getElementById('photo-input');
+            const btnEditPhoto = document.getElementById('btn-edit-photo');
+            const avatarImg = document.getElementById('user-avatar');
+
+            btnEditPhoto.addEventListener('click', () => photoInput.click());
+
+            photoInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                // Basic validation
+                if (!file.type.startsWith('image/')) {
+                    alert('Por favor, selecione uma imagem válida.');
+                    return;
+                }
+
+                if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                    alert('A imagem deve ter no máximo 2MB.');
+                    return;
+                }
+
+                try {
+                    // Show loading state (optional: could add a spinner)
+                    btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span>';
+                    btnEditPhoto.disabled = true;
+
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+                    const filePath = fileName;
+
+                    // 1. Upload to Storage
+                    const { data: uploadData, error: uploadError } = await supabaseClient
+                        .storage
+                        .from('fotos_perfil')
+                        .upload(filePath, file, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
+
+                    if (uploadError) throw uploadError;
+
+                    // 2. Get Public URL
+                    const { data: { publicUrl } } = supabaseClient
+                        .storage
+                        .from('fotos_perfil')
+                        .getPublicUrl(filePath);
+
+                    // 3. Update Database (usuarios table)
+                    const { error: updateError } = await supabaseClient
+                        .from('usuarios')
+                        .update({ foto_perfil_url: publicUrl })
+                        .eq('id', user.id);
+
+                    if (updateError) throw updateError;
+
+                    // 4. Update UI
+                    avatarImg.src = publicUrl;
+
+                    // Fallback: If it was a div with initials, we need to restore the img tag
+                    if (avatarImg.tagName === 'DIV') {
+                        const parent = avatarImg.parentElement;
+                        parent.innerHTML = `<img id="user-avatar" src="${publicUrl}" alt="Foto de Perfil" class="w-full h-full object-cover">`;
+                    }
+
+                    alert('Foto de perfil atualizada com sucesso!');
+
+                } catch (error) {
+                    console.error('Erro no upload:', error);
+                    alert('Erro ao atualizar foto de perfil. Tente novamente.');
+                } finally {
+                    btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm">edit</span>';
+                    btnEditPhoto.disabled = false;
+                }
+            });
         });
     </script>
 </body>
