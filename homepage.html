@@ -643,6 +643,27 @@
                         }
                     );
                 }
+
+                // Listen for place selection from autocomplete
+                document.addEventListener('placeSelected', (e) => {
+                    const { lat, lon, name } = e.detail;
+                    
+                    // Center map
+                    map.setView([lat, lon], 16);
+                    
+                    // Add marker for destination
+                    const destIcon = L.divIcon({
+                        className: 'destination-marker',
+                        html: `<span class="material-symbols-outlined text-red-600 text-3xl drop-shadow-md" style="font-variation-settings: 'FILL' 1">location_on</span>`,
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30],
+                        popupAnchor: [0, -30]
+                    });
+
+                    L.marker([lat, lon], { icon: destIcon }).addTo(map)
+                        .bindPopup(`Destino: ${name}`)
+                        .openPopup();
+                });
             }
         });
 

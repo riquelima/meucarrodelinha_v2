@@ -1,5 +1,94 @@
-
 document.addEventListener('DOMContentLoaded', async () => {
+    // Autocomplete Logic
+    const destinoInput = document.getElementById('destino-input');
+    const suggestionsList = document.getElementById('destino-suggestions');
+    let debounceTimeout;
+
+    if (destinoInput && suggestionsList) {
+        destinoInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+
+            clearTimeout(debounceTimeout);
+
+            if (query.length < 3) {
+                suggestionsList.classList.add('hidden');
+                suggestionsList.innerHTML = '';
+                return;
+            }
+
+            debounceTimeout = setTimeout(async () => {
+                try {
+                    // Salinas da Margarida coordinates for biasing search
+                    // viewbox: left,top,right,bottom (W,N,E,S)
+                    // Salinas: -38.80, -12.87
+                    // Broader region: -39.0,-12.8,-38.6,-13.0
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5&countrycodes=br&viewbox=-39.0,-12.8,-38.6,-13.0`);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const data = await response.json();
+
+                    renderSuggestions(data);
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                }
+            }, 300);
+        });
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!destinoInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+                suggestionsList.classList.add('hidden');
+            }
+        });
+    }
+
+    function renderSuggestions(places) {
+        suggestionsList.innerHTML = '';
+
+        if (!places || places.length === 0) {
+            suggestionsList.classList.add('hidden');
+            return;
+        }
+
+        places.forEach(place => {
+            const li = document.createElement('li');
+            li.className = 'px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b border-slate-100 dark:border-slate-700 last:border-0 transition-colors flex items-center gap-3';
+            
+            // Icon based on type (simplified)
+            let icon = 'location_on';
+            if (place.type === 'restaurant') icon = 'restaurant';
+            else if (place.type === 'pub' || place.type === 'bar') icon = 'local_bar';
+            else if (place.type === 'pharmacy') icon = 'local_pharmacy';
+            else if (place.type === 'hospital') icon = 'local_hospital';
+            else if (place.type === 'supermarket') icon = 'shopping_cart';
+
+            li.innerHTML = `
+                <span class="material-symbols-outlined text-slate-400 text-lg">${icon}</span>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">${place.display_name.split(',')[0]}</p>
+                    <p class="text-xs text-slate-500 truncate">${place.display_name}</p>
+                </div>
+            `;
+
+            li.addEventListener('click', () => {
+                selectPlace(place);
+            });
+
+            suggestionsList.appendChild(li);
+        });
+
+        suggestionsList.classList.remove('hidden');
+    }
+
+    function selectPlace(place) {
+        const shortName = place.display_name.split(',')[0];
+        destinoInput.value = shortName;
+        suggestionsList.classList.add('hidden');
+
+        // Redirect to passenger login
+        window.location.href = 'loginPassageiro.html';
+    }
+
+    // Driver Loading Logic (Existing)
     const driversContainer = document.getElementById('drivers-container');
     if (!driversContainer) return;
 
@@ -95,10 +184,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         // Render drivers
-        // Render drivers
         drivers.forEach(driver => {
             driversContainer.appendChild(createDriverCard(driver));
         });
+        
+        // Clone for infinite scroll (if we have enough items)
+        if (drivers.length > 3) {
+            drivers.forEach(driver => {
+                const clone = createDriverCard(driver);
+                clone.setAttribute('aria-hidden', 'true'); // Accessibility: hide duplicates
+                driversContainer.appendChild(clone);
+            });
+        }
 
     } catch (err) {
         console.error('Unexpected error:', err);
