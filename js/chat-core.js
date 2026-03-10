@@ -234,15 +234,15 @@ class ChatManager {
                                     <span class="material-symbols-outlined text-primary/40 text-sm">info</span>
                                 </div>
                                 <div class="flex flex-col gap-2">
-                                    <button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-bold text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                                    <button class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-bold text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-green-900/20">
                                         <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
                                         Concordar com o Valor
                                     </button>
                                     <div class="flex gap-2">
-                                        <button class="flex-1 border border-primary/30 hover:bg-primary/5 text-primary py-2 rounded-lg font-bold text-xs transition-colors">
+                                        <button class="flex-1 border border-yellow-500/30 hover:bg-yellow-500/10 text-yellow-500 py-2 rounded-lg font-bold text-xs transition-colors">
                                             Negociar
                                         </button>
-                                        <button class="flex-1 border border-slate-700 hover:bg-slate-800 text-slate-500 py-2 rounded-lg font-bold text-xs transition-colors">
+                                        <button class="flex-1 border border-red-500/30 hover:bg-red-500/10 text-red-500 py-2 rounded-lg font-bold text-xs transition-colors">
                                             Recusar
                                         </button>
                                     </div>
@@ -458,8 +458,7 @@ class ChatManager {
         }
 
         // Pegar o valor atual do input do card de proposta
-        const cardParent = btn.closest('.bg-slate-900/40');
-        const valueInput = cardParent?.querySelector('input');
+        const valueInput = msgDiv?.querySelector('input');
         const acceptedValue = valueInput?.value || "85,00";
 
         // Feedback visual
