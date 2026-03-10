@@ -285,13 +285,35 @@
                             </div>
                         </div>
 
-                        <!-- Script para redirecionar se agendar for selecionado -->
+                        <!-- Script para gerenciar seleção de tempo da viagem -->
                         <script>
+                            // Listener para Agendar
                             document.getElementById('trip-schedule').addEventListener('change', () => {
-                                // Pequeno delay para mostrar a animação de seleção antes de navegar
                                 setTimeout(() => {
                                     window.location.href = 'agendarViagem.html';
                                 }, 300);
+                            });
+
+                            // Listener para Agora (Destaque visual para escolher motorista)
+                            document.getElementById('trip-now').addEventListener('change', (e) => {
+                                if (e.target.checked) {
+                                    const driversSection = document.getElementById('drivers-section');
+                                    if (driversSection) {
+                                        // Aplica o destaque azul com pulso suave
+                                        driversSection.classList.add('ring-4', 'ring-primary/40', 'bg-primary/5', 'animate-pulse-subtle');
+
+                                        // Rola suavemente para a seção
+                                        setTimeout(() => {
+                                            driversSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        }, 100);
+
+                                        // Remove o pulso mas mantém a borda suave para orientação
+                                        setTimeout(() => {
+                                            driversSection.classList.remove('animate-pulse-subtle');
+                                            driversSection.classList.add('ring-2', 'ring-primary/30');
+                                        }, 1500);
+                                    }
+                                }
                             });
                         </script>
 
