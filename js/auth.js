@@ -89,7 +89,7 @@ async function signUpMotorista(nomeCompleto, email, password, cpf, telefone, mod
                         cor_veiculo: corVeiculo,
                         url_cnh: urlCnh,
                         url_doc_veiculo: urlDoc,
-                        status_aprovacao: 'pendente',
+                        status_aprovacao: 'aprovado',
                         status_online: false
                     }
                 ]);

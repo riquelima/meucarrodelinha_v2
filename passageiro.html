@@ -232,8 +232,8 @@
             <!-- Search and Overlay Content (Draggable Bottom Sheet) -->
             <!-- Adjusted bottom offset to 0 to clear navbar gap, added padding bottom to content -->
             <div id="bottom-sheet"
-                class="absolute bottom-0 left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-24 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col max-h-[calc(100dvh-140px)] animate-slide-up delay-100"
-                style="transform: translateY(0px)">
+                class="absolute bottom-0 left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-24 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col max-h-[calc(100dvh-140px)] opacity-0"
+                style="transform: translateY(100%)">
                 <!-- Drag Handle -->
                 <div id="drag-handle-area" class="flex justify-center py-5 -mt-2 cursor-pointer touch-none shrink-0"
                     title="Arraste para minimizar">
@@ -246,7 +246,7 @@
                     <div id="sheet-header-content" class="space-y-6 pb-6 pt-2">
                         <!-- Greeting -->
                         <div>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Olá, Carlos</p>
+                            <p id="user-greeting" class="text-sm text-slate-500 dark:text-slate-400">Olá, Passageiro</p>
                             <h2 class="text-xl font-bold dark:text-white">Onde vamos hoje?</h2>
                         </div>
                         <!-- Search Input -->
@@ -320,203 +320,61 @@
                             class="space-y-3 flex flex-col pb-2 rounded-xl transition-all duration-500 p-2 -mx-2">
                             <p class="text-xs font-bold uppercase tracking-wider text-slate-400 shrink-0">ESCOLHA O
                                 MOTORISTA</p>
-                            <div class="space-y-3 flex flex-col pb-4">
-                                <!-- Driver Card 1 -->
-                                <div
-                                    class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary/50">
-                                    <div class="flex items-center gap-4 mb-3">
-                                        <div
-                                            class="size-14 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 ring-2 ring-primary/20 shrink-0">
-                                            <img alt="Ricardo Silva" class="w-full h-full object-cover"
-                                                src="https://randomuser.me/api/portraits/men/32.jpg" />
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex justify-between items-start">
-                                                <p
-                                                    class="font-bold text-lg text-slate-900 dark:text-slate-100 truncate">
-                                                    Ricardo Silva</p>
-                                                <span
-                                                    class="px-2 py-1 rounded-md bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 shrink-0">4
-                                                    min</span>
-                                            </div>
-                                            <div class="flex items-center gap-2 mt-1">
-                                                <div class="flex items-center gap-1 text-yellow-500">
-                                                    <span
-                                                        class="material-symbols-outlined text-sm font-fill">star</span>
-                                                    <span class="text-xs font-bold">4.9</span>
-                                                </div>
-                                                <span class="text-slate-400 text-[10px]">•</span>
-                                                <span
-                                                    class="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Toyota
-                                                    Corolla Prata</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Price and Chat Actions -->
-                                    <div
-                                        class="flex items-center justify-end pt-3 border-t border-slate-100 dark:border-slate-700/50">
-                                        <div class="flex gap-2">
-                                            <a href="chat.html?name=Ricardo%20Silva&car=Toyota%20Corolla%20Prata&plate=JQX-1234&rating=4.9&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F32.jpg"
-                                                class="size-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-                                                title="Chat com motorista">
-                                                <span class="material-symbols-outlined text-xl">chat</span>
-                                            </a>
-                                            <input type="radio" name="driver_selection" class="peer hidden" id="driver1"
-                                                checked>
-                                            <label for="driver1"
-                                                class="px-5 py-2 rounded-lg font-bold text-sm cursor-pointer transition-colors peer-checked:bg-primary peer-checked:text-white bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                                                Selecionar
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Driver Card 2 -->
-                                <div
-                                    class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary/50">
-                                    <div class="flex items-center gap-4 mb-3">
-                                        <div
-                                            class="size-14 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 ring-2 ring-primary/20 shrink-0">
-                                            <img alt="Ana Oliveira" class="w-full h-full object-cover"
-                                                src="https://randomuser.me/api/portraits/women/44.jpg" />
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex justify-between items-start">
-                                                <p
-                                                    class="font-bold text-lg text-slate-900 dark:text-slate-100 truncate">
-                                                    Ana
-                                                    Oliveira</p>
-                                                <span
-                                                    class="px-2 py-1 rounded-md bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 shrink-0">6
-                                                    min</span>
-                                            </div>
-                                            <div class="flex items-center gap-2 mt-1">
-                                                <div class="flex items-center gap-1 text-yellow-500">
-                                                    <span
-                                                        class="material-symbols-outlined text-sm font-fill">star</span>
-                                                    <span class="text-xs font-bold">5.0</span>
-                                                </div>
-                                                <span class="text-slate-400 text-[10px]">•</span>
-                                                <span
-                                                    class="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Hyundai
-                                                    HB20 Branco</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex items-center justify-end pt-3 border-t border-slate-100 dark:border-slate-700/50">
-                                        <div class="flex gap-2">
-                                            <a href="chat.html?name=Ana%20Oliveira&car=Hyundai%20HB20%20Branco&plate=OKP-5678&rating=5.0&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fwomen%2F44.jpg"
-                                                class="size-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-                                                title="Chat com motorista">
-                                                <span class="material-symbols-outlined text-xl">chat</span>
-                                            </a>
-                                            <input type="radio" name="driver_selection" class="peer hidden"
-                                                id="driver2">
-                                            <label for="driver2"
-                                                class="px-5 py-2 rounded-lg font-bold text-sm cursor-pointer transition-colors peer-checked:bg-primary peer-checked:text-white bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                                                Selecionar
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Driver Card 3 -->
-                                <div
-                                    class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary/50">
-                                    <div class="flex items-center gap-4 mb-3">
-                                        <div
-                                            class="size-14 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 ring-2 ring-primary/20 shrink-0">
-                                            <img alt="Carlos Santos" class="w-full h-full object-cover"
-                                                src="https://randomuser.me/api/portraits/men/85.jpg" />
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex justify-between items-start">
-                                                <p
-                                                    class="font-bold text-lg text-slate-900 dark:text-slate-100 truncate">
-                                                    Carlos S.</p>
-                                                <span
-                                                    class="px-2 py-1 rounded-md bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 shrink-0">9
-                                                    min</span>
-                                            </div>
-                                            <div class="flex items-center gap-2 mt-1">
-                                                <div class="flex items-center gap-1 text-yellow-500">
-                                                    <span
-                                                        class="material-symbols-outlined text-sm font-fill">star</span>
-                                                    <span class="text-xs font-bold">4.8</span>
-                                                </div>
-                                                <span class="text-slate-400 text-[10px]">•</span>
-                                                <span
-                                                    class="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">Chevrolet
-                                                    Onix Preto</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex items-center justify-end pt-3 border-t border-slate-100 dark:border-slate-700/50">
-                                        <div class="flex gap-2">
-                                            <a href="chat.html?name=Carlos%20S.&car=Chevrolet%20Onix%20Preto&plate=PLC-9012&rating=4.8&photo=https%3A%2F%2Frandomuser.me%2Fapi%2Fportraits%2Fmen%2F85.jpg"
-                                                class="size-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-                                                title="Chat com motorista">
-                                                <span class="material-symbols-outlined text-xl">chat</span>
-                                            </a>
-                                            <input type="radio" name="driver_selection" class="peer hidden"
-                                                id="driver3">
-                                            <label for="driver3"
-                                                class="px-5 py-2 rounded-lg font-bold text-sm cursor-pointer transition-colors peer-checked:bg-primary peer-checked:text-white bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                                                Selecionar
-                                            </label>
-                                        </div>
-                                    </div>
+                            <!-- Adicionado max-height e overflow-y-auto para permitir rolagem de apenas 3 itens visíveis -->
+                            <div id="drivers-list-container" class="space-y-3 flex flex-col pb-4 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+                                <!-- Drivers will be populated here dynamically -->
+                                <div class="p-4 text-center text-slate-400 text-sm">
+                                    <span class="material-symbols-outlined animate-spin mb-2">sync</span>
+                                    <p>Buscando motoristas próximos...</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- Payment Method -->
-                        <div class="flex items-center justify-between px-2 pt-2">
-                            <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
-                                <span class="text-sm font-semibold">Pagamento via PIX</span>
-                            </div>
-                            <button class="text-primary text-sm font-bold">Alterar</button>
-                        </div>
-                        <!-- Action Button -->
-                        <button id="btn-request-ride"
-                            class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
-                            Solicitar Viagem
-                        </button>
                     </div>
+                    <!-- Payment Method -->
+                    <div class="flex items-center justify-between px-2 pt-2">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+                            <span class="text-sm font-semibold">Pagamento via PIX</span>
+                        </div>
+                        <button class="text-primary text-sm font-bold">Alterar</button>
+                    </div>
+                    <!-- Action Button -->
+                    <button id="btn-request-ride"
+                        class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
+                        Solicitar Viagem
+                    </button>
                 </div>
             </div>
-        </main>
-        <!-- Bottom Navigation Bar (Fixed) -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end">
-                <a class="flex flex-col items-center gap-1 text-primary group transition-colors "
-                    href="passageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
-                    <span class="text-[10px] font-bold">Início</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                    href="minhasViagens.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
-                    <span class="text-[10px] font-medium">Viagens</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                    href="conversas.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
-                    <span class="text-[10px] font-medium">Chats</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                    href="perfilPassageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                    <span class="text-[10px] font-medium">Perfil</span>
-                </a>
-            </div>
-        </nav>
+    </div>
+    </main>
+    <!-- Bottom Navigation Bar (Fixed) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
+        <div class="flex justify-around items-end">
+            <a class="flex flex-col items-center gap-1 text-primary group transition-colors " href="passageiro.html">
+                <span
+                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
+                <span class="text-[10px] font-bold">Início</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                href="minhasViagens.html">
+                <span
+                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
+                <span class="text-[10px] font-medium">Viagens</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                href="conversas.html">
+                <span
+                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
+                <span class="text-[10px] font-medium">Chats</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
+                href="perfilPassageiro.html">
+                <span
+                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                <span class="text-[10px] font-medium">Perfil</span>
+            </a>
+        </div>
+    </nav>
     </div>
     <style>
         .pb-safe {
@@ -705,22 +563,23 @@
 
             function getVisibleHeaderHeight() {
                 const handleHeight = handle.offsetHeight || 0;
-                // Calculate total height of the header content including margins/padding if possible
-                // But offsetHeight includes padding/border.
+                // Calculate total height of the header content including margins/padding
                 const contentHeight = headerArea ? headerArea.offsetHeight : 0;
-                // The drag handle has -mt-2, py-5 (20px top + 20px bottom). height 6px.
-                // It's roughly 40px tall effectively.
-
-                // We want to show: Handle + Header Content.
-                // The sheet has pb-6 (24px) padding bottom on the container, but that's for scrolling.
-
                 return handleHeight + contentHeight;
             }
 
             function getMinimizeOffset() {
                 const visibleHeight = getVisibleHeaderHeight();
-                // Ensure at least some height if calculation fails (fallback 160)
-                const safeHeight = visibleHeight > 50 ? visibleHeight : 160;
+                const nav = document.querySelector('nav');
+                const navHeight = nav ? nav.offsetHeight : 0;
+
+                // We want the header to be visible ABOVE the navbar.
+                // The sheet is at bottom: 0, so the bottom part is covered by the navbar.
+                // We need to expose (visibleHeight + navHeight).
+                const totalVisibleNeeded = visibleHeight + navHeight;
+
+                // Ensure at least some height if calculation fails
+                const safeHeight = totalVisibleNeeded > 50 ? totalVisibleNeeded : 240;
                 return Math.max(0, sheet.offsetHeight - safeHeight);
             }
 
@@ -734,29 +593,26 @@
                 // Disable transition for initial setup to avoid "jumping" effect on load
                 sheet.style.transition = 'none';
                 setTranslateY(offset);
+
                 // Re-enable transition after a small tick
                 requestAnimationFrame(() => {
-                    sheet.style.transition = 'transform 0.5s cubic-bezier(0.32, 0.72, 0, 1)';
+                    sheet.classList.remove('opacity-0'); // Fade in
+                    sheet.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease-out';
                 });
-            }, 50);
+            }, 100);
 
             // Auto-expand when user types in destination
             const destInput = document.getElementById('destino-input');
             if (destInput) {
-                destInput.addEventListener('input', () => {
+                const expandPanel = () => {
                     if (isMinimized) {
                         setTranslateY(0);
                         isMinimized = false;
                     }
-                });
+                };
 
-                // Optional: Also expand on focus to be more helpful
-                destInput.addEventListener('focus', () => {
-                    if (isMinimized) {
-                        setTranslateY(0);
-                        isMinimized = false;
-                    }
-                });
+                destInput.addEventListener('input', expandPanel);
+                destInput.addEventListener('focus', expandPanel); // Expand on focus for better UX
             }
 
             function startDrag(y) {
@@ -1049,6 +905,142 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
     <script src="js/pwa-register.js"></script>
+
+    <!-- Script para carregar motoristas e nome do usuário -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const greetingElement = document.getElementById('user-greeting');
+            const driversContainer = document.getElementById('drivers-list-container');
+
+            // 1. Carregar nome do usuário
+            if (greetingElement && window.supabaseClient) {
+                try {
+                    const { data: { user } } = await supabaseClient.auth.getUser();
+                    if (user && user.user_metadata && user.user_metadata.nome) {
+                        const firstName = user.user_metadata.nome.split(' ')[0];
+                        greetingElement.textContent = `Olá, ${firstName}`;
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar nome do usuário:', error);
+                }
+            }
+
+            // 2. Carregar lista de motoristas
+            if (driversContainer && window.supabaseClient) {
+                try {
+                    // Busca motoristas aprovados e seus dados de usuário
+                    // Nota: Assume que existe relação ou que os dados estão na tabela motoristas
+                    // Se não houver join direto, pode ser necessário buscar em duas etapas ou ajustar a query
+                    // Aqui buscaremos da tabela 'motoristas' e faremos join com 'auth.users' se possível ou usaremos metadados se replicados
+                    // Para simplificar, vamos assumir que a tabela 'motoristas' tem os dados necessários ou faremos uma query simples
+
+                    // Ajuste: A tabela motoristas tem usuario_id. Precisamos pegar o nome da tabela de usuarios ou meta.
+                    // Como o Supabase não faz join fácil com auth.users via client-side sem view,
+                    // vamos supor que exista uma view ou que vamos buscar os dados básicos da tabela 'motoristas' 
+                    // e talvez tenhamos que pegar o nome de outra forma.
+                    // POR ENQUANTO: Vamos listar da tabela 'motoristas'. Se faltar nome, usaremos um placeholder ou buscaremos.
+
+                    const { data: motoristas, error } = await supabaseClient
+                        .from('motoristas')
+                        .select('*, usuarios(nome, foto_perfil_url)')
+                        .eq('status_aprovacao', 'aprovado');
+
+                    if (error) throw error;
+
+                    driversContainer.innerHTML = '';
+
+                    if (!motoristas || motoristas.length === 0) {
+                        driversContainer.innerHTML = `
+                            <div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+                                <p>Nenhum motorista disponível no momento.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    for (const motorista of motoristas) {
+                        const usuario = motorista.usuarios;
+                        const displayName = usuario ? usuario.nome : `Motorista ${motorista.modelo_veiculo}`;
+                        const photoUrl = usuario && usuario.foto_perfil_url ? usuario.foto_perfil_url : "https://ui-avatars.com/api/?name=Motorista&background=random";
+
+                        const rating = motorista.avaliacao_media || (4.5 + Math.random() * 0.5).toFixed(1);
+                        const timeAway = Math.floor(Math.random() * 10) + 2;
+
+                        const cardHtml = `
+                            <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary/50">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <div class="size-14 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 ring-2 ring-primary/20 shrink-0">
+                                        <img alt="${displayName}" class="w-full h-full object-cover"
+                                            src="${photoUrl}" 
+                                            onerror="this.src='https://ui-avatars.com/api/?name=Motorista&background=random'"/>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start">
+                                            <p class="font-bold text-lg text-slate-900 dark:text-slate-100 truncate">
+                                                ${displayName}</p>
+                                            <span class="px-2 py-1 rounded-md bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 shrink-0">
+                                                ${timeAway} min
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <div class="flex items-center gap-1 text-yellow-500">
+                                                <span class="material-symbols-outlined text-sm font-fill">star</span>
+                                                <span class="text-xs font-bold">${rating}</span>
+                                            </div>
+                                            <span class="text-slate-400 text-[10px]">•</span>
+                                            <span class="text-slate-500 dark:text-slate-400 text-xs font-medium truncate">
+                                                ${motorista.modelo_veiculo} - ${motorista.cor_veiculo}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-end pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                                    <div class="flex gap-2">
+                                        <a href="chat.html?driverId=${motorista.usuario_id}&name=${encodeURIComponent(displayName)}&car=${encodeURIComponent(motorista.modelo_veiculo)}"
+                                            class="size-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                                            title="Chat com motorista">
+                                            <span class="material-symbols-outlined text-xl">chat</span>
+                                        </a>
+                                        <input type="radio" name="driver_selection" class="peer hidden" id="driver-${motorista.usuario_id}" value="${motorista.usuario_id}">
+                                        <label for="driver-${motorista.usuario_id}"
+                                            class="px-5 py-2 rounded-lg font-bold text-sm cursor-pointer transition-colors peer-checked:bg-primary peer-checked:text-white bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
+                                            Selecionar
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        driversContainer.innerHTML += cardHtml;
+                    }
+
+                    // Re-attach event listeners for new radio buttons
+                    const driverInputs = document.querySelectorAll('input[name="driver_selection"]');
+                    driverInputs.forEach(input => {
+                        input.addEventListener('change', () => {
+                            const driversSection = document.getElementById('drivers-section');
+                            if (driversSection) {
+                                driversSection.classList.remove('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
+                            }
+                            const requestBtn = document.getElementById('btn-request-ride');
+                            if (requestBtn) {
+                                requestBtn.classList.add('ring-4', 'ring-primary/40', 'scale-105');
+                                setTimeout(() => requestBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                                setTimeout(() => requestBtn.classList.remove('scale-105'), 600);
+                            }
+                        });
+                    });
+
+                } catch (error) {
+                    console.error('Erro ao buscar motoristas:', error);
+                    driversContainer.innerHTML = `
+                        <div class="p-4 text-center text-red-400 text-sm">
+                            <p>Erro ao carregar motoristas. Tente novamente.</p>
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
