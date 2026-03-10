@@ -180,7 +180,7 @@
                 <div class="relative">
                     <div
                         class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img src="https://randomuser.me/api/portraits/men/99.jpg" alt="Carlos Silva"
+                        <img id="user-avatar" src="https://randomuser.me/api/portraits/men/99.jpg" alt="Foto de Perfil"
                             class="w-full h-full object-cover">
                     </div>
                     <button
@@ -189,8 +189,8 @@
                     </button>
                 </div>
                 <div class="flex flex-col items-center mt-4 text-center">
-                    <h2 class="text-2xl font-bold">Carlos Silva</h2>
-                    <p class="text-primary font-medium text-sm">Passageiro Nível Ouro</p>
+                    <h2 id="user-name" class="text-2xl font-bold">Carregando...</h2>
+                    <p id="user-level" class="text-primary font-medium text-sm">Passageiro</p>
                 </div>
             </div>
 
@@ -199,13 +199,13 @@
                 <div
                     class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
                     <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Viagens</p>
-                    <p class="text-2xl font-black text-slate-900 dark:text-white">154</p>
+                    <p id="user-trips-count" class="text-2xl font-black text-slate-900 dark:text-white">0</p>
                 </div>
                 <div
                     class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
                     <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Membro
                         desde</p>
-                    <p class="text-2xl font-black text-slate-900 dark:text-white">Jan '23</p>
+                    <p id="user-member-since" class="text-2xl font-black text-slate-900 dark:text-white">-</p>
                 </div>
             </div>
 
@@ -286,7 +286,7 @@
                 <span class="material-symbols-outlined">logout</span>
                 Sair da Conta
             </a>
-
+            
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
 
@@ -320,7 +320,77 @@
             </div>
         </nav>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
     <script src="js/pwa-register.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Check Authentication
+            const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+
+            if (authError || !user) {
+                window.location.href = 'loginPassageiro.html';
+                return;
+            }
+
+            // 2. Fetch User Profile
+            const { data: profile, error: profileError } = await supabaseClient
+                .from('usuarios')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            if (profileError) {
+                console.error('Error fetching profile:', profileError);
+                return;
+            }
+
+            // 3. Update Profile UI
+            document.getElementById('user-name').innerText = profile.nome || 'Usuário';
+            
+            // Format "Member Since" date
+            if (profile.criado_em) {
+                const date = new Date(profile.criado_em);
+                const month = date.toLocaleString('pt-BR', { month: 'short' });
+                const year = date.getFullYear().toString().slice(-2);
+                // Capitalize first letter of month
+                const formattedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+                document.getElementById('user-member-since').innerText = `${formattedMonth} '${year}`;
+            }
+
+            // Avatar logic
+            const avatarEl = document.getElementById('user-avatar');
+            if (profile.foto_perfil_url) {
+                avatarEl.src = profile.foto_perfil_url;
+            } else {
+                // Generate initials avatar if no image
+                const initials = (profile.nome || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                // Replace img with div for initials
+                const parent = avatarEl.parentElement;
+                parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold">${initials}</div>`;
+            }
+
+            // 4. Fetch Trips Count
+            // Assuming 'passageiro_id' is the column in 'viagens' table
+            const { count, error: tripsError } = await supabaseClient
+                .from('viagens')
+                .select('*', { count: 'exact', head: true })
+                .eq('passageiro_id', user.id);
+
+            if (tripsError) {
+                console.error('Error fetching trips count:', tripsError);
+            } else {
+                // Default to 0 is handled by 'count' being 0 if no rows match
+                document.getElementById('user-trips-count').innerText = count || 0;
+                
+                // Update level based on trips (Simple gamification logic)
+                const levelEl = document.getElementById('user-level');
+                if (count >= 50) levelEl.innerText = 'Passageiro Nível Ouro';
+                else if (count >= 20) levelEl.innerText = 'Passageiro Nível Prata';
+                else levelEl.innerText = 'Passageiro Iniciante';
+            }
+        });
+    </script>
 </body>
 
 </html>

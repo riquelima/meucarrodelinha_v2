@@ -512,14 +512,14 @@
             </div>
             <nav class="flex-1 overflow-y-auto px-4 py-2 space-y-2">
                 <div class="bg-slate-900/50 rounded-2xl border border-slate-800 overflow-hidden">
-                    <a class="w-full flex items-center justify-between p-4 text-white" href="cadastroMotorista.html">
+                    <button class="w-full flex items-center justify-between p-4 text-white hover:bg-slate-800/50 transition-colors" onclick="toggleSubmenu('login-submenu')">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-primary">login</span>
                             <span class="font-semibold">Entrar</span>
                         </div>
-                        <span class="material-symbols-outlined text-slate-500">expand_less</span>
-                    </a>
-                    <div class="px-4 pb-4 space-y-2">
+                        <span class="material-symbols-outlined text-slate-500 transition-transform duration-200" id="login-submenu-icon" style="transform: rotate(-180deg);">expand_less</span>
+                    </button>
+                    <div id="login-submenu" class="px-4 pb-4 space-y-2 transition-all duration-200 overflow-hidden max-h-0 opacity-0 hidden">
                         <a class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 text-sm text-slate-300 hover:bg-primary/20 transition-colors"
                             href="loginPassageiro.html">
                             <span class="material-symbols-outlined text-lg">person</span>
@@ -595,6 +595,32 @@
         menuBtn.addEventListener('click', openMenu);
         menuCloseBtn.addEventListener('click', closeMenu);
         menuBackdrop.addEventListener('click', closeMenu);
+
+        // Submenu Toggle Logic
+        function toggleSubmenu(id) {
+            const submenu = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            
+            if (submenu.style.maxHeight === '0px' || submenu.classList.contains('hidden')) {
+                submenu.classList.remove('hidden');
+                // Small timeout to allow transition
+                setTimeout(() => {
+                    submenu.style.maxHeight = '160px'; // Approx height
+                    submenu.style.opacity = '1';
+                    submenu.style.paddingBottom = '16px';
+                }, 10);
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                submenu.style.maxHeight = '0px';
+                submenu.style.opacity = '0';
+                submenu.style.paddingBottom = '0px';
+                icon.style.transform = 'rotate(-180deg)';
+                // Hide after transition
+                setTimeout(() => {
+                    submenu.classList.add('hidden');
+                }, 200);
+            }
+        }
 
         // Map Initialization
         document.addEventListener('DOMContentLoaded', () => {
