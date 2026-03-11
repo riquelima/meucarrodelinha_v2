@@ -97,7 +97,7 @@
     <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         <header
             class="flex items-center bg-white/80 dark:bg-slate-900/80 ios-blur sticky top-0 z-30 p-4 border-b border-slate-200 dark:border-slate-800">
-            <a href="admin.html"
+            <a href="homepage.html"
                 class="flex items-center justify-center h-10 w-10 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                 <span class="material-symbols-outlined">arrow_back_ios_new</span>
             </a>
@@ -197,6 +197,10 @@
 
                 if (!error && usuario?.tipo_usuario === 'admin') {
                     isAdmin = true;
+                } else {
+                    // Se não for admin, oculta a navbar inferior
+                    const bottomNav = document.getElementById('bottom-nav');
+                    if (bottomNav) bottomNav.classList.add('hidden');
                 }
             }
             checkUserType();
@@ -322,15 +326,14 @@
             });
         </script>
         <!-- Bottom Navigation Bar -->
-        <nav
+        <nav id="bottom-nav"
             class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
             <div class="flex gap-2 max-w-lg mx-auto">
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="admin.html">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="homepage.html">
                     <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined"
-                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+                        <span class="material-symbols-outlined">home</span>
                     </div>
-                    <p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Início</p>
                 </a>
                 <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
                     href="gerenciarUsuarios.html">

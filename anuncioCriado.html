@@ -110,7 +110,44 @@
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const savedData = localStorage.getItem('pending_ad_data');
+            if (savedData) {
+                const adData = JSON.parse(savedData);
+                const statusText = document.querySelector('p.text-slate-600');
+                const originalText = statusText.textContent;
+
+                statusText.innerHTML = '<span class="flex items-center justify-center gap-2"><span class="size-4 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></span> Finalizando registro do seu anúncio...</span>';
+
+                try {
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+
+                    // Call register-paid-ad (we allow registration if we are on this success page)
+                    const { data, error } = await window.supabaseClient.functions.invoke('register-paid-ad', {
+                        body: {
+                            is_checkout_link: true,
+                            adData: {
+                                ...adData,
+                                user_id: user?.id || adData.user_id
+                            }
+                        }
+                    });
+
+                    if (error) throw error;
+
+                    // Success! Clean up
+                    localStorage.removeItem('pending_ad_data');
+                    statusText.textContent = originalText;
+                } catch (err) {
+                    console.error('Erro ao finalizar registro:', err);
+                    statusText.innerHTML = '<span class="text-amber-500 font-bold">Aviso:</span> O pagamento foi processado, mas houve um erro ao salvar o anúncio. Não se preocupe, nosso suporte ativará para você em instantes.';
+                }
+            }
+        });
+
         function smoothNavigate(href) {
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
