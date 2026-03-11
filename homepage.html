@@ -394,20 +394,40 @@
                 </div>
             </div>
         </section>
-        <section class="px-4 py-5 animate-slide-up delay-100">
-            <a href="cadastroMotorista.html"
-                class="active-scale w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary to-blue-700 text-white shadow-md">
-                <div class="flex items-center gap-3">
-                    <div class="bg-white/20 p-2 rounded-lg">
-                        <span class="material-symbols-outlined">badge</span>
+        <section class="py-5 animate-slide-up delay-100 overflow-hidden">
+            <div class="flex gap-4 px-4 overflow-x-auto no-scrollbar snap-x snap-mandatory" id="actions-slider">
+                <!-- Card Motorista -->
+                <a href="cadastroMotorista.html"
+                    class="active-scale flex-none w-[85%] snap-center flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary to-blue-700 text-white shadow-md relative group">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/20 p-2 rounded-lg">
+                            <span class="material-symbols-outlined">badge</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-sm">Quero ser motorista</p>
+                            <p class="text-[10px] opacity-90">Aumente sua renda dirigindo conosco</p>
+                        </div>
                     </div>
-                    <div class="text-left">
-                        <p class="font-bold text-sm">Quero ser motorista</p>
-                        <p class="text-[10px] opacity-90">Aumente sua renda dirigindo conosco</p>
+                    <span
+                        class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">chevron_right</span>
+                </a>
+
+                <!-- Card Anunciante -->
+                <a href="novoAnuncio.html"
+                    class="active-scale flex-none w-[85%] snap-center flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md relative group">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/20 p-2 rounded-lg">
+                            <span class="material-symbols-outlined">campaign</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-sm">Quero anunciar</p>
+                            <p class="text-[10px] opacity-90">Divulgue seu negócio para milhares</p>
+                        </div>
                     </div>
-                </div>
-                <span class="material-symbols-outlined text-xl">chevron_right</span>
-            </a>
+                    <span
+                        class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">chevron_right</span>
+                </a>
+            </div>
         </section>
         <section class="px-4 py-4 animate-slide-up delay-200">
             <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Como
@@ -485,11 +505,11 @@
                 <h3 class="text-lg font-bold">Anúncios</h3>
                 <a class="text-[#f97316] text-sm font-semibold" href="anuncios.html">Ver todos</a>
             </div>
-            <div class="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar mask-gradient-x">
+            <div id="ads-container" class="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar mask-gradient-x">
                 <div
                     class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-                    <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img alt="Ad 1" class="w-full h-full object-cover"
+                    <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
+                        <img alt="Ad 1" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3seOHAKJ6v5NUZiynm6rVLTi9T9WbCOue6IhoJ2yW0PaKRfdF7h99MdQJi5O7Qo-bv3URuKjVbx2okfNE_6zQucUbBumL8_EVcjzKOBUXG8o51wIH2DylHr1H9mfqfzTMxHgD9S0ONpHAcPDTjuq-AeinxH0waMJrRzcU52Nd1fbb0hpeSJJ9SdtOK_39aIN-5OrlhSK2mbsu6XofaKZbQTdsmDZwB2afjMsVS2-JEu5KCRhErujkxD1pIkjrZ9KIHsgM8fIjkyJN" />
                     </div>
                     <div class="p-3">
@@ -501,8 +521,8 @@
                 </div>
                 <div
                     class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-                    <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img alt="Ad 2" class="w-full h-full object-cover"
+                    <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
+                        <img alt="Ad 2" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdziscOzGZzwdY-6UKITd5hdYF-eAvjgE5PgFLZWWW9pZHItSKOL34yhfegI92u2x9wGXfvJaMHz0x3tWJrvu9RocB3FzOVk1Qs16jG8bzZDrL4jOVqbIKUg6dYcEu6rldcxB1tcU63sOXHQQTuqY0P6wpZJIbDnqPn-2A896Rdnw4LViUL0vEeznCgcvPSshr2EqxPUS6MTHZE1JbUabB7jJ32KiyfI_xWxZ6-DHdJmbK4xIJgqUuRQ3cd1W3C7S05CFvCYS3kVdh" />
                     </div>
                     <div class="p-3">
@@ -513,8 +533,8 @@
                 </div>
                 <div
                     class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-                    <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
-                        <img alt="Ad 3" class="w-full h-full object-cover"
+                    <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
+                        <img alt="Ad 3" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuJwCX4_44pbKWjRuEKRMr9h0gXv1oIC1VcV2F7I3z-Ds3HMujXorovc5KPZsk_D8TEYsVeenx19iWFD9H5sxgS-v_32LPW-4jnxQ9OOgCH-ipgpM0dLzfg7927hqFfDHgwjF71yq7sJBRMVVjF3gLmlF9RvMFXCpIfaw6yc54H1SApCW9_B_jT2Ut8DiJW6nUOGECEeKo0M_8LpfM7P33R_JGFyZKkmPSghMU-4KwoqMb2TD3gQLgnVDbTJbROk_Lk3Lvjmx2CL-2" />
                     </div>
                     <div class="p-3">
@@ -778,6 +798,29 @@
                 document.documentElement.dataset.transition = '';
             }
         });
+    </script>
+    <script>
+        // Animação de "peek" para mostrar que há mais cards na horizontal
+        document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.getElementById('actions-slider');
+            if (slider) {
+                setTimeout(() => {
+                    slider.scrollTo({
+                        left: 60,
+                        behavior: 'smooth'
+                    });
+
+                    setTimeout(() => {
+                        slider.scrollTo({
+                            left: 0,
+                            behavior: 'smooth'
+                        });
+                    }, 800);
+                }, 1500);
+            }
+        });
+
+        // Script para animação de fade no scroll do header
     </script>
     <script src="js/ui-transitions.js"></script>
     <script src="js/pwa-register.js"></script>

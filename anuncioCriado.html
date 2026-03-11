@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f38bd",
+                        "success": "#22c55e",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        'subtle-pulse': 'subtle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        'subtle-pulse': {
+                            '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+                            '50%': { opacity: .85, transform: 'scale(1.05)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    <meta name="view-transition" content="same-origin" />
+    <style>
+        .active-scale {
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .active-scale:active {
+            transform: scale(0.97);
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+    <div class="relative flex h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header -->
+        <header
+            class="flex items-center bg-background-light dark:bg-background-dark p-4 justify-between border-b border-slate-200 dark:border-primary/20">
+            <div class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start">
+                <span class="material-symbols-outlined cursor-pointer hover:opacity-70 transition-opacity"
+                    onclick="smoothNavigate('homepage.html')">close</span>
+            </div>
+            <h2
+                class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-12 uppercase tracking-widest text-sm opacity-80">
+                Confirmação</h2>
+        </header>
+        <!-- Main Content -->
+        <main class="flex flex-1 flex-col items-center justify-center px-6 py-12">
+            <div class="flex flex-col items-center gap-8 w-full max-w-md">
+                <!-- Success Illustration/Icon -->
+                <div class="relative flex items-center justify-center">
+                    <div class="absolute inset-0 bg-success/20 blur-3xl rounded-full scale-150"></div>
+                    <div
+                        class="relative bg-success text-white rounded-full p-8 shadow-2xl shadow-success/40 animate-subtle-pulse">
+                        <span class="material-symbols-outlined !text-7xl">check_circle</span>
+                    </div>
+                </div>
+                <!-- Message -->
+                <div class="flex flex-col items-center gap-3 text-center">
+                    <h1 class="text-slate-900 dark:text-slate-100 text-3xl font-bold tracking-tight">Tudo pronto!</h1>
+                    <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+                        O anúncio foi publicado com sucesso. Agora ele já está visível para seus clientes em toda a
+                        plataforma.
+                    </p>
+                </div>
+                <!-- Action Buttons -->
+                <div class="flex flex-col w-full gap-4 mt-4">
+                    <button onclick="smoothNavigate('anuncios.html')"
+                        class="active-scale flex w-full cursor-pointer items-center justify-center rounded-xl h-14 px-6 bg-primary text-white text-base font-bold transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20">
+                        <span>Criar Novo Anúncio</span>
+                    </button>
+                    <button onclick="smoothNavigate('homepage.html?adCreated=true')"
+                        class="active-scale flex w-full cursor-pointer items-center justify-center rounded-xl h-14 px-6 bg-slate-200 dark:bg-primary/20 text-slate-900 dark:text-slate-100 text-base font-bold transition-all hover:bg-slate-300 dark:hover:bg-primary/30">
+                        <span>Ver Anúncio</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function smoothNavigate(href) {
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    window.location.href = href;
+                });
+            } else {
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            }
+        }
+    </script>
+</body>
+
+</html>

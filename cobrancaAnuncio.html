@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f38bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header -->
+        <div
+            class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-slate-200 dark:border-slate-800">
+            <div
+                class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start cursor-pointer">
+                <span class="material-symbols-outlined text-2xl">arrow_back</span>
+            </div>
+            <h2
+                class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">
+                Impulsionar Anúncio</h2>
+        </div>
+        <div class="flex flex-col px-4 pt-6 pb-4">
+            <h3 class="text-slate-900 dark:text-slate-100 tracking-tight text-2xl font-bold leading-tight">
+                Potencialize seu negócio por menos de um cafezinho!
+            </h3>
+            <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-normal mt-2">
+                Alcance milhares de passageiros em Salinas por apenas <span class="text-primary font-bold">R$
+                    2,90</span>.
+            </p>
+        </div>
+        <!-- Ad Preview Section -->
+        <div class="px-4 py-4">
+            <h3 class="text-slate-800 dark:text-slate-200 text-sm font-semibold uppercase tracking-wider mb-4">Prévia do
+                seu anúncio</h3>
+            <div
+                class="bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800">
+                <div class="relative h-48 w-full bg-slate-200 dark:bg-slate-800">
+                    <img alt="Customer using mobile app" class="w-full h-full object-cover"
+                        data-alt="Digital advertisement banner showing a local business promotion"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDhGHPEl660lNak6lEoYkxCUPxiqI7q-fD-0RT26n7Jii1O7WeT3DxKxpZJhsXwVF5jfEduFS2aXHdCiua63wx3xDLX0ypCgGL14pZ5lFzSpWZxXV0y0r092KHoAMY4PhyFosguPDKcLzU0QuBMFj_jf5mTSoQzBQxdzoOYTPjJQ4kMqohy0o-Cb6h2U0IuBmXlHuHzSBgiPN4FRRiHxOLXNfC222lO7XjTdQKw7r6Yva83xixyPpz2UJaoyv8OL6dyORL4eLx1jhs" />
+                    <div
+                        class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase">
+                        Patrocinado</div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary material-fill">store</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-slate-100">Seu Negócio Aqui</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Salinas, MG</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 line-clamp-2">
+                        Esta é a descrição do seu anúncio. Ele aparecerá para todos os usuários que buscam viagens em
+                        Salinas.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Billing Details -->
+        <div class="mt-auto px-4 pt-6 pb-8 space-y-6">
+            <div
+                class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
+                <div class="flex justify-between items-center border-slate-200 dark:border-slate-800">
+                    <span class="text-slate-900 dark:text-slate-100 font-bold">Total a pagar</span>
+                    <span class="text-primary text-xl font-extrabold">R$ 2,90</span>
+                </div>
+            </div>
+
+            <!-- QR Code Section (Hidden initially) -->
+            <div id="pix-container"
+                class="hidden flex flex-col items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 animate-slide-up">
+                <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Escaneie o QR Code abaixo:</p>
+                <div class="bg-white p-2 rounded-lg shadow-inner">
+                    <img id="pix-qr-code" class="size-48" src="" alt="QR Code Pix" />
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="text-[10px] uppercase font-bold text-slate-500 text-center">Ou copie o código
+                        abaixo</label>
+                    <div
+                        class="flex gap-2 p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <input id="pix-copy-paste" type="text" readonly
+                            class="bg-transparent border-none text-xs flex-1 outline-none text-slate-600 dark:text-slate-300 truncate"
+                            value="" />
+                        <button onclick="copyPixCode()" class="text-primary hover:text-primary/80 transition-colors">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-primary animate-pulse mt-2">
+                    <span class="material-symbols-outlined text-sm">hourglass_empty</span>
+                    <span class="text-[10px] font-bold uppercase">Aguardando confirmação...</span>
+                </div>
+            </div>
+
+            <button id="btn-pay-pix" onclick="handlePixPayment()"
+                class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all active-scale shadow-lg shadow-primary/20">
+                <span id="btn-pay-icon" class="material-symbols-outlined material-fill">qr_code_2</span>
+                <span id="btn-pay-text">Confirmar e Gerar PIX</span>
+            </button>
+
+            <p class="text-center text-xs text-slate-500 dark:text-slate-500 px-8">
+                Ao confirmar, seu anúncio entrará em análise e será ativado imediatamente após a confirmação do
+                pagamento.
+            </p>
+        </div>
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="js/supabaseClient.js"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+
+        <script>
+            const STRIPE_PUBLIC_KEY = 'pk_live_51T9oOJ8xIli7w1YWvRyyzh2cgpLN7lL0bVpHTJR5yPS618mFenFupkPSlUoRJYobruvkNtZaqBRiZjd6DdnqhEim00rnflOHSv';
+            const stripe = Stripe(STRIPE_PUBLIC_KEY);
+
+            let pendingAdData = null;
+            let paymentIntentId = null;
+            let checkInterval = null;
+
+            document.addEventListener('DOMContentLoaded', () => {
+                // Load pending ad data
+                const savedData = localStorage.getItem('pending_ad_data');
+                if (!savedData) {
+                    alert('Nenhum dado de anúncio encontrado. Voltando...');
+                    window.location.href = 'novoAnuncio.html';
+                    return;
+                }
+                pendingAdData = JSON.parse(savedData);
+
+                // Update Preview
+                if (pendingAdData.imagem_url) {
+                    document.querySelector('img[data-alt]').src = pendingAdData.imagem_url;
+                }
+                document.querySelector('h4.text-slate-900').textContent = pendingAdData.titulo;
+                document.querySelector('p.text-sm.text-slate-700').textContent = pendingAdData.descricao;
+            });
+
+            async function handlePixPayment() {
+                const btn = document.getElementById('btn-pay-pix');
+                const btnText = document.getElementById('btn-pay-text');
+                const btnIcon = document.getElementById('btn-pay-icon');
+
+                try {
+                    btn.disabled = true;
+                    btnText.textContent = 'Gerando PIX...';
+                    btnIcon.classList.add('animate-spin');
+                    btnIcon.textContent = 'sync';
+
+                    // Check if user is logged in
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                    const customerEmail = user ? user.email : 'cliente.externo@meucarrodelinha.com';
+                    const customerName = (user && user.user_metadata) ? (user.user_metadata.full_name || user.email) : 'Cliente Externo';
+
+                    // Call Edge Function to create Payment Intent
+                    const { data, error } = await window.supabaseClient.functions.invoke('create-pix-payment', {
+                        body: {
+                            amount: 290,
+                            metadata: {
+                                user_id: user ? user.id : 'anonymous',
+                                titulo: pendingAdData.titulo
+                            }
+                        }
+                    });
+
+                    if (error) throw error;
+
+                    const clientSecret = data.client_secret;
+                    paymentIntentId = data.id;
+
+                    // Confirm payment on client side for Pix
+                    const result = await stripe.confirmPixPayment(clientSecret, {
+                        payment_method: {
+                            billing_details: {
+                                name: customerName,
+                                email: customerEmail,
+                            },
+                        },
+                    });
+
+                    if (result.error) {
+                        throw result.error;
+                    }
+
+                    // Show PIX data
+                    const pixData = result.paymentIntent.next_action.pix_display_qr_code;
+                    document.getElementById('pix-qr-code').src = pixData.image_url_png;
+                    document.getElementById('pix-copy-paste').value = pixData.data;
+
+                    document.getElementById('pix-container').classList.remove('hidden');
+                    btn.classList.add('hidden');
+
+                    // Start polling for status
+                    startCheckingPaymentStatus(clientSecret);
+
+                } catch (err) {
+                    console.error('Erro no pagamento:', err);
+                    alert('Não foi possível gerar o PIX. Tente novamente.');
+                    btn.disabled = false;
+                    btnText.textContent = 'Confirmar e Gerar PIX';
+                    btnIcon.classList.remove('animate-spin');
+                    btnIcon.textContent = 'qr_code_2';
+                }
+            }
+
+            function startCheckingPaymentStatus(clientSecret) {
+                if (checkInterval) clearInterval(checkInterval);
+
+                checkInterval = setInterval(async () => {
+                    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+                    if (paymentIntent.status === 'succeeded') {
+                        clearInterval(checkInterval);
+                        finishAdCreation();
+                    }
+                }, 5000);
+            }
+
+            async function finishAdCreation() {
+                try {
+                    // Register ad using Edge Function (secure, bypasses RLS)
+                    const { data, error } = await window.supabaseClient.functions.invoke('register-paid-ad', {
+                        body: {
+                            payment_intent_id: paymentIntentId,
+                            adData: pendingAdData
+                        }
+                    });
+
+                    if (error) throw error;
+
+                    // Clean up and redirect
+                    localStorage.removeItem('pending_ad_data');
+                    window.location.href = 'anuncioCriado.html';
+
+                } catch (err) {
+                    console.error('Erro ao finalizar anúncio:', err);
+                    alert('Pagamento aprovado, mas erro ao registrar anúncio. Entre em contato com o suporte.');
+                }
+            }
+
+            function copyPixCode() {
+                const input = document.getElementById('pix-copy-paste');
+                input.select();
+                document.execCommand('copy');
+                alert('Código PIX copiado!');
+            }
+        </script>
+        <!-- Bottom Navigation Bar -->
+    </div>
+</body>
+
+</html>

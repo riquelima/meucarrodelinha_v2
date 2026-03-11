@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-<title>Criar Anúncio: Meu Carro de Linha Salinas</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Criar Anúncio: Meu Carro de Linha Salinas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -20,12 +25,12 @@
                     fontFamily: {
                         "display": ["Inter"]
                     },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-<style type="text/tailwindcss">
+    <style type="text/tailwindcss">
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100dvh;
@@ -81,91 +86,276 @@
         .delay-500 { animation-delay: 500ms; }
 
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-<header class="flex items-center bg-white/80 dark:bg-slate-900/80 ios-blur sticky top-0 z-30 p-4 border-b border-slate-200 dark:border-slate-800">
-<a href="admin.html" class="flex items-center justify-center h-10 w-10 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-<span class="material-symbols-outlined">arrow_back_ios_new</span>
-</a>
-<h1 class="text-lg font-bold flex-1 text-center pr-10">Criar Anúncio</h1>
-</header>
-<main class="flex flex-col gap-6 p-4 pb-24">
-<section class="flex flex-col gap-4">
-<div class="flex flex-col gap-2">
-<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Título do Anúncio</label>
-<input class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Ex: Promoção Restaurante Central" type="text"/>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Descrição Curta</label>
-<textarea class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none" placeholder="Ex: 20% de desconto para passageiros Meu Carro Salinas" rows="2"></textarea>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Upload da Imagem</label>
-<div class="w-full aspect-video rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-primary transition-colors">
-<span class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary transition-colors">add_photo_alternate</span>
-<p class="text-sm text-slate-500 font-medium">Toque para selecionar imagem</p>
-<p class="text-[10px] text-slate-400">Recomendado: 1200x600px</p>
-</div>
-</div>
-</section>
-<section class="flex flex-col gap-4 mt-2">
-<div class="flex items-center justify-between px-1">
-<h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Preview do Card</h2>
-<span class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full font-bold">Visualização na Home</span>
-</div>
-<div class="w-full bg-slate-800 rounded-2xl overflow-hidden ad-preview-shadow relative aspect-[16/9]">
-<img alt="Preview Ad" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9xAbeAspXNUsx0pFg2lgWbuQlr_W149XiCXhEfaMD4OTtjZoJGKQOuRw4rIr4ckp7e6ngc6PNwhyM9M9XsaZBdmcSwMz-EBye7E3n6v4UZFPpe7Gcn-0XEjFtjUib9SsYRjWSq-IdRWAqRv1Llr2JhisyptUmwiQFsyOnI0P22vlKGy-3iwSnMLI8fMB5X9tf5-zQBzKWYRNMmH6ox7ZD_UyOhy-0OSaxbxgHRK54fq4uREeO_bZgFEeV_tZ5sO-VMLYs6bsQnFUx"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-4 w-full">
-<div class="flex flex-col gap-1">
-<span class="text-[10px] font-bold uppercase tracking-widest text-primary bg-white/90 px-2 py-0.5 rounded-sm w-fit">Parceiro</span>
-<h3 class="text-lg font-bold text-white leading-tight">Título do Anúncio Exemplo</h3>
-<p class="text-xs text-slate-200 line-clamp-1">Esta é a descrição curta que aparecerá no carrossel da tela inicial.</p>
-</div>
-</div>
-</div>
-</section>
-<section class="flex flex-col gap-3 pt-4 mb-8">
-<button class="flex items-center justify-center gap-2 w-full p-4 rounded-xl bg-primary text-white font-bold transition-all active:scale-[0.98] shadow-lg shadow-primary/30">
-<span class="material-symbols-outlined">rocket_launch</span>
-<span>Publicar Agora</span>
-</button>
-</section>
-</main>
-<!-- Bottom Navigation Bar -->
-<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
-<div class="flex gap-2 max-w-lg mx-auto">
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="admin.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">dashboard</span>
-</div>
-<p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="gerenciarUsuarios.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined">group</span>
-</div>
-<p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="historicoGeral.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined">route</span>
-</div>
-<p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="perfilAdministrador.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined">settings</span>
-</div>
-<p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
-</a>
-</div>
-</nav>
-</div>
-</body></html>
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <header
+            class="flex items-center bg-white/80 dark:bg-slate-900/80 ios-blur sticky top-0 z-30 p-4 border-b border-slate-200 dark:border-slate-800">
+            <a href="admin.html"
+                class="flex items-center justify-center h-10 w-10 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </a>
+            <h1 class="text-lg font-bold flex-1 text-center pr-10">Criar Anúncio</h1>
+        </header>
+        <main class="flex flex-col gap-6 p-4 pb-24">
+            <section class="flex flex-col gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Título do
+                        Anúncio</label>
+                    <input id="titulo-anuncio"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                        placeholder="Ex: Promoção Restaurante Central" type="text" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Descrição
+                        Curta</label>
+                    <textarea id="descricao-anuncio"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
+                        placeholder="Ex: 20% de desconto para passageiros Meu Carro Salinas" rows="2"></textarea>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">URL de
+                        Destino</label>
+                    <input id="url-anuncio"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                        placeholder="Ex: https://meusite.com.br ou WhatsApp" type="url" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Upload da
+                        Imagem</label>
+                    <div id="drop-zone"
+                        class="w-full aspect-video rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-primary transition-colors relative overflow-hidden">
+                        <input type="file" id="imagem-input" accept="image/*" class="hidden" />
+                        <div id="no-image-state" class="flex flex-col items-center gap-2">
+                            <span
+                                class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary transition-colors">add_photo_alternate</span>
+                            <p class="text-sm text-slate-500 font-medium">Toque para selecionar imagem</p>
+                            <p class="text-[10px] text-slate-400">Recomendado: 1200x600px</p>
+                        </div>
+                        <img id="image-preview-overlay" class="absolute inset-0 w-full h-full object-cover hidden" />
+                    </div>
+                </div>
+            </section>
+
+            <section class="flex flex-col gap-4 mt-2">
+                <div class="flex items-center justify-between px-1">
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Preview do Card</h2>
+                    <span
+                        class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full font-bold">Visualização
+                        na Home</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-2xl overflow-hidden ad-preview-shadow relative aspect-[16/9]">
+                    <img id="card-preview-img" alt="Preview Ad" class="w-full h-full object-cover opacity-60"
+                        src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                        <div class="flex flex-col gap-1">
+                            <span
+                                class="text-[10px] font-bold uppercase tracking-widest text-primary bg-white/90 px-2 py-0.5 rounded-sm w-fit">Parceiro</span>
+                            <h3 id="preview-titulo" class="text-lg font-bold text-white leading-tight">Título do Anúncio
+                                Exemplo</h3>
+                            <p id="preview-descricao" class="text-xs text-slate-200 line-clamp-1">Esta é a descrição
+                                curta que aparecerá no carrossel da tela inicial.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flex flex-col gap-3 pt-4 mb-8">
+                <button id="btn-publicar"
+                    class="flex items-center justify-center gap-2 w-full p-4 rounded-xl bg-primary text-white font-bold transition-all active:scale-[0.98] shadow-lg shadow-primary/30">
+                    <span id="btn-icon" class="material-symbols-outlined">rocket_launch</span>
+                    <span id="btn-text">Publicar Agora</span>
+                </button>
+            </section>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="js/supabaseClient.js"></script>
+        <script>
+            let isAdmin = false;
+
+            // Admin check
+            async function checkUserType() {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) {
+                    isAdmin = false; // Usuário externo / Não logado
+                    return;
+                }
+
+                const { data: usuario, error } = await window.supabaseClient
+                    .from('usuarios')
+                    .select('tipo_usuario')
+                    .eq('id', user.id)
+                    .single();
+
+                if (!error && usuario?.tipo_usuario === 'admin') {
+                    isAdmin = true;
+                }
+            }
+            checkUserType();
+
+            const dropZone = document.getElementById('drop-zone');
+            const imageInput = document.getElementById('imagem-input');
+            const imagePreview = document.getElementById('image-preview-overlay');
+            const noImageState = document.getElementById('no-image-state');
+            const cardPreviewImg = document.getElementById('card-preview-img');
+
+            const tituloInput = document.getElementById('titulo-anuncio');
+            const descricaoInput = document.getElementById('descricao-anuncio');
+            const urlInput = document.getElementById('url-anuncio');
+
+            const previewTitulo = document.getElementById('preview-titulo');
+            const previewDescricao = document.getElementById('preview-descricao');
+
+            const btnPublicar = document.getElementById('btn-publicar');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
+
+            // Preview Sync
+            tituloInput.addEventListener('input', (e) => previewTitulo.textContent = e.target.value || 'Título do Anúncio Exemplo');
+            descricaoInput.addEventListener('input', (e) => previewDescricao.textContent = e.target.value || 'Esta é a descrição curta que aparecerá no carrossel da tela inicial.');
+
+            // Image Selection
+            dropZone.addEventListener('click', () => imageInput.click());
+
+            imageInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        imagePreview.src = event.target.result;
+                        imagePreview.classList.remove('hidden');
+                        noImageState.classList.add('hidden');
+                        cardPreviewImg.src = event.target.result;
+                        cardPreviewImg.classList.remove('opacity-60');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            async function uploadImage(file) {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExt}`;
+                const filePath = fileName;
+
+                const { data, error } = await window.supabaseClient.storage
+                    .from('anuncios')
+                    .upload(filePath, file);
+
+                if (error) throw error;
+
+                const { data: { publicUrl } } = window.supabaseClient.storage
+                    .from('anuncios')
+                    .getPublicUrl(filePath);
+
+                return publicUrl;
+            }
+
+            btnPublicar.addEventListener('click', async () => {
+                const titulo = tituloInput.value.trim();
+                const descricao = descricaoInput.value.trim();
+                const urlDestino = urlInput.value.trim();
+                const imageFile = imageInput.files[0];
+
+                if (!titulo || !imageFile) {
+                    alert('Por favor, preencha o título e selecione uma imagem.');
+                    return;
+                }
+
+                try {
+                    btnPublicar.disabled = true;
+                    btnText.textContent = isAdmin ? 'Publicando...' : 'Enviando imagem...';
+                    btnIcon.textContent = 'sync';
+                    btnIcon.classList.add('animate-spin');
+
+                    // Realiza o upload da imagem
+                    const imageUrl = await uploadImage(imageFile);
+
+                    if (isAdmin) {
+                        // Fluxo Administrador: Inserção direta
+                        const { data: userData } = await window.supabaseClient.auth.getUser();
+                        const { error } = await window.supabaseClient
+                            .from('anuncios')
+                            .insert([{
+                                titulo,
+                                descricao,
+                                url: urlDestino,
+                                imagem_url: imageUrl,
+                                criado_por: userData?.user?.id,
+                                ativo: true
+                            }]);
+
+                        if (error) throw error;
+                        alert('Anúncio publicado com sucesso!');
+                        window.location.href = 'anuncioCriado.html';
+                    } else {
+                        // Fluxo Externo: Redireciona para cobrança
+                        const { data: userData } = await window.supabaseClient.auth.getUser();
+                        const adData = {
+                            titulo,
+                            descricao,
+                            url: urlDestino,
+                            imagem_url: imageUrl,
+                            user_id: userData?.user?.id || null,
+                            valor: 2.90
+                        };
+
+                        localStorage.setItem('pending_ad_data', JSON.stringify(adData));
+                        window.location.href = 'cobrancaAnuncio.html';
+                    }
+
+                } catch (error) {
+                    console.error('Erro ao processar anúncio:', error);
+                    alert('Erro ao processar o anúncio. Tente novamente.');
+                    btnPublicar.disabled = false;
+                    btnText.textContent = 'Publicar Agora';
+                    btnIcon.textContent = 'rocket_launch';
+                    btnIcon.classList.remove('animate-spin');
+                }
+            });
+        </script>
+        <!-- Bottom Navigation Bar -->
+        <nav
+            class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
+            <div class="flex gap-2 max-w-lg mx-auto">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="admin.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+                    </div>
+                    <p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="gerenciarUsuarios.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined">group</span>
+                    </div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="historicoGeral.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined">route</span>
+                    </div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="perfilAdministrador.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined">settings</span>
+                    </div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
+                </a>
+            </div>
+        </nav>
+    </div>
+</body>
+
+</html>
