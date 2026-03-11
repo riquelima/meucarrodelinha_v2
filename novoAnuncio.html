@@ -157,7 +157,7 @@
                     <div class="absolute bottom-0 left-0 p-4 w-full">
                         <div class="flex flex-col gap-1">
                             <span
-                                class="text-[10px] font-bold uppercase tracking-widest text-primary bg-white/90 px-2 py-0.5 rounded-sm w-fit">Parceiro</span>
+                                class="text-[10px] font-bold uppercase tracking-widest text-primary bg-white/90 px-2 py-0.5 rounded-sm w-fit">PATROCINADO</span>
                             <h3 id="preview-titulo" class="text-lg font-bold text-white leading-tight">Título do Anúncio
                                 Exemplo</h3>
                             <p id="preview-descricao" class="text-xs text-slate-200 line-clamp-1">Esta é a descrição
@@ -197,10 +197,11 @@
 
                 if (!error && usuario?.tipo_usuario === 'admin') {
                     isAdmin = true;
-                } else {
-                    // Se não for admin, oculta a navbar inferior
+                    // Se for admin, exibe a navbar inferior
                     const bottomNav = document.getElementById('bottom-nav');
-                    if (bottomNav) bottomNav.classList.add('hidden');
+                    if (bottomNav) bottomNav.classList.remove('hidden');
+                } else {
+                    // Se não for admin, mantém oculto (já está com classe hidden no HTML)
                 }
             }
             checkUserType();
@@ -314,7 +315,7 @@
                         localStorage.setItem('pending_ad_data', JSON.stringify(adData));
                         // Redirecionamento direto para o Link de Pagamento da Stripe
                         // Isso resolve o problema do iframe sendo bloqueado (CSP/Security)
-                        window.location.href = 'https://buy.stripe.com/28EcMZe7x5nl4ba9T93AY00';
+                        window.location.href = 'https://buy.stripe.com/14AeV76F57vtbDC8P53AY01';
                     }
 
                 } catch (error) {
@@ -327,9 +328,9 @@
                 }
             });
         </script>
-        <!-- Bottom Navigation Bar -->
+        <!-- Bottom Navigation Bar (Hidden by default, visible only for Admin via JS) -->
         <nav id="bottom-nav"
-            class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
+            class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50 hidden">
             <div class="flex gap-2 max-w-lg mx-auto">
                 <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="homepage.html">
                     <div class="flex h-8 items-center justify-center">
