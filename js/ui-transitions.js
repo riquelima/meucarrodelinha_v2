@@ -62,9 +62,8 @@
 
         // Protege o Navbar contra qualquer transformação involuntária
         setupNavbarProtection() {
-            const nav = document.querySelector('nav');
+            const nav = document.querySelector('nav.fixed-navbar');
             if (nav) {
-                nav.classList.add('fixed-navbar');
                 // Garante que o nav nunca herde animações
                 nav.style.animation = 'none';
                 nav.style.transform = 'none';
