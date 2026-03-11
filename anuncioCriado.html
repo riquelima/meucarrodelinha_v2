@@ -144,9 +144,13 @@
                     if (data && data.error) throw new Error(data.error);
 
                     // Success! Clean up
-                    console.log('Registro concluído com sucesso. Removendo dados temporários.');
+                    console.log('Registro concluído com sucesso. Redirecionando em 3 segundos...');
                     localStorage.removeItem('pending_ad_data');
-                    statusText.textContent = originalText;
+                    statusText.innerHTML = '<span class="text-emerald-500 font-bold flex items-center justify-center gap-2 animate-pulse"><span class="material-symbols-outlined">check_circle</span> Anúncio Ativado! Redirecionando...</span>';
+
+                    setTimeout(() => {
+                        window.location.href = 'homepage.html?adCreated=true';
+                    }, 3000);
                 } catch (err) {
                     console.error('Erro detalhado ao finalizar registro:', err);
                     statusText.innerHTML = `
