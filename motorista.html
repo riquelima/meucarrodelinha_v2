@@ -15,6 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
     <!-- Google Maps SDK -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8"></script>
     <script id="tailwind-config">
@@ -90,113 +91,6 @@
                 opacity: 0;
             }
         }
-
-        .pb-safe {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        /* Page Transition */
-        main {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Click Animation */
-        .active-scale:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
-
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .delay-300 {
-            animation-delay: 300ms;
-        }
-
-        .delay-400 {
-            animation-delay: 400ms;
-        }
-
-        .delay-500 {
-            animation-delay: 500ms;
-        }
     </style>
     <style>
         body {
@@ -207,7 +101,7 @@
 
 <body
     class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display overflow-hidden page-enter">
-    <div class="relative flex h-screen w-full flex-col overflow-hidden">
+    <div class="page-container">
         <!-- Notification Container -->
         <div id="notification-container"
             class="absolute top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transform -translate-y-full transition-transform duration-500">
@@ -219,7 +113,7 @@
         </div>
         <!-- Header / Top Bar -->
         <header
-            class="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-background-dark/80 to-transparent animate-fade-in">
+            class="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-background-dark/80 to-transparent">
             <div class="flex items-center gap-3">
                 <div class="size-10 rounded-full border-2 border-primary overflow-hidden bg-surface-dark">
                     <img id="header-avatar" class="w-full h-full object-cover"
@@ -240,19 +134,18 @@
             </button>
         </header>
         <!-- Main Map Area (Interactive background) -->
-        <main class="relative flex-1 w-full bg-surface-dark overflow-hidden">
+        <main class="page-content relative w-full bg-surface-dark overflow-hidden">
             <div id="motorista-map" class="absolute inset-0 z-0 h-full w-full"></div>
             <!-- Earnings Summary Card Overlay Removed -->
             <!-- Map Controls Removed -->
             <!-- Search bar for manual location/destinations Removed -->
         </main>
         <!-- Bottom Action & Navigation Area -->
-        <footer
-            class="fixed bottom-0 left-0 right-0 z-50 bg-background-dark border-t border-slate-800 pb-safe pb-4 animate-slide-up delay-100">
+        <footer class="fixed bottom-0 left-0 right-0 z-50 bg-background-dark border-t border-slate-800 pb-safe pb-4">
             <!-- Go Online Button Area -->
             <div class="p-4 flex flex-col items-center">
                 <button id="toggle-online-btn"
-                    class="group relative flex w-full max-w-md cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-white text-base font-bold transition-all active:scale-95 shadow-lg shadow-primary/20 active-scale">
+                    class="group relative flex w-full max-w-md cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-white text-base font-bold transition-all shadow-lg shadow-primary/20">
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined" id="toggle-icon">power_settings_new</span>
                         <span class="uppercase tracking-widest" id="toggle-text">Ficar Online</span>
@@ -261,8 +154,8 @@
                 <p id="status-text" class="mt-2 text-[10px] text-slate-500 font-medium">Você está offline no momento</p>
             </div>
             <!-- Navigation Bar -->
-            <nav class="flex justify-around items-end px-2 pt-2 border-t border-slate-800/50">
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary " href="#">
+            <nav class="fixed-navbar">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary no-effect" href="#">
                     <span class="material-symbols-outlined">home</span>
                     <span class="text-[10px] font-bold">Início</span>
                 </a>
@@ -418,6 +311,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
     <script src="js/authGuard.js"></script>
     <script src="js/motorista-dashboard.js"></script>
     <script src="js/pwa-register.js"></script>

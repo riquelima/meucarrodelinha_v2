@@ -59,12 +59,9 @@
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
         }
-        /* Fix for fixed navbar overlapping content */
-        main {
-            padding-bottom: 180px; /* Space for navbar + input area (approx 160px + safe area) */
-        }
-    
-        /* Global Mobile Native Fixes */
+    /* Fix for fixed navbar overlapping content */
+    /* main padding handled via utility class */
+        /* Page Transitions */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
@@ -157,7 +154,7 @@
 
         <!-- Chat Area -->
         <main
-            class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-gradient-to-b from-background-dark to-[#0f172a]">
+            class="flex-1 overflow-y-auto p-4 pb-[280px] space-y-4 no-scrollbar bg-gradient-to-b from-background-dark to-[#0f172a]">
             <div class="flex justify-center my-6">
                 <span
                     class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold bg-white/5 px-3 py-1 rounded-full">Hoje</span>

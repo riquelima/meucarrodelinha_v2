@@ -29,24 +29,61 @@
     align-items: center;
     padding-bottom: env(safe-area-inset-bottom);
     box-sizing: border-box;
+    transition: none !important;
+    /* Nunca permitir transições no navbar */
 }
 
 /* Espaçamento para o conteúdo não ficar atrás do navbar */
 .pb-navbar {
-    padding-bottom: calc(var(--navbar-height) + 1rem);
+    padding-bottom: calc(var(--navbar-height) + env(safe-area-inset-bottom));
 }
 
 /* --- EFEITOS DE CLIQUE --- */
-.btn-click-effect {
-    transition: transform var(--transition-fast), filter var(--transition-fast);
+.btn-click-effect,
+button,
+a:not(.no-effect) {
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.btn-click-effect:active {
-    transform: scale(0.94);
-    filter: brightness(1.1);
+.btn-click-effect:active,
+button:active,
+a:not(.no-effect):active {
+    transform: scale(0.96) !important;
 }
 
 /* --- ANIMAÇÕES DE TRANSIÇÃO --- */
+.page-container {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+}
+
+.page-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--navbar-height);
+}
+
+/* Entrada de página nativa */
+.page-enter {
+    animation: pageEnter var(--transition-smooth) forwards;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.98) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 .ui-reveal {
     opacity: 0;
     transform: translateY(12px);
@@ -81,10 +118,10 @@
     animation-delay: 250ms;
 }
 
-/* Inverter fade para transição entre abas (opcional) */
+/* Inverter fade para transição entre abas */
 .ui-fade {
     opacity: 0;
-    animation: uiFade 0.3s ease-in forwards;
+    animation: uiFade 0.2s ease-in forwards;
 }
 
 @keyframes uiFade {

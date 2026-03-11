@@ -14,6 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
 
     <script id="tailwind-config">tailwind.config = {
             darkMode: "class",
@@ -41,10 +42,6 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        .font-fill {
-            font-variation-settings: 'FILL' 1;
-        }
-
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -52,109 +49,6 @@
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
-        }
-
-        /* Page Transitions */
-        main {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Click Animation */
-        .active-scale:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
-
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .delay-300 {
-            animation-delay: 300ms;
-        }
-
-        .delay-400 {
-            animation-delay: 400ms;
-        }
-
-        .delay-500 {
-            animation-delay: 500ms;
         }
 
         /* Mandatory Photo Animations */
@@ -216,7 +110,7 @@
 
 <body
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
-    <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
+    <div class="page-container">
         <!-- Header -->
         <header
             class="flex items-center justify-between bg-white dark:bg-[#121520] p-4 shadow-sm z-20 shrink-0 border-b border-slate-200 dark:border-slate-800">
@@ -231,7 +125,7 @@
         </header>
 
         <!-- Main Content (Scrollable) -->
-        <main class="flex-1 overflow-y-auto pb-24 px-4 pt-6 no-scrollbar">
+        <main class="page-content no-scrollbar px-4 pt-6">
             <!-- Profile Hero Section -->
             <div class="flex flex-col items-center mb-8">
                 <div class="relative">
@@ -339,8 +233,8 @@
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
 
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end px-2">
+        <nav class="fixed-navbar">
+            <div class="flex justify-around items-end px-2 w-full">
                 <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
                     <span class="material-symbols-outlined">home</span>
                     <span class="text-[10px] font-bold">Início</span>
@@ -360,7 +254,8 @@
                     <span class="material-symbols-outlined">history</span>
                     <span class="text-[10px] font-bold">Histórico</span>
                 </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="perfilMotorista.html">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary no-effect"
+                    href="perfilMotorista.html">
                     <span class="material-symbols-outlined font-fill">account_circle</span>
                     <span class="text-[10px] font-bold">Perfil</span>
                 </a>
@@ -420,6 +315,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
     <script>
         // Modal functions
         function openLogoutModal() {

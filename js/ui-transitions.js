@@ -9,31 +9,18 @@
             this.applyClickEffects();
             this.applyRevealAnimations();
             this.setupNavbarProtection();
+            this.applyPageTransitions();
         },
 
         // Aplica efeito de scale em botões e links clicáveis
         applyClickEffects() {
             const selectors = 'button, a, .active-scale, .btn-click-effect';
-            document.addEventListener('mousedown', (e) => {
-                const target = e.target.closest(selectors);
-                if (target) {
-                    target.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
-                    target.style.transform = 'scale(0.95)';
-                }
-            });
 
-            document.addEventListener('mouseup', (e) => {
-                const target = e.target.closest(selectors);
-                if (target) {
-                    target.style.transform = 'scale(1)';
-                }
-            });
-
+            // Usando delegação de eventos para performance e suporte a elementos dinâmicos
             document.addEventListener('touchstart', (e) => {
                 const target = e.target.closest(selectors);
-                if (target) {
-                    target.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
-                    target.style.transform = 'scale(0.95)';
+                if (target && !target.classList.contains('no-effect')) {
+                    target.style.transform = 'scale(0.96)';
                 }
             }, { passive: true });
 
@@ -43,18 +30,31 @@
                     target.style.transform = 'scale(1)';
                 }
             }, { passive: true });
+
+            // Mouse events para desktop
+            document.addEventListener('mousedown', (e) => {
+                const target = e.target.closest(selectors);
+                if (target && !target.classList.contains('no-effect')) {
+                    target.style.transform = 'scale(0.96)';
+                }
+            });
+
+            document.addEventListener('mouseup', (e) => {
+                const target = e.target.closest(selectors);
+                if (target) {
+                    target.style.transform = 'scale(1)';
+                }
+            });
         },
 
         // Aplica a classe ui-reveal com atraso para elementos de lista
         applyRevealAnimations() {
-            // Itens de lista comuns nas telas do passageiro
-            const listItems = document.querySelectorAll('#drivers-list-container > div, #view-recentes > div, #conversations-list > a, .menu-list > a');
+            const listItems = document.querySelectorAll('#drivers-list-container > div, #view-recentes > div, #conversations-list > a, .menu-list > a, .stagger-item');
 
             listItems.forEach((item, index) => {
                 item.classList.add('ui-reveal');
-                // Aplica o stagger dinamicamente se não houver classe stagger
                 if (![...item.classList].some(c => c.startsWith('stagger-'))) {
-                    const delay = Math.min(index * 50, 400);
+                    const delay = Math.min(index * 40, 300);
                     item.style.animationDelay = `${delay}ms`;
                 }
             });
@@ -65,8 +65,22 @@
             const nav = document.querySelector('nav');
             if (nav) {
                 nav.classList.add('fixed-navbar');
-                // Remove qualquer classe de animação que possa ter sido herdada
+                // Garante que o nav nunca herde animações
                 nav.style.animation = 'none';
+                nav.style.transform = 'none';
+
+                // Impede que eventos de clique na navbar causem transitions no container pai
+                nav.addEventListener('click', (e) => {
+                    // Prevenção opcional de efeitos colaterais
+                }, { passive: true });
+            }
+        },
+
+        // Aplica classe de transição na página se necessário
+        applyPageTransitions() {
+            const main = document.querySelector('main');
+            if (main) {
+                main.classList.add('page-enter');
             }
         },
 
@@ -74,7 +88,6 @@
         showDialog(options = {}) {
             const { title = 'Aviso', message = '', icon = 'info', buttonText = 'OK', type = 'info' } = options;
 
-            // Remove diálogo anterior se existir
             const oldDialog = document.querySelector('.dialog-overlay');
             if (oldDialog) oldDialog.remove();
 
@@ -97,31 +110,25 @@
             `;
 
             document.body.appendChild(overlay);
-
-            // Animação de entrada
             requestAnimationFrame(() => overlay.classList.add('active'));
 
-            // Fechar ao clicar no botão
             const btn = overlay.querySelector('button');
             btn.onclick = () => {
                 overlay.classList.remove('active');
                 setTimeout(() => overlay.remove(), 300);
             };
 
-            // Fechar ao clicar fora (opcional)
             overlay.onclick = (e) => {
                 if (e.target === overlay) btn.onclick();
             };
         }
     };
 
-    // Inicializa ao carregar o DOM
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => UI.init());
     } else {
         UI.init();
     }
 
-    // Expõe para uso global se necessário
     window.AppUI = UI;
 })();

@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -54,7 +55,7 @@
 
 <body
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
-    <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
+    <div class="page-container">
         <!-- Header -->
         <header
             class="flex items-center justify-between bg-white dark:bg-[#121520] p-4 shadow-sm z-20 shrink-0 border-b border-slate-200 dark:border-slate-800">
@@ -62,41 +63,40 @@
             <div class="w-10"></div>
         </header>
 
-        <main id="conversations-list" class="flex-1 overflow-y-auto pb-24 px-4 pt-6 no-scrollbar">
+        <main id="conversations-list" class="page-content px-4 pt-6 no-scrollbar">
             <div class="p-8 text-center text-slate-500 animate-pulse">Carregando conversas...</div>
         </main>
 
         <!-- Bottom Navigation Bar (Fixed) -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end px-2">
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="text-[10px] font-bold">Início</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
-                    <span class="material-symbols-outlined">payments</span>
-                    <span class="text-[10px] font-bold">Ganhos</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary relative" href="#">
-                    <span class="material-symbols-outlined font-fill">chat</span>
-                    <span class="text-[10px] font-bold">Chat</span>
-                    <span id="chat-badge"
-                        class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
-                    <span class="material-symbols-outlined">history</span>
-                    <span class="text-[10px] font-bold">Histórico</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <span class="text-[10px] font-bold">Perfil</span>
-                </a>
-            </div>
+        <nav class="fixed-navbar">
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold">Início</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+                <span class="material-symbols-outlined">payments</span>
+                <span class="text-[10px] font-bold">Ganhos</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-primary no-effect relative" href="#">
+                <span class="material-symbols-outlined font-fill">chat</span>
+                <span class="text-[10px] font-bold">Chat</span>
+                <span id="chat-badge"
+                    class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+                <span class="material-symbols-outlined">history</span>
+                <span class="text-[10px] font-bold">Histórico</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+                <span class="material-symbols-outlined">account_circle</span>
+                <span class="text-[10px] font-bold">Perfil</span>
+            </a>
         </nav>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
     <script src="js/conversas-motorista.js"></script>
     <script src="js/pwa-register.js"></script>
 </body>
