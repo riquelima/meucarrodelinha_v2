@@ -31,7 +31,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#135bec",
+                        "primary": "#f97316",
                         "background-light": "#f6f6f8",
                         "background-dark": "#101622",
                     },
@@ -41,8 +41,8 @@
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                     keyframes: {
                         pulseGlow: {
-                            '0%, 100%': { boxShadow: '0 0 10px rgba(19, 91, 236, 0.4)' },
-                            '50%': { boxShadow: '0 0 20px rgba(19, 91, 236, 0.8)' },
+                            '0%, 100%': { boxShadow: '0 0 10px rgba(249, 115, 22, 0.4)' },
+                            '50%': { boxShadow: '0 0 20px rgba(249, 115, 22, 0.8)' },
                         },
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
@@ -196,22 +196,14 @@
 
         <main class="flex-1 flex flex-col px-6 pt-4 overflow-y-auto">
             <div class="@container w-full mb-8 relative animate-fade-in">
-                <div class="absolute -top-2 -right-1 z-10 animate-float">
+                <div class="absolute top-2 right-0 z-10 animate-float">
                     <a class="active-scale flex items-center gap-1.5 bg-primary text-white text-[10px] font-bold px-3 py-2 rounded-full shadow-lg shadow-primary/40 border border-primary/50 animate-subtle-pulse"
                         href="cadastroMotorista.html">
                         <span class="material-symbols-outlined text-[14px] fill-1">person_add</span>
                         QUERO SER MOTORISTA
                     </a>
                 </div>
-                <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden rounded-xl min-h-[180px] shadow-2xl shadow-primary/10 border border-slate-800"
-                    data-alt="Modern steering wheel and dashboard in low light"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7igMAeJiRAC10hiEUBPfPqdPZyPFZWSi1T-JjQyBj2VnXsEeKFTQpDJwOE0_vMMxJEvLChdl-HRxG7-oJ1g7lUQaBUoHMpMPQLxFmAw7KFcoiINDNGKilhN7zj7-5uvI2PGCF5ErmFo2dx4aHS3df5dNTZ5IqYhy7hH0i95s8-whS0ykVbyK1J_3SgkfvPR8ilxZFKuTxs49OUmzmpolAxVU1buVsQMwKq-s4Cs-rikp8lHVvmjQFRYANd5q3_Mn7uVepUEmE3icA");'>
-                    <div class="bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent p-4">
-                        <span class="text-xs font-bold uppercase tracking-widest text-primary mb-1 block">Meu Carro de
-                            Linha Salinas</span>
-                        <h1 class="text-2xl font-bold text-white leading-none">Bem-vindo, Motorista</h1>
-                    </div>
-                </div>
+                <img src="logoLoginMotorista.png" alt="Logo Meu Carro de Linha Motorista" class="w-full max-w-[320px] object-contain drop-shadow-2xl mx-auto">
             </div>
             <div class="mb-8 animate-slide-up delay-100">
                 <p class="text-slate-400 text-base font-normal">Faça login para gerenciar suas rotas, passageiros e
@@ -253,7 +245,7 @@
                     <button id="btn-login-motorista"
                         class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
                         type="submit">
-                        <span>Acessar Painel do Motorista</span>
+                        <span>Acessar Painel</span>
                         <span class="material-symbols-outlined">login</span>
                     </button>
                 </div>
@@ -277,9 +269,6 @@
                         href="faleConosco.html">
                         SUPORTE
                     </a>
-                </div>
-                <div class="mt-6 text-center">
-                    <p class="text-slate-600 text-xs uppercase tracking-tighter">Powered by Salinas Mobility System</p>
                 </div>
             </footer>
         </main>

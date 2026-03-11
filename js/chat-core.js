@@ -189,7 +189,7 @@ class ChatManager {
                         <div class="flex flex-col gap-3">
                             <div class="relative">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                <input class="proposal-input w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="text" value="${data.valor}" />
+                                <input class="proposal-input w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="text" value="0,00" />
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="5">+ R$ 5,00</button>

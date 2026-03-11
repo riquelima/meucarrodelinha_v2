@@ -61,7 +61,7 @@
         }
         /* Fix for fixed navbar overlapping content */
         main {
-            padding-bottom: 80px; /* Space for navbar */
+            padding-bottom: 180px; /* Space for navbar + input area */
         }
         /* Page Transitions */
         .page-enter {
@@ -171,56 +171,59 @@
             </div>
         </main>
 
-        <!-- Message Input Area -->
-        <div class="bg-card-dark px-4 py-4 border-t border-white/5 shrink-0 z-20">
-            <div class="flex items-center gap-3">
-                <div class="flex items-center gap-1">
-                    <button class="p-2 text-slate-400 hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined">add_location</span>
-                    </button>
-                    <button class="p-2 text-slate-400 hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined">image</span>
+        <!-- Fixed Bottom Area (Input + Nav) -->
+        <div class="fixed bottom-0 left-0 right-0 z-50 flex flex-col bg-background-dark">
+            <!-- Message Input Area -->
+            <div class="bg-card-dark px-4 py-4 border-t border-white/5 shrink-0 z-[60] relative shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1">
+                        <button class="p-2 text-slate-400 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">add_location</span>
+                        </button>
+                        <button class="p-2 text-slate-400 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">image</span>
+                        </button>
+                    </div>
+                    <div class="flex-1 relative">
+                        <input
+                            class="w-full bg-slate-800/50 border-none rounded-full py-3 px-4 text-sm text-white placeholder:text-slate-500 focus:ring-1 focus:ring-primary/50"
+                            placeholder="Digite uma mensagem..." type="text" />
+                    </div>
+                    <button
+                        class="bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full shadow-lg shadow-primary/30 flex items-center justify-center transition-all active:scale-95">
+                        <span class="material-symbols-outlined filled translate-x-0.5">send</span>
                     </button>
                 </div>
-                <div class="flex-1 relative">
-                    <input
-                        class="w-full bg-slate-800/50 border-none rounded-full py-3 px-4 text-sm text-white placeholder:text-slate-500 focus:ring-1 focus:ring-primary/50"
-                        placeholder="Digite uma mensagem..." type="text" />
-                </div>
-                <button
-                    class="bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full shadow-lg shadow-primary/30 flex items-center justify-center transition-all active:scale-95">
-                    <span class="material-symbols-outlined filled translate-x-0.5">send</span>
-                </button>
             </div>
-        </div>
 
-        <!-- Bottom Navigation Bar (Fixed) -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-            <div class="flex justify-around items-end px-2">
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="text-[10px] font-bold">Início</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
-                    <span class="material-symbols-outlined">payments</span>
-                    <span class="text-[10px] font-bold">Ganhos</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-primary relative" href="conversasMotorista.html">
-                    <span class="material-symbols-outlined font-fill">chat</span>
-                    <span class="text-[10px] font-bold">Chat</span>
-                    <span id="chat-badge"
-                        class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
-                    <span class="material-symbols-outlined">history</span>
-                    <span class="text-[10px] font-bold">Histórico</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <span class="text-[10px] font-bold">Perfil</span>
-                </a>
-            </div>
-        </nav>
+            <!-- Bottom Navigation Bar -->
+            <nav class="bg-[#121520] border-t border-slate-800 py-3 pb-safe pb-4 shrink-0">
+                <div class="flex justify-around items-end px-2">
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="text-[10px] font-bold">Início</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+                        <span class="material-symbols-outlined">payments</span>
+                        <span class="text-[10px] font-bold">Ganhos</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 text-primary relative" href="conversasMotorista.html">
+                        <span class="material-symbols-outlined font-fill">chat</span>
+                        <span class="text-[10px] font-bold">Chat</span>
+                        <span id="chat-badge"
+                            class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+                        <span class="material-symbols-outlined">history</span>
+                        <span class="text-[10px] font-bold">Histórico</span>
+                    </a>
+                    <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span class="text-[10px] font-bold">Perfil</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
