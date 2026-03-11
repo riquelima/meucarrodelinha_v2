@@ -416,7 +416,9 @@ class ChatManager {
         const callBtn = document.getElementById('btn-call-driver') || document.getElementById('btn-call-user');
         callBtn?.addEventListener('click', () => {
             if (this.targetUserPhone) {
-                window.location.href = `tel:${this.targetUserPhone}`;
+                // Limpar caracteres não numéricos para o link tel:
+                const cleanPhone = this.targetUserPhone.replace(/\D/g, '');
+                window.location.href = `tel:${cleanPhone}`;
             } else {
                 alert('Número de telefone não disponível.');
             }

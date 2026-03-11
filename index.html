@@ -299,26 +299,21 @@
                     });
             });
         }
-
+    </script>
+    <script>
         // Auto-redirect after splash
         setTimeout(() => {
-            window.location.href = 'homepage.html';
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'homepage.html';
+            }, 300);
         }, 5000);
     </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('a[href]').forEach(link => {
-                link.addEventListener('click', e => {
-                    const href = link.getAttribute('href');
-                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
-                        e.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = href; }, 200);
-                    }
-                });
-            });
-        });
+    setTimeout(() => { window.location.href = href; }, 200);
+    }
+    });
+    });
+    });
     </script>
     <script src="js/pwa-register.js"></script>
 </body>

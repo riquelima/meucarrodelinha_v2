@@ -138,6 +138,7 @@
         .delay-500 { animation-delay: 300ms; }
 
     </style>
+    <link rel="stylesheet" href="css/ui-style.css" />
     <style>
         body {
             min-height: max(884px, 100dvh);
@@ -435,11 +436,14 @@
                     <!-- Dynamic drivers list will be injected here -->
                     <div id="drivers-container" class="flex gap-4 px-4 pb-4 no-scrollbar">
                         <!-- Loading Skeleton (Optional) -->
-                        <div class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24">
+                        <div
+                            class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24 stagger-item">
                         </div>
-                        <div class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24">
+                        <div
+                            class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24 stagger-item">
                         </div>
-                        <div class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24">
+                        <div
+                            class="flex-none w-64 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse h-24 stagger-item">
                         </div>
                     </div>
                 </div>
@@ -452,7 +456,7 @@
                 <a class="text-[#f97316] text-sm font-semibold" href="blog.html">Ver todos</a>
             </div>
             <div class="space-y-4">
-                <div class="flex gap-4 items-center">
+                <div class="flex gap-4 items-center stagger-item">
                     <div class="size-20 rounded-lg overflow-hidden shrink-0">
                         <img class="w-full h-full object-cover"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3seOHAKJ6v5NUZiynm6rVLTi9T9WbCOue6IhoJ2yW0PaKRfdF7h99MdQJi5O7Qo-bv3URuKjVbx2okfNE_6zQucUbBumL8_EVcjzKOBUXG8o51wIH2DylHr1H9mfqfzTMxHgD9S0ONpHAcPDTjuq-AeinxH0waMJrRzcU52Nd1fbb0hpeSJJ9SdtOK_39aIN-5OrlhSK2mbsu6XofaKZbQTdsmDZwB2afjMsVS2-JEu5KCRhErujkxD1pIkjrZ9KIHsgM8fIjkyJN" />
@@ -463,7 +467,7 @@
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Há 2 horas • Transporte</p>
                     </div>
                 </div>
-                <div class="flex gap-4 items-center">
+                <div class="flex gap-4 items-center stagger-item">
                     <div class="size-20 rounded-lg overflow-hidden shrink-0">
                         <img class="w-full h-full object-cover"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdziscOzGZzwdY-6UKITd5hdYF-eAvjgE5PgFLZWWW9pZHItSKOL34yhfegI92u2x9wGXfvJaMHz0x3tWJrvu9RocB3FzOVk1Qs16jG8bzZDrL4jOVqbIKUg6dYcEu6rldcxB1tcU63sOXHQQTuqY0P6wpZJIbDnqPn-2A896Rdnw4LViUL0vEeznCgcvPSshr2EqxPUS6MTHZE1JbUabB7jJ32KiyfI_xWxZ6-DHdJmbK4xIJgqUuRQ3cd1W3C7S05CFvCYS3kVdh" />
@@ -483,7 +487,7 @@
             </div>
             <div class="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar mask-gradient-x">
                 <div
-                    class="flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+                    class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
                         <img alt="Ad 1" class="w-full h-full object-cover"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3seOHAKJ6v5NUZiynm6rVLTi9T9WbCOue6IhoJ2yW0PaKRfdF7h99MdQJi5O7Qo-bv3URuKjVbx2okfNE_6zQucUbBumL8_EVcjzKOBUXG8o51wIH2DylHr1H9mfqfzTMxHgD9S0ONpHAcPDTjuq-AeinxH0waMJrRzcU52Nd1fbb0hpeSJJ9SdtOK_39aIN-5OrlhSK2mbsu6XofaKZbQTdsmDZwB2afjMsVS2-JEu5KCRhErujkxD1pIkjrZ9KIHsgM8fIjkyJN" />
@@ -496,7 +500,7 @@
                     </div>
                 </div>
                 <div
-                    class="flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+                    class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
                         <img alt="Ad 2" class="w-full h-full object-cover"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdziscOzGZzwdY-6UKITd5hdYF-eAvjgE5PgFLZWWW9pZHItSKOL34yhfegI92u2x9wGXfvJaMHz0x3tWJrvu9RocB3FzOVk1Qs16jG8bzZDrL4jOVqbIKUg6dYcEu6rldcxB1tcU63sOXHQQTuqY0P6wpZJIbDnqPn-2A896Rdnw4LViUL0vEeznCgcvPSshr2EqxPUS6MTHZE1JbUabB7jJ32KiyfI_xWxZ6-DHdJmbK4xIJgqUuRQ3cd1W3C7S05CFvCYS3kVdh" />
@@ -508,7 +512,7 @@
                     </div>
                 </div>
                 <div
-                    class="flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+                    class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
                         <img alt="Ad 3" class="w-full h-full object-cover"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuJwCX4_44pbKWjRuEKRMr9h0gXv1oIC1VcV2F7I3z-Ds3HMujXorovc5KPZsk_D8TEYsVeenx19iWFD9H5sxgS-v_32LPW-4jnxQ9OOgCH-ipgpM0dLzfg7927hqFfDHgwjF71yq7sJBRMVVjF3gLmlF9RvMFXCpIfaw6yc54H1SApCW9_B_jT2Ut8DiJW6nUOGECEeKo0M_8LpfM7P33R_JGFyZKkmPSghMU-4KwoqMb2TD3gQLgnVDbTJbROk_Lk3Lvjmx2CL-2" />
@@ -775,6 +779,7 @@
             }
         });
     </script>
+    <script src="js/ui-transitions.js"></script>
     <script src="js/pwa-register.js"></script>
 </body>
 
