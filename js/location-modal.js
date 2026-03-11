@@ -5,15 +5,28 @@ window.requestLocationPermission = function () {
             return;
         }
 
+        if (localStorage.getItem('locationModalAccepted') === 'true') {
+            resolve();
+            return;
+        }
+
+        if (sessionStorage.getItem('locationModalDismissed') === 'true') {
+            reject(new Error('User dismissed the location modal in this session'));
+            return;
+        }
+
         if (navigator.permissions) {
             navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
                 if (result.state === 'granted') {
+                    localStorage.setItem('locationModalAccepted', 'true');
                     resolve();
                 } else if (result.state === 'denied') {
                     reject(new Error('Permission denied'));
                 } else {
                     showModal(resolve, reject);
                 }
+            }).catch(() => {
+                showModal(resolve, reject);
             });
         } else {
             showModal(resolve, reject);
@@ -78,11 +91,13 @@ window.requestLocationPermission = function () {
         };
 
         document.getElementById('btn-allow-loc').addEventListener('click', () => {
+            localStorage.setItem('locationModalAccepted', 'true');
             closeModal();
             resolve();
         });
 
         document.getElementById('btn-deny-loc').addEventListener('click', () => {
+            sessionStorage.setItem('locationModalDismissed', 'true');
             closeModal();
             reject(new Error('User dismissed the location modal'));
         });
