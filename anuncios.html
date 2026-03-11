@@ -223,8 +223,9 @@
                 adsListContainer.innerHTML = '';
                 ads.forEach(ad => {
                     const adCard = document.createElement('a');
-                    adCard.href = ad.url || '#';
-                    adCard.target = ad.url ? '_blank' : '_self';
+                    const targetUrl = ad.link_acao || ad.url;
+                    adCard.href = targetUrl || '#';
+                    adCard.target = targetUrl ? '_blank' : '_self';
                     adCard.className = 'ad-card flex w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm shrink-0 cursor-pointer hover:border-primary/50 transition-colors group active-scale';
 
                     adCard.innerHTML = `

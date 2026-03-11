@@ -249,8 +249,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     `;
 
                     adElement.addEventListener('click', () => {
-                        if (ad.url) {
-                            window.open(ad.url, '_blank');
+                        const targetUrl = ad.link_acao || ad.url;
+                        if (targetUrl) {
+                            window.open(targetUrl, '_blank');
                         }
                     });
 
