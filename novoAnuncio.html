@@ -312,7 +312,9 @@
                         };
 
                         localStorage.setItem('pending_ad_data', JSON.stringify(adData));
-                        window.location.href = 'cobrancaAnuncio.html';
+                        // Redirecionamento direto para o Link de Pagamento da Stripe
+                        // Isso resolve o problema do iframe sendo bloqueado (CSP/Security)
+                        window.location.href = 'https://buy.stripe.com/28EcMZe7x5nl4ba9T93AY00';
                     }
 
                 } catch (error) {

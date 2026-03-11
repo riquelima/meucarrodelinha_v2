@@ -4,76 +4,51 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <title>Pagamento - Meu Carro de Linha Salinas</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#2563eb",
-                        "background-dark": "#0B0F1A",
-                    },
-                    fontFamily: { "sans": ["Inter", "sans-serif"] },
-                },
-            },
-        }
-    </script>
+    <title>Redirecionando para Pagamento...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body,
-        html {
-            height: 100%;
-            overflow: hidden;
+        body {
+            background-color: #0B0F1A;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
         }
 
-        .glass-header {
-            background: rgba(11, 15, 26, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #2563eb;
+            rounded-full;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
+    <script>
+        // Redirecionamento direto para evitar problemas de iframe (CSP/Security)
+        // Isso abre o link oficial da Stripe no topo da janela
+        window.location.href = 'https://buy.stripe.com/28EcMZe7x5nl4ba9T93AY00';
+    </script>
 </head>
 
-<body class="bg-background-dark text-slate-100 antialiased">
-    <div class="flex flex-col h-full w-full">
-        <!-- Header -->
-        <header class="glass-header px-4 py-4 z-50">
-            <div class="flex items-center justify-between max-w-lg mx-auto w-full">
-                <a href="novoAnuncio.html"
-                    class="flex size-10 items-center justify-center rounded-full hover:bg-white/5 transition-colors">
-                    <span class="material-symbols-outlined text-2xl text-slate-300">arrow_back</span>
-                </a>
-                <h1 class="text-base font-bold tracking-tight text-white">Checkout Seguro</h1>
-                <div class="size-10"></div>
-            </div>
-        </header>
-
-        <!-- Stripe Iframe -->
-        <main class="flex-1 w-full relative">
-            <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center bg-background-dark z-40">
-                <div class="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                <p class="mt-4 text-sm text-slate-400 font-medium">Carregando ambiente seguro...</p>
-            </div>
-            <iframe id="stripe-iframe" src="https://buy.stripe.com/28EcMZe7x5nl4ba9T93AY00"
-                class="w-full h-full border-none" allow="payment"
-                onload="document.getElementById('loader').classList.add('hidden')"></iframe>
-        </main>
+<body>
+    <div style="text-align: center;">
+        <div class="loader" style="margin: 0 auto 20px;"></div>
+        <p>Redirecionando para o ambiente seguro de pagamento...</p>
     </div>
-
-    <script>
-        // Check if we have ad data (optional, just for safety)
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedData = localStorage.getItem('pending_ad_data');
-            if (!savedData) {
-                console.warn('Nenhum dado de anúncio pendente encontrado no localStorage.');
-            }
-        });
-    </script>
 </body>
 
 </html>
