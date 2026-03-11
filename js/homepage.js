@@ -235,8 +235,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (ads && ads.length > 0) {
                 ads.forEach(ad => {
-                    const adElement = document.createElement('div');
-                    adElement.className = 'stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm cursor-pointer active-scale';
+                    const adElement = document.createElement('a');
+                    const targetUrl = ad.link_acao || ad.url;
+
+                    adElement.href = targetUrl || '#';
+                    adElement.target = (targetUrl && (targetUrl.startsWith('http') || targetUrl.startsWith('https'))) ? '_blank' : '_self';
+                    adElement.className = 'stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm cursor-pointer active-scale no-effect';
 
                     adElement.innerHTML = `
                         <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
@@ -248,10 +252,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     `;
 
-                    adElement.addEventListener('click', () => {
-                        const targetUrl = ad.link_acao || ad.url;
-                        if (targetUrl) {
-                            window.open(targetUrl, '_blank');
+                    // Handle edge cases where a might be blocked by global preventDefault
+                    adElement.addEventListener('click', (e) => {
+                        if (adElement.target === '_blank') {
+                            // Let the browser handle it, but stop propagation to avoid global scripts
+                            e.stopPropagation();
                         }
                     });
 
@@ -269,37 +274,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (err) {
             console.error('Error loading ads:', err);
         }
-        // Highlight newly created ad
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('adCreated') === 'true') {
             const { data: { session } } = await supabaseClient.auth.getSession();
 
-            // Only show for logged out users as requested
-            if (!session) {
-                if (adsContainer) {
-                    setTimeout(() => {
-                        adsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Highlight for all users to celebrate the new ad
+            if (adsContainer) {
+                setTimeout(() => {
+                    // Create Elegant Spotlight Overlay
+                    const overlay = document.createElement('div');
+                    overlay.className = 'spotlight-overlay';
+                    document.body.appendChild(overlay);
 
-                        // Create elegant tooltip
-                        const tooltip = document.createElement('div');
-                        tooltip.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 bg-emerald-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl animate-bounce z-[60] flex items-center gap-2 ios-blur';
-                        tooltip.innerHTML = `
-                        <span class="material-symbols-outlined">auto_awesome</span>
-                        <span>Seu anúncio aparece aqui!</span>
+                    // Allow browser to register the element before animating
+                    requestAnimationFrame(() => overlay.classList.add('active'));
+
+                    // Scroll to target smoothly
+                    adsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // Apply Premium Focus
+                    adsContainer.classList.add('ad-shimmer-focus');
+
+                    // Create Floating Status Badge
+                    const badge = document.createElement('div');
+                    badge.className = 'ad-status-badge';
+                    badge.innerHTML = `
+                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                        <span>Seu anúncio já está no ar!</span>
                     `;
-                        document.body.appendChild(tooltip);
+                    adsContainer.style.position = 'relative'; // Ensure badge anchors correctly
+                    adsContainer.appendChild(badge);
 
-                        // Highlight effect
-                        adsContainer.classList.add('ring-4', 'ring-emerald-500/30', 'ring-offset-4', 'dark:ring-offset-slate-900', 'transition-all', 'duration-1000');
+                    // Auto-cleanup after 6 seconds or on click/scroll
+                    const cleanup = () => {
+                        overlay.style.opacity = '0';
+                        badge.style.opacity = '0';
+                        badge.style.transform = 'translate(-50%, -10px)';
+                        badge.style.transition = 'all 0.5s ease';
 
                         setTimeout(() => {
-                            tooltip.style.opacity = '0';
-                            tooltip.style.transition = 'opacity 0.5s ease';
-                            setTimeout(() => tooltip.remove(), 500);
-                            adsContainer.classList.remove('ring-4', 'ring-emerald-500/30', 'ring-offset-4');
-                        }, 5000);
-                    }, 800);
-                }
+                            overlay.remove();
+                            badge.remove();
+                            adsContainer.classList.remove('ad-shimmer-focus');
+                        }, 500);
+
+                        window.removeEventListener('scroll', cleanup);
+                        overlay.removeEventListener('click', cleanup);
+                    };
+
+                    setTimeout(cleanup, 6000);
+                    window.addEventListener('scroll', cleanup, { once: true });
+                    overlay.addEventListener('click', cleanup, { once: true });
+                }, 1000);
             }
         }
     }

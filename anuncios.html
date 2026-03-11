@@ -245,6 +245,13 @@
                             </div>
                         </div>
                     `;
+
+                    adCard.addEventListener('click', (e) => {
+                        if (adCard.target === '_blank') {
+                            e.stopPropagation();
+                        }
+                    });
+
                     adsListContainer.appendChild(adCard);
                 });
 
