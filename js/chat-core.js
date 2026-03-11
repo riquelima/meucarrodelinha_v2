@@ -283,38 +283,52 @@ class ChatManager {
         btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
         btn.disabled = true;
 
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const { latitude, longitude } = position.coords;
-                const locationMsg = `[LOCATION]${latitude},${longitude}`;
+        const executeLocationRequest = () => {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    const locationMsg = `[LOCATION]${latitude},${longitude}`;
 
-                const { data, error } = await this.supabase
-                    .from('mensagens')
-                    .insert({
-                        remetente_id: this.currentUser.id,
-                        destinatario_id: this.targetUserId,
-                        viagem_id: this.viagemId,
-                        conteudo: locationMsg
-                    })
-                    .select()
-                    .single();
+                    const { data, error } = await this.supabase
+                        .from('mensagens')
+                        .insert({
+                            remetente_id: this.currentUser.id,
+                            destinatario_id: this.targetUserId,
+                            viagem_id: this.viagemId,
+                            conteudo: locationMsg
+                        })
+                        .select()
+                        .single();
 
-                if (error) {
-                    console.error('Erro ao enviar localização:', error);
-                    alert('Erro ao enviar localização');
-                }
+                    if (error) {
+                        console.error('Erro ao enviar localização:', error);
+                        alert('Erro ao enviar localização');
+                    }
 
-                btn.innerHTML = originalContent;
-                btn.disabled = false;
-            },
-            (error) => {
-                console.error('Erro ao obter localização:', error);
-                alert('Não foi possível obter sua localização. Verifique as permissões.');
-                btn.innerHTML = originalContent;
-                btn.disabled = false;
-            },
-            { enableHighAccuracy: true }
-        );
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                },
+                (error) => {
+                    console.error('Erro ao obter localização:', error);
+                    alert('Não foi possível obter sua localização. Verifique as permissões.');
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                },
+                { enableHighAccuracy: true }
+            );
+        };
+
+        if (window.requestLocationPermission) {
+            window.requestLocationPermission()
+                .then(() => executeLocationRequest())
+                .catch((error) => {
+                    console.log("Location permission dismissed:", error);
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                });
+        } else {
+            executeLocationRequest();
+        }
     }
 
     async sendMessage() {

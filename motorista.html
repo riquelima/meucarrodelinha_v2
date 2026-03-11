@@ -181,6 +181,7 @@
             </nav>
         </footer>
     </div>
+    <script src="js/location-modal.js"></script>
     <script>
         let googleMap;
         let userMarker;
@@ -238,7 +239,20 @@
                 };
 
                 // Start watching position
-                if (navigator.geolocation) {
+                if (window.requestLocationPermission) {
+                    window.requestLocationPermission().then(() => {
+                        navigator.geolocation.watchPosition(
+                            (position) => {
+                                updateUserMarker(position.coords.latitude, position.coords.longitude);
+                            },
+                            handleLocationError,
+                            geoOptions
+                        );
+                    }).catch(error => {
+                        console.log("Location permission dismissed:", error);
+                        updateUserMarker(defaultLocation.lat, defaultLocation.lng);
+                    });
+                } else if (navigator.geolocation) {
                     navigator.geolocation.watchPosition(
                         (position) => {
                             updateUserMarker(position.coords.latitude, position.coords.longitude);

@@ -509,7 +509,8 @@
                 <div
                     class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
-                        <img alt="Ad 1" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        <img alt="Ad 1"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3seOHAKJ6v5NUZiynm6rVLTi9T9WbCOue6IhoJ2yW0PaKRfdF7h99MdQJi5O7Qo-bv3URuKjVbx2okfNE_6zQucUbBumL8_EVcjzKOBUXG8o51wIH2DylHr1H9mfqfzTMxHgD9S0ONpHAcPDTjuq-AeinxH0waMJrRzcU52Nd1fbb0hpeSJJ9SdtOK_39aIN-5OrlhSK2mbsu6XofaKZbQTdsmDZwB2afjMsVS2-JEu5KCRhErujkxD1pIkjrZ9KIHsgM8fIjkyJN" />
                     </div>
                     <div class="p-3">
@@ -522,7 +523,8 @@
                 <div
                     class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
-                        <img alt="Ad 2" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        <img alt="Ad 2"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdziscOzGZzwdY-6UKITd5hdYF-eAvjgE5PgFLZWWW9pZHItSKOL34yhfegI92u2x9wGXfvJaMHz0x3tWJrvu9RocB3FzOVk1Qs16jG8bzZDrL4jOVqbIKUg6dYcEu6rldcxB1tcU63sOXHQQTuqY0P6wpZJIbDnqPn-2A896Rdnw4LViUL0vEeznCgcvPSshr2EqxPUS6MTHZE1JbUabB7jJ32KiyfI_xWxZ6-DHdJmbK4xIJgqUuRQ3cd1W3C7S05CFvCYS3kVdh" />
                     </div>
                     <div class="p-3">
@@ -534,7 +536,8 @@
                 <div
                     class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                     <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
-                        <img alt="Ad 3" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        <img alt="Ad 3"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuJwCX4_44pbKWjRuEKRMr9h0gXv1oIC1VcV2F7I3z-Ds3HMujXorovc5KPZsk_D8TEYsVeenx19iWFD9H5sxgS-v_32LPW-4jnxQ9OOgCH-ipgpM0dLzfg7927hqFfDHgwjF71yq7sJBRMVVjF3gLmlF9RvMFXCpIfaw6yc54H1SApCW9_B_jT2Ut8DiJW6nUOGECEeKo0M_8LpfM7P33R_JGFyZKkmPSghMU-4KwoqMb2TD3gQLgnVDbTJbROk_Lk3Lvjmx2CL-2" />
                     </div>
                     <div class="p-3">
@@ -622,6 +625,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script src="js/location-modal.js"></script>
     <script src="js/homepage.js"></script>
     <script>
         // Register Service Worker for PWA
@@ -708,34 +712,36 @@
                 });
 
                 // Request User Location
-                if ('geolocation' in navigator) {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const { latitude, longitude } = position.coords;
-                            const pos = { lat: latitude, lng: longitude };
+                if (window.requestLocationPermission) {
+                    window.requestLocationPermission().then(() => {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                const { latitude, longitude } = position.coords;
+                                const pos = { lat: latitude, lng: longitude };
 
-                            googleMap.setCenter(pos);
-                            googleMap.setZoom(16);
+                                googleMap.setCenter(pos);
+                                googleMap.setZoom(16);
 
-                            userMarker = new google.maps.Marker({
-                                position: pos,
-                                map: googleMap,
-                                icon: {
-                                    path: google.maps.SymbolPath.CIRCLE,
-                                    scale: 8,
-                                    fillColor: "#1e3fae",
-                                    fillOpacity: 1,
-                                    strokeColor: "#ffffff",
-                                    strokeWeight: 2,
-                                },
-                                title: 'Sua localização atual'
-                            });
-                        },
-                        (error) => {
-                            console.warn('Geolocation denied or failed:', error.message);
-                        },
-                        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-                    );
+                                userMarker = new google.maps.Marker({
+                                    position: pos,
+                                    map: googleMap,
+                                    icon: {
+                                        path: google.maps.SymbolPath.CIRCLE,
+                                        scale: 8,
+                                        fillColor: "#1e3fae",
+                                        fillOpacity: 1,
+                                        strokeColor: "#ffffff",
+                                        strokeWeight: 2,
+                                    },
+                                    title: 'Sua localização atual'
+                                });
+                            },
+                            (error) => {
+                                console.warn('Geolocation denied or failed:', error.message);
+                            },
+                            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                        );
+                    }).catch(error => console.log("Location request dismissed", error));
                 }
 
                 // Listen for place selection (this event will be dispatched from homepage.js)

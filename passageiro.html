@@ -608,6 +608,7 @@
         }
     </style>
 
+    <script src="js/location-modal.js"></script>
     <script>
         let googleMap;
         let userMarker;
@@ -672,14 +673,19 @@
                     maximumAge: 0
                 };
 
-                if ('geolocation' in navigator) {
-                    navigator.geolocation.watchPosition(
-                        (position) => {
-                            updateUserMarker(position.coords.latitude, position.coords.longitude);
-                        },
-                        handleLocationError,
-                        geoOptions
-                    );
+                if (window.requestLocationPermission) {
+                    window.requestLocationPermission().then(() => {
+                        navigator.geolocation.watchPosition(
+                            (position) => {
+                                updateUserMarker(position.coords.latitude, position.coords.longitude);
+                            },
+                            handleLocationError,
+                            geoOptions
+                        );
+                    }).catch(error => {
+                        console.log("Location permission dismissed:", error);
+                        updateUserMarker(defaultLocation.lat, defaultLocation.lng);
+                    });
                 } else {
                     updateUserMarker(defaultLocation.lat, defaultLocation.lng);
                 }
