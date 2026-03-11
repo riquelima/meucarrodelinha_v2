@@ -498,6 +498,11 @@
                 const file = e.target.files[0];
                 if (!file) return;
 
+                if (file.size > 50 * 1024 * 1024) { // 50MB limit
+                    alert('A imagem deve ter no máximo 50MB.');
+                    return;
+                }
+
                 const originalBtnContent = editBtn.innerHTML;
                 editBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span>';
                 editBtn.disabled = true;

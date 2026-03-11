@@ -307,6 +307,13 @@
                 return;
             }
 
+            if (fileCnh.size > 50 * 1024 * 1024 || fileDoc.size > 50 * 1024 * 1024) {
+                alert('Os documentos devem ter no máximo 50MB cada.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
             const result = await signUpMotorista(nome, email, senha, cpf, telefone, modelo, placa, cor, fileCnh, fileDoc);
             if (result.success) {
                 document.body.classList.add('fade-out');

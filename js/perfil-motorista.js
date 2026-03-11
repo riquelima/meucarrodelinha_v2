@@ -39,6 +39,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const file = e.target.files[0];
         if (!file) return;
 
+        if (file.size > 50 * 1024 * 1024) { // 50MB limit
+            alert('A imagem deve ter no máximo 50MB.');
+            return;
+        }
+
         // Visual feedback immediately
         const reader = new FileReader();
         reader.onload = (e) => {
