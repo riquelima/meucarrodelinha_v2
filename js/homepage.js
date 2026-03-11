@@ -236,10 +236,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (ads && ads.length > 0) {
                 ads.forEach(ad => {
                     const adElement = document.createElement('a');
-                    const targetUrl = ad.link_acao || ad.url;
+                    let targetUrl = ad.link_acao || ad.url;
+                    if (targetUrl && !targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+                        targetUrl = 'https://' + targetUrl;
+                    }
 
                     adElement.href = targetUrl || '#';
-                    adElement.target = (targetUrl && (targetUrl.startsWith('http') || targetUrl.startsWith('https'))) ? '_blank' : '_self';
+                    adElement.target = targetUrl ? '_blank' : '_self';
+                    adElement.rel = 'noopener noreferrer';
                     adElement.className = 'stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm cursor-pointer active-scale no-effect';
 
                     adElement.innerHTML = `
@@ -252,11 +256,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     `;
 
-                    // Handle edge cases where a might be blocked by global preventDefault
                     adElement.addEventListener('click', (e) => {
-                        if (adElement.target === '_blank') {
-                            // Let the browser handle it, but stop propagation to avoid global scripts
-                            e.stopPropagation();
+                        if (targetUrl) {
+                            e.stopPropagation(); // Prevent global navigation scripts from interfering
                         }
                     });
 

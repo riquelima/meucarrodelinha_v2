@@ -223,9 +223,13 @@
                 adsListContainer.innerHTML = '';
                 ads.forEach(ad => {
                     const adCard = document.createElement('a');
-                    const targetUrl = ad.link_acao || ad.url;
+                    let targetUrl = ad.link_acao || ad.url;
+                    if (targetUrl && !targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+                        targetUrl = 'https://' + targetUrl;
+                    }
                     adCard.href = targetUrl || '#';
                     adCard.target = targetUrl ? '_blank' : '_self';
+                    adCard.rel = 'noopener noreferrer';
                     adCard.className = 'ad-card flex w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm shrink-0 cursor-pointer hover:border-primary/50 transition-colors group active-scale';
 
                     adCard.innerHTML = `
@@ -247,8 +251,8 @@
                     `;
 
                     adCard.addEventListener('click', (e) => {
-                        if (adCard.target === '_blank') {
-                            e.stopPropagation();
+                        if (targetUrl) {
+                            e.stopPropagation(); // Prevent global navigation scripts from interfering
                         }
                     });
 
