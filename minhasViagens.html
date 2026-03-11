@@ -14,10 +14,9 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
 
-    <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <link rel="stylesheet" href="css/ui-style.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <!-- Google Maps SDK -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -446,30 +445,33 @@
             // Initialize Maps
             const maps = {};
             const tripCoordinates = [
-                { id: 'map-trip-1', center: [-12.8711, -38.7614], zoom: 14 },
-                { id: 'map-trip-2', center: [-12.8750, -38.7650], zoom: 14 },
-                { id: 'map-trip-3', center: [-12.8800, -38.7700], zoom: 14 },
-                { id: 'map-trip-4', center: [-12.8600, -38.7500], zoom: 14 }
+                { id: 'map-trip-1', center: { lat: -12.8711, lng: -38.7614 }, zoom: 14 },
+                { id: 'map-trip-2', center: { lat: -12.8750, lng: -38.7650 }, zoom: 14 },
+                { id: 'map-trip-3', center: { lat: -12.8800, lng: -38.7700 }, zoom: 14 },
+                { id: 'map-trip-4', center: { lat: -12.8600, lng: -38.7500 }, zoom: 14 }
+            ];
+
+            const mapStyle = [
+                {
+                    featureType: "poi",
+                    elementType: "labels",
+                    stylers: [{ visibility: "off" }]
+                }
             ];
 
             tripCoordinates.forEach(trip => {
-                const map = L.map(trip.id, {
-                    zoomControl: false,
-                    attributionControl: false,
-                    dragging: false,
-                    scrollWheelZoom: false,
-                    doubleClickZoom: false,
-                    boxZoom: false,
-                    keyboard: false,
-                    tap: false
-                }).setView(trip.center, trip.zoom);
+                const map = new google.maps.Map(document.getElementById(trip.id), {
+                    center: trip.center,
+                    zoom: trip.zoom,
+                    disableDefaultUI: true,
+                    gestureHandling: "none",
+                    styles: mapStyle
+                });
 
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                }).addTo(map);
-
-                // Add a simple marker
-                L.marker(trip.center).addTo(map);
+                new google.maps.Marker({
+                    position: trip.center,
+                    map: map
+                });
 
                 maps[trip.id] = map;
             });
@@ -490,12 +492,6 @@
                     viewAnteriores.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
                     viewAnteriores.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
 
-                    // Refresh maps
-                    setTimeout(() => {
-                        maps['map-trip-1'].invalidateSize();
-                        maps['map-trip-2'].invalidateSize();
-                    }, 300);
-
                 } else {
                     // Update Buttons
                     btnAnteriores.classList.add('border-primary', 'text-primary');
@@ -510,23 +506,11 @@
 
                     viewRecentes.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
                     viewRecentes.classList.add('opacity-0', 'translate-x-[-100%]', 'pointer-events-none');
-
-                    // Refresh maps
-                    setTimeout(() => {
-                        maps['map-trip-3'].invalidateSize();
-                        maps['map-trip-4'].invalidateSize();
-                    }, 300);
                 }
             }
 
             btnRecentes.addEventListener('click', () => switchTo('recentes'));
             btnAnteriores.addEventListener('click', () => switchTo('anteriores'));
-
-            // Initial invalidation to ensure first tab maps are correct
-            setTimeout(() => {
-                maps['map-trip-1'].invalidateSize();
-                maps['map-trip-2'].invalidateSize();
-            }, 100);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

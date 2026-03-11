@@ -25,9 +25,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <!-- Google Maps SDK -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -182,33 +182,66 @@
         }
 
         @keyframes slide-in-right {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
         }
 
         @keyframes slide-out-left {
-            from { transform: translateX(0); }
-            to { transform: translateX(-30%); opacity: 0.5; }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-30%);
+                opacity: 0.5;
+            }
         }
 
         @keyframes slide-in-left {
-            from { transform: translateX(-30%); opacity: 0.5; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(-30%);
+                opacity: 0.5;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @keyframes slide-out-right {
-            from { transform: translateX(0); }
-            to { transform: translateX(100%); }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
         }
 
         @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes fade-out {
-            from { opacity: 1; }
-            to { opacity: 0; }
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
         }
 
         /* Fallback Fade */
@@ -458,7 +491,8 @@
                     <div class="p-3">
                         <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">Supermercado Silva
                         </h4>
-                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Ofertas de hoje</p>
+                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Ofertas de hoje
+                        </p>
                     </div>
                 </div>
                 <div
@@ -482,7 +516,8 @@
                     <div class="p-3">
                         <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">Lanchonete Central
                         </h4>
-                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Combo Especial</p>
+                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Combo Especial
+                        </p>
                     </div>
                 </div>
             </div>
@@ -512,14 +547,18 @@
             </div>
             <nav class="flex-1 overflow-y-auto px-4 py-2 space-y-2">
                 <div class="bg-slate-900/50 rounded-2xl border border-slate-800 overflow-hidden">
-                    <button class="w-full flex items-center justify-between p-4 text-white hover:bg-slate-800/50 transition-colors" onclick="toggleSubmenu('login-submenu')">
+                    <button
+                        class="w-full flex items-center justify-between p-4 text-white hover:bg-slate-800/50 transition-colors"
+                        onclick="toggleSubmenu('login-submenu')">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-primary">login</span>
                             <span class="font-semibold">Entrar</span>
                         </div>
-                        <span class="material-symbols-outlined text-slate-500 transition-transform duration-200" id="login-submenu-icon" style="transform: rotate(-180deg);">expand_less</span>
+                        <span class="material-symbols-outlined text-slate-500 transition-transform duration-200"
+                            id="login-submenu-icon" style="transform: rotate(-180deg);">expand_less</span>
                     </button>
-                    <div id="login-submenu" class="px-4 pb-4 space-y-2 transition-all duration-200 overflow-hidden max-h-0 opacity-0 hidden">
+                    <div id="login-submenu"
+                        class="px-4 pb-4 space-y-2 transition-all duration-200 overflow-hidden max-h-0 opacity-0 hidden">
                         <a class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 text-sm text-slate-300 hover:bg-primary/20 transition-colors"
                             href="loginPassageiro.html">
                             <span class="material-symbols-outlined text-lg">person</span>
@@ -600,7 +639,7 @@
         function toggleSubmenu(id) {
             const submenu = document.getElementById(id);
             const icon = document.getElementById(id + '-icon');
-            
+
             if (submenu.style.maxHeight === '0px' || submenu.classList.contains('hidden')) {
                 submenu.classList.remove('hidden');
                 // Small timeout to allow transition
@@ -623,72 +662,81 @@
         }
 
         // Map Initialization
+        let googleMap;
+        let userMarker;
+        let destinationMarker;
+
         document.addEventListener('DOMContentLoaded', () => {
             const mapContainer = document.getElementById('homepage-map');
-            if (mapContainer && typeof L !== 'undefined') {
-                const map = L.map('homepage-map', {
-                    zoomControl: false,
-                    attributionControl: false
-                }).setView([-12.8700, -38.8000], 14); // Default: Salinas da Margarida
-
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    maxZoom: 20
-                }).addTo(map);
+            if (mapContainer && typeof google !== 'undefined') {
+                googleMap = new google.maps.Map(mapContainer, {
+                    center: { lat: -12.8700, lng: -38.8000 },
+                    zoom: 14,
+                    disableDefaultUI: true,
+                    styles: [
+                        {
+                            "featureType": "all",
+                            "elementType": "labels.text.fill",
+                            "stylers": [{ "color": "#7c93a3" }, { "lightness": "-10" }]
+                        }
+                        // Opcional: Adicionar estilos dark mode se necessário
+                    ]
+                });
 
                 // Request User Location
                 if ('geolocation' in navigator) {
                     navigator.geolocation.getCurrentPosition(
                         (position) => {
                             const { latitude, longitude } = position.coords;
-                            const userLat = latitude;
-                            const userLng = longitude;
+                            const pos = { lat: latitude, lng: longitude };
 
-                            // Update map view
-                            map.setView([userLat, userLng], 16);
+                            googleMap.setCenter(pos);
+                            googleMap.setZoom(16);
 
-                            // Add user marker
-                            const userIcon = L.divIcon({
-                                className: 'user-location-marker',
-                                html: `<div class="size-4 bg-blue-500 rounded-full border-2 border-white shadow-lg pulse-ring"></div>`,
-                                iconSize: [16, 16],
-                                iconAnchor: [8, 8]
+                            userMarker = new google.maps.Marker({
+                                position: pos,
+                                map: googleMap,
+                                icon: {
+                                    path: google.maps.SymbolPath.CIRCLE,
+                                    scale: 8,
+                                    fillColor: "#1e3fae",
+                                    fillOpacity: 1,
+                                    strokeColor: "#ffffff",
+                                    strokeWeight: 2,
+                                },
+                                title: 'Sua localização atual'
                             });
-
-                            L.marker([userLat, userLng], { icon: userIcon }).addTo(map)
-                                .bindPopup('Sua localização atual')
-                                .openPopup();
                         },
                         (error) => {
                             console.warn('Geolocation denied or failed:', error.message);
-                            // Optional: Show a toast or fallback behavior
                         },
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 10000,
-                            maximumAge: 0
-                        }
+                        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
                     );
                 }
 
-                // Listen for place selection from autocomplete
+                // Listen for place selection (this event will be dispatched from homepage.js)
                 document.addEventListener('placeSelected', (e) => {
-                    const { lat, lon, name } = e.detail;
-                    
-                    // Center map
-                    map.setView([lat, lon], 16);
-                    
-                    // Add marker for destination
-                    const destIcon = L.divIcon({
-                        className: 'destination-marker',
-                        html: `<span class="material-symbols-outlined text-red-600 text-3xl drop-shadow-md" style="font-variation-settings: 'FILL' 1">location_on</span>`,
-                        iconSize: [30, 30],
-                        iconAnchor: [15, 30],
-                        popupAnchor: [0, -30]
+                    const { lat, lng, name } = e.detail;
+                    const pos = { lat, lng };
+
+                    googleMap.setCenter(pos);
+                    googleMap.setZoom(16);
+
+                    if (destinationMarker) {
+                        destinationMarker.setMap(null);
+                    }
+
+                    destinationMarker = new google.maps.Marker({
+                        position: pos,
+                        map: googleMap,
+                        title: `Destino: ${name}`,
+                        animation: google.maps.Animation.DROP
                     });
 
-                    L.marker([lat, lon], { icon: destIcon }).addTo(map)
-                        .bindPopup(`Destino: ${name}`)
-                        .openPopup();
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `<div style="color: black; padding: 5px;">Destino: ${name}</div>`
+                    });
+                    infoWindow.open(googleMap, destinationMarker);
                 });
             }
         });
@@ -697,7 +745,7 @@
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (!link) return;
-            
+
             // Ignore external links or anchor links on same page
             const href = link.getAttribute('href');
             if (!href || href.startsWith('http') || href.startsWith('#')) return;

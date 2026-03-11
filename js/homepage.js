@@ -16,21 +16,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            debounceTimeout = setTimeout(async () => {
-                try {
-                    // Salinas da Margarida coordinates for biasing search
-                    // viewbox: left,top,right,bottom (W,N,E,S)
-                    // Salinas: -38.80, -12.87
-                    // Broader region: -39.0,-12.8,-38.6,-13.0
-                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5&countrycodes=br&viewbox=-39.0,-12.8,-38.6,-13.0`);
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    const data = await response.json();
-
-                    renderSuggestions(data);
-                } catch (error) {
-                    console.error('Error fetching suggestions:', error);
+            const service = new google.maps.places.AutocompleteService();
+            service.getPlacePredictions({
+                input: query,
+                componentRestrictions: { country: 'br' },
+                // Biasing result to Salinas da Margarida area
+                locationBias: { lat: -12.87, lng: -38.80, radius: 20000 }
+            }, (predictions, status) => {
+                if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                    suggestionsList.classList.add('hidden');
+                    return;
                 }
-            }, 300);
+                renderSuggestions(predictions);
+            });
         });
 
         // Close suggestions when clicking outside
@@ -41,36 +39,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function renderSuggestions(places) {
+    function renderSuggestions(predictions) {
         suggestionsList.innerHTML = '';
 
-        if (!places || places.length === 0) {
+        if (!predictions || predictions.length === 0) {
             suggestionsList.classList.add('hidden');
             return;
         }
 
-        places.forEach(place => {
+        predictions.forEach(prediction => {
             const li = document.createElement('li');
             li.className = 'px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b border-slate-100 dark:border-slate-700 last:border-0 transition-colors flex items-center gap-3';
-            
-            // Icon based on type (simplified)
+
+            // Icon based on type from Google predictions
             let icon = 'location_on';
-            if (place.type === 'restaurant') icon = 'restaurant';
-            else if (place.type === 'pub' || place.type === 'bar') icon = 'local_bar';
-            else if (place.type === 'pharmacy') icon = 'local_pharmacy';
-            else if (place.type === 'hospital') icon = 'local_hospital';
-            else if (place.type === 'supermarket') icon = 'shopping_cart';
+            const types = prediction.types || [];
+            if (types.includes('restaurant')) icon = 'restaurant';
+            else if (types.includes('bar')) icon = 'local_bar';
+            else if (types.includes('pharmacy')) icon = 'local_pharmacy';
+            else if (types.includes('hospital')) icon = 'local_hospital';
+            else if (types.includes('supermarket') || types.includes('grocery_or_supermarket')) icon = 'shopping_cart';
 
             li.innerHTML = `
                 <span class="material-symbols-outlined text-slate-400 text-lg">${icon}</span>
                 <div class="flex-1 overflow-hidden">
-                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">${place.display_name.split(',')[0]}</p>
-                    <p class="text-xs text-slate-500 truncate">${place.display_name}</p>
+                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">${prediction.structured_formatting.main_text}</p>
+                    <p class="text-xs text-slate-500 truncate">${prediction.description}</p>
                 </div>
             `;
 
             li.addEventListener('click', () => {
-                selectPlace(place);
+                selectPlace(prediction);
             });
 
             suggestionsList.appendChild(li);
@@ -79,13 +78,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         suggestionsList.classList.remove('hidden');
     }
 
-    function selectPlace(place) {
-        const shortName = place.display_name.split(',')[0];
-        destinoInput.value = shortName;
-        suggestionsList.classList.add('hidden');
+    function selectPlace(prediction) {
+        // Get full details from place_id (especially lat/lng)
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ placeId: prediction.place_id }, (results, status) => {
+            if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                const place = results[0];
+                const lat = place.geometry.location.lat();
+                const lng = place.geometry.location.lng();
+                const fullName = place.formatted_address;
+                const shortName = prediction.structured_formatting.main_text;
 
-        // Redirect to passenger login
-        window.location.href = 'loginPassageiro.html';
+                destinoInput.value = fullName;
+                suggestionsList.classList.add('hidden');
+
+                // Dispatch event for the map
+                document.dispatchEvent(new CustomEvent('placeSelected', {
+                    detail: { lat, lng, name: shortName }
+                }));
+
+                // Redirect to passenger login after a short delay
+                setTimeout(() => {
+                    window.location.href = 'loginPassageiro.html';
+                }, 1000);
+            }
+        });
     }
 
     // Driver Loading Logic (Existing)
@@ -187,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         drivers.forEach(driver => {
             driversContainer.appendChild(createDriverCard(driver));
         });
-        
+
         // Clone for infinite scroll (if we have enough items)
         if (drivers.length > 3) {
             drivers.forEach(driver => {
