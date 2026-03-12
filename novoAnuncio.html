@@ -288,13 +288,8 @@
                 }
 
                 btnPublicar.addEventListener('click', async () => {
-                    const { data: { user }, error: authError } = await window.supabaseClient.auth.getUser();
-
-                    if (authError || !user) {
-                        alert('Você precisa estar logado para publicar um anúncio.');
-                        window.location.href = 'loginPassageiro.html?redirect=novoAnuncio.html';
-                        return;
-                    }
+                    // Removida exigência de login conforme solicitado pelo usuário
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
 
                     const titulo = tituloInput.value.trim();
                     const descricao = descricaoInput.value.trim();
