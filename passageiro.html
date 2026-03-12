@@ -610,6 +610,11 @@
 
     <script src="js/location-modal.js"></script>
     <script>
+        let googleMap;
+        let userMarker;
+        let currentCoords = null;
+        let isFirstLocationUpdate = true;
+
         window.initMap = function () {
             const mapContainer = document.getElementById('passageiro-map');
             if (mapContainer) {

@@ -252,13 +252,6 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('senha').value;
 
-            // Admin bypass local provisório pra continuar testando no UI
-            if (email === 'meucarrodelinha.adm@gmail.com' && password === '310311') {
-                document.body.classList.add('fade-out');
-                setTimeout(() => { window.location.href = 'admin.html'; }, 200);
-                return;
-            }
-
             const result = await signIn(email, password);
             if (result.success) {
                 document.body.classList.add('fade-out');
