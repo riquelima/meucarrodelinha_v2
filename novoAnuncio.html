@@ -182,7 +182,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script src="js/supabaseClient.js"></script>
-        <script src="js/authGuard.js"></script>
+        <!-- <script src="js/authGuard.js"></script> --> <!-- Removed to allow curious users to see the form -->
         <script src="js/ui-transitions.js"></script>
         <script src="js/chat-notifications.js"></script>
         <script>
@@ -193,7 +193,8 @@
                 async function checkUserType() {
                     const { data: { user } } = await window.supabaseClient.auth.getUser();
                     if (!user) {
-                        window.location.href = 'index.html';
+                        // Don't redirect immediately to allow seeing the page
+                        console.log('User not logged in, will prompt on publish');
                         return;
                     }
 
@@ -287,6 +288,13 @@
                 }
 
                 btnPublicar.addEventListener('click', async () => {
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                    if (!user) {
+                        alert('Você precisa estar logado para publicar um anúncio.');
+                        window.location.href = 'loginPassageiro.html?redirect=novoAnuncio.html';
+                        return;
+                    }
+
                     const titulo = tituloInput.value.trim();
                     const descricao = descricaoInput.value.trim();
                     let urlDestino = urlInput.value.trim();

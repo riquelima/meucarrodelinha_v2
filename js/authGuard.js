@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session }, error } = await window.supabaseClient.auth.getSession();
 
     if (error || !session) {
-        // Redireciona para fora (tela inicial) se não estiver logado
-        window.location.href = 'index.html';
+        // Redireciona para a homepage se não estiver logado (evita o loop do splash screen)
+        window.location.href = 'homepage.html';
         return;
     }
 
