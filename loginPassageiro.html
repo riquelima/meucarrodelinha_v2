@@ -186,7 +186,8 @@
 
         <div class="w-full flex items-center justify-center mb-2 mt-4">
             <header class="flex flex-col items-center w-full">
-                <img src="logoLoginPassageiro.png" alt="Logo Meu Carro de Linha" class="w-full max-w-[320px] object-contain drop-shadow-2xl mx-auto">
+                <img src="logoLoginPassageiro.png" alt="Logo Meu Carro de Linha"
+                    class="w-full max-w-[320px] object-contain drop-shadow-2xl mx-auto">
             </header>
         </div>
         <div class="mb-6 text-center">
@@ -232,7 +233,7 @@
                 <a class="text-primary font-bold ml-1" href="criarConta.html">Cadastre-se</a>
             </p>
         </div>
-        
+
     </div>
 
 
@@ -261,7 +262,15 @@
             const result = await signIn(email, password);
             if (result.success) {
                 document.body.classList.add('fade-out');
-                setTimeout(() => { window.location.href = 'passageiro.html'; }, 200);
+                // Determine redirect based on tipo_usuario
+                const tipoUsuario = result.data?.user?.user_metadata?.tipo_usuario;
+                let destino = 'passageiro.html';
+                if (tipoUsuario === 'admin') {
+                    destino = 'admin.html';
+                } else if (tipoUsuario === 'motorista') {
+                    destino = 'motorista.html';
+                }
+                setTimeout(() => { window.location.href = destino; }, 200);
             } else {
                 btn.textContent = originalText;
                 btn.disabled = false;
