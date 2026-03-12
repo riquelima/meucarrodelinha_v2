@@ -10,6 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -217,33 +218,31 @@
             </div>
 
             <!-- Bottom Navigation Bar -->
-            <nav class="bg-[#121520] border-t border-slate-800 py-3 pb-safe pb-4 shrink-0">
-                <div class="flex justify-around items-end">
-                    <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                        href="passageiro.html">
-                        <span
-                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
-                        <span class="text-[10px] font-medium">Início</span>
-                    </a>
-                    <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                        href="minhasViagens.html">
-                        <span
-                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
-                        <span class="text-[10px] font-medium">Viagens</span>
-                    </a>
-                    <a class="flex flex-col items-center gap-1 text-primary group transition-colors "
-                        href="conversas.html">
-                        <span
-                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
-                        <span class="text-[10px] font-bold">Chats</span>
-                    </a>
-                    <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors "
-                        href="perfilPassageiro.html">
-                        <span
-                            class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                        <span class="text-[10px] font-medium">Perfil</span>
-                    </a>
-                </div>
+            <nav class="fixed-navbar">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="passageiro.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
+                    <span class="text-[10px] font-medium">Início</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="minhasViagens.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
+                    <span class="text-[10px] font-medium">Viagens</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors relative"
+                    href="conversas.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
+                    <span class="text-[10px] font-medium">Chats</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="perfilPassageiro.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                    <span class="text-[10px] font-medium">Perfil</span>
+                </a>
             </nav>
         </div>
     </div>
