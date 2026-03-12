@@ -295,47 +295,28 @@
 
                 try {
                     btnPublicar.disabled = true;
-                    btnText.textContent = isAdmin ? 'Publicando...' : 'Enviando imagem...';
+                    btnText.textContent = 'Publicando...';
                     btnIcon.textContent = 'sync';
                     btnIcon.classList.add('animate-spin');
 
                     // Realiza o upload da imagem
                     const imageUrl = await uploadImage(imageFile);
 
-                    if (isAdmin) {
-                        // Fluxo Administrador: Inserção direta
-                        const { data: userData } = await window.supabaseClient.auth.getUser();
-                        const { error } = await window.supabaseClient
-                            .from('anuncios')
-                            .insert([{
-                                titulo,
-                                descricao,
-                                url: urlDestino,
-                                imagem_url: imageUrl,
-                                criado_por: userData?.user?.id,
-                                ativo: true
-                            }]);
-
-                        if (error) throw error;
-                        alert('Anúncio publicado com sucesso!');
-                        window.location.href = 'anuncioCriado.html';
-                    } else {
-                        // Fluxo Externo: Redireciona para cobrança
-                        const { data: userData } = await window.supabaseClient.auth.getUser();
-                        const adData = {
+                    // Inserção direta para todos os usuários
+                    const { data: userData } = await window.supabaseClient.auth.getUser();
+                    const { error } = await window.supabaseClient
+                        .from('anuncios')
+                        .insert([{
                             titulo,
                             descricao,
                             url: urlDestino,
                             imagem_url: imageUrl,
-                            user_id: userData?.user?.id || null,
-                            valor: 2.90
-                        };
+                            criado_por: userData?.user?.id || null,
+                            ativo: true
+                        }]);
 
-                        localStorage.setItem('pending_ad_data', JSON.stringify(adData));
-                        // Redirecionamento direto para o Link de Pagamento da Stripe
-                        // Isso resolve o problema do iframe sendo bloqueado (CSP/Security)
-                        window.location.href = 'https://buy.stripe.com/14AeV76F57vtbDC8P53AY01';
-                    }
+                    if (error) throw error;
+                    window.location.href = 'anuncioCriado.html';
 
                 } catch (error) {
                     console.error('Erro ao processar anúncio:', error);

@@ -4,12 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <title>Gerenciar Blog - Meu Carro de Linha Salinas</title>
+    <title>Gerenciar Blog – Admin</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -18,207 +16,435 @@
                 extend: {
                     colors: {
                         "primary": "#0f38bd",
-                        "accent-cyan": "#06b6d4",
-                        "background-dark": "#0a0c16",
-                        "card-dark": "#161b2c",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "2xl": "1rem",
-                        "3xl": "1.5rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style type="text/tailwindcss">
         body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .ios-blur {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        .status-badge {
-            @apply px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider;
-        }
-    
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-        input, textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
-
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
+        font-family: 'Inter', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        overscroll-behavior-y: none;
+        min-height: max(884px, 100dvh);
+    }
+    input, textarea, select { user-select: text; -webkit-user-select: text; }
+    .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .active-scale { transition: transform 0.15s cubic-bezier(0.4,0,0.2,1); }
+    .active-scale:active { transform: scale(0.96); }
+    .animate-fade-in { opacity:0; animation: fadeIn 0.4s ease-out forwards; }
+    .animate-slide-up { opacity:0; transform:translateY(16px); animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes fadeIn { to { opacity:1; } }
+    @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
+    .delay-100 { animation-delay: 80ms; }
+    .delay-200 { animation-delay: 160ms; }
+    .delay-300 { animation-delay: 240ms; }
+    .delay-400 { animation-delay: 320ms; }
+    .delay-500 { animation-delay: 400ms; }
+</style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabaseClient.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const postsContainer = document.querySelector('.flex-col.gap-4.mt-2');
-        const searchInput = document.querySelector('input[type="text"]');
 
-        async function loadPosts(searchTerm = '') {
-            try {
-                postsContainer.innerHTML = `
-                        <div class="flex flex-col items-center justify-center py-10 gap-2 opacity-50">
-                            <span class="material-symbols-outlined animate-spin">sync</span>
-                            <p class="text-sm">Carregando postagens...</p>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-50 flex items-center ios-blur bg-white/80 dark:bg-slate-900/80 p-4 border-b border-slate-200 dark:border-slate-800 justify-between">
+            <a href="perfilAdministrador.html"
+                class="flex items-center justify-center h-10 w-10 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </a>
+            <h1 class="text-lg font-bold flex-1 text-center">Gerenciar Postagens</h1>
+            <div class="w-10"></div>
+        </header>
+
+        <!-- Main -->
+        <main class="flex-1 px-4 pt-5 pb-32">
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-3 mb-6 animate-fade-in">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-2xl font-bold text-primary" id="stat-total">–</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Likes</p>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-2xl font-bold text-emerald-500" id="stat-pub">–</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Publicados</p>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-2xl font-bold text-amber-500" id="stat-draft">–</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">
+                        Compartilhamentos</p>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="relative mb-4 animate-fade-in delay-100">
+                <span
+                    class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+                <input id="search-input" type="text" placeholder="Buscar por título…"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+            </div>
+
+            <!-- List Header -->
+            <div class="flex items-center justify-between mb-3 animate-fade-in delay-200">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Postagens</h2>
+                <span id="badge-count"
+                    class="text-xs font-semibold text-slate-500 bg-slate-200 dark:bg-slate-800 px-2.5 py-1 rounded-full">…</span>
+            </div>
+
+            <!-- Post List -->
+            <div id="post-list" class="flex flex-col gap-3">
+                <!-- Loading Skeleton -->
+                <div
+                    class="skeleton-card flex gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse">
+                    <div class="size-20 rounded-xl bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
+                    <div class="flex-1 space-y-2 pt-1">
+                        <div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/4"></div>
+                        <div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                        <div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
+                    </div>
+                </div>
+                <div
+                    class="skeleton-card flex gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse">
+                    <div class="size-20 rounded-xl bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
+                    <div class="flex-1 space-y-2 pt-1">
+                        <div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/3"></div>
+                        <div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
+                        <div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-2/5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state"
+                class="hidden flex-col items-center justify-center py-20 gap-4 text-center animate-fade-in">
+                <div class="size-20 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-4xl text-slate-400">article</span>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-700 dark:text-slate-300">Nenhuma postagem ainda</p>
+                    <p class="text-sm text-slate-400 mt-1">Clique em + para criar o primeiro post</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ────────── MODAL EDITAR ────────── -->
+        <div id="modal-edit"
+            class="fixed inset-0 z-[70] flex items-end justify-center bg-black/60 backdrop-blur-sm hidden">
+            <div
+                class="w-full max-w-lg bg-background-light dark:bg-slate-900 rounded-t-2xl border-t border-slate-200 dark:border-slate-800 shadow-2xl p-6 pb-10 flex flex-col gap-4 animate-slide-up overflow-y-auto max-h-[90dvh]">
+                <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-lg font-bold">Editar Post</h3>
+                    <button onclick="closeEditModal()"
+                        class="flex items-center justify-center size-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <span class="material-symbols-outlined text-slate-500">close</span>
+                    </button>
+                </div>
+                <input id="edit-id" type="hidden" />
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Título</label>
+                    <input id="edit-titulo" type="text"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Categoria</label>
+                    <select id="edit-categoria"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary outline-none transition-all text-sm">
+                        <option value="noticias">Notícias</option>
+                        <option value="dicas">Dicas</option>
+                        <option value="promocoes">Promoções</option>
+                        <option value="avisos">Avisos</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Conteúdo</label>
+                    <textarea id="edit-conteudo" rows="5"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary outline-none transition-all text-sm resize-none"></textarea>
+                </div>
+                <div
+                    class="flex items-center justify-between p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Publicado</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input id="edit-publicado" type="checkbox" class="sr-only peer" />
+                        <div
+                            class="w-11 h-6 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
                         </div>
-                    `;
+                    </label>
+                </div>
+                <button onclick="saveEdit()" id="btn-save-edit"
+                    class="active-scale w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/20 text-sm">
+                    <span class="material-symbols-outlined text-base">save</span>
+                    Salvar Alterações
+                </button>
+            </div>
+        </div>
 
-                let query = supabaseClient
-                    .from('postagens')
-                    .select('*')
-                    .order('criado_em', { ascending: false });
+        <!-- ────────── MODAL DELETAR ────────── -->
+        <div id="modal-delete"
+            class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-5">
+            <div
+                class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 flex flex-col gap-4 animate-fade-in">
+                <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-rose-500/10 text-rose-500">
+                    <span class="material-symbols-outlined text-3xl">delete_forever</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-bold text-lg">Excluir postagem?</h3>
+                    <p class="text-sm text-slate-500 mt-1">Esta ação é permanente e não pode ser desfeita.</p>
+                </div>
+                <input id="delete-id" type="hidden" />
+                <button onclick="confirmDelete()" id="btn-confirm-delete"
+                    class="active-scale w-full p-3.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-600/20">
+                    Sim, excluir
+                </button>
+                <button onclick="closeDeleteModal()"
+                    class="active-scale w-full p-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm">
+                    Cancelar
+                </button>
+            </div>
+        </div>
 
-                if (searchTerm) {
-                    query = query.ilike('titulo', `%${searchTerm}%`);
-                }
+        <!-- Bottom Nav -->
+        <nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50"
+            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
+            <div class="flex gap-2 max-w-lg mx-auto">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">dashboard</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="gerenciarUsuarios.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">group</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="historicoGeral.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">route</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary"
+                    href="perfilAdministrador.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">settings</span>
+                    </div>
+                    <p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
+                </a>
+            </div>
+        </nav>
 
-                const { data: posts, error } = await query;
+    </div>
 
-                if (error) throw error;
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script>
+        const sb = window.supabaseClient;
+        let allPosts = [];
 
-                postsContainer.innerHTML = '';
-
-                if (!posts || posts.length === 0) {
-                    postsContainer.innerHTML = `
-                            <div class="flex flex-col items-center justify-center py-10 gap-2 text-slate-500">
-                                <span class="material-symbols-outlined text-4xl">article</span>
-                                <p class="text-sm italic">Nenhuma postagem encontrada.</p>
-                            </div>
-                        `;
-                    return;
-                }
-
-                posts.forEach(post => {
-                    const postDate = new Date(post.criado_em).toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric'
-                    });
-
-                    const postCard = document.createElement('div');
-                    postCard.className = "bg-card-dark border border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col";
-                    postCard.innerHTML = `
-                            <div class="flex p-3 gap-3">
-                                <div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800">
-                                    <img alt="Thumbnail" class="w-full h-full object-cover" src="${post.imagem_capa_url || 'splashScreen.jpeg'}"/>
-                                </div>
-                                <div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
-                                    <div>
-                                        <div class="flex justify-between items-start mb-1">
-                                            <span class="status-badge ${post.publicado ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">
-                                                ${post.publicado ? 'Publicado' : 'Rascunho'}
-                                            </span>
-                                            <span class="text-[11px] text-slate-500">${postDate}</span>
-                                        </div>
-                                        <h3 class="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">${post.titulo}</h3>
-                                    </div>
-                                    <div class="flex items-center gap-4 mt-2">
-                                        <button onclick="window.location.href='novoPost.html?id=${post.id}'" class="flex items-center gap-1.5 text-xs font-medium text-accent-cyan active:opacity-50">
-                                            <span class="material-symbols-outlined text-base">edit</span>
-                                            Editar
-                                        </button>
-                                        <button onclick="deletePost('${post.id}')" class="flex items-center gap-1.5 text-xs font-medium text-red-400 active:opacity-50">
-                                            <span class="material-symbols-outlined text-base">delete</span>
-                                            Excluir
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    postsContainer.appendChild(postCard);
-                });
-            } catch (err) {
-                console.error('Error:', err);
-                postsContainer.innerHTML = '<p class="text-center py-10 text-red-500">Erro ao carregar postagens.</p>';
-            }
-        }
-
-        window.deletePost = async (id) => {
-            if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
-            try {
-                const { error } = await supabaseClient.from('postagens').delete().eq('id', id);
-                if (error) throw error;
-                loadPosts(searchInput.value);
-            } catch (err) {
-                alert('Erro ao excluir: ' + err.message);
-            }
+        const catLabels = {
+            noticias: 'Notícias',
+            dicas: 'Dicas',
+            promocoes: 'Promoções',
+            avisos: 'Avisos',
+        };
+        const catColors = {
+            noticias: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
+            dicas: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+            promocoes: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
+            avisos: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
         };
 
-        // Search logic
+        // ─── Load Posts ──────────────────────────────────────────────
+        async function loadPosts(search = '') {
+            let query = sb.from('postagens').select('*').order('criado_em', { ascending: false });
+            if (search) query = query.ilike('titulo', `%${search}%`);
+
+            const { data, error } = await query;
+
+            document.querySelectorAll('.skeleton-card').forEach(el => el.remove());
+
+            if (error) {
+                document.getElementById('post-list').innerHTML = `
+                <div class="p-6 text-center text-sm text-rose-500">Erro ao carregar: ${error.message}</div>`;
+                return;
+            }
+
+            allPosts = data || [];
+            updateStats();
+
+            const list = document.getElementById('post-list');
+            list.innerHTML = '';
+
+            if (allPosts.length === 0) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('flex');
+                return;
+            }
+
+            allPosts.forEach((post, i) => {
+                const dateFmt = new Date(post.criado_em).toLocaleDateString('pt-BR', {
+                    day: '2-digit', month: 'short', year: 'numeric'
+                });
+                const isPub = post.publicado === true;
+                const cat = post.categoria || '';
+                const catClass = catColors[cat] || 'bg-slate-100 text-slate-500 border-slate-300';
+
+                const card = document.createElement('div');
+                card.className = `post-card flex gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm animate-slide-up delay-${Math.min(i + 1, 5) * 100} ${isPub ? '' : 'opacity-70'}`;
+                card.innerHTML = `
+                <!-- Thumb -->
+                <div class="size-20 rounded-xl flex-shrink-0 overflow-hidden bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                    ${post.imagem_capa_url
+                        ? `<img src="${post.imagem_capa_url}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\\'material-symbols-outlined text-slate-400\\'>article</span>'">`
+                        : `<span class="material-symbols-outlined text-2xl text-slate-400">article</span>`}
+                </div>
+                <!-- Info -->
+                <div class="flex-1 min-w-0 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                            <span class="px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${isPub
+                        ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+                        : 'bg-amber-500/10 text-amber-500 border-amber-500/20'}">
+                                ${isPub ? 'Publicado' : 'Rascunho'}
+                            </span>
+                            ${cat ? `<span class="px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${catClass}">${catLabels[cat] || cat}</span>` : ''}
+                        </div>
+                        <h3 class="font-semibold text-sm leading-snug line-clamp-2">${post.titulo || '(sem título)'}</h3>
+                        <p class="text-[10px] text-slate-400 mt-1">${dateFmt}</p>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center gap-3 mt-2">
+                        <button onclick="openEditModal(${JSON.stringify(post).replace(/"/g, '&quot;')})"
+                            class="active-scale flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                            <span class="material-symbols-outlined text-base">edit</span>Editar
+                        </button>
+                        <button onclick="openDeleteModal('${post.id}')"
+                            class="active-scale flex items-center gap-1 text-xs font-semibold text-rose-500 hover:underline">
+                            <span class="material-symbols-outlined text-base">delete</span>Excluir
+                        </button>
+                    </div>
+                </div>`;
+                list.appendChild(card);
+            });
+        }
+
+        function updateStats() {
+            const total = allPosts.length;
+            const pub = allPosts.filter(p => p.publicado).length;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-pub').textContent = pub;
+            document.getElementById('stat-draft').textContent = total - pub;
+            document.getElementById('badge-count').textContent = `${total} post${total !== 1 ? 's' : ''}`;
+        }
+
+        // ─── Search ───────────────────────────────────────────────────
         let debounce;
-        searchInput.addEventListener('input', (e) => {
+        document.getElementById('search-input').addEventListener('input', e => {
             clearTimeout(debounce);
-            debounce = setTimeout(() => {
-                loadPosts(e.target.value);
-            }, 300);
+            debounce = setTimeout(() => loadPosts(e.target.value.trim()), 300);
         });
 
-        // Initial load
+        // ─── Helpers ──────────────────────────────────────────────────
+        function stripHtml(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || '';
+        }
+
+        // ─── Edit Modal ───────────────────────────────────────────────
+        function openEditModal(post) {
+            document.getElementById('edit-id').value = post.id;
+            document.getElementById('edit-titulo').value = post.titulo || '';
+            document.getElementById('edit-categoria').value = post.categoria || 'noticias';
+            document.getElementById('edit-conteudo').value = stripHtml(post.conteudo || '');
+            document.getElementById('edit-publicado').checked = !!post.publicado;
+            document.getElementById('modal-edit').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEditModal() {
+            document.getElementById('modal-edit').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        async function saveEdit() {
+            const btn = document.getElementById('btn-save-edit');
+            const id = document.getElementById('edit-id').value;
+            const titulo = document.getElementById('edit-titulo').value.trim();
+            const categoria = document.getElementById('edit-categoria').value;
+            const conteudo = document.getElementById('edit-conteudo').value.trim();
+            const publicado = document.getElementById('edit-publicado').checked;
+
+            if (!titulo) { alert('O título é obrigatório.'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span> Salvando…';
+
+            const { error } = await sb
+                .from('postagens')
+                .update({ titulo, categoria, conteudo, publicado })
+                .eq('id', id);
+
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Salvar Alterações';
+
+            if (error) { alert('Erro: ' + error.message); return; }
+
+            closeEditModal();
+            await loadPosts(document.getElementById('search-input').value.trim());
+        }
+
+        // ─── Delete Modal ─────────────────────────────────────────────
+        function openDeleteModal(id) {
+            document.getElementById('delete-id').value = id;
+            document.getElementById('modal-delete').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('modal-delete').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        async function confirmDelete() {
+            const btn = document.getElementById('btn-confirm-delete');
+            const id = document.getElementById('delete-id').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Excluindo…';
+
+            const { error } = await sb.from('postagens').delete().eq('id', id);
+
+            btn.disabled = false;
+            btn.textContent = 'Sim, excluir';
+
+            if (error) { alert('Erro: ' + error.message); return; }
+
+            closeDeleteModal();
+            await loadPosts(document.getElementById('search-input').value.trim());
+        }
+
+        // Backdrop tap closes modals
+        document.getElementById('modal-edit').addEventListener('click', function (e) {
+            if (e.target === this) closeEditModal();
+        });
+        document.getElementById('modal-delete').addEventListener('click', function (e) {
+            if (e.target === this) closeDeleteModal();
+        });
+
         loadPosts();
-
-        // Setup "Add" button
-        document.querySelector('.fixed.bottom-28').addEventListener('click', () => {
-            window.location.href = 'novoPost.html';
-        });
-    });
-</script>
+    </script>
 </body>
 
 </html>

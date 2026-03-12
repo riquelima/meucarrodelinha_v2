@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+<html class="dark" lang="pt-BR">
 
-<html class="dark" lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-<title>Gerenciar Anúncios - Meu Carro de Linha Salinas</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Gerenciar Anúncios – Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -18,210 +19,409 @@
                         "background-light": "#f6f6f8",
                         "background-dark": "#101422",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
                 },
             },
         }
     </script>
-<style>
+    <style type="text/tailwindcss">
         body {
-            font-family: 'Inter', sans-serif;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-        input, textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
-
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
+        font-family: 'Inter', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        overscroll-behavior-y: none;
+        min-height: max(884px, 100dvh);
     }
-  </style>
+    input, textarea { user-select: text; -webkit-user-select: text; }
+    .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .active-scale { transition: transform 0.15s cubic-bezier(0.4,0,0.2,1); }
+    .active-scale:active { transform: scale(0.96); }
+    .animate-fade-in { opacity:0; animation: fadeIn 0.4s ease-out forwards; }
+    .animate-slide-up { opacity:0; transform:translateY(16px); animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes fadeIn { to { opacity:1; } }
+    @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
+    .delay-100 { animation-delay: 80ms; }
+    .delay-200 { animation-delay: 160ms; }
+    .delay-300 { animation-delay: 240ms; }
+    .delay-400 { animation-delay: 320ms; }
+    .delay-500 { animation-delay: 400ms; }
+</style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-<!-- Header -->
-<header class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark/95 backdrop-blur-md p-4 border-b border-slate-200 dark:border-slate-800 justify-between">
-<a href="perfilAdministrador.html" class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-<span class="material-symbols-outlined">arrow_back_ios_new</span>
-</a>
-<h1 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Anúncios</h1>
-<div class="size-10"></div> <!-- Spacer for centering -->
-</header>
-<main class="flex-1 pb-24">
-<!-- Preview Section -->
-<!-- List Section -->
-<section class="mt-4 px-4">
-<div class="flex items-center justify-between mb-4">
-<h2 class="text-slate-900 dark:text-slate-100 text-md font-semibold">Todos os Anúncios</h2>
-<span class="text-xs font-medium text-slate-500 bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded-full">8 anúncios</span>
-</div>
-<div class="flex flex-col gap-3">
-<!-- Ad Item 1 -->
-<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"><div class="flex items-center gap-3 w-full">
-<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNIqoBt_lENEllsQwdn0__WGIkXmg9mJxdhsJyFvALwxyfNPqLzRGpxL2uaK4NbaisZYHxznF34YwXVNov3MJmpRnE-PiNsheWBe8YBYBIoasAb5BydvM3huCTcJEUU3lsMi0WhRXI6Hx14qfbM64UqDydpuPvOWTm3JaiXzsrazHixhNwHY1SxNxZoN3HrpWJScQsQCE48rHeMY7_QmHezDoP-LgUoqpaQ4TtxxnC2phMbiP__MWr4XUtGudhW3WfVGlXxeBcNHyw');"></div>
-<div class="flex-1 min-w-0">
-<div class="flex items-center gap-2 mb-1">
-<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Oferta Especial Salinas</h3>
-<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Ativo</span>
-</div>
-<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expira em: 25 Dez 2023</p>
-</div>
-<div class="flex items-center gap-1">
-<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div></div>
-<!-- Ad Item 2 -->
-<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm opacity-75"><div class="flex items-center gap-3 w-full">
-<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnkSwQZm8sLEiEaVDwXAtd0qYvrFUAo3I0xAuKVSWUbmFFE6UzXPi1AQE_hEGe373K_vajMKUadk5PsSpjM2kp0qvu14GtgnEPb7GllTDzG3AB8mH20kJnCZvpuK9srrlrxaw1Hzx86vuX1SVLt2evMb47bNnVIM74DakxP6xNdyQkkPSsayPYvg9k-bqQc-oLWl446xSLFcfVmX2AxifgxZaPaokZQQxgzAu70LrisMhk72ro3Q2nnShtFP-2Bxw59u-D16JIr7lK');"></div>
-<div class="flex-1 min-w-0">
-<div class="flex items-center gap-2 mb-1">
-<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Promoção Dia dos Pais</h3>
-<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">Expirado</span>
-</div>
-<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expirou em: 15 Ago 2023</p>
-</div>
-<div class="flex items-center gap-1">
-<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div></div>
-<!-- Ad Item 3 -->
-<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"><div class="flex items-center gap-3 w-full">
-<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZXcBhB-HhA-VqF2C_2vNGUdAmJsvWHizx9G1dCCK-tArXOLP4OFc_FTmF4Y-KRBr5hxCP9DHH4isLyqhgnDjzDOWgLMNSLBye8DEF5S0qfs7Ouk88JzLrjLdnywAEUUMAKw9EM0QvRPUGoYrJX_gzxwQKjvWPzzRaIqAycnLvYH65zKFf3uMwfdyu_D5ew5oTe41_HZy5b1wObh2Yc7RGZtZMA-wHl-vmp-jWr2aiRZmj9mvQHepQ71jLjEea7U31yeiKWRwFU8KK');"></div>
-<div class="flex-1 min-w-0">
-<div class="flex items-center gap-2 mb-1">
-<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Novo Lançamento 2024</h3>
-<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Ativo</span>
-</div>
-<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expira em: 30 Jan 2024</p>
-</div>
-<div class="flex items-center gap-1">
-<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div></div>
-<!-- Ad Item 4 -->
-<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"><div class="flex items-center gap-3 w-full">
-<div class="size-16 rounded-lg bg-cover bg-center flex-shrink-0 border border-slate-200 dark:border-slate-800 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnkSwQZm8sLEiEaVDwXAtd0qYvrFUAo3I0xAuKVSWUbmFFE6UzXPi1AQE_hEGe373K_vajMKUadk5PsSpjM2kp0qvu14GtgnEPb7GllTDzG3AB8mH20kJnCZvpuK9srrlrxaw1Hzx86vuX1SVLt2evMb47bNnVIM74DakxP6xNdyQkkPSsayPYvg9k-bqQc-oLWl446xSLFcfVmX2AxifgxZaPaokZQQxgzAu70LrisMhk72ro3Q2nnShtFP-2Bxw59u-D16JIr7lK');"></div>
-<div class="flex-1 min-w-0">
-<div class="flex items-center gap-2 mb-1">
-<h3 class="text-slate-900 dark:text-slate-100 font-semibold truncate text-sm">Feirão de Seminovos</h3>
-<span class="flex-shrink-0 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Ativo</span>
-</div>
-<p class="text-slate-500 dark:text-slate-400 text-[11px]">Expira em: 10 Nov 2023</p>
-</div>
-<div class="flex items-center gap-1">
-<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div></div>
-</div>
-</section>
-</main>
-<!-- Floating Action Button -->
-<button onclick="window.location.href='novoAnuncio.html'" class="fixed bottom-24 right-4 z-40 flex items-center justify-center size-14 rounded-full bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform">
-    <span class="material-symbols-outlined text-2xl">add</span>
-</button>
-<!-- Bottom Navigation -->
-<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
-<div class="flex gap-2 max-w-lg mx-auto">
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined">dashboard</span>
-</div>
-<p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="gerenciarUsuarios.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined">group</span>
-</div>
-<p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="historicoGeral.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined">route</span>
-</div>
-<p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="perfilAdministrador.html">
-<div class="flex h-8 items-center justify-center">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
-</div>
-<p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
-</a>
-</div>
-</nav>
-</div>
-</body></html>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-50 flex items-center ios-blur bg-white/80 dark:bg-slate-900/80 p-4 border-b border-slate-200 dark:border-slate-800 justify-between">
+            <a href="perfilAdministrador.html"
+                class="flex items-center justify-center h-10 w-10 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </a>
+            <h1 class="text-lg font-bold flex-1 text-center">Gerenciar Anúncios</h1>
+            <div class="w-10"></div>
+        </header>
+
+        <!-- Main -->
+        <main class="flex-1 px-4 pt-5 pb-32">
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-3 gap-3 mb-6 animate-fade-in">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-2xl font-bold text-primary" id="stat-total">–</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Total</p>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-2xl font-bold text-emerald-500" id="stat-ativos">–</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Cliques</p>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center">
+                    <p class="text-2xl font-bold text-slate-400" id="stat-inativos">–</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Impressões</p>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="relative mb-4 animate-fade-in delay-100">
+                <span
+                    class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+                <input id="search-input" type="text" placeholder="Buscar por título…"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+            </div>
+
+            <!-- List Header -->
+            <div class="flex items-center justify-between mb-3 animate-fade-in delay-200">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Todos os anúncios</h2>
+                <span id="badge-count"
+                    class="text-xs font-semibold text-slate-500 bg-slate-200 dark:bg-slate-800 px-2.5 py-1 rounded-full">…</span>
+            </div>
+
+            <!-- Ad List -->
+            <div id="ad-list" class="flex flex-col gap-3">
+                <!-- Loading Skeleton -->
+                <div
+                    class="skeleton-card flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse">
+                    <div class="size-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
+                    <div class="flex-1 space-y-2">
+                        <div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                        <div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
+                    </div>
+                </div>
+                <div
+                    class="skeleton-card flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse">
+                    <div class="size-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
+                    <div class="flex-1 space-y-2">
+                        <div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
+                        <div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded w-2/5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state"
+                class="hidden flex-col items-center justify-center py-20 gap-4 text-center animate-fade-in">
+                <div class="size-20 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-4xl text-slate-400">campaign</span>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-700 dark:text-slate-300">Nenhum anúncio ainda</p>
+                    <p class="text-sm text-slate-400 mt-1">Clique no botão + para criar o primeiro</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- FAB Removed -->
+
+        <!-- ────────── MODAL EDITAR ────────── -->
+        <div id="modal-edit"
+            class="fixed inset-0 z-[70] flex items-end justify-center bg-black/60 backdrop-blur-sm hidden">
+            <div
+                class="w-full max-w-lg bg-background-light dark:bg-slate-900 rounded-t-2xl border-t border-slate-200 dark:border-slate-800 shadow-2xl p-6 pb-10 flex flex-col gap-4 animate-slide-up">
+                <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-lg font-bold">Editar Anúncio</h3>
+                    <button onclick="closeEditModal()"
+                        class="flex items-center justify-center size-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <span class="material-symbols-outlined text-slate-500">close</span>
+                    </button>
+                </div>
+                <input id="edit-id" type="hidden" />
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Título</label>
+                    <input id="edit-titulo" type="text"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm" />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Descrição</label>
+                    <textarea id="edit-descricao" rows="3"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm resize-none"></textarea>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">URL de Destino</label>
+                    <input id="edit-url" type="url"
+                        class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm" />
+                </div>
+                <div
+                    class="flex items-center justify-between mt-1 p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Anúncio Ativo</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input id="edit-ativo" type="checkbox" class="sr-only peer" />
+                        <div
+                            class="w-11 h-6 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+                        </div>
+                    </label>
+                </div>
+                <button onclick="saveEdit()" id="btn-save-edit"
+                    class="active-scale w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20 text-sm">
+                    <span class="material-symbols-outlined text-base">save</span>
+                    Salvar Alterações
+                </button>
+            </div>
+        </div>
+
+        <!-- ────────── MODAL DELETAR ────────── -->
+        <div id="modal-delete"
+            class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-5">
+            <div
+                class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 flex flex-col gap-4 animate-fade-in">
+                <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-rose-500/10 text-rose-500">
+                    <span class="material-symbols-outlined text-3xl">delete_forever</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-bold text-lg">Excluir anúncio?</h3>
+                    <p class="text-sm text-slate-500 mt-1">Esta ação não pode ser desfeita. O anúncio será removido
+                        permanentemente.</p>
+                </div>
+                <input id="delete-id" type="hidden" />
+                <button onclick="confirmDelete()" id="btn-confirm-delete"
+                    class="active-scale w-full p-3.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-600/20">
+                    Sim, excluir
+                </button>
+                <button onclick="closeDeleteModal()"
+                    class="active-scale w-full p-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50"
+            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
+            <div class="flex gap-2 max-w-lg mx-auto">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">dashboard</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="gerenciarUsuarios.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">group</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="historicoGeral.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">route</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary"
+                    href="perfilAdministrador.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">settings</span>
+                    </div>
+                    <p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
+                </a>
+            </div>
+        </nav>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script>
+        const sb = window.supabaseClient;
+        let allAds = [];
+
+        // ─── Load Ads ───────────────────────────────────────────────
+        async function loadAds(search = '') {
+            let query = sb.from('anuncios').select('*').order('criado_em', { ascending: false });
+            if (search) query = query.ilike('titulo', `%${search}%`);
+
+            const { data, error } = await query;
+
+            // Remove skeletons
+            document.querySelectorAll('.skeleton-card').forEach(el => el.remove());
+
+            if (error) {
+                document.getElementById('ad-list').innerHTML = `
+                <div class="p-6 text-center text-sm text-rose-500">Erro ao carregar: ${error.message}</div>`;
+                return;
+            }
+
+            allAds = data || [];
+            updateStats();
+
+            if (allAds.length === 0) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('flex');
+                return;
+            }
+
+            renderAds(allAds);
+        }
+
+        let currentAds = [];
+
+        function updateStats() {
+            const total = allAds.length;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-ativos').textContent = '0';
+            document.getElementById('stat-inativos').textContent = '0';
+            document.getElementById('badge-count').textContent = `${total} anúncio${total !== 1 ? 's' : ''}`;
+        }
+
+        function renderAds(ads) {
+            const list = document.getElementById('ad-list');
+            list.innerHTML = '';
+            currentAds = ads; // Store for modal access
+
+            ads.forEach((ad, i) => {
+                const isAtivo = ad.ativo !== false;
+                const imgUrl = ad.imagem_url || '';
+                const dateCriado = new Date(ad.criado_em).toLocaleDateString('pt-BR');
+
+                const card = document.createElement('div');
+                card.className = `ad-card flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm animate-slide-up delay-${Math.min(i + 1, 5) * 100} ${isAtivo ? '' : 'opacity-60'}`;
+                card.innerHTML = `
+                <!-- Thumb -->
+                <div class="size-16 rounded-xl flex-shrink-0 border border-slate-200 dark:border-slate-700 overflow-hidden bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                    ${imgUrl
+                        ? `<img src="${imgUrl}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\\'material-symbols-outlined text-slate-400\\'>campaign</span>'">`
+                        : `<span class="material-symbols-outlined text-slate-400 text-2xl">campaign</span>`}
+                </div>
+                <!-- Info -->
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                        <h3 class="font-semibold text-sm truncate">${ad.titulo || '(sem título)'}</h3>
+                    </div>
+                    <p class="text-[11px] text-slate-400 truncate">${ad.descricao || '—'}</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Criado em ${dateCriado}</p>
+                </div>
+                <!-- Actions -->
+                <div class="flex flex-col gap-1 flex-shrink-0">
+                    <button onclick="prepareEdit('${ad.id}')"
+                        class="active-scale p-2 text-slate-500 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined text-xl">edit</span>
+                    </button>
+                    <button onclick="openDeleteModal('${ad.id}')"
+                        class="active-scale p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined text-xl">delete</span>
+                    </button>
+                </div>`;
+                list.appendChild(card);
+            });
+        }
+
+        function prepareEdit(id) {
+            const ad = currentAds.find(a => a.id === id);
+            if (ad) openEditModal(ad);
+        }
+
+        // ─── Edit Modal ──────────────────────────────────────────────
+        function openEditModal(ad) {
+            document.getElementById('edit-id').value = ad.id;
+            document.getElementById('edit-titulo').value = ad.titulo || '';
+            document.getElementById('edit-descricao').value = ad.descricao || '';
+            document.getElementById('edit-url').value = ad.url || ad.link_acao || '';
+            document.getElementById('edit-ativo').checked = ad.ativo !== false;
+            document.getElementById('modal-edit').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEditModal() {
+            document.getElementById('modal-edit').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        async function saveEdit() {
+            const btn = document.getElementById('btn-save-edit');
+            const id = document.getElementById('edit-id').value;
+            const titulo = document.getElementById('edit-titulo').value.trim();
+            const descricao = document.getElementById('edit-descricao').value.trim();
+            const url = document.getElementById('edit-url').value.trim();
+            const ativo = document.getElementById('edit-ativo').checked;
+
+            if (!titulo) { alert('O título é obrigatório.'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span> Salvando…';
+
+            const { error } = await sb
+                .from('anuncios')
+                .update({ titulo, descricao, url, ativo })
+                .eq('id', id);
+
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Salvar Alterações';
+
+            if (error) { alert('Erro: ' + error.message); return; }
+
+            closeEditModal();
+            await loadAds(document.getElementById('search-input').value.trim());
+        }
+
+        // ─── Delete Modal ─────────────────────────────────────────────
+        function openDeleteModal(id) {
+            document.getElementById('delete-id').value = id;
+            document.getElementById('modal-delete').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('modal-delete').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        async function confirmDelete() {
+            const btn = document.getElementById('btn-confirm-delete');
+            const id = document.getElementById('delete-id').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Excluindo…';
+
+            const { error } = await sb.from('anuncios').delete().eq('id', id);
+
+            btn.disabled = false;
+            btn.textContent = 'Sim, excluir';
+
+            if (error) { alert('Erro: ' + error.message); return; }
+
+            closeDeleteModal();
+            await loadAds(document.getElementById('search-input').value.trim());
+        }
+
+        // Close modals tapping backdrop
+        document.getElementById('modal-edit').addEventListener('click', function (e) {
+            if (e.target === this) closeEditModal();
+        });
+        document.getElementById('modal-delete').addEventListener('click', function (e) {
+            if (e.target === this) closeDeleteModal();
+        });
+
+        // ─── Search ───────────────────────────────────────────────────
+        let debounce;
+        document.getElementById('search-input').addEventListener('input', e => {
+            clearTimeout(debounce);
+            debounce = setTimeout(() => loadAds(e.target.value.trim()), 300);
+        });
+
+        loadAds();
+    </script>
+</body>
+
+</html>

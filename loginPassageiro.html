@@ -262,15 +262,28 @@
             const result = await signIn(email, password);
             if (result.success) {
                 document.body.classList.add('fade-out');
-                // Determine redirect based on tipo_usuario
-                const tipoUsuario = result.data?.user?.user_metadata?.tipo_usuario;
-                let destino = 'passageiro.html';
-                if (tipoUsuario === 'admin') {
-                    destino = 'admin.html';
-                } else if (tipoUsuario === 'motorista') {
-                    destino = 'motorista.html';
+
+                // Consulta o tipo_usuario na tabela do banco (não nos user_metadata)
+                try {
+                    const userId = result.data.user.id;
+                    const { data: usuarioData } = await supabaseClient
+                        .from('usuarios')
+                        .select('tipo_usuario')
+                        .eq('id', userId)
+                        .single();
+
+                    const tipoUsuario = usuarioData?.tipo_usuario;
+                    let destino = 'passageiro.html';
+                    if (tipoUsuario === 'admin') {
+                        destino = 'admin.html';
+                    } else if (tipoUsuario === 'motorista') {
+                        destino = 'motorista.html';
+                    }
+                    setTimeout(() => { window.location.href = destino; }, 200);
+                } catch (err) {
+                    console.error('Erro ao verificar tipo de usuário:', err);
+                    setTimeout(() => { window.location.href = 'passageiro.html'; }, 200);
                 }
-                setTimeout(() => { window.location.href = destino; }, 200);
             } else {
                 btn.textContent = originalText;
                 btn.disabled = false;

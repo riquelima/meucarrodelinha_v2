@@ -1,6 +1,8 @@
 // js/gerenciar-usuarios.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    const sb = window.supabaseClient;
+
     // 1. State Management
     const state = {
         motorista: {
@@ -116,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.loadMoreBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Carregando...';
             elements.loadMoreBtn.disabled = true;
 
-            let query = window.supabaseClient
+            let query = sb
                 .from('usuarios')
                 .select('*', { count: 'exact' })
                 .eq('tipo_usuario', tipoUsuario)
@@ -296,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.saveUserBtn.innerHTML = '<span class="material-symbols-outlined animate-spin align-middle mr-2">sync</span> Salvando';
             elements.saveUserBtn.disabled = true;
 
-            const { error } = await window.supabaseClient
+            const { error } = await sb
                 .from('usuarios')
                 .update({
                     nome: novoNome,
@@ -351,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.confirmDeleteBtn.innerHTML = '<span class="material-symbols-outlined animate-spin align-middle mr-2">sync</span> Excluindo...';
             elements.confirmDeleteBtn.disabled = true;
 
-            const { error } = await window.supabaseClient
+            const { error } = await sb
                 .from('usuarios')
                 .delete()
                 .eq('id', userIdToDelete);

@@ -149,6 +149,10 @@
 
                 <!-- Admin Action Links -->
                 <div class="w-full space-y-2 mt-4">
+
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 pt-2 pb-1">Gestão do
+                        Sistema</p>
+
                     <a href="gerenciarUsuarios.html"
                         class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active-scale">
                         <div class="flex items-center gap-3">
@@ -156,13 +160,46 @@
                                 <span class="material-symbols-outlined">group</span>
                             </div>
                             <div class="text-left">
-                                <p class="font-bold text-slate-900 dark:text-slate-100 text-base">Usuários</p>
+                                <p class="font-bold text-slate-900 dark:text-slate-100 text-base">Passageiros</p>
                                 <p class="text-xs text-slate-500 font-medium tracking-tight">Gerenciar motoristas e
                                     passageiros</p>
                             </div>
                         </div>
                         <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
                     </a>
+
+                    <a href="gerenciarBlog.html"
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active-scale">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="size-10 flex items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                                <span class="material-symbols-outlined">article</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-bold text-slate-900 dark:text-slate-100 text-base">Blog</p>
+                                <p class="text-xs text-slate-500 font-medium tracking-tight">Gerenciar postagens e
+                                    conteúdo</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                    </a>
+
+                    <a href="gerenciarAnuncios.html"
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active-scale">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="size-10 flex items-center justify-center rounded-lg bg-orange-500/10 text-orange-500">
+                                <span class="material-symbols-outlined">campaign</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-bold text-slate-900 dark:text-slate-100 text-base">Anúncios</p>
+                                <p class="text-xs text-slate-500 font-medium tracking-tight">Editar e excluir anúncios
+                                </p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                    </a>
+
                 </div>
 
                 <!-- Logout -->
@@ -220,25 +257,32 @@
                     // 1. Load Admin Data
                     async function loadAdminData() {
                         try {
-                            const { data: admin, error } = await supabaseClient
-                                .from('usuarios')
-                                .select('*')
-                                .eq('tipo_usuario', 'admin')
-                                .limit(1)
-                                .single();
+                            const sb = window.supabaseClient;
 
-                            if (error) throw error;
+                            // Get Current User Session first
+                            const { data: { user } } = await sb.auth.getUser();
+                            let adminId = user ? user.id : null;
+                            let adminData = null;
 
-                            if (admin) {
-                                adminNameEl.innerText = admin.nome || 'Administrador Geral';
-                                adminEmailEl.innerText = admin.email || 'admin@meucarrosalinas.com.br';
-                                if (admin.foto_perfil_url) {
-                                    avatarImgContainer.innerHTML = `<img src="${admin.foto_perfil_url}" class="w-full h-full object-cover">`;
+                            if (adminId) {
+                                const { data } = await sb.from('usuarios').select('*').eq('id', adminId).single();
+                                adminData = data;
+                            } else {
+                                // Fallback: find any admin
+                                const { data } = await sb.from('usuarios').select('*').eq('tipo_usuario', 'admin').limit(1).single();
+                                adminData = data;
+                                if (adminData) adminId = adminData.id;
+                            }
+
+                            if (adminData) {
+                                window.adminId = adminId;
+                                adminNameEl.innerText = adminData.nome || 'Administrador Geral';
+                                adminEmailEl.innerText = adminData.email || adminData.email;
+                                if (adminData.foto_perfil_url) {
+                                    avatarImgContainer.innerHTML = `<img src="${adminData.foto_perfil_url}" class="w-full h-full object-cover">`;
                                 } else {
                                     avatarImgContainer.innerHTML = `<span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>`;
                                 }
-                                // Store admin ID for updates
-                                window.adminId = admin.id;
                             }
                         } catch (err) {
                             console.error('Erro ao carregar dados:', err);
@@ -250,35 +294,42 @@
                         const file = e.target.files[0];
                         if (!file || !window.adminId) return;
 
+                        const sb = window.supabaseClient;
+
                         try {
                             avatarImgContainer.innerHTML = `<span class="material-symbols-outlined text-5xl text-primary animate-spin">sync</span>`;
 
                             const fileExt = file.name.split('.').pop();
-                            const fileName = `admin-${window.adminId}-${Math.random()}.${fileExt}`;
+                            const fileName = `admin-${window.adminId}-${Date.now()}.${fileExt}`;
                             const filePath = `avatars/${fileName}`;
 
                             // Upload to avatars bucket
-                            const { error: uploadError } = await supabaseClient.storage
+                            const { error: uploadError } = await sb.storage
                                 .from('avatars')
                                 .upload(filePath, file);
 
                             if (uploadError) throw uploadError;
 
                             // Get Public URL
-                            const { data: { publicUrl } } = supabaseClient.storage
+                            const { data: { publicUrl } } = sb.storage
                                 .from('avatars')
                                 .getPublicUrl(filePath);
 
                             // Update User Profile
-                            const { error: updateError } = await supabaseClient
+                            const { error: updateError } = await sb
                                 .from('usuarios')
                                 .update({ foto_perfil_url: publicUrl })
                                 .eq('id', window.adminId);
 
                             if (updateError) throw updateError;
 
+                            // Force local state update for current session
+                            if (window.sb_auth_id === window.adminId) {
+                                // optional local storage update if used
+                            }
+
                             // Refresh
-                            avatarImgContainer.innerHTML = `<img src="${publicUrl}" class="w-full h-full object-cover">`;
+                            avatarImgContainer.innerHTML = `<img src="${publicUrl}?t=${Date.now()}" class="w-full h-full object-cover">`;
                         } catch (err) {
                             alert('Erro ao carregar imagem: ' + err.message);
                             loadAdminData();

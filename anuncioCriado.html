@@ -110,63 +110,7 @@
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabaseClient.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const savedData = localStorage.getItem('pending_ad_data');
-            if (savedData) {
-                const adData = JSON.parse(savedData);
-                const statusText = document.querySelector('p.text-slate-600');
-                const originalText = statusText.textContent;
-
-                statusText.innerHTML = '<span class="flex items-center justify-center gap-2"><span class="size-4 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></span> Finalizando registro do seu anúncio...</span>';
-
-                try {
-                    console.log('Iniciando registro automático do anúncio...', adData);
-                    const { data: { user } } = await window.supabaseClient.auth.getUser();
-                    console.log('Usuário atual:', user);
-
-                    // Call register-paid-ad (we allow registration if we are on this success page)
-                    const { data, error } = await window.supabaseClient.functions.invoke('register-paid-ad', {
-                        body: {
-                            is_checkout_link: true,
-                            adData: {
-                                ...adData,
-                                user_id: user?.id || adData.user_id
-                            }
-                        }
-                    });
-
-                    console.log('Resposta da Edge Function:', { data, error });
-
-                    if (error) throw error;
-                    if (data && data.error) throw new Error(data.error);
-
-                    // Success! Clean up
-                    console.log('Registro concluído com sucesso. Redirecionando em 3 segundos...');
-                    localStorage.removeItem('pending_ad_data');
-                    statusText.innerHTML = '<span class="text-emerald-500 font-bold flex items-center justify-center gap-2 animate-pulse"><span class="material-symbols-outlined">check_circle</span> Anúncio Ativado! Redirecionando...</span>';
-
-                    setTimeout(() => {
-                        window.location.href = 'homepage.html?adCreated=true';
-                    }, 3000);
-                } catch (err) {
-                    console.error('Erro detalhado ao finalizar registro:', err);
-                    statusText.innerHTML = `
-                        <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-4 rounded-xl text-left">
-                            <p class="text-amber-700 dark:text-amber-400 font-bold mb-2">Atenção:</p>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">O pagamento foi processado, mas houve um erro ao salvar o anúncio automaticamente (${err.message}).</p>
-                            <button onclick="window.location.reload()" class="mt-4 w-full bg-amber-500 text-white text-sm font-bold py-2 rounded-lg hover:bg-amber-600 transition-colors">Tentar Novamente</button>
-                            <p class="mt-4 text-[10px] text-slate-500 text-center">Se persistir, nosso suporte ativará seu anúncio em instantes.</p>
-                        </div>
-                    `;
-                }
-            } else {
-                console.log('Nenhum dado de anúncio pendente encontrado no localStorage.');
-            }
-        });
-
         function smoothNavigate(href) {
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
