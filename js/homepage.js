@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Avatar HTML logic
                 let avatarHtml;
                 if (user.foto_perfil_url) {
-                    avatarHtml = `<img alt="${user.nome}" class="w-full h-full object-cover" src="${user.foto_perfil_url}" onerror="this.parentElement.innerHTML='${initials}'" />`;
+                    avatarHtml = `<img alt="${user.nome}" class="w-full h-full object-cover" src="${user.foto_perfil_url}" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='${initials}'" />`;
                 } else {
                     // Generate a random color for the placeholder background
                     const colors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500', 'bg-pink-500', 'bg-indigo-500', 'bg-teal-500'];
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     adElement.innerHTML = `
                         <div class="h-24 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
-                            <img alt="${ad.titulo}" class="w-full h-full object-cover" src="${ad.imagem_url}" />
+                            <img alt="${ad.titulo}" class="w-full h-full object-cover" src="${ad.imagem_url}" loading="lazy" decoding="async" />
                         </div>
                         <div class="p-3">
                             <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">${ad.titulo}</h4>
@@ -366,6 +366,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="size-20 rounded-xl overflow-hidden shrink-0 bg-slate-200 dark:bg-slate-800">
                             <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                                  src="${post.imagem_capa_url || '/splashScreen.jpeg'}" 
+                                 loading="lazy"
+                                 decoding="async"
                                  alt="${post.titulo}" />
                         </div>
                         <div class="flex-1">

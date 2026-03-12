@@ -286,6 +286,8 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
     <script>
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
@@ -293,11 +295,62 @@
                 navigator.serviceWorker.register('/sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        // Preload assets after SW is ready
+                        setTimeout(preloadAssets, 500);
                     })
                     .catch(err => {
                         console.log('ServiceWorker registration failed: ', err);
                     });
             });
+        }
+
+        async function preloadAssets() {
+            console.log('[Preload] Starting preloading...');
+            try {
+                // Preload Driver photos
+                const { data: drivers } = await supabaseClient
+                    .from('motoristas')
+                    .select('usuarios(foto_perfil_url)')
+                    .limit(10);
+
+                if (drivers) {
+                    drivers.forEach(d => {
+                        if (d.usuarios?.foto_perfil_url) preloadImage(d.usuarios.foto_perfil_url);
+                    });
+                }
+
+                // Preload Ad images
+                const { data: ads } = await supabaseClient
+                    .from('anuncios')
+                    .select('imagem_url')
+                    .eq('ativo', true);
+
+                if (ads) {
+                    ads.forEach(ad => {
+                        if (ad.imagem_url) preloadImage(ad.imagem_url);
+                    });
+                }
+
+                // Preload Blog images
+                const { data: posts } = await supabaseClient
+                    .from('postagens')
+                    .select('imagem_capa_url')
+                    .eq('publicado', true)
+                    .limit(3);
+
+                if (posts) {
+                    posts.forEach(p => {
+                        if (p.imagem_capa_url) preloadImage(p.imagem_capa_url);
+                    });
+                }
+            } catch (e) {
+                console.warn('[Preload] Error preloading:', e);
+            }
+        }
+
+        function preloadImage(url) {
+            const img = new Image();
+            img.src = url;
         }
     </script>
     <script>
@@ -308,12 +361,6 @@
                 window.location.href = 'homepage.html';
             }, 300);
         }, 5000);
-    </script>
-    setTimeout(() => { window.location.href = href; }, 200);
-    }
-    });
-    });
-    });
     </script>
     <script src="js/pwa-register.js"></script>
 </body>

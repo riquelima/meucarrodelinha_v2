@@ -182,150 +182,180 @@
 
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script src="js/supabaseClient.js"></script>
+        <script src="js/authGuard.js"></script>
+        <script src="js/ui-transitions.js"></script>
+        <script src="js/chat-notifications.js"></script>
         <script>
-            let isAdmin = false;
+            document.addEventListener('DOMContentLoaded', async () => {
+                let isAdmin = false;
 
-            // Admin check
-            async function checkUserType() {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) {
-                    isAdmin = false; // Usuário externo / Não logado
-                    return;
+                // Admin check
+                async function checkUserType() {
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                    if (!user) {
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    const { data: usuario, error } = await window.supabaseClient
+                        .from('usuarios')
+                        .select('tipo_usuario')
+                        .eq('id', user.id)
+                        .single();
+
+                    if (!error && usuario?.tipo_usuario === 'admin') {
+                        isAdmin = true;
+                        // Se for admin, exibe a navbar inferior
+                        const bottomNav = document.getElementById('bottom-nav');
+                        if (bottomNav) bottomNav.classList.remove('hidden');
+                    } else {
+                        // Se não for admin, mantém oculto (já está com classe hidden no HTML)
+                    }
                 }
+                checkUserType();
 
-                const { data: usuario, error } = await window.supabaseClient
-                    .from('usuarios')
-                    .select('tipo_usuario')
-                    .eq('id', user.id)
-                    .single();
+                const dropZone = document.getElementById('drop-zone');
+                const imageInput = document.getElementById('imagem-input');
+                const imagePreview = document.getElementById('image-preview-overlay');
+                const noImageState = document.getElementById('no-image-state');
+                const cardPreviewImg = document.getElementById('card-preview-img');
 
-                if (!error && usuario?.tipo_usuario === 'admin') {
-                    isAdmin = true;
-                    // Se for admin, exibe a navbar inferior
-                    const bottomNav = document.getElementById('bottom-nav');
-                    if (bottomNav) bottomNav.classList.remove('hidden');
-                } else {
-                    // Se não for admin, mantém oculto (já está com classe hidden no HTML)
-                }
-            }
-            checkUserType();
+                const tituloInput = document.getElementById('titulo-anuncio');
+                const descricaoInput = document.getElementById('descricao-anuncio');
+                const urlInput = document.getElementById('url-anuncio');
 
-            const dropZone = document.getElementById('drop-zone');
-            const imageInput = document.getElementById('imagem-input');
-            const imagePreview = document.getElementById('image-preview-overlay');
-            const noImageState = document.getElementById('no-image-state');
-            const cardPreviewImg = document.getElementById('card-preview-img');
+                const previewTitulo = document.getElementById('preview-titulo');
+                const previewDescricao = document.getElementById('preview-descricao');
 
-            const tituloInput = document.getElementById('titulo-anuncio');
-            const descricaoInput = document.getElementById('descricao-anuncio');
-            const urlInput = document.getElementById('url-anuncio');
+                const btnPublicar = document.getElementById('btn-publicar');
+                const btnText = document.getElementById('btn-text');
+                const btnIcon = document.getElementById('btn-icon');
 
-            const previewTitulo = document.getElementById('preview-titulo');
-            const previewDescricao = document.getElementById('preview-descricao');
+                const charCount = document.getElementById('char-count');
 
-            const btnPublicar = document.getElementById('btn-publicar');
-            const btnText = document.getElementById('btn-text');
-            const btnIcon = document.getElementById('btn-icon');
+                // Preview Sync
+                tituloInput.addEventListener('input', (e) => previewTitulo.textContent = e.target.value || 'Título do Anúncio Exemplo');
+                descricaoInput.addEventListener('input', (e) => {
+                    const text = e.target.value;
+                    previewDescricao.textContent = text || 'Esta é a descrição curta que aparecerá no carrossel da tela inicial.';
+                    charCount.textContent = `${text.length}/140`;
 
-            const charCount = document.getElementById('char-count');
+                    // Color change when approaching limit
+                    if (text.length >= 130) {
+                        charCount.classList.remove('text-slate-400');
+                        charCount.classList.add('text-primary');
+                    } else {
+                        charCount.classList.add('text-slate-400');
+                        charCount.classList.remove('text-primary');
+                    }
+                });
 
-            // Preview Sync
-            tituloInput.addEventListener('input', (e) => previewTitulo.textContent = e.target.value || 'Título do Anúncio Exemplo');
-            descricaoInput.addEventListener('input', (e) => {
-                const text = e.target.value;
-                previewDescricao.textContent = text || 'Esta é a descrição curta que aparecerá no carrossel da tela inicial.';
-                charCount.textContent = `${text.length}/140`;
+                // Image Selection
+                dropZone.addEventListener('click', () => imageInput.click());
 
-                // Color change when approaching limit
-                if (text.length >= 130) {
-                    charCount.classList.remove('text-slate-400');
-                    charCount.classList.add('text-primary');
-                } else {
-                    charCount.classList.add('text-slate-400');
-                    charCount.classList.remove('text-primary');
-                }
-            });
+                imageInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            imagePreview.src = event.target.result;
+                            imagePreview.classList.remove('hidden');
+                            noImageState.classList.add('hidden');
+                            cardPreviewImg.src = event.target.result;
+                            cardPreviewImg.classList.remove('opacity-60');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
 
-            // Image Selection
-            dropZone.addEventListener('click', () => imageInput.click());
+                async function uploadImage(file) {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExt}`;
+                    const filePath = fileName;
 
-            imageInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        imagePreview.src = event.target.result;
-                        imagePreview.classList.remove('hidden');
-                        noImageState.classList.add('hidden');
-                        cardPreviewImg.src = event.target.result;
-                        cardPreviewImg.classList.remove('opacity-60');
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            async function uploadImage(file) {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExt}`;
-                const filePath = fileName;
-
-                const { data, error } = await window.supabaseClient.storage
-                    .from('anuncios')
-                    .upload(filePath, file);
-
-                if (error) throw error;
-
-                const { data: { publicUrl } } = window.supabaseClient.storage
-                    .from('anuncios')
-                    .getPublicUrl(filePath);
-
-                return publicUrl;
-            }
-
-            btnPublicar.addEventListener('click', async () => {
-                const titulo = tituloInput.value.trim();
-                const descricao = descricaoInput.value.trim();
-                const urlDestino = urlInput.value.trim();
-                const imageFile = imageInput.files[0];
-
-                if (!titulo || !imageFile) {
-                    alert('Por favor, preencha o título e selecione uma imagem.');
-                    return;
-                }
-
-                try {
-                    btnPublicar.disabled = true;
-                    btnText.textContent = 'Publicando...';
-                    btnIcon.textContent = 'sync';
-                    btnIcon.classList.add('animate-spin');
-
-                    // Realiza o upload da imagem
-                    const imageUrl = await uploadImage(imageFile);
-
-                    // Inserção direta para todos os usuários
-                    const { data: userData } = await window.supabaseClient.auth.getUser();
-                    const { error } = await window.supabaseClient
+                    const { data, error } = await window.supabaseClient.storage
                         .from('anuncios')
-                        .insert([{
+                        .upload(filePath, file);
+
+                    if (error) throw error;
+
+                    const { data: { publicUrl } } = window.supabaseClient.storage
+                        .from('anuncios')
+                        .getPublicUrl(filePath);
+
+                    return publicUrl;
+                }
+
+                btnPublicar.addEventListener('click', async () => {
+                    const titulo = tituloInput.value.trim();
+                    const descricao = descricaoInput.value.trim();
+                    let urlDestino = urlInput.value.trim();
+                    const imageFile = imageInput.files[0];
+
+                    if (!titulo || !imageFile) {
+                        alert('Por favor, preencha o título e selecione uma imagem.');
+                        return;
+                    }
+
+                    // URL Sanitization
+                    if (urlDestino && !urlDestino.startsWith('http://') && !urlDestino.startsWith('https://') && !urlDestino.startsWith('tel:') && !urlDestino.startsWith('mailto:')) {
+                        urlDestino = 'https://' + urlDestino;
+                    }
+
+                    try {
+                        btnPublicar.disabled = true;
+                        btnText.textContent = 'Publicando...';
+                        btnIcon.textContent = 'sync';
+                        btnIcon.classList.add('animate-spin');
+
+                        if (!window.supabaseClient) {
+                            throw new Error('Erro de conexão com o servidor. Recarregue a página.');
+                        }
+
+                        // Realiza o upload da imagem
+                        const imageUrl = await uploadImage(imageFile);
+
+                        // Inserção direta para todos os usuários
+                        const { data: userData } = await window.supabaseClient.auth.getUser();
+
+                        const insertData = {
                             titulo,
                             descricao,
                             url: urlDestino,
+                            link_acao: urlDestino,
                             imagem_url: imageUrl,
                             criado_por: userData?.user?.id || null,
                             ativo: true
-                        }]);
+                        };
 
-                    if (error) throw error;
-                    window.location.href = 'anuncioCriado.html';
+                        const { error } = await window.supabaseClient
+                            .from('anuncios')
+                            .insert([insertData]);
 
-                } catch (error) {
-                    console.error('Erro ao processar anúncio:', error);
-                    alert('Erro ao processar o anúncio. Tente novamente.');
-                    btnPublicar.disabled = false;
-                    btnText.textContent = 'Publicar Agora';
-                    btnIcon.textContent = 'rocket_launch';
-                    btnIcon.classList.remove('animate-spin');
-                }
+                        if (error) {
+                            console.warn('Erro na inserção, tentando sem link_acao:', error);
+                            // Tenta sem link_acao se falhar (pode ser problema de esquema)
+                            delete insertData.link_acao;
+                            const { error: error2 } = await window.supabaseClient
+                                .from('anuncios')
+                                .insert([insertData]);
+
+                            if (error2) throw error2;
+                        }
+                        window.location.href = 'anuncioCriado.html';
+
+                    } catch (error) {
+                        console.error('Erro ao processar anúncio:', error);
+                        // Mostra a mensagem de erro detalhada se disponível
+                        const errorMsg = error.message || (error.error_description) || 'Erro desconhecido';
+                        alert(`Erro ao processar o anúncio: ${errorMsg}`);
+
+                        btnPublicar.disabled = false;
+                        btnText.textContent = 'Publicar Agora';
+                        btnIcon.textContent = 'rocket_launch';
+                        btnIcon.classList.remove('animate-spin');
+                    }
+                });
             });
         </script>
         <!-- Bottom Navigation Bar (Hidden by default, visible only for Admin via JS) -->
@@ -350,7 +380,7 @@
                     <div class="flex h-8 items-center justify-center">
                         <span class="material-symbols-outlined">route</span>
                     </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
                 </a>
                 <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
                     href="perfilAdministrador.html">
@@ -362,6 +392,7 @@
             </div>
         </nav>
     </div>
+    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>

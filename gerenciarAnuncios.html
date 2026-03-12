@@ -227,7 +227,7 @@
                     href="historicoGeral.html">
                     <div class="flex h-8 items-center justify-center"><span
                             class="material-symbols-outlined">route</span></div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
                 </a>
                 <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary"
                     href="perfilAdministrador.html">
@@ -353,23 +353,37 @@
             const id = document.getElementById('edit-id').value;
             const titulo = document.getElementById('edit-titulo').value.trim();
             const descricao = document.getElementById('edit-descricao').value.trim();
-            const url = document.getElementById('edit-url').value.trim();
+            let url = document.getElementById('edit-url').value.trim();
             const ativo = document.getElementById('edit-ativo').checked;
 
             if (!titulo) { alert('O título é obrigatório.'); return; }
+
+            // URL Sanitization
+            if (url && !url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('tel:') && !url.startsWith('mailto:')) {
+                url = 'https://' + url;
+            }
 
             btn.disabled = true;
             btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span> Salvando…';
 
             const { error } = await sb
                 .from('anuncios')
-                .update({ titulo, descricao, url, ativo })
+                .update({
+                    titulo,
+                    descricao,
+                    url,
+                    link_acao: url, // Mantém consistência
+                    ativo
+                })
                 .eq('id', id);
 
             btn.disabled = false;
             btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Salvar Alterações';
 
-            if (error) { alert('Erro: ' + error.message); return; }
+            if (error) {
+                alert('Erro ao salvar alterações: ' + (error.message || 'Erro desconhecido'));
+                return;
+            }
 
             closeEditModal();
             await loadAds(document.getElementById('search-input').value.trim());

@@ -206,7 +206,7 @@
                         </div>
                         <div>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                Corridas</p>
+                                Viagens</p>
                             <p class="text-2xl font-bold leading-tight">856</p>
                         </div>
                     </div>
@@ -241,56 +241,150 @@
                         <div class="flex items-center justify-between">
                             <span
                                 class="material-symbols-outlined text-green-500 bg-green-500/10 rounded-lg p-2">payments</span>
-                            <span class="text-emerald-500 text-xs font-bold leading-normal">+15%</span>
                         </div>
                         <div>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                Financeiro</p>
-                            <p class="text-2xl font-bold leading-tight">R$ 12k</p>
+                                VIAGENS</p>
+                            <p class="text-2xl font-bold leading-tight">0</p>
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- Chart Section -->
-            <section
-                class="rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <h3 class="text-base font-bold leading-tight">Desempenho Diário</h3>
-                        <p class="text-slate-500 dark:text-slate-400 text-xs">Atividade nos últimos 7 dias</p>
+            <!-- Charts Section (Horizontal Scroll) -->
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 no-scrollbar">
+                
+                <!-- Chart: Desempenho Diário -->
+                <section
+                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold leading-tight">Desempenho Diário</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs">Atividade nos últimos 7 dias</p>
+                        </div>
+                        <div class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+                            +8.2%
+                        </div>
                     </div>
-                    <div class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
-                        +8.2%
+                    <div class="relative h-40 w-full mb-4">
+                        <svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 472 150" width="100%"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                                stroke="#0f38bd" stroke-linecap="round" stroke-width="3"></path>
+                            <path
+                                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V150H0V109Z"
+                                fill="url(#chartFill)"></path>
+                            <defs>
+                                <lineargradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#0f38bd" stop-opacity="0.2"></stop>
+                                    <stop offset="100%" stop-color="#0f38bd" stop-opacity="0"></stop>
+                                </lineargradient>
+                            </defs>
+                        </svg>
                     </div>
-                </div>
-                <div class="relative h-40 w-full mb-4">
-                    <svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 472 150" width="100%"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
-                            stroke="#0f38bd" stroke-linecap="round" stroke-width="3"></path>
-                        <path
-                            d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V150H0V109Z"
-                            fill="url(#chartFill)"></path>
-                        <defs>
-                            <lineargradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
-                                <stop offset="0%" stop-color="#0f38bd" stop-opacity="0.2"></stop>
-                                <stop offset="100%" stop-color="#0f38bd" stop-opacity="0"></stop>
-                            </lineargradient>
-                        </defs>
-                    </svg>
-                </div>
-                <div class="flex justify-between px-1">
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Seg</span>
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Ter</span>
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qua</span>
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qui</span>
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sex</span>
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sab</span>
-                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Dom</span>
-                </div>
-            </section>
-            <!-- Quick Actions Section -->
+                    <div class="flex justify-between px-1">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Seg</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Ter</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qua</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qui</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sex</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sab</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Dom</span>
+                    </div>
+                </section>
+
+                <!-- Chart: Cadastros Motoristas x Passageiros -->
+                <section class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold leading-tight">Cadastros: Motoristas x Passageiros</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs">Evolução mensal</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span class="w-2 h-2 rounded-full bg-primary"></span> Mot</span>
+                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Pas</span>
+                        </div>
+                    </div>
+                    <div class="relative h-40 w-full mb-4">
+                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Passageiros (Purple) -->
+                            <path d="M0 80 C50 70, 100 90, 150 60 C200 30, 250 50, 300 40 C350 30, 400 20, 472 10" stroke="#a855f7" stroke-width="3" stroke-linecap="round" />
+                            <!-- Motoristas (Primary/Blue) -->
+                            <path d="M0 120 C50 115, 100 110, 150 100 C200 90, 250 95, 300 85 C350 75, 400 80, 472 70" stroke="#0f38bd" stroke-width="3" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div class="flex justify-between px-1">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jan</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Fev</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mar</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Abr</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mai</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jun</span>
+                    </div>
+                </section>
+
+                <!-- Chart: Postagens no Blog -->
+                <section class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold leading-tight">Postagens no Blog</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs">Publicações por semana</p>
+                        </div>
+                        <div class="bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold">
+                            +3
+                        </div>
+                    </div>
+                    <div class="relative h-40 w-full mb-4 flex items-end justify-between gap-2 px-2">
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[30%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">3</div></div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[50%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">5</div></div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[40%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">4</div></div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[70%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">7</div></div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[60%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">6</div></div>
+                        <div class="w-full bg-cyan-500 rounded-t-sm h-[80%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">8</div></div>
+                    </div>
+                    <div class="flex justify-between px-1">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 1</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 2</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 3</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 4</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 5</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Atual</span>
+                    </div>
+                </section>
+
+                <!-- Chart: Evolução de Anúncios -->
+                <section class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold leading-tight">Novos Anúncios</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs">Crescimento mensal</p>
+                        </div>
+                        <div class="bg-emerald-500/10 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold">
+                            +12%
+                        </div>
+                    </div>
+                    <div class="relative h-40 w-full mb-4">
+                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+                            <path d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5 V150 H0 Z" fill="url(#chartFillAds)" opacity="0.2" />
+                            <defs>
+                                <linearGradient id="chartFillAds" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.5"></stop>
+                                    <stop offset="100%" stop-color="#10b981" stop-opacity="0"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="flex justify-between px-1">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jan</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Fev</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mar</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Abr</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mai</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jun</span>
+                    </div>
+                </section>
+            </div>
             <section class="flex flex-col gap-3">
                 <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 px-1">Ações Rápidas</h2>
                 <div class="flex flex-col gap-3">
@@ -347,12 +441,11 @@
                     </div>
                     <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
                 </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 "
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
                     href="historicoGeral.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">route</span>
-                    </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">route</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
                 </a>
                 <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 "
                     href="perfilAdministrador.html">

@@ -7,10 +7,8 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <title>Configurações do Sistema Admin</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -40,6 +38,9 @@
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            min-height: max(884px, 100dvh);
+            user-select: none;
+            overscroll-behavior-y: none;
         }
         .ios-blur {
             backdrop-filter: blur(20px);
@@ -48,7 +49,6 @@
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
         }
-        /* Page Transition */
         main {
             animation: fadeIn 0.3s ease-out;
         }
@@ -56,58 +56,11 @@
             from { opacity: 0; }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Click Animation */
-        .active-scale:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
-    
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-        input, textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-        /* Native-like click effect */
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .active-scale:active {
             transform: scale(0.96);
-        }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
-
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
         }
     </style>
 </head>
@@ -123,44 +76,44 @@
             <h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center">Configurações</h1>
             <div class="w-10"></div>
         </header>
-        <main class="flex flex-col p-4 gap-6 pb-24">
+
+        <main class="flex flex-col p-4 gap-6 pb-32">
             <section class="flex flex-col items-center gap-4 py-4">
                 <!-- Profile Hero Section -->
                 <div class="flex flex-col items-center mb-8 w-full">
                     <div class="relative">
-                        <div
+                        <div id="avatar-container"
                             class="size-24 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
                             <span
                                 class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>
                         </div>
-                        <button
-                            class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center shadow-lg active:scale-95 transition-transform"
+                        <button id="btn-edit-photo"
+                            class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center shadow-lg active-scale"
                             aria-label="Alterar foto">
                             <span class="material-symbols-outlined text-sm">edit</span>
                         </button>
-                        <!-- Hidden file input for photo upload -->
                         <input type="file" id="avatar-input" accept="image/*" class="hidden">
                     </div>
                     <div class="flex flex-col items-center mt-4 text-center">
-                        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">Carregando...</h2>
-                        <p class="text-sm text-slate-500">...</p>
+                        <h2 id="admin-name" class="text-xl font-bold text-slate-900 dark:text-slate-100">Carregando...
+                        </h2>
+                        <p id="admin-email" class="text-sm text-slate-500">...</p>
                     </div>
                 </div>
 
                 <!-- Admin Action Links -->
                 <div class="w-full space-y-2 mt-4">
-
                     <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 pt-2 pb-1">Gestão do
                         Sistema</p>
 
                     <a href="gerenciarUsuarios.html"
-                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active-scale">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale">
                         <div class="flex items-center gap-3">
                             <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                                 <span class="material-symbols-outlined">group</span>
                             </div>
                             <div class="text-left">
-                                <p class="font-bold text-slate-900 dark:text-slate-100 text-base">Passageiros</p>
+                                <p class="font-bold text-slate-900 dark:text-slate-100 text-base">Usuários</p>
                                 <p class="text-xs text-slate-500 font-medium tracking-tight">Gerenciar motoristas e
                                     passageiros</p>
                             </div>
@@ -169,7 +122,7 @@
                     </a>
 
                     <a href="gerenciarBlog.html"
-                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active-scale">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale">
                         <div class="flex items-center gap-3">
                             <div
                                 class="size-10 flex items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
@@ -185,7 +138,7 @@
                     </a>
 
                     <a href="gerenciarAnuncios.html"
-                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active-scale">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale">
                         <div class="flex items-center gap-3">
                             <div
                                 class="size-10 flex items-center justify-center rounded-lg bg-orange-500/10 text-orange-500">
@@ -199,206 +152,179 @@
                         </div>
                         <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
                     </a>
-
                 </div>
 
                 <!-- Logout -->
                 <button onclick="openLogoffModal()"
-                    class="w-full flex items-center justify-center gap-2 p-4 mt-8 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold">
+                    class="w-full flex items-center justify-center gap-2 p-4 mt-8 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold active-scale">
                     <span class="material-symbols-outlined">logout</span>
                     Sair da Conta
                 </button>
             </section>
+        </main>
 
-            <!-- Modal de Confirmação de Saída -->
-            <div id="logoff-modal"
-                class="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
-                <div
-                    class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-[fadeIn_0.2s_ease-out] transform scale-95 transition-transform duration-300">
-                    <div class="p-6 text-center">
-                        <div
-                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4">
-                            <span class="material-symbols-outlined text-4xl">logout</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Deseja realmente sair?
-                        </h3>
-                        <p class="text-slate-500 dark:text-slate-400 text-base">Sua sessão será encerrada e você
-                            precisará fazer login novamente para acessar o painel Admin.</p>
+        <!-- Fixed Navbar -->
+        <nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50 pb-safe"
+            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
+            <div class="flex gap-2 max-w-lg mx-auto">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">dashboard</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="gerenciarUsuarios.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">group</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="historicoGeral.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">route</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary"
+                    href="perfilAdministrador.html">
+                    <div class="flex h-8 items-center justify-center"><span class="material-symbols-outlined"
+                            style="font-variation-settings:'FILL' 1">settings</span></div>
+                    <p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Logoff Modal -->
+        <div id="logoff-modal"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+            <div
+                class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-fade-in">
+                <div class="p-6 text-center">
+                    <div
+                        class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4">
+                        <span class="material-symbols-outlined text-4xl">logout</span>
                     </div>
-                    <div class="flex flex-col gap-3 p-6 pt-0">
-                        <button onclick="logoutAdmin()"
-                            class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 text-center">
-                            Sair agora
-                        </button>
-                        <button onclick="closeLogoffModal()"
-                            class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors text-center">
-                            Cancelar
-                        </button>
-                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Deseja realmente sair?</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-base">Sua sessão será encerrada e você precisará
+                        fazer login novamente.</p>
+                </div>
+                <div class="flex flex-col gap-3 p-6 pt-0">
+                    <button onclick="logoutAdmin()"
+                        class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20">Sair
+                        agora</button>
+                    <button onclick="closeLogoffModal()"
+                        class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300">Cancelar</button>
                 </div>
             </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-            <script src="js/supabaseClient.js"></script>
-            <script>
-                async function logoutAdmin() {
-                    if (window.supabaseClient) {
-                        await window.supabaseClient.auth.signOut();
-                    }
-                    window.location.href = 'index.html';
-                }
-
-                document.addEventListener('DOMContentLoaded', async () => {
-                    const avatarImgContainer = document.querySelector('.size-24');
-                    const fileInput = document.getElementById('avatar-input');
-                    const adminNameEl = document.querySelector('h2.text-xl');
-                    const adminEmailEl = document.querySelector('p.text-sm.text-slate-500');
-
-                    // 1. Load Admin Data
-                    async function loadAdminData() {
-                        try {
-                            const sb = window.supabaseClient;
-
-                            // Get Current User Session first
-                            const { data: { user } } = await sb.auth.getUser();
-                            let adminId = user ? user.id : null;
-                            let adminData = null;
-
-                            if (adminId) {
-                                const { data } = await sb.from('usuarios').select('*').eq('id', adminId).single();
-                                adminData = data;
-                            } else {
-                                // Fallback: find any admin
-                                const { data } = await sb.from('usuarios').select('*').eq('tipo_usuario', 'admin').limit(1).single();
-                                adminData = data;
-                                if (adminData) adminId = adminData.id;
-                            }
-
-                            if (adminData) {
-                                window.adminId = adminId;
-                                adminNameEl.innerText = adminData.nome || 'Administrador Geral';
-                                adminEmailEl.innerText = adminData.email || adminData.email;
-                                if (adminData.foto_perfil_url) {
-                                    avatarImgContainer.innerHTML = `<img src="${adminData.foto_perfil_url}" class="w-full h-full object-cover">`;
-                                } else {
-                                    avatarImgContainer.innerHTML = `<span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>`;
-                                }
-                            }
-                        } catch (err) {
-                            console.error('Erro ao carregar dados:', err);
-                        }
-                    }
-
-                    // 2. Handle Upload
-                    fileInput.addEventListener('change', async (e) => {
-                        const file = e.target.files[0];
-                        if (!file || !window.adminId) return;
-
-                        const sb = window.supabaseClient;
-
-                        try {
-                            avatarImgContainer.innerHTML = `<span class="material-symbols-outlined text-5xl text-primary animate-spin">sync</span>`;
-
-                            const fileExt = file.name.split('.').pop();
-                            const fileName = `admin-${window.adminId}-${Date.now()}.${fileExt}`;
-                            const filePath = `avatars/${fileName}`;
-
-                            // Upload to avatars bucket
-                            const { error: uploadError } = await sb.storage
-                                .from('avatars')
-                                .upload(filePath, file);
-
-                            if (uploadError) throw uploadError;
-
-                            // Get Public URL
-                            const { data: { publicUrl } } = sb.storage
-                                .from('avatars')
-                                .getPublicUrl(filePath);
-
-                            // Update User Profile
-                            const { error: updateError } = await sb
-                                .from('usuarios')
-                                .update({ foto_perfil_url: publicUrl })
-                                .eq('id', window.adminId);
-
-                            if (updateError) throw updateError;
-
-                            // Force local state update for current session
-                            if (window.sb_auth_id === window.adminId) {
-                                // optional local storage update if used
-                            }
-
-                            // Refresh
-                            avatarImgContainer.innerHTML = `<img src="${publicUrl}?t=${Date.now()}" class="w-full h-full object-cover">`;
-                        } catch (err) {
-                            alert('Erro ao carregar imagem: ' + err.message);
-                            loadAdminData();
-                        }
-                    });
-
-                    // Trigger file input
-                    document.querySelector('.relative .absolute.bottom-0').addEventListener('click', () => {
-                        fileInput.click();
-                    });
-
-                    loadAdminData();
-                });
-
-                function openLogoffModal() {
-                    const modal = document.getElementById('logoff-modal');
-                    modal.classList.remove('hidden');
-                    setTimeout(() => {
-                        modal.classList.remove('opacity-0');
-                        modal.querySelector('div').classList.remove('scale-95');
-                        modal.querySelector('div').classList.add('scale-100');
-                    }, 10);
-                }
-
-                function closeLogoffModal() {
-                    const modal = document.getElementById('logoff-modal');
-                    modal.classList.add('opacity-0');
-                    modal.querySelector('div').classList.remove('scale-100');
-                    modal.querySelector('div').classList.add('scale-95');
-                    setTimeout(() => {
-                        modal.classList.add('hidden');
-                    }, 300);
-                }
-            </script>
-</body>
-
-</html>
-
-<!-- Bottom Navigation Bar -->
-<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50"
-    style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
-    <div class="flex gap-2 max-w-lg mx-auto">
-        <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 " href="admin.html">
-            <div class="flex h-8 items-center justify-center">
-                <span class="material-symbols-outlined">dashboard</span>
-            </div>
-            <p class="text-[10px] font-medium leading-normal tracking-tight">Painel</p>
-        </a>
-        <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 " href="gerenciarUsuarios.html">
-            <div class="flex h-8 items-center justify-center">
-                <span class="material-symbols-outlined">group</span>
-            </div>
-            <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
-        </a>
-        <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 " href="historicoGeral.html">
-            <div class="flex h-8 items-center justify-center">
-                <span class="material-symbols-outlined">route</span>
-            </div>
-            <p class="text-[10px] font-medium leading-normal tracking-tight">Corridas</p>
-        </a>
-        <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary " href="perfilAdministrador.html">
-            <div class="flex h-8 items-center justify-center">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
-            </div>
-            <p class="text-[10px] font-bold leading-normal tracking-tight">Ajustes</p>
-        </a>
+        </div>
     </div>
-</nav>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script>
+        const avatarContainer = document.getElementById('avatar-container');
+        const fileInput = document.getElementById('avatar-input');
+        const adminNameEl = document.getElementById('admin-name');
+        const adminEmailEl = document.getElementById('admin-email');
+        const btnEditPhoto = document.getElementById('btn-edit-photo');
+        let currentAdminId = null;
+
+        async function loadAdminData() {
+            try {
+                const sb = window.supabaseClient;
+                const { data: { user } } = await sb.auth.getUser();
+
+                if (!user) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                const { data: adminData, error } = await sb
+                    .from('usuarios')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                if (error || !adminData) {
+                    console.error('Erro ao buscar dados do admin:', error);
+                    return;
+                }
+
+                currentAdminId = adminData.id;
+                adminNameEl.innerText = adminData.nome || 'Administrador';
+                adminEmailEl.innerText = adminData.email || '';
+
+                if (adminData.foto_perfil_url) {
+                    avatarContainer.innerHTML = `<img src="${adminData.foto_perfil_url}" class="w-full h-full object-cover">`;
+                } else {
+                    avatarContainer.innerHTML = `<span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>`;
+                }
+            } catch (err) {
+                console.error('Erro inesperado:', err);
+            }
+        }
+
+        async function logoutAdmin() {
+            if (window.supabaseClient) {
+                await window.supabaseClient.auth.signOut();
+            }
+            window.location.href = 'index.html';
+        }
+
+        function openLogoffModal() {
+            document.getElementById('logoff-modal').classList.remove('hidden');
+        }
+
+        function closeLogoffModal() {
+            document.getElementById('logoff-modal').classList.add('hidden');
+        }
+
+        btnEditPhoto.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file || !currentAdminId) return;
+
+            const sb = window.supabaseClient;
+            try {
+                avatarContainer.innerHTML = `<span class="material-symbols-outlined text-5xl text-primary animate-spin">sync</span>`;
+
+                const fileExt = file.name.split('.').pop();
+                const fileName = `admin-${currentAdminId}-${Date.now()}.${fileExt}`;
+                const filePath = `admin_avatars/${fileName}`; // Novo diretório para evitar confusão
+
+                // 1. Upload
+                const { error: uploadError } = await sb.storage
+                    .from('avatars')
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                // 2. Clear previous avatar if any (optional enhancement)
+                // 3. Get Public URL
+                const { data: { publicUrl } } = sb.storage
+                    .from('avatars')
+                    .getPublicUrl(filePath);
+
+                // 4. Update Table
+                const { error: updateError } = await sb
+                    .from('usuarios')
+                    .update({ foto_perfil_url: publicUrl })
+                    .eq('id', currentAdminId);
+
+                if (updateError) throw updateError;
+
+                // 5. Feedback
+                avatarContainer.innerHTML = `<img src="${publicUrl}" class="w-full h-full object-cover">`;
+                alert('Foto de perfil atualizada com sucesso!');
+            } catch (err) {
+                console.error('Erro no upload:', err);
+                alert('Falha ao atualizar foto: ' + (err.message || 'Erro desconhecido'));
+                loadAdminData(); // Revert image
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadAdminData);
+    </script>
 </body>
 
 </html>

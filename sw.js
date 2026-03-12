@@ -49,13 +49,14 @@ self.addEventListener('fetch', (event) => {
   // BYPASS for APIs and Analytics
   if (url.hostname.includes('maps.googleapis.com') ||
     url.hostname.includes('maps.gstatic.com') ||
-    url.hostname.includes('supabase.co') ||
+    url.pathname.includes('/rest/v1/') || // Supabase REST API
+    url.pathname.includes('/auth/v1/') || // Supabase Auth API
     url.hostname.includes('google-analytics.com')) {
     return; // Pass through to network
   }
 
   // Strategy: Network First for HTML, Cache First for others
-  if (event.request.mode === 'navigate' || event.request.headers.get('accept').includes('text/html')) {
+  if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {

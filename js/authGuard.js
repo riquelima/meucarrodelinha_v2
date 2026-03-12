@@ -6,7 +6,9 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Tenta pegar a sessão atual
-    const { data: { session }, error } = await supabaseClient.auth.getSession();
+    if (!window.supabaseClient) return;
+
+    const { data: { session }, error } = await window.supabaseClient.auth.getSession();
 
     if (error || !session) {
         // Redireciona para fora (tela inicial) se não estiver logado
@@ -15,37 +17,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const { user } = session;
-
-    // Você pode fazer verificações extras aqui (ex: se um passageiro tentar acessar a área do motorista)
-    const tipoUsuario = user.user_metadata?.tipo_usuario;
     const currentPath = window.location.pathname;
 
-    // Verificação de Foto de Perfil Obrigatória para Motoristas
-    if (tipoUsuario === 'motorista') {
-        const { data: userData } = await supabaseClient
-            .from('usuarios')
-            .select('foto_perfil_url')
-            .eq('id', user.id)
-            .single();
+    // Busca o tipo_usuario real no banco para garantir consistência
+    const { data: userData, error: fetchError } = await window.supabaseClient
+        .from('usuarios')
+        .select('tipo_usuario, foto_perfil_url')
+        .eq('id', user.id)
+        .single();
 
-        if (userData && !userData.foto_perfil_url && !currentPath.includes('perfilMotorista.html')) {
+    if (fetchError || !userData) {
+        console.error('Erro ao verificar perfil do usuário:', fetchError);
+        // Em caso de erro crítico no banco, podemos decidir se deslogamos ou permitimos
+        return;
+    }
+
+    const tipoUsuario = userData.tipo_usuario;
+
+    // Foto de Perfil Obrigatória para Motoristas
+    if (tipoUsuario === 'motorista') {
+        if (!userData.foto_perfil_url && !currentPath.includes('perfilMotorista.html')) {
             window.location.href = 'perfilMotorista.html';
             return;
         }
     }
 
+    // Proteção de rotas do Motorista
     if (currentPath.includes('motorista.html') && tipoUsuario !== 'motorista' && tipoUsuario !== 'admin') {
-        const confirmMsg = confirm("Acesso negado. Você precisa ser motorista para acessar aqui. Voltar pro início?");
-        if (confirmMsg) {
-            window.location.href = 'passageiro.html';
-        }
+        alert("Acesso negado. Esta área é exclusiva para motoristas.");
+        window.location.href = 'passageiro.html';
+        return;
     }
 
-    if (currentPath.includes('passageiro.html') && tipoUsuario !== 'passageiro' && tipoUsuario !== 'admin') {
-        // Opcional, alguns motoristas também podem acessar a versão de passageiro. 
-        // window.location.href = 'motorista.html';
+    // Proteção de rotas do Admin
+    if ((currentPath.includes('admin.html') || currentPath.includes('gerenciar') || currentPath.includes('perfilAdministrador.html')) && tipoUsuario !== 'admin') {
+        alert("Acesso restrito ao administrador.");
+        window.location.href = 'passageiro.html';
+        return;
     }
 
-    // Exibe ou oculta elementos baseados no login
+    // Exibe ou oculta elementos baseados no login (opcional)
     document.body.classList.remove('hidden-until-auth');
 });

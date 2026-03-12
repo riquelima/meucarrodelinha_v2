@@ -673,6 +673,16 @@
 
                 if (window.requestLocationPermission) {
                     window.requestLocationPermission().then(() => {
+                        // 1. Obter localização imediata para não esperar o watchPosition
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                updateUserMarker(position.coords.latitude, position.coords.longitude);
+                            },
+                            handleLocationError,
+                            geoOptions
+                        );
+
+                        // 2. Iniciar acompanhamento em tempo real
                         navigator.geolocation.watchPosition(
                             (position) => {
                                 updateUserMarker(position.coords.latitude, position.coords.longitude);
@@ -681,7 +691,7 @@
                             geoOptions
                         );
                     }).catch(error => {
-                        console.log("Location permission dismissed:", error);
+                        console.log("Location permission dismissed or error:", error);
                         updateUserMarker(defaultLocation.lat, defaultLocation.lng);
                     });
                 } else {
@@ -1254,6 +1264,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
+    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>
