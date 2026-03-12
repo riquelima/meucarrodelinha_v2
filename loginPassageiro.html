@@ -266,8 +266,15 @@
                         .single();
 
                     const tipoUsuario = usuarioData?.tipo_usuario;
+
+                    // Verifica se existe um parâmetro de redirecionamento
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get('redirect');
+
                     let destino = 'passageiro.html';
-                    if (tipoUsuario === 'admin') {
+                    if (redirect) {
+                        destino = redirect;
+                    } else if (tipoUsuario === 'admin') {
                         destino = 'admin.html';
                     } else if (tipoUsuario === 'motorista') {
                         destino = 'motorista.html';

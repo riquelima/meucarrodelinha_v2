@@ -288,8 +288,9 @@
                 }
 
                 btnPublicar.addEventListener('click', async () => {
-                    const { data: { user } } = await window.supabaseClient.auth.getUser();
-                    if (!user) {
+                    const { data: { user }, error: authError } = await window.supabaseClient.auth.getUser();
+
+                    if (authError || !user) {
                         alert('Você precisa estar logado para publicar um anúncio.');
                         window.location.href = 'loginPassageiro.html?redirect=novoAnuncio.html';
                         return;
@@ -324,31 +325,29 @@
                         const imageUrl = await uploadImage(imageFile);
 
                         // Inserção direta para todos os usuários
-                        const { data: userData } = await window.supabaseClient.auth.getUser();
-
                         const insertData = {
                             titulo,
                             descricao,
                             url: urlDestino,
                             link_acao: urlDestino,
                             imagem_url: imageUrl,
-                            criado_por: userData?.user?.id || null,
+                            criado_por: user.id || null,
                             ativo: true
                         };
 
-                        const { error } = await window.supabaseClient
+                        const { error: insertError } = await window.supabaseClient
                             .from('anuncios')
                             .insert([insertData]);
 
-                        if (error) {
-                            console.warn('Erro na inserção, tentando sem link_acao:', error);
+                        if (insertError) {
+                            console.warn('Erro na inserção, tentando sem link_acao:', insertError);
                             // Tenta sem link_acao se falhar (pode ser problema de esquema)
                             delete insertData.link_acao;
-                            const { error: error2 } = await window.supabaseClient
+                            const { error: insertError2 } = await window.supabaseClient
                                 .from('anuncios')
                                 .insert([insertData]);
 
-                            if (error2) throw error2;
+                            if (insertError2) throw insertError2;
                         }
                         window.location.href = 'anuncioCriado.html';
 
