@@ -90,6 +90,7 @@
     "share_target": {
         "action": "/homepage.html",
         "method": "GET",
+        "enctype": "application/x-www-form-urlencoded",
         "params": {
             "title": "title",
             "text": "text",

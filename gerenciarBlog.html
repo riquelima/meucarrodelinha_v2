@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html class="dark" lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-<title>Gerenciar Blog - Meu Carro de Linha Salinas</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Gerenciar Blog - Meu Carro de Linha Salinas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -32,7 +37,7 @@
             },
         }
     </script>
-<style type="text/tailwindcss">
+    <style type="text/tailwindcss">
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
@@ -88,136 +93,132 @@
         .delay-500 { animation-delay: 500ms; }
 
     </style>
-<style>
+    <style>
         body {
             min-height: max(884px, 100dvh);
         }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-background-dark text-slate-100 antialiased font-display">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-24">
-<header class="flex items-center bg-background-dark/80 ios-blur sticky top-0 z-40 p-4 justify-between border-b border-slate-800">
-<a href="perfilAdministrador.html" class="flex items-center justify-center h-10 w-10 text-slate-400 active:opacity-50 transition-opacity">
-<span class="material-symbols-outlined">arrow_back_ios_new</span>
-</a>
-<h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Blog</h1>
-<div class="w-10"></div>
-</header>
-<main class="flex flex-col p-4 gap-4">
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-accent-cyan transition-colors">search</span>
-<input class="w-full bg-card-dark border-none rounded-2xl py-3.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-accent-cyan/50 placeholder:text-slate-500 transition-all shadow-lg shadow-black/20" placeholder="Buscar posts por título..." type="text"/>
-</div>
-<div class="flex flex-col gap-4 mt-2">
-<div class="bg-card-dark border border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col">
-<div class="flex p-3 gap-3">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800">
-<img alt="Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4hv7G7DkcUBCswPNubAWFldLiWK_7z54x5UbmDrSuXe4EgOLrfHSzP-HqnqyNnjx7t5chuMuhlSGoqvECC9jOiyFerECPRrUwVTucDhkFGbaleKWvEGmqbhlwJyrdfkh9camIWlUU1lkV2_DNvwMqlPKP2MyzMchelcssfqhXHmKvQ3UkD04A15qVSb9q2KUsrjuhxRPdZJQK4TC1LTUFQ3bX5d7BO7MphF3aLo8vRSZdAaCGirZ7eteKDjwcQsrIlUBP19GKcP8y"/>
-</div>
-<div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
-<div>
-<div class="flex justify-between items-start mb-1">
-<span class="status-badge bg-emerald-500/10 text-emerald-400">Publicado</span>
-<span class="text-[11px] text-slate-500">12 Out 2023</span>
-</div>
-<h3 class="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">Novas rotas turísticas para Salinas no próximo verão</h3>
-</div>
-<div class="flex items-center gap-4 mt-2">
-<button class="flex items-center gap-1.5 text-xs font-medium text-accent-cyan active:opacity-50">
-<span class="material-symbols-outlined text-base">edit</span>
-                                    Editar
-                                </button>
-<button class="flex items-center gap-1.5 text-xs font-medium text-red-400 active:opacity-50">
-<span class="material-symbols-outlined text-base">delete</span>
-                                    Excluir
-                                </button>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-card-dark border border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col">
-<div class="flex p-3 gap-3">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800">
-<img alt="Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3T5A01-bMj2rsCPIiEj-vZ_ruLC25060i5jtZsa6n6bLa3WWiotMak3VLGaiRMD3tfBXf_ZjVyibZOc2y1B7uEifCnQV4CpdSzTSOepoRnp_P4-6vnk-_tI0jzV2CXbL8GZL7eaMH1Eg5InquF_PYWBt_1-fMjHS6u4_vNPRIH2mhkkNswEM9MH4hPXlJFjd-1vGbQkGO49TrMznAxJFNsmAUNerofD17CiMcNEkJaUlWGW6185meQ5FoystzL55HjGxMcBhwzaKf"/>
-</div>
-<div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
-<div>
-<div class="flex justify-between items-start mb-1">
-<span class="status-badge bg-emerald-500/10 text-emerald-400">Publicado</span>
-<span class="text-[11px] text-slate-500">05 Set 2023</span>
-</div>
-<h3 class="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">Como agendar sua viagem pelo aplicativo</h3>
-</div>
-<div class="flex items-center gap-4 mt-2">
-<button class="flex items-center gap-1.5 text-xs font-medium text-accent-cyan active:opacity-50">
-<span class="material-symbols-outlined text-base">edit</span>
-                                    Editar
-                                </button>
-<button class="flex items-center gap-1.5 text-xs font-medium text-red-400 active:opacity-50">
-<span class="material-symbols-outlined text-base">delete</span>
-                                    Excluir
-                                </button>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-card-dark border border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col">
-<div class="flex p-3 gap-3">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800">
-<img alt="Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoxDvFqN1-2yfKsrdgZn5CDOHciIOqfvzSz8ojgDelhazbj5v4UX2xE6vonyX8k2oTvUQhW1bQw4-8CdmMKWBr1Q68sCyhI65glFPEE5KxLtGUWd1XfdVfv4TVxfL_zAxQB3NrZHiUtM6ZNLbvPxZrUcvMpF7F1CkWJWr-LwE2UEUehcICgkoW8RnfZAJdaXitDGcxg3jbFEnVAKlscEqqOPizZN-qDixn3UIMpw89Iq5LblGlBA-eYf5ZrnPgEO8KKHs45F4689V1"/>
-</div>
-<div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
-<div>
-<div class="flex justify-between items-start mb-1">
-<span class="status-badge bg-emerald-500/10 text-emerald-400">Publicado</span>
-<span class="text-[11px] text-slate-500">22 Ago 2023</span>
-</div>
-<h3 class="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">Manutenção preventiva dos veículos da frota</h3>
-</div>
-<div class="flex items-center gap-4 mt-2">
-<button class="flex items-center gap-1.5 text-xs font-medium text-accent-cyan active:opacity-50">
-<span class="material-symbols-outlined text-base">edit</span>
-                                    Editar
-                                </button>
-<button class="flex items-center gap-1.5 text-xs font-medium text-red-400 active:opacity-50">
-<span class="material-symbols-outlined text-base">delete</span>
-                                    Excluir
-                                </button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<button class="fixed bottom-28 right-6 size-14 bg-primary text-white rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center active:scale-95 transition-transform z-50">
-<span class="material-symbols-outlined text-3xl">add</span>
-</button>
-<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-800 bg-background-dark/95 ios-blur px-6 pb-8 pt-3 z-50">
-<div class="flex justify-between items-center max-w-lg mx-auto">
-<a class="flex flex-col items-center gap-1 text-slate-400" href="admin.html">
-<span class="material-symbols-outlined">dashboard</span>
-<p class="text-[10px] font-medium">Painel</p>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="gerenciarUsuarios.html">
-<span class="material-symbols-outlined">group</span>
-<p class="text-[10px] font-medium">Usuários</p>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="historicoGeral.html">
-<span class="material-symbols-outlined">route</span>
-<p class="text-[10px] font-medium">Corridas</p>
-</a>
-<a class="flex flex-col items-center gap-1 text-primary" href="perfilAdministrador.html">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
-<p class="text-[10px] font-bold">Ajustes</p>
-</a>
-</div>
-<div class="h-1 mt-2 w-32 bg-slate-700 mx-auto rounded-full opacity-30"></div>
-</nav>
-</div>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabaseClient.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const postsContainer = document.querySelector('.flex-col.gap-4.mt-2');
+        const searchInput = document.querySelector('input[type="text"]');
 
-</body></html>
+        async function loadPosts(searchTerm = '') {
+            try {
+                postsContainer.innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-10 gap-2 opacity-50">
+                            <span class="material-symbols-outlined animate-spin">sync</span>
+                            <p class="text-sm">Carregando postagens...</p>
+                        </div>
+                    `;
+
+                let query = supabaseClient
+                    .from('postagens')
+                    .select('*')
+                    .order('criado_em', { ascending: false });
+
+                if (searchTerm) {
+                    query = query.ilike('titulo', `%${searchTerm}%`);
+                }
+
+                const { data: posts, error } = await query;
+
+                if (error) throw error;
+
+                postsContainer.innerHTML = '';
+
+                if (!posts || posts.length === 0) {
+                    postsContainer.innerHTML = `
+                            <div class="flex flex-col items-center justify-center py-10 gap-2 text-slate-500">
+                                <span class="material-symbols-outlined text-4xl">article</span>
+                                <p class="text-sm italic">Nenhuma postagem encontrada.</p>
+                            </div>
+                        `;
+                    return;
+                }
+
+                posts.forEach(post => {
+                    const postDate = new Date(post.criado_em).toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+
+                    const postCard = document.createElement('div');
+                    postCard.className = "bg-card-dark border border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col";
+                    postCard.innerHTML = `
+                            <div class="flex p-3 gap-3">
+                                <div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800">
+                                    <img alt="Thumbnail" class="w-full h-full object-cover" src="${post.imagem_capa_url || 'splashScreen.jpeg'}"/>
+                                </div>
+                                <div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
+                                    <div>
+                                        <div class="flex justify-between items-start mb-1">
+                                            <span class="status-badge ${post.publicado ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">
+                                                ${post.publicado ? 'Publicado' : 'Rascunho'}
+                                            </span>
+                                            <span class="text-[11px] text-slate-500">${postDate}</span>
+                                        </div>
+                                        <h3 class="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">${post.titulo}</h3>
+                                    </div>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <button onclick="window.location.href='novoPost.html?id=${post.id}'" class="flex items-center gap-1.5 text-xs font-medium text-accent-cyan active:opacity-50">
+                                            <span class="material-symbols-outlined text-base">edit</span>
+                                            Editar
+                                        </button>
+                                        <button onclick="deletePost('${post.id}')" class="flex items-center gap-1.5 text-xs font-medium text-red-400 active:opacity-50">
+                                            <span class="material-symbols-outlined text-base">delete</span>
+                                            Excluir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    postsContainer.appendChild(postCard);
+                });
+            } catch (err) {
+                console.error('Error:', err);
+                postsContainer.innerHTML = '<p class="text-center py-10 text-red-500">Erro ao carregar postagens.</p>';
+            }
+        }
+
+        window.deletePost = async (id) => {
+            if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
+            try {
+                const { error } = await supabaseClient.from('postagens').delete().eq('id', id);
+                if (error) throw error;
+                loadPosts(searchInput.value);
+            } catch (err) {
+                alert('Erro ao excluir: ' + err.message);
+            }
+        };
+
+        // Search logic
+        let debounce;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(debounce);
+            debounce = setTimeout(() => {
+                loadPosts(e.target.value);
+            }, 300);
+        });
+
+        // Initial load
+        loadPosts();
+
+        // Setup "Add" button
+        document.querySelector('.fixed.bottom-28').addEventListener('click', () => {
+            window.location.href = 'novoPost.html';
+        });
+    });
+</script>
+</body>
+
+</html>

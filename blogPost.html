@@ -56,49 +56,87 @@
             color: #3b82f6;
             text-decoration: underline;
         }
-    
+
         /* Global Mobile Native Fixes */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
         }
-        input, textarea {
+
+        input,
+        textarea {
             user-select: text;
             -webkit-user-select: text;
         }
+
         /* Native-like click effect */
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .active-scale:active {
             transform: scale(0.96);
         }
+
         /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
             animation: fadeIn 0.4s ease-out forwards;
         }
+
         .animate-slide-up {
             opacity: 0;
             transform: translateY(20px);
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         .animate-slide-in-right {
             opacity: 0;
             transform: translateX(20px);
             animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
 
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
     </style>
     <style>
         body {
@@ -176,262 +214,230 @@
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
     <div
         class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-[430px] mx-auto bg-background-light dark:bg-background-dark">
-        <!-- Header Image & Back Button -->
-        <div class="relative w-full h-72 @container">
-            <div id="post-header-image" class="absolute inset-0 bg-cover bg-center" data-alt="Modern blue transit bus on a city street at sunset"
-                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz-xZ0U2w22kQyO0B1tOOhY7A9pG7-3vQY00bH56V4EcwgU7Hnt3T2f84N8Qy232B_0jM05A7cEDs4s6sN8x4I-CgI714YjOFyq13H9l1nJpZ-e9PZ43B_-zLtsqZ2sQh9Z81uCq1n44d0E7-cQQlW3Y1O48oXp4B3aHtwuO2e4y-UfS-l3P3m_Wz2A-iFjOUwA');">
+        <main id="post-view" class="hidden">
+            <!-- Header Image & Back Button -->
+            <div class="relative w-full h-80">
+                <div id="post-header-image" class="absolute inset-0 bg-cover bg-center"
+                    style="background-image: url('splashScreen.jpeg')"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent">
+                </div>
+                <div class="absolute top-4 left-4 z-20">
+                    <a href="blog.html"
+                        class="flex items-center justify-center size-10 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/10 active-scale">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
-            <div class="absolute top-4 left-4">
-                <a href="blog.html"
-                    class="flex items-center justify-center size-10 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/10 z-10">
-                    <span class="material-symbols-outlined">arrow_back</span>
-                </a>
+
+            <!-- Post Content Header -->
+            <div class="px-6 -mt-12 relative z-10">
+                <div id="post-tag"
+                    class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-primary text-[10px] font-bold uppercase tracking-wider mb-4">
+                    Categoria
+                </div>
+                <h1 id="post-title" class="text-3xl font-extrabold leading-tight text-slate-900 dark:text-white mb-6">
+                    Carregando título...
+                </h1>
+                <div class="flex items-center gap-3 pb-8 border-b border-slate-200 dark:border-slate-800">
+                    <div id="author-avatar"
+                        class="size-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-lg overflow-hidden border-2 border-primary">
+                        <span id="author-initials">M</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <p id="post-author-name" class="text-base font-bold text-slate-900 dark:text-slate-100">Meu
+                            carro de Linha Salinas</p>
+                        <p id="post-meta" class="text-xs text-slate-500 dark:text-slate-400">Data • 5 min de leitura</p>
+                    </div>
+                </div>
             </div>
-            <div class="absolute top-4 right-4">
-                <button
-                    class="flex items-center justify-center size-10 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/10 z-10">
-                    <span class="material-symbols-outlined">bookmark</span>
+
+            <!-- Main Body Text -->
+            <div id="post-content"
+                class="px-6 py-8 prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 text-lg leading-relaxed">
+                <p>Carregando conteúdo...</p>
+            </div>
+
+            <!-- Share & Interaction -->
+            <div
+                class="px-6 py-6 flex items-center justify-between border-y border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/30">
+                <div class="flex gap-4">
+                    <button id="like-button"
+                        class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors active-scale">
+                        <span class="material-symbols-outlined" id="like-icon">thumb_up</span>
+                        <span class="text-sm font-bold" id="like-count">0</span>
+                    </button>
+                </div>
+                <button id="share-button"
+                    class="flex items-center gap-2 bg-primary px-6 py-3 rounded-xl text-white font-bold text-sm shadow-lg shadow-primary/30 active-scale">
+                    <span class="material-symbols-outlined text-[20px]">share</span>
+                    Compartilhar
                 </button>
             </div>
-        </div>
-    </div>
-    <!-- Post Content Header -->
-    <div class="px-6 -mt-10 relative z-10">
-        <div id="post-tag"
-            class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-accent-cyan text-xs font-bold uppercase tracking-wider mb-4">
-            Inovação
-        </div>
-        <h1 id="post-title" class="text-3xl font-bold leading-tight text-slate-900 dark:text-white mb-6">
-            A Evolução do Transporte em Salinas: O que esperar para 2024
-        </h1>
-        <div class="flex items-center gap-3 pb-8 border-b border-border-dark">
-            <div id="post-author-image" class="size-12 rounded-full bg-cover bg-center border-2 border-primary"
-                data-alt="Professional portrait of author Carlos Silva"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz8ax6U0mTRFr7y9s-pfcnbH7bnqBOD3OdR_wd7_8Jwh3XAFsT8g_e36xT4DXVeoLGSylXgI0LuYN_MtguWnebm-28TGhiGMj7puvQM2uPAx_Ic7ZgMVyAreydQ3eVwJs6f25ImjavmGMTeBOHhxfAvcS_-E6PDQqfpKqA430nue8p4dzOTwlY4Z1uoCE6aR7KS46JMQzSjqLmrMnDLxIwgkfqSQhyB3qyz_x67a_3XY7eQYzf3EqC4AK6024Z63StQLjsmYUXCodY");'>
+
+            <!-- Related Posts Section -->
+            <div class="px-6 py-10 pb-20">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Postagens Relacionadas</h3>
+                <div id="related-posts" class="space-y-4">
+                    <!-- Related posts dynamic load -->
+                </div>
             </div>
-            <div class="flex flex-col">
-                <p id="post-author-name" class="text-base font-semibold text-slate-900 dark:text-slate-100">Carlos Silva</p>
-                <p id="post-meta" class="text-sm text-slate-500 dark:text-slate-400">24 de Out, 2023 • 5 min de leitura</p>
-            </div>
+        </main>
+
+        <div id="loading-overlay"
+            class="fixed inset-0 bg-background-light dark:bg-background-dark flex flex-col items-center justify-center z-[100] transition-opacity duration-500">
+            <span class="material-symbols-outlined text-5xl text-primary animate-spin mb-4">sync</span>
+            <p class="text-slate-500 font-medium">Carregando história...</p>
         </div>
-    </div>
-    <!-- Main Body Text -->
-    <div id="post-content" class="px-6 py-8 prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
-        <p>
-            O cenário do transporte público em Salinas está passando por uma transformação sem precedentes. Com a
-            implementação do novo sistema <strong>"Meu Carro de Linha"</strong>, a mobilidade urbana atingiu um novo
-            patamar de eficiência e conforto para os passageiros.
-        </p>
-        <p>
-            A integração de tecnologias de monitoramento em tempo real permitiu que os usuários pudessem planejar
-            suas viagens com precisão cirúrgica. Você pode conferir as novas rotas através do nosso <a href="#">mapa
-                interativo atualizado</a>.
-        </p>
-        <p>
-            <strong>Destaques da nova frota:</strong>
-        </p>
-        <ul class="list-disc pl-5 mt-2 space-y-2">
-            <li>Ar-condicionado em 100% dos veículos;</li>
-            <li>Wi-Fi gratuito de alta velocidade;</li>
-            <li>Sistemas de pagamento por aproximação;</li>
-            <li>Redução de 30% na emissão de poluentes.</li>
-        </ul>
-        <p></p>
-        <p>
-            Esta mudança não é apenas sobre veículos novos, mas sobre criar um ecossistema sustentável que conecte
-            todos os pontos da nossa cidade de forma inteligente e humana.
-        </p>
-    </div>
-    <!-- Share & Interaction -->
-    <div class="px-6 py-6 flex items-center justify-between border-y border-border-dark bg-card-dark/30">
-        <div class="flex gap-4">
-            <button class="flex items-center gap-2 text-slate-400">
-                <span class="material-symbols-outlined text-primary">thumb_up</span>
-                <span class="text-sm font-medium">124</span>
-            </button>
-            <button class="flex items-center gap-2 text-slate-400">
-                <span class="material-symbols-outlined">chat_bubble</span>
-                <span class="text-sm font-medium">18</span>
-            </button>
-        </div>
-        <button
-            class="flex items-center gap-2 bg-primary px-6 py-2.5 rounded-full text-white font-bold text-sm shadow-lg shadow-primary/20">
-            <span class="material-symbols-outlined text-[20px]">share</span>
-            Compartilhar
-        </button>
-    </div>
-    <!-- Related Posts Section -->
-    <div class="px-6 py-10">
-        <h3 class="text-xl font-bold text-white mb-6">Postagens Relacionadas</h3>
-        <div class="space-y-4">
-            <!-- Related Item 1 -->
-            <a class="flex gap-4 p-3 rounded-xl bg-card-dark border border-border-dark hover:border-primary/50 transition-colors"
-                href="#">
-                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center"
-                    data-alt="Inside view of a modern clean bus interior"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-tefo6-tmVJTs29SedBhmk4AwRloKQLSyfe8ImF52d1gftrhtfGG8k4dcWMqfwJss5k9ziWxK-UsRcbfg4uO6jpXbEs7lGhB4P7mDlntsWyceMVi_zjYGzMFctUc7AUvuC4dBf5hhrw3Dz46KxGjrPvlBrs4cWE4ROJjWl_d6MJ7-CHR0IlnIte43_SXPlqGQ5AwNRMyUTMGaKWvQOoE6q6uI5zvpkNpxfRVdd1xsfKIaG9UU2viwN1WL8G_QOioRQzBvZC4GUUNO");'>
-                </div>
-                <div class="flex flex-col justify-center">
-                    <p class="text-xs font-bold text-accent-cyan uppercase mb-1">Dicas</p>
-                    <h4 class="text-sm font-bold text-white line-clamp-2">Como economizar usando o passe digital em
-                        Salinas</h4>
-                </div>
-            </a>
-            <!-- Related Item 2 -->
-            <a class="flex gap-4 p-3 rounded-xl bg-card-dark border border-border-dark hover:border-primary/50 transition-colors"
-                href="#">
-                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center" data-alt="Yellow school bus on a rural road"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3_lCbSbDqv8_seHdSZPa5Eio8bmD69Su8lcJF-uMMeoTlY01wnXsEQVmQKva9jb5_-cRQ1fu7DmERoHp3SkoIkg_PKznhCYQ1vJ0QT51-7_8DEFThJ_-3veGRczL0L-Y7EFGYPk2iCDSj7rer9OUGratmMDBI8mGsEFo_gRjKPtLjaZgfFdOiX_S-aRf1oWArY9ra5Zce9AKu-VcZh6_pU56oY6pnpC4uV3CQVOaQmJbGPEMBcBYXg5fYXw3NJPt0jA-YV54W9PFA");'>
-                </div>
-                <div class="flex flex-col justify-center">
-                    <p class="text-xs font-bold text-accent-cyan uppercase mb-1">Notícias</p>
-                    <h4 class="text-sm font-bold text-white line-clamp-2">Novas linhas rurais começam a operar na
-                        próxima segunda</h4>
-                </div>
-            </a>
-        </div>
-    </div>
 
-    </div>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="js/supabaseClient.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get('slug');
+                const id = urlParams.get('id');
 
-    <script>
-        // Mock database of blog posts based on the ones in blog.html
-        const pbPosts = {
-            "1": { // Reajuste da Tarifa
-                tag: "Comunicado",
-                title: "Reajuste da tarifa anual",
-                author: "Marcos Pereira",
-                date: "Há 2 horas",
-                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuAz-xZ0U2w22kQyO0B1tOOhY7A9pG7-3vQY00bH56V4EcwgU7Hnt3T2f84N8Qy232B_0jM05A7cEDs4s6sN8x4I-CgI714YjOFyq13H9l1nJpZ-e9PZ43B_-zLtsqZ2sQh9Z81uCq1n44d0E7-cQQlW3Y1O48oXp4B3aHtwuO2e4y-UfS-l3P3m_Wz2A-iFjOUwA",
-                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDE19kDV-x7mt2u8gj35BAPT_FN9jQXljohoUvNlSUW70cT-Hq2omOZAECnLc0mRHEPiZp48XwfWUqnoSgM4NL1js39hDWcgW_9QPolKM6uKd6bin1NZvha1LKEFdALE03SL6AVW39iA04RdyimjlFh4lTI3Y5JfZdSm8zsHdkfggIEk_MOJMDGTRzioD_XYYb3xUqyC6yQLerSjnNaSmfMAZwLCQjT11-OfH5hwoZXIK5oWCKD0lJVcYu1HPPj9TkUTAto7YxrBlw",
-                content: `
-                <p>Informamos a todos os nossos usuários e parceiros que, a partir do início do próximo mês, a tarifa padrão do serviço <strong>"Meu Carro de Linha"</strong> sofrerá um pequeno reajuste.</p>
-                <p>Este ajuste é essencial para continuarmos oferecendo um serviço de alta qualidade, garantindo a manutenção da frota e a inclusão de novas tecnologias que trazem mais segurança para suas viagens diárias.</p>
-                <p><strong>Por que estamos reajustando?</strong></p>
-                <ul class="list-disc pl-5 mt-2 space-y-2">
-                    <li>Inflação acumulada no período de operação.</li>
-                    <li>Aumento do custo de repasses aos motoristas para garantir lucros justos.</li>
-                    <li>Investimento em melhorias no aplicativo, incluindo novo rastreio em tempo real.</li>
-                </ul>
-                <p>Agradecemos a compreensão de todos e seguimos compromissados com a qualidade.</p>
-            `
-            },
-            "2": { // Cinto de Segurança
-                tag: "Segurança",
-                title: "A importância do uso do cinto de segurança no banco de trás",
-                author: "Regina Faria",
-                date: "Há 1 dia",
-                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuD22HDErXq-z0r9B7I3q6R8M0L-1K1X10Z7k4n179_1V9lU8X9-J01_X62tI2q9yP_Q1F6tB2G9T6k9r9O1T_w0U9N2w9q9G8sH0a9I_F7D4j9s2P5T9x8w1y6s5s5r1V8a1T8B7R9x_Q6L8N9w5x8I4p1b8o5T_q7Z5f8m3s1H9e4t_",
-                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuCM_KxJ_9O28oQ_TzW_2O19m_C8P_m8lT_209C_a8_42_M7_O8zH_R2W_H71K_a9s2N9z7m0N7B0m_Q8Q8I9p1m_a6B8R1y1v_I7b9v_r00sB3h0O1b8K8O6O2H3c0t2u9f5V_8T8d7_T0p2X1t8c5H1m_4K0R9",
-                content: `
-                <p>Usar o cinto de segurança no banco de trás deixou de ser uma "opção" e é, por lei, uma <strong>obrigatoriedade</strong>.</p>
-                <p>Diariamente, centenas de vidas são poupadas em incidentes inesperados exclusivamente por causa desse dispositivo tão simples, rápido de ser colocado e extremamente necessário. Mesmo em viagens curtas dentro de Salinas, exija colocar o seu.</p>
-                <p><strong>Nossos Motoristas São Orientados:</strong></p>
-                <p>Antes de iniciar a viagem, você deve ter notado que nossos motoristas parceiros solicitam que todos coloquem os cintos. Essa não é apenas a norma da empresa, mas um cuidado legítimo com a sua família e amigos a bordo.</p>
-                <p>Faça a sua parte e garanta chegar ao seu destino com segurança.</p>
-            `
-            },
-            "3": { // Treinamento
-                tag: "Segurança",
-                title: "Treinamento de motoristas parceiros",
-                author: "Carlos Silva",
-                date: "Postado há 1 semana",
-                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBc49J00D6L6_W8s2oG-N8T09C_-2i-5Z7q9I6p5X5T9d5j22J-Q9N6T54G8H5L0o-U_N0L2X3n_O1j0c5P5n0s2B_t3D1Q_N9X7x6O_V1g2T9s76-C-9s6Z0K1l8o-G1M_c9S1M8E-b2r-7J-U1q6U6p1D1m1n1Q0W0h0U1z0Q0Q",
-                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDz8ax6U0mTRFr7y9s-pfcnbH7bnqBOD3OdR_wd7_8Jwh3XAFsT8g_e36xT4DXVeoLGSylXgI0LuYN_MtguWnebm-28TGhiGMj7puvQM2uPAx_Ic7ZgMVyAreydQ3eVwJs6f25ImjavmGMTeBOHhxfAvcS_-E6PDQqfpKqA430nue8p4dzOTwlY4Z1uoCE6aR7KS46JMQzSjqLmrMnDLxIwgkfqSQhyB3qyz_x67a_3XY7eQYzf3EqC4AK6024Z63StQLjsmYUXCodY",
-                content: `
-                 <p>
-                    O cenário do transporte público em Salinas está passando por uma transformação sem precedentes. Com a implementação do novo sistema <strong>"Meu Carro de Linha"</strong>, a mobilidade urbana atingiu um novo patamar de eficiência e conforto para os passageiros.
-                </p>
-                <p>
-                    A integração de tecnologias de monitoramento em tempo real permitiu que os usuários pudessem planejar suas viagens com precisão cirúrgica. E tudo isso passa por um rígido processo de treinamento da frota dos nossos motoristas parceiros.
-                </p>
-                <p>
-                    <strong>Destaques da nova frota e motoristas:</strong>
-                </p>
-                <ul class="list-disc pl-5 mt-2 space-y-2">
-                    <li>Motoristas com certificação de primeiros socorros;</li>
-                    <li>Sistemas e manuais de boa conduta com os cidadãos;</li>
-                    <li>Testes bimestrais de manutenção preventiva;</li>
-                </ul>
-                <p>
-                    Esta mudança não é apenas sobre veículos novos, mas sobre criar um ecossistema sustentável que conecte todos os pontos da nossa cidade de forma inteligente e humana.
-                </p>
-            `
-            },
-            "4": { // Rastreio
-                tag: "Inovação",
-                title: "Como usar o novo rastreio em tempo real",
-                author: "Time de Suporte",
-                date: "Postado há 1 semana",
-                bgImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIyRnzhhRu9014WifcrJIuJefHWDn9FGkJLcd0qa324WgQlFmO9Qhf5bOVAk0BxhVveZFnvo6Yg_MdqqBgBPKQYAvc9ObaQrP-_bckLllC6gJR3H2jDqKzTN6dTnSJxD5vDsbiLnAaFbVwTr-bSaTsc79KU4-xdCbvw3pi5yqlCqV-bj1PuATKF1eoEtVNuchMrolPlCYaGVqDyUTy9FiWgGUEVHkBqI5rZ2sP_hvBbc_bq27tg-ppyOQgDTsk5jRJ0L3lCaubUtTr",
-                authorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDMPCTUX-3QcIclRa90_cwJwCPaCd42OFrijjZ350NSBGmf3RGt8zzpl9leo6n3N08lkt-0MFUFGZUD8M4imZe7hzD4Y_zu-IxpNUcr5t5m03aGbiuqhvgStaF4_g9zDWxiwAJJw0_khqGwGT_61ics8LfsU0INuSIsdtAHzSpXZuQHQ9LjdUgGxcODCUrIWGBRfYoTsO5DYRHWv36RisQ3Pa8hlUJzCs6r316NKXxxrCdXlHL-AyVw2CkiKQpeaBfh_EoXQe26Wj6",
-                content: `
-                <p>É com orgulho que estreamos oficialmente o nosso novo mapa de roteirizações na palma da sua mão! Com a nossa mais nova tecnologia embarcada no "Meu Carro de Linha", acabaram as dúvidas de <em>"Será que ele já passou?"</em></p>
-                <p><strong>Para utilizar:</strong></p>
-                <ol class="list-decimal pl-5 mt-2 space-y-2">
-                    <li>Abra o aplicativo e navegue até a tela "Viagens" no menu inferior;</li>
-                    <li>Clique em "Rastrear Meu Carro" na corrida atual solicitada;</li>
-                    <li>Acompanhe ao vivo pelo GPS enquanto ele chega até você!</li>
-                </ol>
-                <p>Esta é uma atualização disponível para todos os cidadãos da rede cadastrados. Mantenha seu app sempre atualizado na loja do seu smartphone.</p>
-            `
-            }
-        };
+                if (!slug && !id) {
+                    window.location.href = 'blog.html';
+                    return;
+                }
 
-        // Load content dynamically
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            let postId = urlParams.get('id');
+                try {
+                    // Fetch Current Post
+                    let query = supabaseClient.from('postagens').select('*');
+                    if (slug) query = query.eq('slug', slug);
+                    else query = query.eq('id', id);
 
-            // Render post dynamically
-            const post = pbPosts[postId];
-            if (post) {
-                // Header
-                const headerImage = document.getElementById("post-header-image");
-                if (headerImage) headerImage.style.backgroundImage = 'url("' + post.bgImage + '")';
+                    const { data: post, error } = await query.single();
+                    if (error || !post) throw error || new Error('Post não encontrado');
 
-                // Tag
-                const tagEl = document.getElementById("post-tag");
-                if (tagEl) tagEl.innerHTML = post.tag;
+                    // 1. Fetch Admin Data (for consistent author)
+                    const { data: admin } = await supabaseClient
+                        .from('usuarios')
+                        .select('foto_perfil_url')
+                        .eq('tipo_usuario', 'admin')
+                        .limit(1)
+                        .single();
 
-                // Title
-                const titleEl = document.getElementById("post-title");
-                if (titleEl) titleEl.innerText = post.title;
+                    // 2. Render Main Post
+                    document.title = `${post.titulo} - Blog Salinas`;
+                    document.getElementById('post-title').innerText = post.titulo;
+                    document.getElementById('post-tag').innerText = post.categoria;
+                    document.getElementById('post-content').innerHTML = post.conteudo;
+                    document.getElementById('post-header-image').style.backgroundImage = `url("${post.imagem_capa_url || 'splashScreen.jpeg'}")`;
 
-                // Author Img
-                const authorImage = document.getElementById("post-author-image");
-                if (authorImage) authorImage.style.backgroundImage = 'url("' + post.authorImg + '")';
+                    // Fixed Author Name
+                    document.getElementById('post-author-name').innerText = 'Meu carro de Linha Salinas';
 
-                // Author Texts
-                const authorName = document.getElementById("post-author-name");
-                if (authorName) authorName.innerText = post.author;
-                
-                const postMeta = document.getElementById("post-meta");
-                if (postMeta) postMeta.innerText = post.date + " • 3 min de leitura";
+                    // Like Count
+                    const likeCountEl = document.getElementById('like-count');
+                    likeCountEl.innerText = post.likes || 0;
 
-                // Content
-                const contentEl = document.getElementById("post-content");
-                if (contentEl) contentEl.innerHTML = post.content;
-            }
-        });
+                    const postDate = new Date(post.criado_em).toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    document.getElementById('post-meta').innerText = `${postDate} • 5 min de leitura`;
 
-    </script>
+                    // Admin Photo
+                    const avatarContainer = document.getElementById('author-avatar');
+                    if (admin?.foto_perfil_url) {
+                        avatarContainer.innerHTML = `<img src="${admin.foto_perfil_url}" class="w-full h-full object-cover">`;
+                    } else {
+                        document.getElementById('author-initials').innerText = 'M';
+                    }
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('a[href]').forEach(link => {
-                link.addEventListener('click', e => {
-                    const href = link.getAttribute('href');
-                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
+                    // 3. Interactions logic
+                    const likeBtn = document.getElementById('like-button');
+                    const shareBtn = document.getElementById('share-button');
+
+                    likeBtn.addEventListener('click', async () => {
+                        const newLikes = (post.likes || 0) + 1;
+                        const { error: likeError } = await supabaseClient
+                            .from('postagens')
+                            .update({ likes: newLikes })
+                            .eq('id', post.id);
+
+                        if (!likeError) {
+                            post.likes = newLikes;
+                            likeCountEl.innerText = newLikes;
+                            document.getElementById('like-icon').classList.add('text-primary');
+                            likeBtn.disabled = true;
+                        }
+                    });
+
+                    shareBtn.addEventListener('click', async () => {
+                        try {
+                            await navigator.clipboard.writeText(window.location.href);
+                            const originalText = shareBtn.innerHTML;
+                            shareBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> Copiado!';
+                            setTimeout(() => shareBtn.innerHTML = originalText, 2000);
+                        } catch (err) {
+                            alert('Erro ao copiar link.');
+                        }
+                    });
+
+                    // 4. Load Related Posts
+                    const { data: related } = await supabaseClient
+                        .from('postagens')
+                        .select('titulo, slug, imagem_capa_url, categoria')
+                        .eq('publicado', true)
+                        .neq('id', post.id)
+                        .eq('categoria', post.categoria)
+                        .limit(3);
+
+                    const relatedContainer = document.getElementById('related-posts');
+                    if (related && related.length > 0) {
+                        relatedContainer.innerHTML = '';
+                        related.forEach(r => {
+                            const relEl = document.createElement('a');
+                            relEl.href = `blogPost.html?slug=${r.slug}`;
+                            relEl.className = 'flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all active-scale group';
+                            relEl.innerHTML = `
+                            <div class="size-20 shrink-0 rounded-lg bg-cover bg-center overflow-hidden transition-transform duration-500 group-hover:scale-110" 
+                                style='background-image: url("${r.imagem_capa_url || 'splashScreen.jpeg'}")'>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-[10px] font-bold text-primary uppercase mb-1">${r.categoria}</p>
+                                <h4 class="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 group-hover:text-primary transition-colors">${r.titulo}</h4>
+                            </div>
+                        `;
+                            relatedContainer.appendChild(relEl);
+                        });
+                    } else {
+                        relatedContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Nenhuma postagem relacionada encontrada.</p>';
+                    }
+
+                    // 5. Reveal Page
+                    setTimeout(() => {
+                        document.getElementById('loading-overlay').classList.add('opacity-0', 'pointer-events-none');
+                        document.getElementById('post-view').classList.remove('hidden');
+                        document.getElementById('post-view').classList.add('animate-fade-in');
+                    }, 300);
+
+                } catch (err) {
+                    console.error('Error:', err);
+                    document.getElementById('loading-overlay').innerHTML = `
+                    <p class="text-red-500 font-bold">Erro ao carregar postagem.</p>
+                    <a href="blog.html" class="mt-4 text-primary font-bold underline">Voltar ao Blog</a>
+                `;
+                }
+
+                // Navigation handling
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (link && link.href && !link.href.includes('#') && !link.target && !link.href.includes('mailto:')) {
                         e.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = href; }, 200);
+                        if (document.startViewTransition) {
+                            document.startViewTransition(() => { window.location.href = link.href; });
+                        } else {
+                            window.location.href = link.href;
+                        }
                     }
                 });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>

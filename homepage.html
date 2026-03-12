@@ -15,6 +15,7 @@
     <link rel="apple-touch-icon" href="/splashScreen.jpeg">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta name="theme-color" content="#1e3fae" />
@@ -26,8 +27,8 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <!-- Google Maps SDK -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&loading=async"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -475,29 +476,9 @@
                 <h3 class="text-lg font-bold">Blog</h3>
                 <a class="text-[#f97316] text-sm font-semibold" href="blog.html">Ver todos</a>
             </div>
-            <div class="space-y-4">
-                <div class="flex gap-4 items-center stagger-item">
-                    <div class="size-20 rounded-lg overflow-hidden shrink-0">
-                        <img class="w-full h-full object-cover"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3seOHAKJ6v5NUZiynm6rVLTi9T9WbCOue6IhoJ2yW0PaKRfdF7h99MdQJi5O7Qo-bv3URuKjVbx2okfNE_6zQucUbBumL8_EVcjzKOBUXG8o51wIH2DylHr1H9mfqfzTMxHgD9S0ONpHAcPDTjuq-AeinxH0waMJrRzcU52Nd1fbb0hpeSJJ9SdtOK_39aIN-5OrlhSK2mbsu6XofaKZbQTdsmDZwB2afjMsVS2-JEu5KCRhErujkxD1pIkjrZ9KIHsgM8fIjkyJN" />
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-semibold text-sm line-clamp-2">Novas rotas intermunicipais disponíveis nesta
-                            segunda</h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Há 2 horas • Transporte</p>
-                    </div>
-                </div>
-                <div class="flex gap-4 items-center stagger-item">
-                    <div class="size-20 rounded-lg overflow-hidden shrink-0">
-                        <img class="w-full h-full object-cover"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdziscOzGZzwdY-6UKITd5hdYF-eAvjgE5PgFLZWWW9pZHItSKOL34yhfegI92u2x9wGXfvJaMHz0x3tWJrvu9RocB3FzOVk1Qs16jG8bzZDrL4jOVqbIKUg6dYcEu6rldcxB1tcU63sOXHQQTuqY0P6wpZJIbDnqPn-2A896Rdnw4LViUL0vEeznCgcvPSshr2EqxPUS6MTHZE1JbUabB7jJ32KiyfI_xWxZ6-DHdJmbK4xIJgqUuRQ3cd1W3C7S05CFvCYS3kVdh" />
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-semibold text-sm line-clamp-2">Dicas de segurança para suas viagens noturnas
-                        </h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Há 5 horas • Segurança</p>
-                    </div>
-                </div>
+            <div id="blog-container" class="space-y-4 text-center py-4">
+                <!-- Posts will be loaded here -->
+                <p class="text-slate-500 text-sm">Carregando postagens...</p>
             </div>
         </section>
         <section class="py-6 overflow-hidden bg-slate-100 dark:bg-slate-900/50 animate-slide-up delay-500">
@@ -585,7 +566,7 @@
                             id="login-submenu-icon" style="transform: rotate(-180deg);">expand_less</span>
                     </button>
                     <div id="login-submenu"
-                        class="px-4 pb-4 space-y-2 transition-all duration-200 overflow-hidden max-h-0 opacity-0 hidden">
+                        class="px-4 pb-4 space-y-2 mt-2 transition-all duration-200 overflow-hidden max-h-0 opacity-0 hidden">
                         <a class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 text-sm text-slate-300 hover:bg-primary/20 transition-colors"
                             href="loginPassageiro.html">
                             <span class="material-symbols-outlined text-lg">person</span>
@@ -701,13 +682,13 @@
                     center: { lat: -12.8700, lng: -38.8000 },
                     zoom: 14,
                     disableDefaultUI: true,
+                    mapId: "HOMEPAGE_MAP_ID", // Necessity for AdvancedMarkerElement
                     styles: [
                         {
                             "featureType": "all",
                             "elementType": "labels.text.fill",
                             "stylers": [{ "color": "#7c93a3" }, { "lightness": "-10" }]
                         }
-                        // Opcional: Adicionar estilos dark mode se necessário
                     ]
                 });
 
@@ -722,17 +703,19 @@
                                 googleMap.setCenter(pos);
                                 googleMap.setZoom(16);
 
-                                userMarker = new google.maps.Marker({
+                                userMarker = new google.maps.marker.AdvancedMarkerElement({
                                     position: pos,
                                     map: googleMap,
-                                    icon: {
-                                        path: google.maps.SymbolPath.CIRCLE,
-                                        scale: 8,
-                                        fillColor: "#1e3fae",
-                                        fillOpacity: 1,
-                                        strokeColor: "#ffffff",
-                                        strokeWeight: 2,
-                                    },
+                                    content: (() => {
+                                        const pin = document.createElement('div');
+                                        pin.style.width = '16px';
+                                        pin.style.height = '16px';
+                                        pin.style.backgroundColor = '#1e3fae';
+                                        pin.style.borderRadius = '50%';
+                                        pin.style.border = '2px solid white';
+                                        pin.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
+                                        return pin;
+                                    })(),
                                     title: 'Sua localização atual'
                                 });
                             },
@@ -756,11 +739,10 @@
                         destinationMarker.setMap(null);
                     }
 
-                    destinationMarker = new google.maps.Marker({
+                    destinationMarker = new google.maps.marker.AdvancedMarkerElement({
                         position: pos,
                         map: googleMap,
-                        title: `Destino: ${name}`,
-                        animation: google.maps.Animation.DROP
+                        title: `Destino: ${name}`
                     });
 
                     const infoWindow = new google.maps.InfoWindow({

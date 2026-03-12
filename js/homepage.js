@@ -331,4 +331,66 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     }
+
+    // Blog Loading Logic
+    const blogContainer = document.getElementById('blog-container');
+    if (blogContainer) {
+        try {
+            const { data: posts, error } = await supabaseClient
+                .from('postagens')
+                .select('*')
+                .eq('publicado', true)
+                .order('criado_em', { ascending: false })
+                .limit(3);
+
+            if (error) throw error;
+
+            if (posts && posts.length > 0) {
+                blogContainer.innerHTML = '';
+                blogContainer.classList.remove('text-center');
+
+                posts.forEach(post => {
+                    const postDate = new Date(post.criado_em);
+                    const now = new Date();
+                    const diffMs = now - postDate;
+                    const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+                    const timeStr = diffHrs < 1 ? 'Poucos minutos' : `Há ${diffHrs} ${diffHrs === 1 ? 'hora' : 'horas'}`;
+
+                    const postElement = document.createElement('a');
+                    postElement.href = `blogPost.html?slug=${post.slug}`;
+                    postElement.className = 'flex gap-4 items-center stagger-item active-scale group';
+
+                    const categoryUpper = post.categoria.charAt(0).toUpperCase() + post.categoria.slice(1);
+
+                    postElement.innerHTML = `
+                        <div class="size-20 rounded-xl overflow-hidden shrink-0 bg-slate-200 dark:bg-slate-800">
+                            <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                                 src="${post.imagem_capa_url || '/splashScreen.jpeg'}" 
+                                 alt="${post.titulo}" />
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm line-clamp-2 text-slate-900 dark:text-slate-100 group-hover:text-primary transition-colors">${post.titulo}</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+                                <span>${timeStr}</span>
+                                <span class="size-1 bg-slate-300 dark:bg-slate-600 rounded-full"></span>
+                                <span class="font-medium text-primary/80">${categoryUpper}</span>
+                            </p>
+                        </div>
+                    `;
+
+                    blogContainer.appendChild(postElement);
+                });
+            } else {
+                blogContainer.innerHTML = `
+                    <div class="flex flex-col items-center py-6 gap-2">
+                        <span class="material-symbols-outlined text-slate-400">article</span>
+                        <p class="text-slate-500 text-sm italic">Nenhuma postagem recente.</p>
+                    </div>
+                `;
+            }
+        } catch (err) {
+            console.error('Error loading blog posts:', err);
+            blogContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Erro ao carregar postagens.</p>';
+        }
+    }
 });
