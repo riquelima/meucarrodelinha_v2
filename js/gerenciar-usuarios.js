@@ -38,7 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
         editNameInput: document.getElementById('nome'),
         editEmailInput: document.getElementById('email'),
         editPhoneInput: document.getElementById('telefone'),
-        saveUserBtn: document.querySelector('#edit-user-modal button[onclick="saveUser()"]')
+        saveUserBtn: document.querySelector('#edit-user-modal button[onclick="saveUser()"]'),
+
+        // Delete Modal
+        deleteModal: document.getElementById('delete-user-modal'),
+        deleteUserNameAttr: document.getElementById('delete-user-name'),
+        confirmDeleteBtn: document.getElementById('confirm-delete-btn')
     };
 
     // 3. Tab Switching Logic
@@ -326,44 +331,80 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 9. Delete Logic
+    let userIdToDelete = null;
+
     async function handleDeleteClick(e) {
         const btn = e.currentTarget;
-        const userId = btn.dataset.id;
+        userIdToDelete = btn.dataset.id;
         const userName = btn.dataset.nome;
 
-        if (confirm(`Atenção: Tem certeza que deseja excluir o usuário "${userName}"? Esta ação removerá os dados deste usuário do sistema.`)) {
-            try {
-                // Show loading on the button
-                const btnInner = btn.innerHTML;
-                btn.innerHTML = '<span class="material-symbols-outlined animate-spin pointer-events-none">sync</span>';
-                btn.disabled = true;
-
-                const { error } = await window.supabaseClient
-                    .from('usuarios')
-                    .delete()
-                    .eq('id', userId);
-
-                if (error) throw error;
-
-                // Refresh list on success
-                fetchUsers(state.currentTab, true);
-
-            } catch (error) {
-                console.error("Erro ao excluir usuário", error);
-
-                // Tratar erro RLS comum se não for Admin com permissão
-                if (error.code === '42501' || error.message.includes('RLS')) {
-                    alert(`Erro de Permissão: Você não tem permissões suficientes no banco de dados para excluir usuários.
-Requer configuração de políticas (RLS) no Supabase para permitir DELETE na tabela usuarios por Admins.`);
-                } else {
-                    alert('Erro ao excluir usuário: ' + error.message);
-                }
-
-                btn.innerHTML = btnInner; // Reset button if failed
-                btn.disabled = false;
-            }
-        }
+        elements.deleteUserNameAttr.innerText = userName;
+        openDeleteModal();
     }
+
+    window.confirmDeleteUser = async function () {
+        if (!userIdToDelete) return;
+
+        try {
+            // Show loading on the confirm button
+            const btnInner = elements.confirmDeleteBtn.innerHTML;
+            elements.confirmDeleteBtn.innerHTML = '<span class="material-symbols-outlined animate-spin align-middle mr-2">sync</span> Excluindo...';
+            elements.confirmDeleteBtn.disabled = true;
+
+            const { error } = await window.supabaseClient
+                .from('usuarios')
+                .delete()
+                .eq('id', userIdToDelete);
+
+            if (error) throw error;
+
+            closeDeleteModal();
+            fetchUsers(state.currentTab, true);
+
+        } catch (error) {
+            console.error("Erro ao excluir usuário", error);
+
+            if (error.code === '42501' || error.message.includes('RLS')) {
+                alert(`Erro de Permissão: Você não tem permissões suficientes no banco de dados para excluir usuários.
+Requer configuração de políticas (RLS) no Supabase para permitir DELETE na tabela usuarios por Admins.`);
+            } else {
+                alert('Erro ao excluir usuário: ' + error.message);
+            }
+        } finally {
+            elements.confirmDeleteBtn.innerHTML = 'Sim, Excluir Agora';
+            elements.confirmDeleteBtn.disabled = false;
+        }
+    };
+
+    window.openDeleteModal = function () {
+        const modal = elements.deleteModal;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    };
+
+    window.closeDeleteModal = function () {
+        const modal = elements.deleteModal;
+        modal.classList.add('opacity-0');
+        modal.querySelector('div').classList.remove('scale-100');
+        modal.querySelector('div').classList.add('scale-95');
+
+        userIdToDelete = null;
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    };
+
+    // Close delete modal when clicking outside
+    elements.deleteModal.addEventListener('click', function (event) {
+        if (event.target === this) {
+            window.closeDeleteModal();
+        }
+    });
 
 
     // Make modal functions accessible globally like the old inline script
