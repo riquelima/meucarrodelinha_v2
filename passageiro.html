@@ -26,8 +26,8 @@
         rel="stylesheet" />
 
     <!-- Google Maps SDK -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap"></script>
     <link rel="stylesheet" href="css/ui-style.css" />
 
     <script id="tailwind-config">tailwind.config = {
@@ -610,14 +610,9 @@
 
     <script src="js/location-modal.js"></script>
     <script>
-        let googleMap;
-        let userMarker;
-        let isFirstLocationUpdate = true;
-        let currentCoords = null;
-
-        document.addEventListener('DOMContentLoaded', () => {
+        window.initMap = function () {
             const mapContainer = document.getElementById('passageiro-map');
-            if (mapContainer && typeof google !== 'undefined') {
+            if (mapContainer) {
                 googleMap = new google.maps.Map(mapContainer, {
                     center: { lat: -12.8711, lng: -38.7614 },
                     zoom: 14,
@@ -1106,7 +1101,7 @@
                 input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
                 input.addEventListener('focus', () => { if (list.children.length && !list.querySelector('[class*=animate-spin]')) list.classList.remove('hidden'); });
             })();
-        });
+        };
     </script>
     <script src="js/chat-notifications.js"></script>
     <script src="js/ui-transitions.js"></script>

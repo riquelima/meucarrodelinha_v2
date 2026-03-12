@@ -17,7 +17,8 @@
         rel="stylesheet" />
     <link rel="stylesheet" href="css/ui-style.css" />
     <!-- Google Maps SDK -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -187,9 +188,9 @@
         let userMarker;
         let isFirstLocationUpdate = true;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        window.initMap = function () {
             const mapContainer = document.getElementById('motorista-map');
-            if (mapContainer && typeof google !== 'undefined') {
+            if (mapContainer) {
                 googleMap = new google.maps.Map(mapContainer, {
                     center: { lat: -12.8711, lng: -38.7614 },
                     zoom: 14,
@@ -264,7 +265,9 @@
                     updateUserMarker(defaultLocation.lat, defaultLocation.lng);
                 }
             }
+        };
 
+        document.addEventListener('DOMContentLoaded', () => {
             // Toggle Online/Offline Logic
             const toggleBtn = document.getElementById('toggle-online-btn');
             const toggleIcon = document.getElementById('toggle-icon');
@@ -294,32 +297,34 @@
                 }, 3000); // Hide after 3 seconds
             }
 
-            toggleBtn.addEventListener('click', () => {
-                isOnline = !isOnline;
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    isOnline = !isOnline;
 
-                if (isOnline) {
-                    // Go Online State
-                    toggleBtn.classList.remove('bg-primary', 'shadow-primary/20', 'text-white');
-                    toggleBtn.classList.add('bg-slate-700', 'text-slate-300', 'shadow-none');
-                    toggleText.textContent = 'Ficar Offline';
-                    statusText.textContent = 'Você está online e visível para passageiros';
-                    statusText.classList.add('text-green-500');
-                    statusText.classList.remove('text-slate-500');
+                    if (isOnline) {
+                        // Go Online State
+                        toggleBtn.classList.remove('bg-primary', 'shadow-primary/20', 'text-white');
+                        toggleBtn.classList.add('bg-slate-700', 'text-slate-300', 'shadow-none');
+                        toggleText.textContent = 'Ficar Offline';
+                        statusText.textContent = 'Você está online e visível para passageiros';
+                        statusText.classList.add('text-green-500');
+                        statusText.classList.remove('text-slate-500');
 
-                    showNotification('Você está online', true);
+                        showNotification('Você está online', true);
 
-                } else {
-                    // Go Offline State
-                    toggleBtn.classList.add('bg-primary', 'shadow-primary/20', 'text-white');
-                    toggleBtn.classList.remove('bg-slate-700', 'text-slate-300', 'shadow-none');
-                    toggleText.textContent = 'Ficar Online';
-                    statusText.textContent = 'Você está offline no momento';
-                    statusText.classList.remove('text-green-500');
-                    statusText.classList.add('text-slate-500');
+                    } else {
+                        // Go Offline State
+                        toggleBtn.classList.add('bg-primary', 'shadow-primary/20', 'text-white');
+                        toggleBtn.classList.remove('bg-slate-700', 'text-slate-300', 'shadow-none');
+                        toggleText.textContent = 'Ficar Online';
+                        statusText.textContent = 'Você está offline no momento';
+                        statusText.classList.remove('text-green-500');
+                        statusText.classList.add('text-slate-500');
 
-                    showNotification('Você está offline', false);
-                }
-            });
+                        showNotification('Você está offline', false);
+                    }
+                });
+            }
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -328,7 +333,7 @@
     <script src="js/ui-transitions.js"></script>
     <script src="js/authGuard.js"></script>
     <script src="js/motorista-dashboard.js"></script>
-    <script src="js/pwa-register.js"></script>
+    <!-- PWA Logic moved to unified sw.js -->
 </body>
 
 </html>

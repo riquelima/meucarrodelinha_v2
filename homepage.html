@@ -26,9 +26,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <!-- Google Maps SDK -->
+    <!-- Google Maps SDK with callback -->
     <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&loading=async"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -609,15 +609,15 @@
     <script src="js/location-modal.js"></script>
     <script src="js/homepage.js"></script>
     <script>
-        // Register Service Worker for PWA
+        // Register Service Worker for PWA (Unified)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
                     .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        console.log('ServiceWorker registration successful:', registration.scope);
                     })
                     .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
+                        console.error('ServiceWorker registration failed:', err);
                     });
             });
         }
@@ -675,9 +675,9 @@
         let userMarker;
         let destinationMarker;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        window.initMap = function () {
             const mapContainer = document.getElementById('homepage-map');
-            if (mapContainer && typeof google !== 'undefined') {
+            if (mapContainer) {
                 googleMap = new google.maps.Map(mapContainer, {
                     center: { lat: -12.8700, lng: -38.8000 },
                     zoom: 14,
@@ -751,7 +751,7 @@
                     infoWindow.open(googleMap, destinationMarker);
                 });
             }
-        });
+        };
 
         // Enhanced Navigation Logic with View Transitions
         document.addEventListener('click', (e) => {
@@ -811,7 +811,7 @@
         // Script para animação de fade no scroll do header
     </script>
     <script src="js/ui-transitions.js"></script>
-    <script src="js/pwa-register.js"></script>
+    <!-- PWA Logic moved to unified script below -->
 </body>
 
 </html>
