@@ -15,7 +15,7 @@ if ('serviceWorker' in navigator) {
                     newWorker.addEventListener('statechange', () => {
                         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                             // Nova versão disponível!
-                            showUpdateToast();
+                            console.log('[PWA] Nova versão disponível em background.');
                         }
                     });
                 });
@@ -32,38 +32,5 @@ if ('serviceWorker' in navigator) {
             window.location.reload();
             refreshing = true;
         }
-    });
-}
-
-/**
- * Mostra um aviso discreto de que há uma nova versão disponível
- */
-function showUpdateToast() {
-    const toast = document.createElement('div');
-    toast.className = 'fixed bottom-24 left-4 right-4 z-[9999] bg-primary text-white p-4 rounded-xl shadow-2xl flex items-center justify-between animate-slide-up';
-    toast.innerHTML = `
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined">update</span>
-            <div class="flex flex-col">
-                <span class="font-bold text-sm">Nova versão disponível</span>
-                <span class="text-xs opacity-90">Atualize para as melhorias mais recentes.</span>
-            </div>
-        </div>
-        <button id="btn-update-app" class="bg-white text-primary px-4 py-2 rounded-lg font-bold text-xs active:scale-95 transition-transform">
-            ATUALIZAR
-        </button>
-    `;
-
-    document.body.appendChild(toast);
-
-    document.getElementById('btn-update-app').addEventListener('click', () => {
-        // Envia mensagem para o SW pular a espera e ativar imediatamente
-        navigator.serviceWorker.getRegistration().then(reg => {
-            if (reg.waiting) {
-                reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-            } else {
-                window.location.reload();
-            }
-        });
     });
 }

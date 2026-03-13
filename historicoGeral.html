@@ -132,130 +132,30 @@
                     Período
                 </button>
             </div>
-        </div>
-        <main class="flex flex-col gap-4 px-4">
-            <div
-                class="bg-white dark:bg-slate-800/40 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div class="flex h-32 w-full bg-slate-200 dark:bg-slate-700 relative overflow-hidden map-container"
-                    id="map-1">
+        </di        <main id="trips-container" class="flex flex-col gap-4 px-4 pb-24">
+            <!-- Loading state -->
+            <div id="loading-state" class="flex flex-col items-center justify-center py-12 gap-3">
+                <div class="size-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                <p class="text-sm text-slate-500 font-medium">Carregando viagens...</p>
+            </div>
+            
+            <!-- Empty state -->
+            <div id="empty-state" class="hidden flex flex-col items-center justify-center py-12 gap-4">
+                <div class="size-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-4xl text-slate-400">route_off</span>
                 </div>
-                <div class="p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div class="flex flex-col">
-                            <span
-                                class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Passageiro</span>
-                            <span class="text-sm font-semibold">Ricardo Oliveira</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Valor</span>
-                            <p class="text-lg font-bold text-primary dark:text-blue-400">R$ 42,50</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <div
-                                class="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                                <img alt="Driver" class="size-full object-cover"
-                                    src="https://randomuser.me/api/portraits/men/32.jpg" />
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-[10px] text-slate-500 font-medium">Motorista</span>
-                                <span class="text-xs font-semibold">Marcos Silva</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 justify-end">
-                            <span class="material-symbols-outlined text-slate-400 text-lg">schedule</span>
-                            <div class="flex flex-col text-right">
-                                <span class="text-[10px] text-slate-500 font-medium">Data/Hora</span>
-                                <span class="text-xs font-semibold">Hoje, 14:30</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="flex flex-col gap-1">
+                    <p class="text-lg font-bold">Nenhuma viagem encontrada</p>
+                    <p class="text-sm text-slate-500">Tente ajustar seus filtros ou busca.</p>
                 </div>
             </div>
-            <div
-                class="bg-white dark:bg-slate-800/40 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div class="flex h-32 w-full bg-slate-200 dark:bg-slate-700 relative overflow-hidden map-container"
-                    id="map-2">
-                </div>
-                <div class="p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div class="flex flex-col">
-                            <span
-                                class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Passageiro</span>
-                            <span class="text-sm font-semibold">Ana Paula Mendes</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Valor</span>
-                            <p class="text-lg font-bold text-primary dark:text-blue-400">R$ 18,00</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <div
-                                class="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                                <img alt="Driver" class="size-full object-cover"
-                                    src="https://randomuser.me/api/portraits/men/45.jpg" />
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-[10px] text-slate-500 font-medium">Motorista</span>
-                                <span class="text-xs font-semibold">Carlos Lima</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 justify-end">
-                            <span class="material-symbols-outlined text-slate-400 text-lg">schedule</span>
-                            <div class="flex flex-col text-right">
-                                <span class="text-[10px] text-slate-500 font-medium">Data/Hora</span>
-                                <span class="text-xs font-semibold">Hoje, 12:15</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="bg-white dark:bg-slate-800/40 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm opacity-90">
-                <div class="flex h-32 w-full bg-slate-200 dark:bg-slate-700 relative overflow-hidden map-container"
-                    id="map-3">
-                </div>
-                <div class="p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div class="flex flex-col">
-                            <span
-                                class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Passageiro</span>
-                            <span class="text-sm font-semibold">Juliana Costa</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Valor</span>
-                            <p class="text-lg font-bold text-primary dark:text-blue-400">R$ 25,90</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-2">
-                            <div
-                                class="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                                <img alt="Driver" class="size-full object-cover"
-                                    src="https://randomuser.me/api/portraits/men/22.jpg" />
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-[10px] text-slate-500 font-medium">Motorista</span>
-                                <span class="text-xs font-semibold">Fernando Souza</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 justify-end">
-                            <span class="material-symbols-outlined text-slate-400 text-lg">schedule</span>
-                            <div class="flex flex-col text-right">
-                                <span class="text-[10px] text-slate-500 font-medium">Data/Hora</span>
-                                <span class="text-xs font-semibold">Ontem, 21:40</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <!-- Trips list injected here -->
         </main>
     </div>
     <!-- Bottom Navigation Bar -->
-    <nav
-        class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
+    <nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50"
+        style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
         <div class="flex gap-2 max-w-lg mx-auto">
             <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="admin.html">
                 <div class="flex h-8 items-center justify-center">
@@ -273,7 +173,7 @@
                 <div class="flex h-8 items-center justify-center">
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">route</span>
                 </div>
-                <p class="text-[10px] font-bold leading-normal tracking-tight">Corridas</p>
+                <p class="text-[10px] font-bold leading-normal tracking-tight">Viagens</p>
             </a>
             <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
                 href="perfilAdministrador.html">
@@ -284,47 +184,206 @@
             </a>
         </div>
     </nav>
-    <style>
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
 
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+    <!-- Supabase and Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/authGuard.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Google Maps
-            const mapsIds = ['map-1', 'map-2', 'map-3'];
-            const coords = [
-                { lat: -12.9734, lng: -38.7562 }, // Salinas da Margarida
-                { lat: -12.9780, lng: -38.7600 },
-                { lat: -12.9700, lng: -38.7500 }
-            ];
+        let allTrips = [];
+        let googleMapsLoaded = false;
 
-            const mapStyle = [
-                {
-                    featureType: "poi",
-                    elementType: "labels",
-                    stylers: [{ visibility: "off" }]
+        async function initMap() {
+            googleMapsLoaded = true;
+            if (allTrips.length > 0) {
+                renderTrips(allTrips);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sb = window.supabaseClient;
+            if (!sb) return;
+
+            const tripsContainer = document.getElementById('trips-container');
+            const loadingState = document.getElementById('loading-state');
+            const emptyState = document.getElementById('empty-state');
+            const searchInput = document.querySelector('input[type="text"]');
+
+            async function fetchTrips() {
+                try {
+                    // Fetch trips with passenger and driver info
+                    // Note: viagens.motorista_id references motoristas(usuario_id), 
+                    // which in turn references usuarios(id)
+                    const { data, error } = await sb
+                        .from('viagens')
+                        .select(`
+                            *,
+                            passageiro:usuarios!passageiro_id(nome, foto_perfil_url),
+                            motorista_rel:motoristas!motorista_id(
+                                usuario_info:usuarios(nome, foto_perfil_url)
+                            )
+                        `)
+                        .order('criado_em', { ascending: false });
+
+                    if (error) throw error;
+                    console.log('Viagens buscadas:', data?.length || 0);
+                    return data || [];
+                } catch (err) {
+                    console.error('Erro ao buscar viagens:', err);
+                    return [];
                 }
-            ];
+            }
 
-            mapsIds.forEach((id, index) => {
-                const map = new google.maps.Map(document.getElementById(id), {
-                    center: coords[index],
+            function renderTrips(trips) {
+                // Remove existing trip cards
+                const existingCards = document.querySelectorAll('.trip-card');
+                existingCards.forEach(c => c.remove());
+
+                loadingState.classList.add('hidden');
+                
+                if (trips.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+                emptyState.classList.add('hidden');
+
+                trips.forEach((trip, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'trip-card bg-white dark:bg-slate-800/40 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm animate-slide-up';
+                    card.style.animationDelay = `${index * 50}ms`;
+                    
+                    const dateFormatted = new Date(trip.criado_em).toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    const passengerName = trip.passageiro?.nome || 'Usuário Desconhecido';
+                    const passengerPhoto = trip.passageiro?.foto_perfil_url || 'https://via.placeholder.com/150';
+                    const driverName = trip.motorista_rel?.usuario_info?.nome || 'Aguardando...';
+                    const driverPhoto = trip.motorista_rel?.usuario_info?.foto_perfil_url || 'https://via.placeholder.com/150';
+                    const valor = trip.valor_final || trip.valor_estimado || 0;
+
+                    card.innerHTML = `
+                        <div class="flex h-32 w-full bg-slate-200 dark:bg-slate-700 relative overflow-hidden" id="map-${trip.id}">
+                            <div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
+                                <span class="material-symbols-outlined text-4xl">map</span>
+                            </div>
+                        </div>
+                        <div class="p-4 flex flex-col gap-3">
+                            <div class="flex justify-between items-start">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Passageiro</span>
+                                    <span class="text-sm font-semibold">${passengerName}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Valor</span>
+                                    <p class="text-lg font-bold text-primary dark:text-blue-400">R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                                <div class="flex items-center gap-2">
+                                    <div class="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-600">
+                                        <img alt="Driver" class="size-full object-cover" src="${driverPhoto}" onerror="this.src='https://via.placeholder.com/150'" />
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] text-slate-500 font-medium">Motorista</span>
+                                        <span class="text-xs font-semibold truncate max-w-[80px]">${driverName}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 justify-end">
+                                    <span class="material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
+                                    <div class="flex flex-col text-right">
+                                        <span class="text-[10px] text-slate-500 font-medium">Data/Hora</span>
+                                        <span class="text-xs font-semibold">${dateFormatted}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 mt-1">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                    <p class="text-[10px] text-slate-500 truncate">${trip.origem_endereco}</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                                    <p class="text-[10px] text-slate-500 truncate">${trip.destino_endereco}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    tripsContainer.appendChild(card);
+
+                    // Initialize Map for this card
+                    if (googleMapsLoaded) {
+                        initSingleTripMap(trip);
+                    }
+                });
+            }
+
+            function initSingleTripMap(trip) {
+                const mapEl = document.getElementById(`map-${trip.id}`);
+                if (!mapEl) return;
+
+                const map = new google.maps.Map(mapEl, {
+                    center: { lat: Number(trip.origem_lat), lng: Number(trip.origem_lng) },
                     zoom: 14,
                     disableDefaultUI: true,
                     gestureHandling: "none",
-                    styles: mapStyle
+                    styles: [
+                        {
+                            featureType: "poi",
+                            elementType: "labels",
+                            stylers: [{ visibility: "off" }]
+                        }
+                    ]
                 });
 
-                new google.maps.Marker({
-                    position: coords[index],
-                    map: map
+                const directionsService = new google.maps.DirectionsService();
+                const directionsRenderer = new google.maps.DirectionsRenderer({
+                    map: map,
+                    suppressMarkers: false,
+                    polylineOptions: {
+                        strokeColor: "#0f38bd",
+                        strokeWeight: 4
+                    }
                 });
+
+                const origin = { lat: Number(trip.origem_lat), lng: Number(trip.origem_lng) };
+                const destination = { lat: Number(trip.destino_lat), lng: Number(trip.destino_lng) };
+
+                directionsService.route({
+                    origin: origin,
+                    destination: destination,
+                    travelMode: google.maps.TravelMode.DRIVING
+                }, (response, status) => {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                    } else {
+                        // Fallback: Just markers if route fails
+                        new google.maps.Marker({ position: origin, map: map, label: 'A' });
+                        new google.maps.Marker({ position: destination, map: map, label: 'B' });
+                    }
+                });
+            }
+
+            // Initial load
+            allTrips = await fetchTrips();
+            if (googleMapsLoaded) {
+                renderTrips(allTrips);
+            }
+
+            // Search functionality
+            searchInput?.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allTrips.filter(t => 
+                    (t.passageiro?.nome || '').toLowerCase().includes(term) ||
+                    (t.motorista?.nome || '').toLowerCase().includes(term) ||
+                    (t.origem_endereco || '').toLowerCase().includes(term) ||
+                    (t.destino_endereco || '').toLowerCase().includes(term)
+                );
+                renderTrips(filtered);
             });
         });
     </script>
