@@ -429,7 +429,7 @@
 
                             // 1. Obter dados para o broadcast
                             const destino = destinoInput.value.trim();
-                            const origem = "Localização Atual (Salinas)"; // Pode ser melhorado pegando o endereço reverso se disponível
+                            const origem = currentAddress; // Usa o endereço real obtido via geocodificação reversa
 
                             // 2. Buscar todos os motoristas
                             async function broadcastTripRequest() {
@@ -612,7 +612,21 @@
         let userMarker;
         let destinationMarker;
         let currentCoords = null;
+        let currentAddress = "Localização Atual (Salinas)";
         let isFirstLocationUpdate = true;
+
+        async function reverseGeocode(lat, lng) {
+            const geocoder = new google.maps.Geocoder();
+            try {
+                const response = await geocoder.geocode({ location: { lat, lng } });
+                if (response.results[0]) {
+                    currentAddress = response.results[0].formatted_address;
+                    console.log("Endereço atualizado:", currentAddress);
+                }
+            } catch (e) {
+                console.error("Erro na geocodificação reversa:", e);
+            }
+        }
 
         // Define initMap before loading the SDK to avoid "initMap is not a function"
         window.initMap = function () {
@@ -655,6 +669,9 @@
                             title: 'Sua localização atual'
                         });
                     }
+
+                    // Obter endereço amigável
+                    reverseGeocode(lat, lng);
 
                     if (isFirstLocationUpdate) {
                         googleMap.setCenter(currentCoords);
