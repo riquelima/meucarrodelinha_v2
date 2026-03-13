@@ -23,6 +23,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
@@ -95,6 +96,37 @@
         textarea {
             user-select: text;
             -webkit-user-select: text;
+        }
+
+        @keyframes popIn3D {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(20px) rotateX(20deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px) rotateX(0deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .font-3d-orange {
+            font-family: 'Titan One', cursive;
+            color: #FF9100;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: visible;
+            line-height: 1.2;
+            padding-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .animate-pop-in-3d {
+            animation: popIn3D 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            animation-delay: 0.2s;
         }
 
         /* Native-like click effect */
@@ -255,12 +287,9 @@
             </div>
             <!-- App Identity -->
             <div class="space-y-2">
-                <h1 class="text-slate-900 dark:text-slate-100 text-4xl font-bold tracking-tight">
-                    Meu Carro de Linha
+                <h1 class="font-3d-orange animate-pop-in-3d text-center" style="font-size: clamp(24px, 5vw, 32px);">
+                    Meu Carro de Linha Salinas
                 </h1>
-                <p class="text-blue-500 text-4xl font-bold tracking-tight uppercase">
-                    Salinas
-                </p>
             </div>
         </div>
         <!-- Footer Loading State -->
