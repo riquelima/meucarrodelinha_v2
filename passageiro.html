@@ -482,7 +482,15 @@ async function broadcastTripRequest() {
             // Calcular distância antes de enviar o broadcast
             const distanciaEstimada = await getDistancePromise(origem, destino);
 
-            const tripData = JSON.stringify({ origem, destino, distancia: distanciaEstimada });
+            const tripData = JSON.stringify({ 
+                origem, 
+                destino, 
+                distancia: distanciaEstimada,
+                origem_lat: currentCoords?.lat,
+                origem_lng: currentCoords?.lng,
+                destino_lat: destCoords?.lat,
+                destino_lng: destCoords?.lng
+            });
             const proposalData = JSON.stringify({ valor: valorSugerido });
 
             const mensagens = [];
@@ -618,6 +626,7 @@ async function broadcastTripRequest() {
         let userMarker;
         let destinationMarker;
         let currentCoords = null;
+        let destCoords = null; // Store selected destination coordinates
         let currentAddress = "Localização Atual (Salinas)";
         let isFirstLocationUpdate = true;
 
@@ -1020,7 +1029,7 @@ async function broadcastTripRequest() {
 
                             // Mover o mapa para o destino selecionado
                             if (googleMap && item.lat && item.lon) {
-                                const destCoords = { 
+                                destCoords = { 
                                     lat: parseFloat(item.lat), 
                                     lng: parseFloat(item.lon) 
                                 };

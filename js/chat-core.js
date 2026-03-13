@@ -551,7 +551,11 @@ class ChatManager {
                             passageiro_id: this.isMotorista ? this.targetUserId : this.currentUser.id,
                             motorista_id: this.isMotorista ? this.currentUser.id : this.targetUserId,
                             origem_endereco: tripData.origem,
+                            origem_lat: tripData.origem_lat,
+                            origem_lng: tripData.origem_lng,
                             destino_endereco: tripData.destino,
+                            destino_lat: tripData.destino_lat,
+                            destino_lng: tripData.destino_lng,
                             valor_estimado: valorFinal,
                             valor_final: valorFinal,
                             status: 'aceita'

@@ -480,7 +480,7 @@
             async function loadTrips() {
                 const { data: trips, error } = await supabase
                     .from('viagens')
-                    .select('*, motorista:usuarios!viagens_motorista_id_fkey(nome, foto_perfil_url)')
+                    .select('*, motorista:motoristas(usuarios(nome, foto_perfil_url))')
                     .eq('passageiro_id', user.id)
                     .order('criado_em', { ascending: false });
 
@@ -505,18 +505,33 @@
 
                     const card = createTripCard(trip, index);
                     container.appendChild(card);
-                    
-                    // Initialize map for this card
-                    initMiniMap(trip, `map-trip-${index}`);
                 });
             }
 
             function createTripCard(trip, index) {
                 const dateStr = new Date(trip.criado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
-                const driverName = trip.motorista?.nome || 'Motorista';
-                const driverPhoto = trip.motorista?.foto_perfil_url || 'https://randomuser.me/api/portraits/lego/1.jpg';
-                const statusLabel = trip.status.charAt(0).toUpperCase() + trip.status.slice(1);
+                
+                // Nesting correction: trip -> motorista (motoristas table) -> usuarios (usuarios table)
+                const usuario = trip.motorista?.usuarios;
+                const driverName = usuario?.nome || 'Motorista';
+                const driverPhoto = usuario?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(driverName)}&background=random`;
+                
+                const statusLabel = trip.status === 'concluida' ? 'Concluída' : 
+                                  trip.status === 'aceita' ? 'Confirmada' : 
+                                  trip.status === 'cancelada' ? 'Cancelada' : 'Em andamento';
+                
                 const valorDisplay = trip.valor_final ? `R$ ${trip.valor_final.toFixed(2).replace('.', ',')}` : 'Sob consulta';
+
+                // Static Maps URL
+                const apiKey = 'AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8';
+                let staticMapUrl = '';
+                
+                if (trip.origem_lat && trip.destino_lat) {
+                    staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${trip.origem_lat},${trip.origem_lng}&markers=color:red%7Clabel:B%7C${trip.destino_lat},${trip.destino_lng}&path=color:0x1e3fae%7Cweight:5%7C${trip.origem_lat},${trip.origem_lng}%7C${trip.destino_lat},${trip.destino_lng}&key=${apiKey}`;
+                } else {
+                    // Fallback se não tiver coordenadas (busca por endereço - menos preciso mas funciona)
+                    staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${encodeURIComponent(trip.origem_endereco)}&markers=color:red%7Clabel:B%7C${encodeURIComponent(trip.destino_endereco)}&key=${apiKey}`;
+                }
 
                 const div = document.createElement('div');
                 div.className = 'bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm animate-slide-up';
@@ -550,54 +565,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="h-40 w-full bg-slate-100 dark:bg-slate-800 relative group overflow-hidden">
-                        <div id="map-trip-${index}" class="absolute inset-0 z-0 grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none"></div>
+                    <div class="h-44 w-full bg-slate-100 dark:bg-slate-800 relative group overflow-hidden">
+                        <img src="${staticMapUrl}" class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" alt="Mapa da Viagem" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none"></div>
                         <div class="absolute bottom-3 left-4 z-20 flex items-center gap-2">
-                             <span class="px-2 py-0.5 bg-background-dark/80 backdrop-blur-md rounded text-[9px] font-bold text-white uppercase border border-white/10 uppercase italic">Mapa da Rota</span>
+                             <span class="px-2 py-0.5 bg-primary/90 backdrop-blur-md rounded text-[9px] font-bold text-white uppercase border border-white/10 italic">Visualização da Rota</span>
+                        </div>
+                        <div class="absolute top-3 right-4 z-20">
+                             <span class="px-2 py-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-full text-[10px] font-black text-primary dark:text-blue-400 shadow-lg">Google Maps</span>
                         </div>
                     </div>
                 `;
                 return div;
             }
 
-            function initMiniMap(trip, elementId) {
-                if (!window.google || !window.google.maps) return;
-
-                const geocoder = new google.maps.Geocoder();
-                const mapOptions = {
-                    zoom: 14,
-                    disableDefaultUI: true,
-                    gestureHandling: "none",
-                    styles: [
-                        { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
-                        { featureType: "all", elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-                        { featureType: "all", elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-                        { featureType: "all", elementType: "labels.text.fill", stylers: [{ color: "#746855" }] }
-                    ]
-                };
-
-                const map = new google.maps.Map(document.getElementById(elementId), mapOptions);
-
-                // Try to geocode origin
-                geocoder.geocode({ address: trip.origem_endereco }, (results, status) => {
-                    if (status === 'OK') {
-                        map.setCenter(results[0].geometry.location);
-                        new google.maps.Marker({
-                            position: results[0].geometry.location,
-                            map: map,
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                scale: 6,
-                                fillColor: "#1e3fae",
-                                fillOpacity: 1,
-                                strokeWeight: 2,
-                                strokeColor: "#ffffff"
-                            }
-                        });
-                    }
-                });
-            }
 
             loadTrips();
         });

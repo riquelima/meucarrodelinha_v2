@@ -54,7 +54,7 @@
 </head>
 
     <!-- Google Maps SDK -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&loading=async" async defer></script>
 
     <div class="page-container">
         <!-- Header -->
@@ -156,63 +156,81 @@
                 filtered.forEach((trip, index) => {
                     const card = createCard(trip, index);
                     tripsList.appendChild(card);
-                    initMap(trip, `map-${index}`);
                 });
             }
 
             function createCard(trip, index) {
                 const dateStr = new Date(trip.criado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
                 const passName = trip.passageiro?.nome || 'Passageiro';
-                const statusColor = trip.status === 'concluida' ? 'bg-green-500/10 text-green-500' : (trip.status === 'cancelada' ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary');
+                const passPhoto = trip.passageiro?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(passName)}&background=random`;
+                
+                const statusColor = trip.status === 'concluida' ? 'bg-green-500/10 text-green-500' : 
+                                   (trip.status === 'cancelada' ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary');
+                
+                const statusLabel = trip.status === 'concluida' ? 'Finalizada' : 
+                                  trip.status === 'cancelada' ? 'Cancelada' : 
+                                  trip.status === 'aceita' ? 'Confirmada' : 'Em andamento';
+
+                // Static Maps URL
+                const apiKey = 'AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8';
+                let staticMapUrl = '';
+                
+                if (trip.origem_lat && trip.destino_lat) {
+                    staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${trip.origem_lat},${trip.origem_lng}&markers=color:red%7Clabel:B%7C${trip.destino_lat},${trip.destino_lng}&path=color:0x1e3fae%7Cweight:5%7C${trip.origem_lat},${trip.origem_lng}%7C${trip.destino_lat},${trip.destino_lng}&key=${apiKey}`;
+                } else {
+                    staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${encodeURIComponent(trip.origem_endereco)}&markers=color:red%7Clabel:B%7C${encodeURIComponent(trip.destino_endereco)}&key=${apiKey}`;
+                }
 
                 const div = document.createElement('div');
-                div.className = "bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden";
+                div.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-lg overflow-hidden animate-slide-up transition-all hover:scale-[1.01]";
+                div.style.animationDelay = `${index * 100}ms`;
+                
                 div.innerHTML = `
-                    <div class="p-4">
-                        <div class="flex justify-between items-start mb-3">
-                            <div>
-                                <p class="font-bold text-sm text-slate-900 dark:text-white">Passageiro: ${passName}</p>
-                                <p class="text-[10px] text-slate-500">${dateStr} • R$ ${trip.valor_final?.toFixed(2).replace('.', ',') || '0,00'}</p>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="size-12 rounded-full overflow-hidden border-2 border-primary/20 bg-slate-100 dark:bg-slate-800 flex-shrink-0">
+                                    <img src="${passPhoto}" class="size-full object-cover" alt="${passName}" />
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="font-black text-slate-900 dark:text-white truncate text-base leading-tight">${passName}</p>
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">${dateStr}</p>
+                                </div>
                             </div>
-                            <span class="px-2 py-1 rounded-md ${statusColor} text-[10px] font-bold uppercase">${trip.status}</span>
-                        </div>
-                        <div class="flex gap-3 text-xs text-slate-500 mb-4">
-                            <div class="flex flex-col items-center gap-1">
-                                <span class="size-2 rounded-full bg-primary"></span>
-                                <div class="w-0.5 h-4 bg-slate-300 dark:bg-slate-700"></div>
-                                <span class="size-2 rounded-full bg-orange-500"></span>
-                            </div>
-                            <div class="flex flex-col gap-2 overflow-hidden">
-                                <p class="truncate text-slate-700 dark:text-slate-300">${trip.origem_endereco}</p>
-                                <p class="truncate text-slate-700 dark:text-slate-300">${trip.destino_endereco}</p>
+                            <div class="flex flex-col items-end gap-1">
+                                <span class="px-2.5 py-1 rounded-full ${statusColor} text-[9px] font-black uppercase tracking-tighter border border-current/10">${statusLabel}</span>
+                                <p class="text-lg font-black text-primary dark:text-blue-400">R$ ${trip.valor_final?.toFixed(2).replace('.', ',') || '0,00'}</p>
                             </div>
                         </div>
-                        <div class="h-32 w-full bg-slate-100 dark:bg-slate-800/50 rounded-lg overflow-hidden relative">
-                             <div id="map-${index}" class="absolute inset-0"></div>
-                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+                        
+                        <div class="space-y-4 relative pl-7 mb-5">
+                            <div class="absolute left-2.5 top-1 bottom-1 w-0.5 bg-slate-100 dark:bg-slate-800/50"></div>
+                            <div class="absolute left-[6px] top-1 size-3 rounded-full border-2 border-primary bg-white dark:bg-slate-900"></div>
+                            <div class="absolute left-[6px] bottom-1 size-3 bg-orange-500 rounded-sm"></div>
+                            
+                            <div class="space-y-0.5 min-w-0">
+                                <p class="text-[9px] font-black text-slate-400 uppercase leading-none">Origem</p>
+                                <p class="text-sm font-medium text-slate-700 dark:text-slate-200 truncate">${trip.origem_endereco}</p>
+                            </div>
+                            <div class="space-y-0.5 min-w-0">
+                                <p class="text-[9px] font-black text-slate-400 uppercase leading-none">Destino</p>
+                                <p class="text-sm font-medium text-slate-700 dark:text-slate-200 truncate">${trip.destino_endereco}</p>
+                            </div>
+                        </div>
+
+                        <div class="h-40 w-full bg-slate-100 dark:bg-slate-800/50 rounded-xl overflow-hidden relative group">
+                             <img src="${staticMapUrl}" class="size-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" alt="Mapa da Rota" />
+                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+                             <div class="absolute bottom-3 left-4 flex items-center gap-2">
+                                 <span class="px-2 py-0.5 bg-primary/90 text-white text-[8px] font-black uppercase rounded shadow-lg backdrop-blur-md">Visualização Rota</span>
+                                 <span class="px-2 py-0.5 bg-white/90 dark:bg-slate-900/90 text-primary dark:text-blue-400 text-[8px] font-black uppercase rounded shadow-lg backdrop-blur-md border border-primary/10">Google Maps</span>
+                             </div>
                         </div>
                     </div>
                 `;
                 return div;
             }
 
-            function initMap(trip, id) {
-                if (!window.google) return;
-                const geocoder = new google.maps.Geocoder();
-                const map = new google.maps.Map(document.getElementById(id), {
-                    zoom: 14,
-                    disableDefaultUI: true,
-                    gestureHandling: "none",
-                    styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }]
-                });
-
-                geocoder.geocode({ address: trip.origem_endereco }, (results, status) => {
-                    if (status === 'OK') {
-                        map.setCenter(results[0].geometry.location);
-                        new google.maps.Marker({ position: results[0].geometry.location, map: map });
-                    }
-                });
-            }
 
             // Filter functionality
             filterBtns.forEach(btn => {
@@ -232,7 +250,6 @@
     </script>
     <script src="js/chat-notifications.js"></script>
     <script src="js/ui-transitions.js"></script>
-    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>
