@@ -188,30 +188,46 @@ class ChatManager {
         } else if (msg.conteudo.startsWith('[VALUE_PROPOSAL]')) {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[VALUE_PROPOSAL]', ''));
-                div.innerHTML = `
-                    <div class="proposal-card bg-slate-900/40 border border-orange-500/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center">
-                        <h4 class="text-xs font-bold text-orange-500 uppercase tracking-widest block">Proposta de Valor</h4>
-                        <div class="flex flex-col gap-3">
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                <input class="proposal-input w-full bg-slate-800 border-2 border-orange-500/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-orange-500 focus:border-orange-500 text-slate-100" type="text" value="0,00" />
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="5">+ R$ 5,00</button>
-                                <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="10">+ R$ 10,00</button>
+                
+                if (isMe) {
+                    // Se eu enviei a proposta (Passageiro), mostro apenas confirmação
+                    div.innerHTML = `
+                        <div class="flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 px-4 py-3 rounded-2xl rounded-br-none shadow-sm ml-auto max-w-[80%]">
+                            <span class="material-symbols-outlined text-orange-500 text-lg">check_circle</span>
+                            <div class="flex flex-col">
+                                <p class="text-[11px] font-bold text-orange-500 uppercase tracking-wider">Solicitação Enviada</p>
+                                <p class="text-sm text-slate-200">Aguardando resposta do motorista...</p>
                             </div>
                         </div>
-                        <div class="flex gap-3 pt-2">
-                            <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-red-900/20 active:scale-[0.98]">
-                                Recusar
-                            </button>
-                            <button class="flex-[2] bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-900/20 transition-all active:scale-[0.98]">
-                                Aceitar Corrida
-                            </button>
+                        <div class="text-[9px] text-slate-500 mt-1 text-right">${time}</div>
+                    `;
+                } else {
+                    // Se recebi a proposta (Motorista), mostro o card interativo
+                    div.innerHTML = `
+                        <div class="proposal-card bg-slate-900/40 border border-orange-500/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center shadow-xl">
+                            <h4 class="text-xs font-bold text-orange-500 uppercase tracking-widest block">Proposta de Valor</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
+                                    <input class="proposal-input w-full bg-slate-800 border-2 border-orange-500/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-orange-500 focus:border-orange-500 text-slate-100" type="text" value="0,00" />
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="5">+ R$ 5,00</button>
+                                    <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="10">+ R$ 10,00</button>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 pt-2">
+                                <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-red-900/20 active:scale-[0.98]">
+                                    Recusar
+                                </button>
+                                <button class="flex-[2] bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-900/20 transition-all active:scale-[0.98]">
+                                    Aceitar Corrida
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-[9px] text-slate-500 mt-1">${time}</div>
-                `;
+                        <div class="text-[9px] text-slate-500 mt-1">${time}</div>
+                    `;
+                }
             } catch (e) {
                 console.error("Erro ao renderizar proposta:", e);
                 div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar proposta]</div>`;
@@ -223,40 +239,56 @@ class ChatManager {
         } else if (msg.conteudo.startsWith('[DRIVER_PROPOSAL]')) {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[DRIVER_PROPOSAL]', ''));
-                div.innerHTML = `
-                    <div class="flex flex-col gap-2 w-full">
-                        <div class="driver-proposal-card ml-auto bg-slate-900/40 border border-primary/20 rounded-xl overflow-hidden shadow-xl w-full max-w-sm">
-                            <div class="h-24 bg-center bg-no-repeat bg-cover relative grayscale-[0.3]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAmZ3BknIvtNQ7SHXGNgqayylCjUfoSSuIdfAojUQR42TKU-gUCFyFzpGeolrciNsQiWhcqe7cizHd1EsNgxfWCx4cMz7Z8qRwcTEETH2pJ21r6abXRIokZa5S8_u0x3uqm7EulKut-fVA-5o3KBfhZ5fZIb2xpGLlzyCc4cotrvSl-7hNhJhfiLjY3YHal7jJhg0f1wIFNCsH5PdAu7gUf3SBYUSW1zwwQOsC3CqhtWV0v1SN0Syjrlt3GjHAgODoKelQLc2CzlgQ')">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
-                            </div>
-                            <div class="p-4 flex flex-col gap-4">
-                                <div class="flex justify-between items-start">
-                                    <div class="space-y-1">
-                                        <p class="text-primary text-[10px] font-bold uppercase tracking-wider">Proposta de Valor</p>
-                                        <p class="text-slate-100 text-2xl font-black leading-tight">R$ ${data.valor}</p>
-                                        <p class="text-slate-500 text-[10px]">Valor sugerido para a corrida selecionada.</p>
-                                    </div>
-                                    <span class="material-symbols-outlined text-primary/40 text-sm">info</span>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <button class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-bold text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-green-900/20">
-                                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
-                                        Concordar com o Valor
-                                    </button>
-                                    <div class="flex gap-2">
-                                        <button class="flex-1 border border-yellow-500/30 hover:bg-yellow-500/10 text-yellow-500 py-2 rounded-lg font-bold text-xs transition-colors">
-                                            Negociar
-                                        </button>
-                                        <button class="flex-1 border border-red-500/30 hover:bg-red-500/10 text-red-500 py-2 rounded-lg font-bold text-xs transition-colors">
-                                            Recusar
-                                        </button>
-                                    </div>
-                                </div>
+                
+                if (isMe) {
+                    // Se eu enviei a proposta (Motorista), mostro apenas confirmação
+                    div.innerHTML = `
+                        <div class="flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 px-4 py-3 rounded-2xl rounded-br-none shadow-sm ml-auto max-w-[80%]">
+                            <span class="material-symbols-outlined text-orange-500 text-lg">send</span>
+                            <div class="flex flex-col">
+                                <p class="text-[11px] font-bold text-orange-500 uppercase tracking-wider">Proposta Enviada</p>
+                                <p class="text-sm text-slate-200">Valor proposto: <span class="font-bold text-orange-500">R$ ${data.valor}</span></p>
                             </div>
                         </div>
-                        <div class="text-[9px] text-slate-500 mt-1">${time}</div>
-                    </div>
-                `;
+                        <div class="text-[9px] text-slate-500 mt-1 text-right">${time}</div>
+                    `;
+                } else {
+                    // Se recebi a proposta (Passageiro), mostro o card interativo
+                    div.innerHTML = `
+                        <div class="flex flex-col gap-2 w-full">
+                            <div class="driver-proposal-card bg-slate-900/40 border border-orange-500/20 rounded-xl overflow-hidden shadow-xl w-full max-w-sm">
+                                <div class="h-24 bg-center bg-no-repeat bg-cover relative grayscale-[0.3]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAmZ3BknIvtNQ7SHXGNgqayylCjUfoSSuIdfAojUQR42TKU-gUCFyFzpGeolrciNsQiWhcqe7cizHd1EsNgxfWCx4cMz7Z8qRwcTEETH2pJ21r6abXRIokZa5S8_u0x3uqm7EulKut-fVA-5o3KBfhZ5fZIb2xpGLlzyCc4cotrvSl-7hNhJhfiLjY3YHal7jJhg0f1wIFNCsH5PdAu7gUf3SBYUSW1zwwQOsC3CqhtWV0v1SN0Syjrlt3GjHAgODoKelQLc2CzlgQ')">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                                </div>
+                                <div class="p-4 flex flex-col gap-4">
+                                    <div class="flex justify-between items-start">
+                                        <div class="space-y-1 text-left">
+                                            <p class="text-orange-500 text-[10px] font-bold uppercase tracking-wider">Proposta de Valor</p>
+                                            <p class="text-slate-100 text-2xl font-black leading-tight">R$ ${data.valor}</p>
+                                            <p class="text-slate-500 text-[10px]">Valor sugerido para a corrida selecionada.</p>
+                                        </div>
+                                        <span class="material-symbols-outlined text-orange-500/40 text-sm">info</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <button class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-bold text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-green-900/20">
+                                            <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                                            Concordar com o Valor
+                                        </button>
+                                        <div class="flex gap-2">
+                                            <button class="flex-1 border border-yellow-500/30 hover:bg-yellow-500/10 text-yellow-500 py-2 rounded-lg font-bold text-xs transition-colors">
+                                                Negociar
+                                            </button>
+                                            <button class="flex-1 border border-red-500/30 hover:bg-red-500/10 text-red-500 py-2 rounded-lg font-bold text-xs transition-colors">
+                                                Recusar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-[9px] text-slate-500 mt-1">${time}</div>
+                        </div>
+                    `;
+                }
             } catch (e) {
                 console.error("Erro ao renderizar proposta do motorista:", e);
                 div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro na proposta]</div>`;

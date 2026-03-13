@@ -103,6 +103,38 @@
         .delay-300 { animation-delay: 300ms; }
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
+        /* --- SKELETON LOADING --- */
+        .skeleton {
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0.05) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+        }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+        .chat-skeleton-bubble {
+            height: 48px;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+        .chat-skeleton-left {
+            width: 65%;
+            border-bottom-left-radius: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .chat-skeleton-right {
+            width: 55%;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
 
     </style>
     <script>
@@ -154,39 +186,15 @@
         </header>
 
         <!-- Chat Area -->
-        <main
+        <main id="chat-messages"
             class="flex-1 overflow-y-auto p-4 pb-[280px] space-y-4 no-scrollbar bg-gradient-to-b from-background-dark to-[#0f172a]">
-            <div class="flex justify-center my-6">
-                <span
-                    class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold bg-white/5 px-3 py-1 rounded-full">Hoje</span>
-            </div>
-            <div class="flex items-end gap-2 max-w-[85%] animate-fade-in">
-                <div class="bg-driver-bubble px-4 py-3 rounded-2xl rounded-bl-none text-sm text-slate-200 shadow-lg">
-                    <p>Olá! Já estou a caminho do local de embarque.</p>
-                    <div class="text-[9px] text-slate-400 mt-1.5 text-right">14:02</div>
-                </div>
-            </div>
-            <div class="flex items-end gap-2 max-w-[85%] ml-auto animate-fade-in">
-                <div
-                    class="bg-passenger-bubble px-4 py-3 rounded-2xl rounded-br-none text-sm text-white shadow-lg shadow-primary/20">
-                    <p>Perfeito, estou te esperando em frente ao Mercado Municipal.</p>
-                    <div class="text-[9px] text-white/60 mt-1.5 text-right">14:05</div>
-                </div>
-            </div>
-            <div class="flex items-end gap-2 max-w-[85%] animate-fade-in">
-                <div class="bg-driver-bubble px-4 py-3 rounded-2xl rounded-bl-none text-sm text-slate-200 shadow-lg">
-                    <p>Entendido. Chego em aproximadamente 3 minutos.</p>
-                    <div class="text-[9px] text-slate-400 mt-1.5 text-right">14:06</div>
-                </div>
-            </div>
-            <div class="flex items-end gap-2 max-w-[85%] ml-auto animate-fade-in">
-                <div
-                    class="bg-passenger-bubble px-4 py-3 rounded-2xl rounded-br-none text-sm text-white shadow-lg shadow-primary/20">
-                    <p>Ok, estou com uma camisa azul.</p>
-                    <div class="text-[9px] text-white/60 mt-1.5 text-right flex items-center justify-end gap-1">
-                        14:07 <span class="material-symbols-outlined text-[12px]">done_all</span>
-                    </div>
-                </div>
+            <!-- Loading Skeleton -->
+            <div id="chat-loading" class="space-y-4 animate-fade-in">
+                <div class="chat-skeleton-bubble chat-skeleton-left skeleton opacity-40"></div>
+                <div class="chat-skeleton-bubble chat-skeleton-right skeleton opacity-40"></div>
+                <div class="chat-skeleton-bubble chat-skeleton-left skeleton opacity-40 w-[50%]"></div>
+                <div class="chat-skeleton-bubble chat-skeleton-right skeleton opacity-40 w-[30%]"></div>
+                <div class="chat-skeleton-bubble chat-skeleton-left skeleton opacity-40 w-[70%]"></div>
             </div>
         </main>
 
