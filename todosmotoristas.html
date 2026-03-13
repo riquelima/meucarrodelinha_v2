@@ -166,7 +166,7 @@
     <div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden">
         <!-- Header -->
         <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-            <a href="homepage.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
+            <a href="javascript:void(0)" onclick="goBack()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
             <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
@@ -199,6 +199,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script src="js/navigation.js"></script>
     <script src="js/todosmotoristas.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

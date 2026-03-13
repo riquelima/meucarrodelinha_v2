@@ -9,12 +9,49 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <style>
+        .font-3d-orange {
+            font-family: 'Titan One', cursive;
+            color: #FF9100;
+            text-transform: uppercase;
+            text-shadow: 
+                1px 1px 0 #e65100,
+                2px 2px 0 #e65100,
+                3px 3px 0 #e65100,
+                4px 4px 0 #e65100,
+                0 4px 8px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            overflow: visible;
+            line-height: 1.2;
+            padding-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* 3D Text Animation */
+        @keyframes popIn3D {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(20px) rotateX(20deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px) rotateX(0deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .animate-pop-in-3d {
+            animation: popIn3D 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            animation-delay: 0.2s;
+        }
+    </style>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -164,12 +201,10 @@
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
     <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
         <!-- Header -->
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-4 border-b border-slate-200 dark:border-slate-800 animate-fade-in">
-            <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <span class="material-symbols-outlined">menu</span>
-            </div>
-            <h1 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-                Meu Carro Salinas</h1>
+        <header class="sticky top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 py-3 border-b border-slate-200 dark:border-slate-800 animate-fade-in">
+            <h1 class="font-3d-orange animate-pop-in-3d text-left flex-1 pr-4" style="font-size: clamp(14px, 4vw, 22px);">
+                Meu Carro de Linha Salinas
+            </h1>
             <div class="flex w-10 items-center justify-end">
                 <button
                     class="relative flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
