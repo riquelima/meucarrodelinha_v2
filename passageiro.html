@@ -1067,6 +1067,23 @@
                             signal: currentFetch.signal
                         });
                         const data = await res.json();
+                        
+                        // Ordenação manual por proximidade se tivermos a localização do usuário
+                        if (currentCoords && data && data.length > 0) {
+                            data.sort((a, b) => {
+                                const latA = parseFloat(a.lat);
+                                const lonA = parseFloat(a.lon);
+                                const latB = parseFloat(b.lat);
+                                const lonB = parseFloat(b.lon);
+                                
+                                const distA = Math.pow(latA - currentCoords.lat, 2) + 
+                                              Math.pow(lonA - currentCoords.lng, 2);
+                                const distB = Math.pow(latB - currentCoords.lat, 2) + 
+                                              Math.pow(lonB - currentCoords.lng, 2);
+                                return distA - distB;
+                            });
+                        }
+
                         showResults(data);
                     } catch (err) {
                         if (err.name !== 'AbortError') {
