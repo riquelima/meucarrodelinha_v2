@@ -56,12 +56,12 @@
     <div class="page-container">
         <!-- Header -->
         <header
-            class="flex items-center justify-between bg-white dark:bg-[#121520] p-4 shadow-sm z-20 shrink-0 border-b border-slate-200 dark:border-slate-800">
+            class="flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 shadow-sm z-20 shrink-0 border-b border-white/10 sticky top-0">
             <a href="motorista.html"
-                class="text-slate-900 dark:text-slate-100 p-2 -ml-2 rounded-full hover:bg-slate-200 dark:hover:bg-surface-dark transition-colors">
+                class="text-white p-2 -ml-2 rounded-full hover:bg-white/20 transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
-            <h1 class="text-lg font-bold">Meus Ganhos</h1>
+            <h1 class="text-lg font-bold text-white">Meus Ganhos</h1>
             <div class="w-10"></div>
         </header>
 
@@ -70,7 +70,7 @@
             <!-- Balance Card -->
             <div class="bg-primary p-6 rounded-2xl shadow-xl shadow-primary/20 mb-8 relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-                <p class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">Saldo Disponível</p>
+                <p class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">Ganhos Totais</p>
                 <h2 class="text-4xl font-black text-white mb-6">R$ 1.254,80</h2>
                 <div class="flex gap-4">
                     <div class="flex-1 bg-white/10 p-3 rounded-xl backdrop-blur-sm">
@@ -88,7 +88,6 @@
             <div class="space-y-4">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="font-bold text-slate-900 dark:text-slate-100">Últimos Lançamentos</h3>
-                    <span class="material-symbols-outlined text-slate-400">tune</span>
                 </div>
 
                 <!-- Single Item -->
@@ -124,11 +123,7 @@
 
                 <!-- Floating Action Button Area (now inside main to avoid overlap) -->
                 <div class="py-10 max-w-md mx-auto">
-                    <button
-                        class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform">
-                        <span class="material-symbols-outlined">account_balance_wallet</span>
-                        Solicitar Saque
-                    </button>
+                    <!-- Button removed -->
                 </div>
         </main>
 

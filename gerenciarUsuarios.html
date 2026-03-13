@@ -123,16 +123,26 @@
 
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
     <!-- Top Navigation & Header -->
-    <header
-        class="sticky top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-4 border-b border-slate-200 dark:border-slate-800">
-        <a href="admin.html"
-            class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors">
-            <span class="material-symbols-outlined">arrow_back</span>
-        </a>
-        <h1
-            class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-            Gerenciar Usuários</h1>
-        <div class="size-10"></div>
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="flex items-center justify-between py-3 px-4 max-w-2xl mx-auto w-full">
+            <a href="admin.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
+                Gerenciar Usuários</h1>
+            <div class="size-10"></div>
+        </div>
+        <!-- Tab Bar -->
+        <div class="max-w-2xl mx-auto w-full px-4">
+            <div class="flex border-b border-white/10">
+                <button id="tab-motoristas" class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-4 flex-1">
+                    <span class="text-sm font-bold tracking-wide">Motoristas</span>
+                </button>
+                <button id="tab-passageiros" class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 flex-1 hover:text-primary transition-colors">
+                    <span class="text-sm font-bold tracking-wide">Passageiros</span>
+                </button>
+            </div>
+        </div>
     </header>
     <main class="max-w-2xl mx-auto w-full p-4 space-y-4">
         <!-- Search Bar -->
@@ -151,18 +161,6 @@
                     </div>
                 </div>
             </label>
-        </div>
-        <!-- Tabs Section -->
-        <div
-            class="flex border-b border-slate-200 dark:border-slate-800 mb-6 sticky top-16 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md z-40">
-            <button id="tab-motoristas"
-                class="flex-1 py-4 text-sm font-bold border-b-2 border-primary text-primary transition-all active-scale">
-                Motoristas
-            </button>
-            <button id="tab-passageiros"
-                class="flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 transition-all active-scale">
-                Passageiros
-            </button>
         </div>
 
         <!-- User List -->

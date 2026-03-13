@@ -233,9 +233,30 @@ class ChatManager {
                 div.innerHTML = `<div class="${bubbleClass} px-4 py-2 rounded-xl text-sm">[Erro ao carregar proposta]</div>`;
             }
         } else if (msg.conteudo.startsWith('[TRIP_ACCEPTED]')) {
-            // Mensagem de sistema silenciosa, não renderiza card visual no chat
-            // Pode ser usado apenas para atualizar status ou disparar notificações
-            return;
+            try {
+                // Trip Accepted Banner (Green)
+                const data = JSON.parse(msg.conteudo.replace('[TRIP_ACCEPTED]', ''));
+                div.className = "flex flex-col items-center w-full my-4 animate-fade-in";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-6 py-4 rounded-2xl shadow-xl backdrop-blur-md max-w-[90%] w-full">
+                        <div class="size-10 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                            <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-[12px] font-black text-green-500 uppercase tracking-widest leading-none mb-1">Viagem Aceita</p>
+                            <p class="text-sm text-slate-200">Proposta de <span class="font-bold text-green-400 text-base">R$ ${data.valor}</span> aceita pelo passageiro.</p>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                // Fallback para versões antigas da mensagem
+                div.className = "flex flex-col items-center w-full my-3";
+                div.innerHTML = `
+                    <div class="bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-full text-[10px] font-black text-green-500 uppercase tracking-tighter">
+                        Viagem Confirmada
+                    </div>
+                `;
+            }
         } else if (msg.conteudo.startsWith('[DRIVER_PROPOSAL]')) {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[DRIVER_PROPOSAL]', ''));
@@ -568,12 +589,12 @@ class ChatManager {
 
                     messageText = `Olá ${driverName}, Eu concordo com o valor de R$ ${propData.valor}. Me avise quando estiver a caminho.`;
                     
-                    // Enviar banner de aceitação para o chat (Opcional - mantém o estilo visual)
+                    // 3. Enviar banner de aceitação para o chat (Verde)
                     await this.supabase.from('mensagens').insert({
                         remetente_id: this.currentUser.id,
                         destinatario_id: this.targetUserId,
                         viagem_id: this.viagemId,
-                        conteudo: '[TRIP_ACCEPTED]'
+                        conteudo: `[TRIP_ACCEPTED]${JSON.stringify({ valor: propData.valor })}`
                     });
 
                 } catch (err) {

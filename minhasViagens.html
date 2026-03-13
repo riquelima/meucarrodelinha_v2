@@ -147,14 +147,14 @@
     class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
     <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
         <!-- Header -->
-        <header
-            class="sticky top-0 z-10 bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shrink-0">
-            <div class="flex items-center p-4 gap-4">
-                <a href="passageiro.html"
-                    class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-                    <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+        <header class="sticky top-0 z-50 flex flex-col bg-black/80 backdrop-blur-md border-b border-white/10 shrink-0">
+            <div class="flex items-center justify-between py-3 px-4">
+                <a href="passageiro.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span>
                 </a>
-                <h1 class="text-xl font-bold tracking-tight">Minhas Viagens</h1>
+                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
+                    Minhas Viagens</h1>
+                <div class="size-10"></div>
             </div>
             <div class="flex px-4 relative">
                 <button id="btn-recentes"
@@ -162,7 +162,7 @@
                     Recentes
                 </button>
                 <button id="btn-anteriores"
-                    class="flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors duration-300">
+                    class="flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors duration-300">
                     Anteriores
                 </button>
             </div>
@@ -185,13 +185,14 @@
                                         src="https://randomuser.me/api/portraits/men/32.jpg" />
                                 </div>
                                 <div>
-                                    <p
-                                        class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                                        15 Out, 14:30 • Concluída</p>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-[9px] font-black uppercase tracking-tighter border border-emerald-500/10">Confirmada</span>
+                                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">15 Out, 14:30</span>
+                                    </div>
                                     <p class="font-semibold text-slate-900 dark:text-slate-100">Motorista: Ricardo</p>
                                 </div>
                             </div>
-                            <p class="text-lg font-bold text-primary dark:text-slate-100">R$ 15,50</p>
+                            <p class="text-lg font-black text-orange-500 dark:text-blue-400">R$ 15,50</p>
                         </div>
                         <div class="space-y-3 relative pl-6">
                             <div class="absolute left-1.5 top-1.5 bottom-1.5 w-0.5 bg-slate-300 dark:bg-slate-700">
