@@ -405,109 +405,118 @@
             const btnEditPhoto = document.getElementById('btn-edit-photo');
             const avatarImg = document.getElementById('user-avatar');
 
-            btnEditPhoto.addEventListener('click', () => photoInput.click());
+            if (btnEditPhoto) {
+                btnEditPhoto.addEventListener('click', () => photoInput.click());
+            }
 
-            photoInput.addEventListener('change', async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
+            if (photoInput) {
+                photoInput.addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
 
-                // Basic validation
-                if (!file.type.startsWith('image/')) {
-                    alert('Por favor, selecione uma imagem válida.');
-                    return;
-                }
-
-                if (file.size > 50 * 1024 * 1024) { // 50MB limit
-                    alert('A imagem deve ter no máximo 50MB.');
-                    return;
-                }
-
-                try {
-                    // Show loading state (optional: could add a spinner)
-                    btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span>';
-                    btnEditPhoto.disabled = true;
-
-                    const fileExt = file.name.split('.').pop();
-                    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-                    const filePath = fileName;
-
-                    // 1. Upload to Storage
-                    const { data: uploadData, error: uploadError } = await supabaseClient
-                        .storage
-                        .from('fotos_perfil')
-                        .upload(filePath, file, {
-                            cacheControl: '3600',
-                            upsert: true
-                        });
-
-                    if (uploadError) throw uploadError;
-
-                    // 2. Get Public URL
-                    const { data: { publicUrl } } = supabaseClient
-                        .storage
-                        .from('fotos_perfil')
-                        .getPublicUrl(filePath);
-
-                    // 3. Update Database (usuarios table)
-                    const { error: updateError } = await supabaseClient
-                        .from('usuarios')
-                        .update({ foto_perfil_url: publicUrl })
-                        .eq('id', user.id);
-
-                    if (updateError) throw updateError;
-
-                    // 4. Update UI
-                    avatarImg.src = publicUrl;
-
-                    // Fallback: If it was a div with initials, we need to restore the img tag
-                    if (avatarImg.tagName === 'DIV') {
-                        const parent = avatarImg.parentElement;
-                        parent.innerHTML = `<img id="user-avatar" src="${publicUrl}" alt="Foto de Perfil" class="w-full h-full object-cover">`;
+                    // Basic validation
+                    if (!file.type.startsWith('image/')) {
+                        alert('Por favor, selecione uma imagem válida.');
+                        return;
                     }
 
-                    alert('Foto de perfil atualizada com sucesso!');
+                    if (file.size > 50 * 1024 * 1024) { // 50MB limit
+                        alert('A imagem deve ter no máximo 50MB.');
+                        return;
+                    }
 
-                } catch (error) {
-                    console.error('Erro no upload:', error);
-                    alert('Erro ao atualizar foto de perfil. Tente novamente.');
-                } finally {
-                    btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm">edit</span>';
-                    btnEditPhoto.disabled = false;
-                }
-            });
-        });
+                    try {
+                        // Show loading state (optional: could add a spinner)
+                        btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span>';
+                        btnEditPhoto.disabled = true;
 
-        // Logout Modal Logic
-        const logoutModal = document.getElementById('logout-modal');
-        const btnOpenLogout = document.getElementById('btn-open-logout');
-        const btnCancelLogout = document.getElementById('btn-cancel-logout');
-        const btnConfirmLogout = document.getElementById('btn-confirm-logout');
+                        const fileExt = file.name.split('.').pop();
+                        const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+                        const filePath = fileName;
 
-        btnOpenLogout.addEventListener('click', () => {
-            logoutModal.classList.remove('hidden');
-            logoutModal.classList.add('flex');
-            // Force a small delay for animation if needed, but flex/hidden is instantaneous
-        });
+                        // 1. Upload to Storage
+                        const { data: uploadData, error: uploadError } = await supabaseClient
+                            .storage
+                            .from('fotos_perfil')
+                            .upload(filePath, file, {
+                                cacheControl: '3600',
+                                upsert: true
+                            });
 
-        btnCancelLogout.addEventListener('click', () => {
-            logoutModal.classList.add('hidden');
-            logoutModal.classList.remove('flex');
-        });
+                        if (uploadError) throw uploadError;
 
-        btnConfirmLogout.addEventListener('click', async () => {
-            try {
-                btnConfirmLogout.disabled = true;
-                btnConfirmLogout.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Saindo...';
-                
-                const { error } = await supabaseClient.auth.signOut();
-                if (error) throw error;
-                
-                window.location.href = 'index.html';
-            } catch (err) {
-                console.error('Erro ao sair:', err);
-                alert('Erro ao encerrar sessão. Tente novamente.');
-                btnConfirmLogout.disabled = false;
-                btnConfirmLogout.innerText = 'Sair agora';
+                        // 2. Get Public URL
+                        const { data: { publicUrl } } = supabaseClient
+                            .storage
+                            .from('fotos_perfil')
+                            .getPublicUrl(filePath);
+
+                        // 3. Update Database (usuarios table)
+                        const { error: updateError } = await supabaseClient
+                            .from('usuarios')
+                            .update({ foto_perfil_url: publicUrl })
+                            .eq('id', user.id);
+
+                        if (updateError) throw updateError;
+
+                        // 4. Update UI
+                        const avatarElement = document.getElementById('user-avatar');
+                        if (avatarElement && avatarElement.tagName === 'IMG') {
+                            avatarElement.src = publicUrl;
+                        } else if (avatarElement && avatarElement.tagName === 'DIV') {
+                            const parent = avatarElement.parentElement;
+                            parent.innerHTML = `<img id="user-avatar" src="${publicUrl}" alt="Foto de Perfil" class="w-full h-full object-cover">`;
+                        }
+
+                        alert('Foto de perfil atualizada com sucesso!');
+
+                    } catch (error) {
+                        console.error('Erro no upload:', error);
+                        alert('Erro ao atualizar foto de perfil. Tente novamente.');
+                    } finally {
+                        btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm">edit</span>';
+                        btnEditPhoto.disabled = false;
+                    }
+                });
+            }
+
+            // 6. Logout Modal Logic
+            const logoutModal = document.getElementById('logout-modal');
+            const btnOpenLogout = document.getElementById('btn-open-logout');
+            const btnCancelLogout = document.getElementById('btn-cancel-logout');
+            const btnConfirmLogout = document.getElementById('btn-confirm-logout');
+
+            if (btnOpenLogout && logoutModal) {
+                btnOpenLogout.addEventListener('click', () => {
+                    logoutModal.classList.remove('hidden');
+                    logoutModal.classList.add('flex');
+                });
+            }
+
+            if (btnCancelLogout && logoutModal) {
+                btnCancelLogout.addEventListener('click', () => {
+                    logoutModal.classList.add('hidden');
+                    logoutModal.classList.remove('flex');
+                });
+            }
+
+            if (btnConfirmLogout) {
+                btnConfirmLogout.addEventListener('click', async () => {
+                    try {
+                        btnConfirmLogout.disabled = true;
+                        btnConfirmLogout.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Saindo...';
+
+                        const { error } = await supabaseClient.auth.signOut();
+                        if (error) throw error;
+
+                        window.location.href = 'index.html';
+                    } catch (err) {
+                        console.error('Erro ao sair:', err);
+                        alert('Erro ao encerrar sessão. Tente novamente.');
+                        btnConfirmLogout.disabled = false;
+                        btnConfirmLogout.innerText = 'Sair agora';
+                    }
+                });
             }
         });
     </script>
