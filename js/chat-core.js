@@ -244,10 +244,10 @@ class ChatManager {
                     // Se eu enviei a proposta (Motorista), mostro apenas confirmação
                     div.innerHTML = `
                         <div class="flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 px-4 py-3 rounded-2xl rounded-br-none shadow-sm ml-auto max-w-[80%]">
-                            <span class="material-symbols-outlined text-orange-500 text-lg">send</span>
+                            <span class="material-symbols-outlined text-orange-500 text-lg">check_circle</span>
                             <div class="flex flex-col">
-                                <p class="text-[11px] font-bold text-orange-500 uppercase tracking-wider">Proposta Enviada</p>
-                                <p class="text-sm text-slate-200">Valor proposto: <span class="font-bold text-orange-500">R$ ${data.valor}</span></p>
+                                <p class="text-[11px] font-bold text-orange-500 uppercase tracking-wider">Viagem Aceita</p>
+                                <p class="text-sm text-slate-200">Proposta de <span class="font-bold text-orange-500">R$ ${data.valor}</span> enviada ao passageiro.</p>
                             </div>
                         </div>
                         <div class="text-[9px] text-slate-500 mt-1 text-right">${time}</div>
@@ -498,10 +498,13 @@ class ChatManager {
                 const card = btn.closest('.proposal-card');
                 const input = card?.querySelector('.proposal-input');
                 if (input) {
-                    let currentVal = parseFloat(input.value.replace(',', '.')) || 0;
+                    // Extrair apenas números e vírgula/ponto
+                    let rawValue = input.value.replace(/[^\d.,]/g, '').replace(',', '.');
+                    let currentVal = parseFloat(rawValue) || 0;
                     const increment = parseFloat(btn.dataset.val) || 0;
                     currentVal += increment;
-                    input.value = currentVal.toFixed(2).replace('.', ',');
+                    // Formatar de volta para o padrão brasileiro
+                    input.value = currentVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 }
             }
         });
@@ -519,7 +522,61 @@ class ChatManager {
                 messageText = `Olá ${driverName}, você aceita negociar o valor?`;
                 break;
             case 'agree':
-                messageText = `Olá ${driverName}, Eu concordo com o valor. Me avise quando estiver a caminho.`;
+                try {
+                    // 1. Buscar histórico de mensagens para extrair dados da viagem e valor
+                    const { data: messages, error: errorFeed } = await this.supabase
+                        .from('mensagens')
+                        .select('conteudo')
+                        .or(`and(remetente_id.eq.${this.currentUser.id},destinatario_id.eq.${this.targetUserId}),and(remetente_id.eq.${this.targetUserId},destinatario_id.eq.${this.currentUser.id})`)
+                        .order('enviada_em', { ascending: false });
+
+                    if (errorFeed) throw errorFeed;
+
+                    const tripReqMsg = messages.find(m => m.conteudo.startsWith('[TRIP_REQUEST]'));
+                    const driverPropMsg = messages.find(m => m.conteudo.startsWith('[DRIVER_PROPOSAL]'));
+
+                    if (!tripReqMsg || !driverPropMsg) {
+                        alert('Dados da viagem não encontrados. Tente negociar novamente.');
+                        return;
+                    }
+
+                    const tripData = JSON.parse(tripReqMsg.conteudo.replace('[TRIP_REQUEST]', ''));
+                    const propData = JSON.parse(driverPropMsg.conteudo.replace('[DRIVER_PROPOSAL]', ''));
+                    const valorFinal = parseFloat(propData.valor.replace(',', '.')) || 0;
+
+                    // 2. Criar a viagem oficialmente
+                    const { data: novaViagem, error: errorV } = await this.supabase
+                        .from('viagens')
+                        .insert({
+                            passageiro_id: this.isMotorista ? this.targetUserId : this.currentUser.id,
+                            motorista_id: this.isMotorista ? this.currentUser.id : this.targetUserId,
+                            origem_endereco: tripData.origem,
+                            destino_endereco: tripData.destino,
+                            valor_estimado: valorFinal,
+                            valor_final: valorFinal,
+                            status: 'aceita'
+                        })
+                        .select()
+                        .single();
+
+                    if (errorV) throw errorV;
+                    this.viagemId = novaViagem.id;
+
+                    messageText = `Olá ${driverName}, Eu concordo com o valor de R$ ${propData.valor}. Me avise quando estiver a caminho.`;
+                    
+                    // Enviar banner de aceitação para o chat (Opcional - mantém o estilo visual)
+                    await this.supabase.from('mensagens').insert({
+                        remetente_id: this.currentUser.id,
+                        destinatario_id: this.targetUserId,
+                        viagem_id: this.viagemId,
+                        conteudo: '[TRIP_ACCEPTED]'
+                    });
+
+                } catch (err) {
+                    console.error('Erro ao processar aceite:', err);
+                    alert('Erro ao confirmar viagem.');
+                    return;
+                }
                 break;
             case 'decline':
                 messageText = `Olá ${driverName}, infelizmente precisarei cancelar a solicitação. Muito obrigado!`;
@@ -545,16 +602,11 @@ class ChatManager {
     async handleAcceptTrip(btn) {
         if (!this.isMotorista) return; // Só motorista aceita
 
-        const msgDiv = btn.closest('[data-viagem-id]');
-        const currentViagemId = msgDiv?.getAttribute('data-viagem-id') || this.viagemId;
-
-        if (!currentViagemId) {
-            console.error("ID da viagem não encontrado no card.");
-            return;
-        }
-
+        const msgDiv = btn.closest('[data-msg-id]');
+        
         // Pegar o valor atual do input do card de proposta
-        const valueInput = msgDiv?.querySelector('input');
+        const card = btn.closest('.proposal-card');
+        const valueInput = card?.querySelector('input');
         const acceptedValue = valueInput?.value || "85,00";
 
         // Feedback visual
@@ -570,33 +622,24 @@ class ChatManager {
                 .insert({
                     remetente_id: this.currentUser.id,
                     destinatario_id: this.targetUserId,
-                    viagem_id: currentViagemId,
+                    // viagem_id é nulo agora, pois será criada na confirmação do passageiro
                     conteudo: `[DRIVER_PROPOSAL]${proposalData}`
                 });
 
             if (errorProposal) throw errorProposal;
 
-            // Enviar banner de aceitação (Opcional - mas mantém o feedback visual de confirmada)
-            await this.supabase
-                .from('mensagens')
-                .insert({
-                    remetente_id: this.currentUser.id,
-                    destinatario_id: this.targetUserId,
-                    viagem_id: currentViagemId,
-                    conteudo: '[TRIP_ACCEPTED]'
-                });
-
-            // Atualizar status da viagem
-            await this.supabase
-                .from('viagens')
-                .update({ status: 'aceita', motorista_id: this.currentUser.id })
-                .eq('id', currentViagemId);
-
-            btn.innerHTML = 'Aceito!';
-            btn.classList.add('bg-slate-600');
+            // Feedback visual de sucesso
+            btn.innerHTML = 'Proposta Enviada!';
+            btn.classList.replace('bg-green-600', 'bg-slate-600');
+            
+            // Opcional: desabilitar botões do card
+            if (card) {
+                card.style.opacity = '0.7';
+                card.querySelectorAll('button').forEach(b => b.disabled = true);
+            }
         } catch (err) {
-            console.error('Erro ao aceitar viagem:', err);
-            alert('Erro ao aceitar viagem.');
+            console.error('Erro ao enviar proposta:', err);
+            alert('Erro ao enviar proposta.');
             btn.innerHTML = originalContent;
             btn.disabled = false;
         }

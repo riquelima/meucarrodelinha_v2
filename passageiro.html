@@ -454,68 +454,51 @@
                                 });
                             }
 
-                            // 2. Buscar todos os motoristas
-                            async function broadcastTripRequest() {
-                                try {
-                                    // Feedback visual de carregamento
-                                    const btn = document.getElementById('btn-request-ride');
-                                    const originalText = btn.innerHTML;
-                                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Enviando solicitações...';
-                                    btn.disabled = true;
+// 2. Buscar motoristas aprovados
+async function broadcastTripRequest() {
+    try {
+        // Feedback visual de carregamento
+        const btn = document.getElementById('btn-request-ride');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Enviando solicitações...';
+        btn.disabled = true;
 
-                                    const { data: { user } } = await window.supabaseClient.auth.getUser();
-                                    if (!user) {
-                                        window.location.href = 'loginPassageiro.html';
-                                        return;
-                                    }
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            window.location.href = 'loginPassageiro.html';
+            return;
+        }
 
-                                    // 3. Criar registro da viagem na tabela 'viagens'
-                                    const { data: viagem, error: errorViagem } = await window.supabaseClient
-                                        .from('viagens')
-                                        .insert({
-                                            passageiro_id: user.id,
-                                            origem_endereco: origem,
-                                            destino_endereco: destino,
-                                            status: 'pendente',
-                                            valor_estimado: 85.00
-                                        })
-                                        .select()
-                                        .single();
+        const { data: motoristas, error: errorMot } = await window.supabaseClient
+            .from('motoristas')
+            .select('usuario_id')
+            .eq('status_aprovacao', 'aprovado');
 
-                                    if (errorViagem) throw errorViagem;
+        if (errorMot) throw errorMot;
 
-                                    // 4. Buscar motoristas aprovados
-                                    const { data: motoristas, error: errorMot } = await window.supabaseClient
-                                        .from('motoristas')
-                                        .select('usuario_id')
-                                        .eq('status_aprovacao', 'aprovado');
+        if (motoristas && motoristas.length > 0) {
+            const valorSugerido = "85,00";
 
-                                    if (errorMot) throw errorMot;
+            // Calcular distância antes de enviar o broadcast
+            const distanciaEstimada = await getDistancePromise(origem, destino);
 
-                                    if (motoristas && motoristas.length > 0) {
-                                        const valorSugerido = "85,00";
+            const tripData = JSON.stringify({ origem, destino, distancia: distanciaEstimada });
+            const proposalData = JSON.stringify({ valor: valorSugerido });
 
-                                        // Calcular distância antes de enviar o broadcast
-                                        const distanciaEstimada = await getDistancePromise(origem, destino);
-
-                                        const tripData = JSON.stringify({ origem, destino, distancia: distanciaEstimada });
-                                        const proposalData = JSON.stringify({ valor: valorSugerido });
-
-                                        const mensagens = [];
-                                        motoristas.forEach(m => {
-                                            mensagens.push({
-                                                remetente_id: user.id,
-                                                destinatario_id: m.usuario_id,
-                                                viagem_id: viagem.id,
-                                                conteudo: `[TRIP_REQUEST]${tripData}`
-                                            });
-                                            mensagens.push({
-                                                remetente_id: user.id,
-                                                destinatario_id: m.usuario_id,
-                                                viagem_id: viagem.id,
-                                                conteudo: `[VALUE_PROPOSAL]${proposalData}`
-                                            });
-                                        });
+            const mensagens = [];
+            motoristas.forEach(m => {
+                mensagens.push({
+                    remetente_id: user.id,
+                    destinatario_id: m.usuario_id,
+                    // viagem_id agora é nulo no início
+                    conteudo: `[TRIP_REQUEST]${tripData}`
+                });
+                mensagens.push({
+                    remetente_id: user.id,
+                    destinatario_id: m.usuario_id,
+                    conteudo: `[VALUE_PROPOSAL]${proposalData}`
+                });
+            });
 
                                         const { error: errorMsg } = await window.supabaseClient
                                             .from('mensagens')
@@ -591,10 +574,7 @@
             font-variation-settings: 'FILL' 1;
         }
 
-        /* Page Transition */
-        main {
-            animation: fadeIn 0.3s ease-out;
-        }
+        /* Page Transition removida para usar content-enter no main */
 
         @keyframes fadeIn {
             from {

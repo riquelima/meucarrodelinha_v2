@@ -16,35 +16,45 @@
         applyClickEffects() {
             const selectors = 'button, a, .active-scale, .btn-click-effect';
 
-            // Usando delegação de eventos para performance e suporte a elementos dinâmicos
-            document.addEventListener('touchstart', (e) => {
-                const target = e.target.closest(selectors);
-                if (target && !target.classList.contains('no-effect')) {
-                    target.style.transform = 'scale(0.96)';
-                }
-            }, { passive: true });
-
-            document.addEventListener('touchend', (e) => {
-                const target = e.target.closest(selectors);
-                if (target) {
-                    target.style.transform = 'scale(1)';
-                }
-            }, { passive: true });
-
-            // Mouse events para desktop
             document.addEventListener('mousedown', (e) => {
                 const target = e.target.closest(selectors);
                 if (target && !target.classList.contains('no-effect')) {
-                    target.style.transform = 'scale(0.96)';
+                    // Feedback visual via classe CSS para itens da navbar
+                    if (target.closest('.fixed-navbar')) {
+                        target.classList.add('navbar-item-active');
+                        setTimeout(() => target.classList.remove('navbar-item-active'), 300);
+                    } else {
+                        target.style.transform = 'scale(0.96)';
+                    }
                 }
             });
 
             document.addEventListener('mouseup', (e) => {
                 const target = e.target.closest(selectors);
-                if (target) {
+                if (target && !target.closest('.fixed-navbar')) {
                     target.style.transform = 'scale(1)';
                 }
             });
+
+            // Touch events para mobile
+            document.addEventListener('touchstart', (e) => {
+                const target = e.target.closest(selectors);
+                if (target && !target.classList.contains('no-effect')) {
+                    if (target.closest('.fixed-navbar')) {
+                        target.classList.add('navbar-item-active');
+                        setTimeout(() => target.classList.remove('navbar-item-active'), 300);
+                    } else {
+                        target.style.transform = 'scale(0.96)';
+                    }
+                }
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                const target = e.target.closest(selectors);
+                if (target && !target.closest('.fixed-navbar')) {
+                    target.style.transform = 'scale(1)';
+                }
+            }, { passive: true });
         },
 
         // Aplica a classe ui-reveal com atraso para elementos de lista
@@ -64,22 +74,26 @@
         setupNavbarProtection() {
             const nav = document.querySelector('nav.fixed-navbar');
             if (nav) {
-                // Garante que o nav nunca herde animações
+                // Remove qualquer animação de entrada que possa ter sido aplicada ao body ou container
                 nav.style.animation = 'none';
                 nav.style.transform = 'none';
-
-                // Impede que eventos de clique na navbar causem transitions no container pai
-                nav.addEventListener('click', (e) => {
-                    // Prevenção opcional de efeitos colaterais
-                }, { passive: true });
+                nav.classList.remove('page-enter', 'content-enter');
             }
         },
 
         // Aplica classe de transição na página se necessário
         applyPageTransitions() {
+            // Animar apenas o conteúdo principal, não a página inteira
             const main = document.querySelector('main');
             if (main) {
-                main.classList.add('page-enter');
+                main.classList.remove('page-enter'); // Remove legados
+                main.classList.add('content-enter');
+            }
+            
+            // Também animar headers se existirem e não forem a navbar
+            const header = document.querySelector('header');
+            if (header && !header.closest('.fixed-navbar')) {
+                header.classList.add('content-enter');
             }
         },
 

@@ -53,8 +53,9 @@
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <!-- Google Maps SDK -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async" async defer></script>
+
     <div class="page-container">
         <!-- Header -->
         <header
@@ -64,39 +65,19 @@
         </header>
 
         <!-- Main Content -->
-        <main class="page-content px-4 pt-6 no-scrollbar">
+        <main class="page-content px-4 pt-6 no-scrollbar pb-24">
             <!-- Filter Tabs -->
-            <div class="flex gap-2 mb-6">
-                <button class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold">Tudo</button>
-                <button
-                    class="px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold">Finalizadas</button>
-                <button
-                    class="px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold">Canceladas</button>
+            <div class="flex gap-2 mb-6" id="filter-tabs">
+                <button class="filter-btn px-4 py-2 rounded-full bg-primary text-white text-xs font-bold active" data-filter="tudo">Tudo</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold" data-filter="concluida">Finalizadas</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold" data-filter="cancelada">Canceladas</button>
             </div>
 
             <!-- List -->
-            <div class="space-y-4">
-                <div
-                    class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <p class="font-bold text-sm">Passageiro: Ana Silva</p>
-                            <p class="text-[10px] text-slate-500">Ontem, 18:30 • R$ 15,00</p>
-                        </div>
-                        <span
-                            class="px-2 py-1 rounded-md bg-green-500/10 text-green-500 text-[10px] font-bold uppercase">Finalizada</span>
-                    </div>
-                    <div class="flex gap-3 text-xs text-slate-500">
-                        <div class="flex flex-col items-center gap-1">
-                            <span class="size-2 rounded-full bg-primary"></span>
-                            <div class="w-0.5 h-4 bg-slate-300"></div>
-                            <span class="size-2 rounded-full bg-orange-500"></span>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <p class="truncate">Centro, Salinas</p>
-                            <p class="truncate">Orla, Salinas</p>
-                        </div>
-                    </div>
+            <div id="trips-list" class="space-y-4">
+                <div class="flex flex-col items-center justify-center py-20 text-slate-500">
+                    <span class="material-symbols-outlined animate-spin text-4xl mb-2">sync</span>
+                    <p>Carregando histórico...</p>
                 </div>
             </div>
         </main>
@@ -127,8 +108,128 @@
             </a>
         </nav>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const supabase = window.supabaseClient;
+            const tripsList = document.getElementById('trips-list');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            let allTrips = [];
+
+            // Load User
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                window.location.href = 'loginMotorista.html';
+                return;
+            }
+
+            // Load Trips
+            async function loadHistory() {
+                const { data, error } = await supabase
+                    .from('viagens')
+                    .select('*, passageiro:usuarios!viagens_passageiro_id_fkey(nome, foto_perfil_url)')
+                    .eq('motorista_id', user.id)
+                    .order('criado_em', { ascending: false });
+
+                if (error) {
+                    console.error("Erro:", error);
+                    tripsList.innerHTML = '<p class="text-center text-red-500">Erro ao carregar histórico.</p>';
+                    return;
+                }
+
+                allTrips = data;
+                renderTrips('tudo');
+            }
+
+            function renderTrips(filter) {
+                tripsList.innerHTML = '';
+                const filtered = filter === 'tudo' ? allTrips : allTrips.filter(t => t.status === filter);
+
+                if (filtered.length === 0) {
+                    tripsList.innerHTML = '<div class="text-center py-20 text-slate-500"><p>Nenhuma viagem encontrada.</p></div>';
+                    return;
+                }
+
+                filtered.forEach((trip, index) => {
+                    const card = createCard(trip, index);
+                    tripsList.appendChild(card);
+                    initMap(trip, `map-${index}`);
+                });
+            }
+
+            function createCard(trip, index) {
+                const dateStr = new Date(trip.criado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+                const passName = trip.passageiro?.nome || 'Passageiro';
+                const statusColor = trip.status === 'concluida' ? 'bg-green-500/10 text-green-500' : (trip.status === 'cancelada' ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary');
+
+                const div = document.createElement('div');
+                div.className = "bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden";
+                div.innerHTML = `
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <p class="font-bold text-sm text-slate-900 dark:text-white">Passageiro: ${passName}</p>
+                                <p class="text-[10px] text-slate-500">${dateStr} • R$ ${trip.valor_final?.toFixed(2).replace('.', ',') || '0,00'}</p>
+                            </div>
+                            <span class="px-2 py-1 rounded-md ${statusColor} text-[10px] font-bold uppercase">${trip.status}</span>
+                        </div>
+                        <div class="flex gap-3 text-xs text-slate-500 mb-4">
+                            <div class="flex flex-col items-center gap-1">
+                                <span class="size-2 rounded-full bg-primary"></span>
+                                <div class="w-0.5 h-4 bg-slate-300 dark:bg-slate-700"></div>
+                                <span class="size-2 rounded-full bg-orange-500"></span>
+                            </div>
+                            <div class="flex flex-col gap-2 overflow-hidden">
+                                <p class="truncate text-slate-700 dark:text-slate-300">${trip.origem_endereco}</p>
+                                <p class="truncate text-slate-700 dark:text-slate-300">${trip.destino_endereco}</p>
+                            </div>
+                        </div>
+                        <div class="h-32 w-full bg-slate-100 dark:bg-slate-800/50 rounded-lg overflow-hidden relative">
+                             <div id="map-${index}" class="absolute inset-0"></div>
+                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+                        </div>
+                    </div>
+                `;
+                return div;
+            }
+
+            function initMap(trip, id) {
+                if (!window.google) return;
+                const geocoder = new google.maps.Geocoder();
+                const map = new google.maps.Map(document.getElementById(id), {
+                    zoom: 14,
+                    disableDefaultUI: true,
+                    gestureHandling: "none",
+                    styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }]
+                });
+
+                geocoder.geocode({ address: trip.origem_endereco }, (results, status) => {
+                    if (status === 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        new google.maps.Marker({ position: results[0].geometry.location, map: map });
+                    }
+                });
+            }
+
+            // Filter functionality
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+                    filterBtns.forEach(b => b.classList.add('bg-slate-200', 'dark:bg-surface-dark', 'text-slate-500'));
+                    
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('bg-slate-200', 'dark:bg-surface-dark', 'text-slate-500');
+                    
+                    renderTrips(btn.dataset.filter);
+                });
+            });
+
+            loadHistory();
+        });
+    </script>
     <script src="js/chat-notifications.js"></script>
     <script src="js/ui-transitions.js"></script>
     <script src="js/pwa-register.js"></script>

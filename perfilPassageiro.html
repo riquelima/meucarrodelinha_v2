@@ -289,11 +289,11 @@
             </div>
 
             <!-- Logout -->
-            <a href="confirmarSaida.html"
-                class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8">
+            <button id="btn-open-logout"
+                class="w-full flex items-center justify-center gap-2 p-4 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold mb-8 active-scale">
                 <span class="material-symbols-outlined">logout</span>
                 Sair da Conta
-            </a>
+            </button>
 
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
@@ -476,7 +476,62 @@
                 }
             });
         });
+
+        // Logout Modal Logic
+        const logoutModal = document.getElementById('logout-modal');
+        const btnOpenLogout = document.getElementById('btn-open-logout');
+        const btnCancelLogout = document.getElementById('btn-cancel-logout');
+        const btnConfirmLogout = document.getElementById('btn-confirm-logout');
+
+        btnOpenLogout.addEventListener('click', () => {
+            logoutModal.classList.remove('hidden');
+            logoutModal.classList.add('flex');
+            // Force a small delay for animation if needed, but flex/hidden is instantaneous
+        });
+
+        btnCancelLogout.addEventListener('click', () => {
+            logoutModal.classList.add('hidden');
+            logoutModal.classList.remove('flex');
+        });
+
+        btnConfirmLogout.addEventListener('click', async () => {
+            try {
+                btnConfirmLogout.disabled = true;
+                btnConfirmLogout.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Saindo...';
+                
+                const { error } = await supabaseClient.auth.signOut();
+                if (error) throw error;
+                
+                window.location.href = 'index.html';
+            } catch (err) {
+                console.error('Erro ao sair:', err);
+                alert('Erro ao encerrar sessão. Tente novamente.');
+                btnConfirmLogout.disabled = false;
+                btnConfirmLogout.innerText = 'Sair agora';
+            }
+        });
     </script>
+
+    <!-- Modal de Confirmação de Saída -->
+    <div id="logout-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-[fadeIn_0.2s_ease-out]">
+            <div class="p-6 text-center">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4">
+                    <span class="material-symbols-outlined text-4xl">logout</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Deseja realmente sair?</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-base px-2">Sua sessão será encerrada e você precisará fazer login novamente para acessar o Salinas.</p>
+            </div>
+            <div class="flex flex-col gap-3 p-6 pt-0">
+                <button id="btn-confirm-logout" class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 flex items-center justify-center gap-2">
+                    Sair agora
+                </button>
+                <button id="btn-cancel-logout" class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

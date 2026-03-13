@@ -433,81 +433,173 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const btnRecentes = document.getElementById('btn-recentes');
             const btnAnteriores = document.getElementById('btn-anteriores');
             const viewRecentes = document.getElementById('view-recentes');
             const viewAnteriores = document.getElementById('view-anteriores');
+            const supabase = window.supabaseClient;
 
-            // Initialize Maps
-            const maps = {};
-            const tripCoordinates = [
-                { id: 'map-trip-1', center: { lat: -12.8711, lng: -38.7614 }, zoom: 14 },
-                { id: 'map-trip-2', center: { lat: -12.8750, lng: -38.7650 }, zoom: 14 },
-                { id: 'map-trip-3', center: { lat: -12.8800, lng: -38.7700 }, zoom: 14 },
-                { id: 'map-trip-4', center: { lat: -12.8600, lng: -38.7500 }, zoom: 14 }
-            ];
-
-            const mapStyle = [
-                {
-                    featureType: "poi",
-                    elementType: "labels",
-                    stylers: [{ visibility: "off" }]
-                }
-            ];
-
-            tripCoordinates.forEach(trip => {
-                const map = new google.maps.Map(document.getElementById(trip.id), {
-                    center: trip.center,
-                    zoom: trip.zoom,
-                    disableDefaultUI: true,
-                    gestureHandling: "none",
-                    styles: mapStyle
-                });
-
-                new google.maps.Marker({
-                    position: trip.center,
-                    map: map
-                });
-
-                maps[trip.id] = map;
-            });
-
+            // Tabs Logic
             function switchTo(tab) {
                 if (tab === 'recentes') {
-                    // Update Buttons
                     btnRecentes.classList.add('border-primary', 'text-primary');
                     btnRecentes.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-
                     btnAnteriores.classList.remove('border-primary', 'text-primary');
                     btnAnteriores.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-
-                    // Update Views (Animation)
-                    viewRecentes.classList.remove('opacity-0', 'translate-x-[-100%]', 'pointer-events-none');
-                    viewRecentes.classList.add('opacity-100', 'translate-x-0', 'pointer-events-auto');
-
-                    viewAnteriores.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
-                    viewAnteriores.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
-
+                    viewRecentes.classList.replace('opacity-0', 'opacity-100');
+                    viewRecentes.classList.replace('translate-x-[-100%]', 'translate-x-0');
+                    viewRecentes.classList.remove('pointer-events-none');
+                    viewAnteriores.classList.replace('opacity-100', 'opacity-0');
+                    viewAnteriores.classList.replace('translate-x-0', 'translate-x-full');
+                    viewAnteriores.classList.add('pointer-events-none');
                 } else {
-                    // Update Buttons
                     btnAnteriores.classList.add('border-primary', 'text-primary');
                     btnAnteriores.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-
                     btnRecentes.classList.remove('border-primary', 'text-primary');
                     btnRecentes.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-
-                    // Update Views (Animation)
-                    viewAnteriores.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none');
-                    viewAnteriores.classList.add('opacity-100', 'translate-x-0', 'pointer-events-auto');
-
-                    viewRecentes.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
-                    viewRecentes.classList.add('opacity-0', 'translate-x-[-100%]', 'pointer-events-none');
+                    viewAnteriores.classList.replace('opacity-0', 'opacity-100');
+                    viewAnteriores.classList.replace('translate-x-full', 'translate-x-0');
+                    viewAnteriores.classList.remove('pointer-events-none');
+                    viewRecentes.classList.replace('opacity-100', 'opacity-0');
+                    viewRecentes.classList.replace('translate-x-0', 'translate-x-[-100%]');
+                    viewRecentes.classList.add('pointer-events-none');
                 }
             }
 
             btnRecentes.addEventListener('click', () => switchTo('recentes'));
             btnAnteriores.addEventListener('click', () => switchTo('anteriores'));
+
+            // Load Data from Supabase
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                window.location.href = 'loginPassageiro.html';
+                return;
+            }
+
+            async function loadTrips() {
+                const { data: trips, error } = await supabase
+                    .from('viagens')
+                    .select('*, motorista:usuarios!viagens_motorista_id_fkey(nome, foto_perfil_url)')
+                    .eq('passageiro_id', user.id)
+                    .order('criado_em', { ascending: false });
+
+                if (error) {
+                    console.error("Erro ao carregar viagens:", error);
+                    return;
+                }
+
+                viewRecentes.innerHTML = '';
+                viewAnteriores.innerHTML = '';
+
+                if (trips.length === 0) {
+                    viewRecentes.innerHTML = '<div class="flex flex-col items-center justify-center h-64 text-slate-500"><span class="material-symbols-outlined text-4xl mb-2">directions_car</span><p>Nenhuma viagem encontrada.</p></div>';
+                    return;
+                }
+
+                const now = new Date();
+                trips.forEach((trip, index) => {
+                    const tripDate = new Date(trip.criado_em);
+                    const isRecent = (now - tripDate) < (24 * 60 * 60 * 1000); // 24h
+                    const container = isRecent ? viewRecentes : viewAnteriores;
+
+                    const card = createTripCard(trip, index);
+                    container.appendChild(card);
+                    
+                    // Initialize map for this card
+                    initMiniMap(trip, `map-trip-${index}`);
+                });
+            }
+
+            function createTripCard(trip, index) {
+                const dateStr = new Date(trip.criado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+                const driverName = trip.motorista?.nome || 'Motorista';
+                const driverPhoto = trip.motorista?.foto_perfil_url || 'https://randomuser.me/api/portraits/lego/1.jpg';
+                const statusLabel = trip.status.charAt(0).toUpperCase() + trip.status.slice(1);
+                const valorDisplay = trip.valor_final ? `R$ ${trip.valor_final.toFixed(2).replace('.', ',')}` : 'Sob consulta';
+
+                const div = document.createElement('div');
+                div.className = 'bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm animate-slide-up';
+                div.style.animationDelay = `${index * 100}ms`;
+                
+                div.innerHTML = `
+                    <div class="p-4 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden border-2 border-primary/20">
+                                    <img class="w-full h-full object-cover" alt="Foto de ${driverName}" src="${driverPhoto}" />
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">${dateStr} • ${statusLabel}</p>
+                                    <p class="font-bold text-slate-900 dark:text-slate-100">${driverName}</p>
+                                </div>
+                            </div>
+                            <p class="text-lg font-black text-primary dark:text-blue-400">${valorDisplay}</p>
+                        </div>
+                        <div class="space-y-3 relative pl-6">
+                            <div class="absolute left-1.5 top-1.5 bottom-1.5 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
+                            <div class="absolute left-0 top-1.5 w-3 h-3 rounded-full border-2 border-primary bg-white dark:bg-slate-900"></div>
+                            <div class="absolute left-0 bottom-1.5 w-3 h-3 bg-orange-500 rounded-sm"></div>
+                            <div class="flex flex-col">
+                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Origem</span>
+                                <span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200">${trip.origem_endereco}</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Destino</span>
+                                <span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200">${trip.destino_endereco}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-40 w-full bg-slate-100 dark:bg-slate-800 relative group overflow-hidden">
+                        <div id="map-trip-${index}" class="absolute inset-0 z-0 grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute bottom-3 left-4 z-20 flex items-center gap-2">
+                             <span class="px-2 py-0.5 bg-background-dark/80 backdrop-blur-md rounded text-[9px] font-bold text-white uppercase border border-white/10 uppercase italic">Mapa da Rota</span>
+                        </div>
+                    </div>
+                `;
+                return div;
+            }
+
+            function initMiniMap(trip, elementId) {
+                if (!window.google || !window.google.maps) return;
+
+                const geocoder = new google.maps.Geocoder();
+                const mapOptions = {
+                    zoom: 14,
+                    disableDefaultUI: true,
+                    gestureHandling: "none",
+                    styles: [
+                        { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
+                        { featureType: "all", elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+                        { featureType: "all", elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+                        { featureType: "all", elementType: "labels.text.fill", stylers: [{ color: "#746855" }] }
+                    ]
+                };
+
+                const map = new google.maps.Map(document.getElementById(elementId), mapOptions);
+
+                // Try to geocode origin
+                geocoder.geocode({ address: trip.origem_endereco }, (results, status) => {
+                    if (status === 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 6,
+                                fillColor: "#1e3fae",
+                                fillOpacity: 1,
+                                strokeWeight: 2,
+                                strokeColor: "#ffffff"
+                            }
+                        });
+                    }
+                });
+            }
+
+            loadTrips();
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
