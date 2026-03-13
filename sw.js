@@ -10,6 +10,7 @@ const ASSETS_TO_CACHE = [
   '/js/supabaseClient.js',
   '/js/homepage.js',
   '/js/location-modal.js',
+  '/offline.html',
   '/admin.html',
   '/gerenciarUsuarios.html',
   '/gerenciarBlog.html',
@@ -43,6 +44,13 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Listener para forçar atualização
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -65,7 +73,12 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, resClone));
           return response;
         })
-        .catch(() => caches.match(event.request)) // Offline? Try cache
+        .catch(() => {
+          // Offline? Try cache, then fallback to offline.html
+          return caches.match(event.request).then(response => {
+            return response || caches.match('/offline.html');
+          });
+        })
     );
   } else {
     // Cache First for resources (images, scripts, fonts)
