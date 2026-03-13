@@ -118,9 +118,9 @@ class ChatManager {
                                         <span class="text-[9px] uppercase font-semibold tracking-wider">Salinas - MG</span>
                                     </div>
                                 </div>
-                                <div class="bg-primary/10 px-1.5 py-0.5 rounded text-[9px] font-bold text-primary uppercase border border-primary/20">Ao vivo</div>
+                                <div class="bg-orange-500/10 px-1.5 py-0.5 rounded text-[9px] font-bold text-orange-500 uppercase border border-orange-500/20">Ao vivo</div>
                             </div>
-                            <a href="${mapsUrl}" target="_blank" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] shadow-lg shadow-primary/25 decoration-none">
+                            <a href="${mapsUrl}" target="_blank" class="w-full bg-orange-500 hover:bg-orange-500/90 text-white font-bold py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] shadow-lg shadow-orange-500/25 decoration-none">
                                 <span class="material-symbols-outlined text-sm">map</span>
                                 <span class="text-xs">Abrir no Maps</span>
                             </a>
@@ -138,14 +138,19 @@ class ChatManager {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[TRIP_REQUEST]', ''));
                 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.destino)}`;
+                const distId = `dist-${msg.id}`;
 
                 div.innerHTML = `
-                    <div class="trip-card bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/10 w-full text-left">
-                        <h3 class="text-primary font-bold text-sm uppercase tracking-wider mb-2">Nova Solicitação de Viagem</h3>
-                        <div class="relative h-32 w-full bg-slate-700 rounded-lg overflow-hidden mb-3 border border-primary/20">
+                    <div class="trip-card bg-orange-500/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-orange-500/10 w-full text-left relative overflow-hidden">
+                        <div class="absolute top-3 right-4 flex items-center gap-1 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full z-10">
+                            <span class="material-symbols-outlined text-[12px] text-orange-500">distance</span>
+                            <span id="${distId}" class="text-[10px] font-bold text-orange-500 italic">calculando...</span>
+                        </div>
+                        <h3 class="text-orange-500 font-bold text-sm uppercase tracking-wider mb-2">Nova Solicitação de Viagem</h3>
+                        <div class="relative h-32 w-full bg-slate-700 rounded-lg overflow-hidden mb-3 border border-orange-500/20">
                             <img alt="Route map" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-nJY_myfbt-ppHWtzIUPIArtqnek1l4npkifJyvzesWDhO3RvhSRCrbbxkq1hM6IiwYE6ZuJJaBTx2RQlyjeTqbitqZUL2jVvdAdhReuyIq8vmvZ8v7adAvbwbitggYbs6zjx-PtEW1a5BV-NQqFLLbYI2kFhPWwLeoCBJ2B9rdScu_XifLi9oS0nOzSjXlka5xmHeeQD65yRPlR4qtAlXg7WT4AdUpXZkahZVgTS0b59fjN5z9uiyCSjew6oqkz09Jxgh23ydrWo"/>
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary text-4xl drop-shadow-lg" style="font-variation-settings: 'FILL' 1">route</span>
+                                <span class="material-symbols-outlined text-orange-500 text-4xl drop-shadow-lg" style="font-variation-settings: 'FILL' 1">route</span>
                             </div>
                         </div>
                         <div class="space-y-3 mb-4">
@@ -161,7 +166,7 @@ class ChatManager {
                             </div>
                             <div class="flex gap-3 text-left">
                                 <div class="flex flex-col items-center">
-                                    <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
+                                    <span class="material-symbols-outlined text-orange-500 text-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-[10px] text-slate-500 font-bold uppercase">DESTINO</p>
@@ -169,7 +174,7 @@ class ChatManager {
                                 </div>
                             </div>
                         </div>
-                        <a href="${mapsUrl}" target="_blank" class="w-full bg-primary/20 hover:bg-primary/30 text-primary font-bold py-2 rounded-lg flex items-center justify-center gap-2 transition-colors border border-primary/30 decoration-none no-underline">
+                        <a href="${mapsUrl}" target="_blank" class="w-full bg-orange-500/20 hover:bg-orange-500/30 text-orange-500 font-bold py-2 rounded-lg flex items-center justify-center gap-2 transition-colors border border-orange-500/30 decoration-none no-underline">
                             <span class="material-symbols-outlined text-lg">map</span>
                             <span class="text-sm">Ver no Maps</span>
                         </a>
@@ -184,12 +189,12 @@ class ChatManager {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[VALUE_PROPOSAL]', ''));
                 div.innerHTML = `
-                    <div class="proposal-card bg-slate-900/40 border border-primary/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center">
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Proposta de Valor</h4>
+                    <div class="proposal-card bg-slate-900/40 border border-orange-500/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center">
+                        <h4 class="text-xs font-bold text-orange-500 uppercase tracking-widest block">Proposta de Valor</h4>
                         <div class="flex flex-col gap-3">
                             <div class="relative">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                <input class="proposal-input w-full bg-slate-800 border-2 border-primary/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-primary focus:border-primary text-slate-100" type="text" value="0,00" />
+                                <input class="proposal-input w-full bg-slate-800 border-2 border-orange-500/30 rounded-xl py-3 pl-10 pr-4 text-xl font-bold text-center focus:ring-orange-500 focus:border-orange-500 text-slate-100" type="text" value="0,00" />
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <button class="btn-inc-val bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm font-bold border border-slate-700 transition-colors text-slate-200" data-val="5">+ R$ 5,00</button>
@@ -269,7 +274,43 @@ class ChatManager {
             `;
         }
 
+
         this.messagesContainer.appendChild(div);
+
+        // Se for uma solicitação de viagem, buscar a distância
+        if (msg.conteudo.startsWith('[TRIP_REQUEST]')) {
+            try {
+                const data = JSON.parse(msg.conteudo.replace('[TRIP_REQUEST]', ''));
+                this.fetchDistance(data.origem, data.destino, `dist-${msg.id}`);
+            } catch (e) {
+                console.error("Erro ao disparar fetchDistance:", e);
+            }
+        }
+    }
+
+    async fetchDistance(origin, destination, elementId) {
+        if (!window.google || !window.google.maps) return;
+
+        const service = new google.maps.DistanceMatrixService();
+        try {
+            const response = await service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+            });
+
+            const element = document.getElementById(elementId);
+            if (element && response.rows[0].elements[0].status === "OK") {
+                element.textContent = response.rows[0].elements[0].distance.text;
+            } else if (element) {
+                element.textContent = "N/D";
+            }
+        } catch (error) {
+            console.error("Erro no DistanceMatrix:", error);
+            const element = document.getElementById(elementId);
+            if (element) element.textContent = "Erro";
+        }
     }
 
     async sendLocation() {
