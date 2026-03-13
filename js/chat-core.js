@@ -140,7 +140,7 @@ class ChatManager {
                 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.destino)}`;
 
                 div.innerHTML = `
-                    <div class="bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/10 w-full text-left">
+                    <div class="trip-card bg-primary/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-primary/10 w-full text-left">
                         <h3 class="text-primary font-bold text-sm uppercase tracking-wider mb-2">Nova Solicitação de Viagem</h3>
                         <div class="relative h-32 w-full bg-slate-700 rounded-lg overflow-hidden mb-3 border border-primary/20">
                             <img alt="Route map" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-nJY_myfbt-ppHWtzIUPIArtqnek1l4npkifJyvzesWDhO3RvhSRCrbbxkq1hM6IiwYE6ZuJJaBTx2RQlyjeTqbitqZUL2jVvdAdhReuyIq8vmvZ8v7adAvbwbitggYbs6zjx-PtEW1a5BV-NQqFLLbYI2kFhPWwLeoCBJ2B9rdScu_XifLi9oS0nOzSjXlka5xmHeeQD65yRPlR4qtAlXg7WT4AdUpXZkahZVgTS0b59fjN5z9uiyCSjew6oqkz09Jxgh23ydrWo"/>
@@ -184,7 +184,7 @@ class ChatManager {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[VALUE_PROPOSAL]', ''));
                 div.innerHTML = `
-                    <div class="bg-slate-900/40 border border-primary/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center">
+                    <div class="proposal-card bg-slate-900/40 border border-primary/20 rounded-xl p-4 space-y-4 backdrop-blur-sm w-full text-center">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Proposta de Valor</h4>
                         <div class="flex flex-col gap-3">
                             <div class="relative">
@@ -220,7 +220,7 @@ class ChatManager {
                 const data = JSON.parse(msg.conteudo.replace('[DRIVER_PROPOSAL]', ''));
                 div.innerHTML = `
                     <div class="flex flex-col gap-2 w-full">
-                        <div class="ml-auto bg-slate-900/40 border border-primary/20 rounded-xl overflow-hidden shadow-xl w-full max-w-sm">
+                        <div class="driver-proposal-card ml-auto bg-slate-900/40 border border-primary/20 rounded-xl overflow-hidden shadow-xl w-full max-w-sm">
                             <div class="h-24 bg-center bg-no-repeat bg-cover relative grayscale-[0.3]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAmZ3BknIvtNQ7SHXGNgqayylCjUfoSSuIdfAojUQR42TKU-gUCFyFzpGeolrciNsQiWhcqe7cizHd1EsNgxfWCx4cMz7Z8qRwcTEETH2pJ21r6abXRIokZa5S8_u0x3uqm7EulKut-fVA-5o3KBfhZ5fZIb2xpGLlzyCc4cotrvSl-7hNhJhfiLjY3YHal7jJhg0f1wIFNCsH5PdAu7gUf3SBYUSW1zwwQOsC3CqhtWV0v1SN0Syjrlt3GjHAgODoKelQLc2CzlgQ')">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
                             </div>
@@ -457,7 +457,7 @@ class ChatManager {
             } else if (btn.textContent.includes('Recusar') && !this.isMotorista) {
                 this.handlePassengerAction(btn, 'decline');
             } else if (btn.classList.contains('btn-inc-val')) {
-                const card = btn.closest('.bg-slate-900/40');
+                const card = btn.closest('.proposal-card');
                 const input = card?.querySelector('.proposal-input');
                 if (input) {
                     let currentVal = parseFloat(input.value.replace(',', '.')) || 0;
@@ -496,7 +496,7 @@ class ChatManager {
             }
 
             // Opcional: Feedback visual ou desabilitar botões após ação
-            const card = btn.closest('.bg-slate-900/40');
+            const card = btn.closest('.proposal-card') || btn.closest('.driver-proposal-card');
             if (card) {
                 card.style.opacity = '0.7';
                 card.querySelectorAll('button').forEach(b => b.disabled = true);
@@ -566,7 +566,7 @@ class ChatManager {
 
     async handleDeclineTrip(btn) {
         // Apenas oculta o card localmente ou remove a mensagem se desejar
-        const card = btn.closest('.bg-slate-900/40') || btn.closest('.bg-primary/10');
+        const card = btn.closest('.proposal-card') || btn.closest('.trip-card');
         if (card) {
             card.style.opacity = '0.5';
             card.style.pointerEvents = 'none';
