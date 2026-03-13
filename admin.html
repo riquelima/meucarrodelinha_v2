@@ -189,12 +189,12 @@
                         <div class="flex items-center justify-between">
                             <span
                                 class="material-symbols-outlined text-primary bg-primary/10 rounded-lg p-2">group</span>
-                            <span class="text-emerald-500 text-xs font-bold leading-normal">+12%</span>
+                            <span id="pct-clientes" class="text-xs font-bold leading-normal">...</span>
                         </div>
                         <div>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
                                 Clientes</p>
-                            <p class="text-2xl font-bold leading-tight">1,240</p>
+                            <p id="stat-clientes" class="text-2xl font-bold leading-tight">...</p>
                         </div>
                     </div>
                     <div
@@ -207,7 +207,7 @@
                         <div>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
                                 Viagens</p>
-                            <p class="text-2xl font-bold leading-tight">856</p>
+                            <p id="stat-viagens" class="text-2xl font-bold leading-tight">0</p>
                         </div>
                     </div>
                     <div
@@ -215,12 +215,12 @@
                         <div class="flex items-center justify-between">
                             <span
                                 class="material-symbols-outlined text-purple-500 bg-purple-500/10 rounded-lg p-2">person</span>
-                            <span class="text-emerald-500 text-xs font-bold leading-normal">+8%</span>
+                            <span id="pct-passageiros" class="text-xs font-bold leading-normal">...</span>
                         </div>
                         <div>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
                                 Passageiros</p>
-                            <p class="text-2xl font-bold leading-tight">1,180</p>
+                            <p id="stat-passageiros" class="text-2xl font-bold leading-tight">...</p>
                         </div>
                     </div>
                     <div
@@ -228,31 +228,20 @@
                         <div class="flex items-center justify-between">
                             <span
                                 class="material-symbols-outlined text-blue-500 bg-blue-500/10 rounded-lg p-2">badge</span>
-                            <span class="text-emerald-500 text-xs font-bold leading-normal">+2%</span>
+                            <span id="pct-motoristas" class="text-xs font-bold leading-normal">...</span>
                         </div>
                         <div>
                             <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
                                 Motoristas</p>
-                            <p class="text-2xl font-bold leading-tight">60</p>
+                            <p id="stat-motoristas" class="text-2xl font-bold leading-tight">...</p>
                         </div>
                     </div>
-                    <div
-                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
-                        <div class="flex items-center justify-between">
-                            <span
-                                class="material-symbols-outlined text-green-500 bg-green-500/10 rounded-lg p-2">payments</span>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                VIAGENS</p>
-                            <p class="text-2xl font-bold leading-tight">0</p>
-                        </div>
-                    </div>
+                    <!-- Redundant card removed -->
                 </div>
             </section>
             <!-- Charts Section (Horizontal Scroll) -->
             <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 no-scrollbar">
-                
+
                 <!-- Chart: Desempenho Diário -->
                 <section
                     class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -294,23 +283,29 @@
                 </section>
 
                 <!-- Chart: Cadastros Motoristas x Passageiros -->
-                <section class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <section
+                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-base font-bold leading-tight">Cadastros: Motoristas x Passageiros</h3>
                             <p class="text-slate-500 dark:text-slate-400 text-xs">Evolução mensal</p>
                         </div>
                         <div class="flex gap-2">
-                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span class="w-2 h-2 rounded-full bg-primary"></span> Mot</span>
-                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Pas</span>
+                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span
+                                    class="w-2 h-2 rounded-full bg-primary"></span> Mot</span>
+                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span
+                                    class="w-2 h-2 rounded-full bg-purple-500"></span> Pas</span>
                         </div>
                     </div>
                     <div class="relative h-40 w-full mb-4">
-                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%"
+                            xmlns="http://www.w3.org/2000/svg">
                             <!-- Passageiros (Purple) -->
-                            <path d="M0 80 C50 70, 100 90, 150 60 C200 30, 250 50, 300 40 C350 30, 400 20, 472 10" stroke="#a855f7" stroke-width="3" stroke-linecap="round" />
+                            <path d="M0 80 C50 70, 100 90, 150 60 C200 30, 250 50, 300 40 C350 30, 400 20, 472 10"
+                                stroke="#a855f7" stroke-width="3" stroke-linecap="round" />
                             <!-- Motoristas (Primary/Blue) -->
-                            <path d="M0 120 C50 115, 100 110, 150 100 C200 90, 250 95, 300 85 C350 75, 400 80, 472 70" stroke="#0f38bd" stroke-width="3" stroke-linecap="round" />
+                            <path d="M0 120 C50 115, 100 110, 150 100 C200 90, 250 95, 300 85 C350 75, 400 80, 472 70"
+                                stroke="#0f38bd" stroke-width="3" stroke-linecap="round" />
                         </svg>
                     </div>
                     <div class="flex justify-between px-1">
@@ -324,7 +319,8 @@
                 </section>
 
                 <!-- Chart: Postagens no Blog -->
-                <section class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <section
+                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-base font-bold leading-tight">Postagens no Blog</h3>
@@ -335,12 +331,36 @@
                         </div>
                     </div>
                     <div class="relative h-40 w-full mb-4 flex items-end justify-between gap-2 px-2">
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[30%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">3</div></div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[50%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">5</div></div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[40%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">4</div></div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[70%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">7</div></div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[60%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">6</div></div>
-                        <div class="w-full bg-cyan-500 rounded-t-sm h-[80%] relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">8</div></div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[30%] relative group">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                3</div>
+                        </div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[50%] relative group">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                5</div>
+                        </div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[40%] relative group">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                4</div>
+                        </div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[70%] relative group">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                7</div>
+                        </div>
+                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[60%] relative group">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                6</div>
+                        </div>
+                        <div class="w-full bg-cyan-500 rounded-t-sm h-[80%] relative group">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                8</div>
+                        </div>
                     </div>
                     <div class="flex justify-between px-1">
                         <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 1</span>
@@ -353,7 +373,8 @@
                 </section>
 
                 <!-- Chart: Evolução de Anúncios -->
-                <section class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <section
+                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-base font-bold leading-tight">Novos Anúncios</h3>
@@ -364,9 +385,14 @@
                         </div>
                     </div>
                     <div class="relative h-40 w-full mb-4">
-                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
-                            <path d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5 V150 H0 Z" fill="url(#chartFillAds)" opacity="0.2" />
+                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5"
+                                stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+                            <path
+                                d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5 V150 H0 Z"
+                                fill="url(#chartFillAds)" opacity="0.2" />
                             <defs>
                                 <linearGradient id="chartFillAds" x1="0" x2="0" y1="0" y2="1">
                                     <stop offset="0%" stop-color="#10b981" stop-opacity="0.5"></stop>
@@ -461,6 +487,93 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
     <script src="js/pwa-register.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sb = window.supabaseClient;
+            if (!sb) return;
+
+            async function updateStats() {
+                try {
+                    const startOfToday = new Date();
+                    startOfToday.setHours(0, 0, 0, 0);
+                    const isoStartOfToday = startOfToday.toISOString();
+
+                    function updatePct(elementId, current, past) {
+                        const el = document.getElementById(elementId);
+                        if (past === 0) {
+                            el.textContent = current > 0 ? '+100%' : '0%';
+                            el.className = 'text-emerald-500 text-xs font-bold leading-normal';
+                            return;
+                        }
+                        const pct = ((current - past) / past) * 100;
+                        const sign = pct >= 0 ? '+' : '';
+                        el.textContent = `${sign}${pct.toFixed(1)}%`;
+                        el.className = pct >= 0 ? 'text-emerald-500 text-xs font-bold leading-normal' : 'text-red-500 text-xs font-bold leading-normal';
+                    }
+
+                    // Total Clientes (Usuários) - Exclui admin
+                    const { count: totalUsers, error: err1 } = await sb
+                        .from('usuarios')
+                        .select('*', { count: 'exact', head: true });
+
+                    const { count: pastUsers, error: err1p } = await sb
+                        .from('usuarios')
+                        .select('*', { count: 'exact', head: true })
+                        .lt('criado_em', isoStartOfToday);
+
+                    if (!err1) {
+                        const clientesCount = Math.max(0, totalUsers - 1);
+                        const pastClientes = Math.max(0, (pastUsers || 0) - 1);
+                        document.getElementById('stat-clientes').textContent = clientesCount.toLocaleString();
+                        if (!err1p) updatePct('pct-clientes', clientesCount, pastClientes);
+                    }
+
+                    // Total Passageiros
+                    const { count: totalPassageiros, error: err2 } = await sb
+                        .from('usuarios')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('tipo_usuario', 'passageiro');
+
+                    const { count: pastPassageiros, error: err2p } = await sb
+                        .from('usuarios')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('tipo_usuario', 'passageiro')
+                        .lt('criado_em', isoStartOfToday);
+
+                    if (!err2) {
+                        document.getElementById('stat-passageiros').textContent = totalPassageiros.toLocaleString();
+                        if (!err2p) updatePct('pct-passageiros', totalPassageiros, pastPassageiros || 0);
+                    }
+
+                    // Total Motoristas
+                    const { count: totalMotoristas, error: err3 } = await sb
+                        .from('usuarios')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('tipo_usuario', 'motorista');
+
+                    const { count: pastMotoristas, error: err3p } = await sb
+                        .from('usuarios')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('tipo_usuario', 'motorista')
+                        .lt('criado_em', isoStartOfToday);
+
+                    if (!err3) {
+                        document.getElementById('stat-motoristas').textContent = totalMotoristas.toLocaleString();
+                        if (!err3p) updatePct('pct-motoristas', totalMotoristas, pastMotoristas || 0);
+                    }
+
+                    // Viagens (Hardcoded as 0 per request)
+                    document.getElementById('stat-viagens').textContent = '0';
+
+                } catch (error) {
+                    console.error('Erro ao buscar estatísticas:', error);
+                }
+            }
+
+            updateStats();
+        });
+    </script>
 </body>
 
 </html>
