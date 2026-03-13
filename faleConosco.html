@@ -40,7 +40,7 @@
         body {
             min-height: 100dvh;
         }
-        
+
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -62,50 +62,244 @@
             background: rgba(25, 73, 230, 0.2);
             border-radius: 10px;
         }
-    
+
         /* Global Mobile Native Fixes */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
         }
-        input, textarea {
+
+        input,
+        textarea {
             user-select: text;
             -webkit-user-select: text;
         }
+
         /* Native-like click effect */
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .active-scale:active {
             transform: scale(0.96);
         }
+
         /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
             animation: fadeIn 0.4s ease-out forwards;
         }
+
         .animate-slide-up {
             opacity: 0;
             transform: translateY(20px);
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         .animate-slide-in-right {
             opacity: 0;
             transform: translateX(20px);
             animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
 
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
+
+        /* Confirmation Modal Styles */
+        .modal-backdrop {
+            background-color: rgba(18, 21, 32, 0.85);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-backdrop.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .success-checkmark .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid #10b981;
+        }
+
+        .success-checkmark .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+
+        .success-checkmark .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotate-circle 4.25s ease-in;
+        }
+
+        .check-icon .icon-line {
+            height: 5px;
+            background-color: #10b981;
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .check-icon .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s;
+        }
+
+        .check-icon .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s;
+        }
+
+        @keyframes icon-line-tip {
+            0% {
+                width: 0;
+                left: 1px;
+                top: 19px;
+            }
+
+            54% {
+                width: 0;
+                left: 1px;
+                top: 19px;
+            }
+
+            70% {
+                width: 50px;
+                left: -8px;
+                top: 37px;
+            }
+
+            84% {
+                width: 17px;
+                left: 21px;
+                top: 48px;
+            }
+
+            100% {
+                width: 25px;
+                left: 14px;
+                top: 46px;
+            }
+        }
+
+        @keyframes icon-line-long {
+            0% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+
+            65% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+
+            84% {
+                width: 55px;
+                right: 0px;
+                top: 35px;
+            }
+
+            100% {
+                width: 47px;
+                right: 8px;
+                top: 38px;
+            }
+        }
+
+        /* Force readable text on select options */
+        select option {
+            color: #111827;
+            /* Dark text for light background */
+            background-color: #ffffff;
+        }
+
+        .dark select option {
+            color: #f9fafb;
+            /* Light text for dark background */
+            background-color: #111827;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
 </head>
 
 <body
@@ -114,7 +308,7 @@
     <header
         class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/20 shrink-0">
         <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
-            <a href="minhasViagens.html"
+            <a id="back-button" href="homepage.html"
                 class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-primary/20 transition-colors">
                 <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
             </a>
@@ -166,12 +360,13 @@
                 <label class="text-sm font-medium px-1" for="message">Mensagem</label>
                 <textarea
                     class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none"
-                    id="message" placeholder="Descreva como podemos te ajudar..." rows="5"></textarea>
+                    id="message" placeholder="Descreva como podemos te ajudar..." rows="5" required></textarea>
             </div>
-            <button
-                class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-colors shadow-lg shadow-primary/20"
+            <button id="btn-submit"
+                class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-colors shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2"
                 type="submit">
-                Enviar Mensagem
+                <span>Enviar Mensagem</span>
+                <span id="loader" class="material-symbols-outlined animate-spin hidden">sync</span>
             </button>
         </form>
         <!-- Divider -->
@@ -203,37 +398,216 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation Bar (Fixed) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4">
-        <div class="grid grid-cols-4 w-full items-end">
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                href="passageiro.html">
-                <span
-                    class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
-                <span class="text-[10px] font-medium">Início</span>
-            </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors" href="minhasViagens.html">
-                <span
-                    class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
-                <span class="text-[10px] font-medium">Viagens</span>
-            </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+    <!-- Dynamic Navigation Container -->
+    <div id="nav-container" class="hidden">
+        <!-- Bottom Navigation Bar (Fixed) -->
+        <nav id="nav-passageiro"
+            class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4 hidden">
+            <div class="grid grid-cols-4 w-full items-end text-center">
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="passageiro.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
+                    <span class="text-[10px] font-medium">Início</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="minhasViagens.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
+                    <span class="text-[10px] font-medium">Viagens</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
                     href="conversas.html">
                     <span
                         class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
                     <span class="text-[10px] font-medium">Chats</span>
                 </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                href="perfilPassageiro.html">
-                <span
-                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                <span class="text-[10px] font-medium">Perfil</span>
-            </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
+                    href="perfilPassageiro.html">
+                    <span
+                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+                    <span class="text-[10px] font-medium">Perfil</span>
+                </a>
+            </div>
+        </nav>
+
+        <nav id="nav-motorista"
+            class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4 hidden">
+            <div class="flex justify-around items-end px-2">
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="text-[10px] font-bold">Início</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
+                    <span class="material-symbols-outlined">payments</span>
+                    <span class="text-[10px] font-bold">Ganhos</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="conversasMotorista.html">
+                    <span class="material-symbols-outlined">chat</span>
+                    <span class="text-[10px] font-bold">Chat</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
+                    <span class="material-symbols-outlined">history</span>
+                    <span class="text-[10px] font-bold">Histórico</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="text-[10px] font-bold">Perfil</span>
+                </a>
+            </div>
+        </nav>
+
+        <nav id="nav-admin"
+            class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50 hidden"
+            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
+            <div class="flex gap-2 max-w-lg mx-auto">
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="admin.html">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+                    </div>
+                    <p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="gerenciarUsuarios.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">group</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="historicoGeral.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">route</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
+                </a>
+                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
+                    href="perfilAdministrador.html">
+                    <div class="flex h-8 items-center justify-center"><span
+                            class="material-symbols-outlined">settings</span></div>
+                    <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 modal-backdrop">
+        <div
+            class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-[2.5rem] p-8 text-center shadow-2xl border border-slate-200 dark:border-slate-800 modal-content">
+            <div class="success-checkmark mb-6">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-3 text-slate-900 dark:text-slate-100">Mensagem Enviada!</h3>
+            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
+                Recebemos sua mensagem com sucesso. Em breve, um de nossos colaboradores entrará em contato via
+                **WhatsApp** ou **E-mail**.
+            </p>
+
+            <button id="btn-close-modal"
+                class="w-full h-14 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/20 active-scale">
+                Entendido
+            </button>
         </div>
-    </nav>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sb = window.supabaseClient;
+            const form = document.querySelector('form');
+            const btnSubmit = document.getElementById('btn-submit');
+            const loader = document.getElementById('loader');
+            const successModal = document.getElementById('success-modal');
+            const btnCloseModal = document.getElementById('btn-close-modal');
+
+            // Check auth state
+            const { data: { user } } = await sb.auth.getUser();
+            const backBtn = document.getElementById('back-button');
+
+            if (user) {
+                // Fetch user profile to get role
+                const { data: profile } = await window.supabaseClient
+                    .from('usuarios')
+                    .select('tipo_usuario')
+                    .eq('id', user.id)
+                    .single();
+
+                const role = profile?.tipo_usuario || 'passageiro';
+                const navContainer = document.getElementById('nav-container');
+                navContainer.classList.remove('hidden');
+
+                if (role === 'admin') {
+                    document.getElementById('nav-admin').classList.remove('hidden');
+                    backBtn.href = 'admin.html';
+                } else if (role === 'motorista') {
+                    document.getElementById('nav-motorista').classList.remove('hidden');
+                    backBtn.href = 'motorista.html';
+                } else {
+                    document.getElementById('nav-passageiro').classList.remove('hidden');
+                    backBtn.href = 'passageiro.html';
+                }
+
+                // Pre-fill form if logged in
+                document.getElementById('name').value = user.user_metadata?.full_name || '';
+                document.getElementById('email').value = user.email || '';
+            } else {
+                // Public user - ensure back button goes to homepage
+                backBtn.href = 'homepage.html';
+            }
+
+            // Handle Form Submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = {
+                    usuario_id: user ? user.id : null,
+                    nome: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    telefone: document.getElementById('phone').value,
+                    assunto: document.getElementById('subject').value,
+                    mensagem: document.getElementById('message').value,
+                    status: 'aberto'
+                };
+
+                // Simple validation
+                if (!formData.nome || !formData.email || !formData.mensagem || !formData.assunto) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+
+                try {
+                    btnSubmit.disabled = true;
+                    btnSubmit.querySelector('span').innerText = 'Enviando...';
+                    loader.classList.remove('hidden');
+
+                    const { error } = await sb
+                        .from('suporte')
+                        .insert([formData]);
+
+                    if (error) throw error;
+
+                    // Show success modal
+                    successModal.classList.add('active');
+                    form.reset();
+
+                } catch (err) {
+                    console.error('Erro ao enviar mensagem:', err);
+                    alert('Erro ao enviar mensagem. Por favor, tente novamente.');
+                } finally {
+                    btnSubmit.disabled = false;
+                    btnSubmit.querySelector('span').innerText = 'Enviar Mensagem';
+                    loader.classList.add('hidden');
+                }
+            });
+
+            // Close Modal
+            btnCloseModal.addEventListener('click', () => {
+                successModal.classList.remove('active');
+            });
+
             // Phone mask handler
             const phoneInput = document.getElementById('phone');
             if (phoneInput) {
