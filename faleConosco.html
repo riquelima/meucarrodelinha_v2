@@ -306,7 +306,7 @@
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 h-screen flex flex-col antialiased overflow-hidden">
     <!-- Header -->
     <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-        <a href="passageiro.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
+        <a id="back-button" href="homepage.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
             <span class="material-symbols-outlined">arrow_back</span>
         </a>
         <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
@@ -525,10 +525,10 @@
             const backBtn = document.getElementById('back-button');
 
             if (user) {
-                // Fetch user profile to get role
+                // Fetch user profile to get role and name
                 const { data: profile } = await window.supabaseClient
                     .from('usuarios')
-                    .select('tipo_usuario')
+                    .select('nome, tipo_usuario')
                     .eq('id', user.id)
                     .single();
 
@@ -548,7 +548,7 @@
                 }
 
                 // Pre-fill form if logged in
-                document.getElementById('name').value = user.user_metadata?.full_name || '';
+                document.getElementById('name').value = profile?.nome || user.user_metadata?.full_name || '';
                 document.getElementById('email').value = user.email || '';
             } else {
                 // Public user - ensure back button goes to homepage
