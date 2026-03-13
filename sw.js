@@ -93,3 +93,69 @@ self.addEventListener('fetch', (event) => {
     );
   }
 });
+
+// BACKGROUND SYNC - Garante que ações pendentes sejam enviadas ao recuperar conexão
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'sync-messages') {
+    console.log('[SW] Background sync: sync-messages');
+    // Aqui poderíamos chamar uma função para processar mensagens salvas no IndexedDB
+  }
+});
+
+// PERIODIC BACKGROUND SYNC - Atualiza dados periodicamente
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'update-cache') {
+    console.log('[SW] Periodic background sync: update-cache');
+    event.waitUntil(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.addAll(ASSETS_TO_CACHE);
+      })
+    );
+  }
+});
+
+// PUSH NOTIFICATIONS - Recebe notificações do servidor
+self.addEventListener('push', (event) => {
+  let data = { title: 'Salinas Corridas', body: 'Nova atualização!' };
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
+    vibrate: [100, 50, 100],
+    data: {
+      url: data.url || '/'
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// NOTIFICATION CLICK - Abre o app e vai para a URL específica
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const urlToOpen = event.notification.data.url || '/';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      for (var i = 0; i < windowClients.length; i++) {
+        var client = windowClients[i];
+        if (client.url === urlToOpen && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
+  );
+});

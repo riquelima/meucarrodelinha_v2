@@ -1,0 +1,26 @@
+
+meucarrodelinhasalinas.com.br
+/
+Meu Carro de Linha Salinas
+Carro de Linha
+com.meucarrosalinas.twa
+standalone
+portrait
+#f97316
+#121520
+https://meucarrodelinhasalinas.com.br/icon-512.png
+https://meucarrodelinhasalinas.com.br/icon-512.png
+n
+y
+n
+n
+./android.keystore
+meucarro123
+android
+meucarro123
+Meu Carro de Linha
+Mobile
+Meu Carro de Linha
+Salinas
+MG
+BR

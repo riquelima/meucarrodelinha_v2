@@ -9,6 +9,32 @@ if ('serviceWorker' in navigator) {
             .then(registration => {
                 console.log('[PWA] Service Worker registrado com sucesso:', registration.scope);
 
+                // BACKGROUND SYNC - Registra tag de sincronização
+                if ('sync' in registration) {
+                    registration.sync.register('sync-messages')
+                        .catch(err => console.log('[PWA] Erro ao registrar Background Sync:', err));
+                }
+
+                // PERIODIC SYNC - Registra sincronização periódica (requer permissão e instalação)
+                if ('periodicSync' in registration) {
+                    const status = localStorage.getItem('periodic-sync-status');
+                    if (!status) {
+                        registration.periodicSync.register('update-cache', {
+                            minInterval: 24 * 60 * 60 * 1000 // 24 horas
+                        }).then(() => localStorage.setItem('periodic-sync-status', 'registered'))
+                        .catch(err => console.log('[PWA] Erro ao registrar Periodic Sync:', err));
+                    }
+                }
+
+                // NOTIFICAÇÕES - Solicita permissão se ainda não foi concedida
+                if ('Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            console.log('[PWA] Permissão de notificação concedida.');
+                        }
+                    });
+                }
+
                 // Detecta atualizações no Service Worker
                 registration.addEventListener('updatefound', () => {
                     const newWorker = registration.installing;
