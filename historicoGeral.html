@@ -323,6 +323,7 @@
             }
 
             function initSingleTripMap(trip) {
+                if (typeof google === 'undefined') return;
                 const mapEl = document.getElementById(`map-${trip.id}`);
                 if (!mapEl) return;
 
@@ -370,16 +371,14 @@
 
             // Initial load
             allTrips = await fetchTrips();
-            if (googleMapsLoaded) {
-                renderTrips(allTrips);
-            }
+            renderTrips(allTrips);
 
             // Search functionality
             searchInput?.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 const filtered = allTrips.filter(t => 
                     (t.passageiro?.nome || '').toLowerCase().includes(term) ||
-                    (t.motorista?.nome || '').toLowerCase().includes(term) ||
+                    (t.motorista_rel?.usuario_info?.nome || '').toLowerCase().includes(term) ||
                     (t.origem_endereco || '').toLowerCase().includes(term) ||
                     (t.destino_endereco || '').toLowerCase().includes(term)
                 );
