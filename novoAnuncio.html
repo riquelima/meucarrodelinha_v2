@@ -97,7 +97,7 @@
     <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         <header
             class="flex items-center bg-white/80 dark:bg-slate-900/80 ios-blur sticky top-0 z-30 p-4 border-b border-slate-200 dark:border-slate-800">
-            <a href="homepage.html"
+            <a href="#" onclick="goBack(); return false;"
                 class="flex items-center justify-center h-10 w-10 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                 <span class="material-symbols-outlined">arrow_back_ios_new</span>
             </a>
@@ -185,6 +185,7 @@
         <!-- <script src="js/authGuard.js"></script> --> <!-- Removed to allow curious users to see the form -->
         <script src="js/ui-transitions.js"></script>
         <script src="js/chat-notifications.js"></script>
+        <script src="js/navigation.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 let isAdmin = false;

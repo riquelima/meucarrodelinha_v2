@@ -613,7 +613,7 @@
                 }
 
                 async function fetchSuggestions(query) {
-                    if (query.length < 3) { list.classList.add('hidden'); return; }
+                    if (query.length < 2) { list.classList.add('hidden'); return; }
 
                     if (currentFetch) currentFetch.abort();
                     currentFetch = new AbortController();
@@ -622,21 +622,25 @@
 
                     const url = 'https://nominatim.openstreetmap.org/search?' +
                         new URLSearchParams({
-                            q: query + ' Salinas da Margarida Bahia Brasil',
+                            q: query,
                             format: 'json',
-                            limit: '6',
+                            limit: '10',
                             countrycodes: 'br',
                             'accept-language': 'pt-BR',
-                            addressdetails: '0'
+                            viewbox: '-38.88,-12.97,-38.65,-12.77', 
+                            bounded: '0',
+                            addressdetails: '1'
                         }).toString();
 
                     try {
-                        const res = await fetch(url, { signal: currentFetch.signal });
+                        const res = await fetch(url, { 
+                            signal: currentFetch.signal
+                        });
                         const data = await res.json();
                         showResults(data);
                     } catch (err) {
                         if (err.name !== 'AbortError') {
-                            list.innerHTML = '<li class="px-4 py-3 text-sm text-red-400">Erro ao buscar endereços</li>';
+                            console.error('Erro Autocomplete:', err);
                         }
                     } finally {
                         currentFetch = null;
@@ -658,7 +662,6 @@
             setupAutocomplete('destination-input', 'destination-suggestions');
         });
     </script>
-    <script src="js/pwa-register.js"></script>
 </body>
 
 </html>

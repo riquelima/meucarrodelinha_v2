@@ -58,6 +58,7 @@
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -168,6 +169,7 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
 
             let allMessages = [];
+            let userData = {}; // Stores { photo, type } mapped by email
             let currentFilter = 'todos';
 
             async function loadMessages() {
@@ -176,6 +178,21 @@
                 emptyState.classList.add('hidden');
 
                 try {
+                    // Fetch users to map photos and types
+                    const { data: users, error: usersError } = await sb
+                        .from('usuarios')
+                        .select('email, foto_perfil_url, tipo_usuario');
+                    
+                    if (!usersError && users) {
+                        userData = users.reduce((acc, u) => {
+                            acc[u.email] = { 
+                                photo: u.foto_perfil_url, 
+                                type: u.tipo_usuario 
+                            };
+                            return acc;
+                        }, {});
+                    }
+
                     const { data, error } = await sb
                         .from('suporte')
                         .select('*')
@@ -218,16 +235,31 @@
                         'bg-amber-500/10 text-amber-500 border-amber-500/20' :
                         'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
 
+                    const user = userData[msg.email];
+                    const userPhoto = user?.photo;
+                    const userType = user?.type;
+                    const initials = msg.nome ? msg.nome.substring(0, 2).toUpperCase() : '??';
+
+                    let typeBadge = '';
+                    if (userType) {
+                        const typeLabel = userType === 'motorista' ? 'Motorista' : 'Passageiro';
+                        const typeClass = userType === 'motorista' ? 'bg-amber-500/10 text-amber-500' : 'bg-primary/10 text-primary';
+                        typeBadge = `<span class="ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase ${typeClass}">${typeLabel}</span>`;
+                    }
+
                     const card = document.createElement('div');
                     card.className = 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm active-scale transition-all';
                     card.innerHTML = `
                         <div class="flex justify-between items-start mb-3">
                             <div class="flex items-center gap-3">
-                                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                                    ${msg.nome ? msg.nome.substring(0, 2).toUpperCase() : '??'}
+                                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold overflow-hidden shrink-0">
+                                    ${userPhoto ? `<img src="${userPhoto}" class="w-full h-full object-cover" alt="${msg.nome}">` : initials}
                                 </div>
-                                <div>
-                                    <h4 class="text-slate-900 dark:text-slate-100 font-bold text-sm leading-tight">${msg.nome || 'Usuário Anônimo'}</h4>
+                                <div class="min-w-0">
+                                    <h4 class="text-slate-900 dark:text-slate-100 font-bold text-sm leading-tight flex items-center">
+                                        <span class="truncate">${msg.nome || 'Usuário Anônimo'}</span>
+                                        ${typeBadge}
+                                    </h4>
                                     <p class="text-slate-500 text-[10px] font-medium">${date}</p>
                                 </div>
                             </div>

@@ -242,45 +242,6 @@
             <!-- Charts Section (Horizontal Scroll) -->
             <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 no-scrollbar">
 
-                <!-- Chart: Desempenho Diário -->
-                <section
-                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="text-base font-bold leading-tight">Desempenho Diário</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs">Atividade nos últimos 7 dias</p>
-                        </div>
-                        <div class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
-                            +8.2%
-                        </div>
-                    </div>
-                    <div class="relative h-40 w-full mb-4">
-                        <svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 472 150" width="100%"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
-                                stroke="#0f38bd" stroke-linecap="round" stroke-width="3"></path>
-                            <path
-                                d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V150H0V109Z"
-                                fill="url(#chartFill)"></path>
-                            <defs>
-                                <lineargradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
-                                    <stop offset="0%" stop-color="#0f38bd" stop-opacity="0.2"></stop>
-                                    <stop offset="100%" stop-color="#0f38bd" stop-opacity="0"></stop>
-                                </lineargradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="flex justify-between px-1">
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Seg</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Ter</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qua</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Qui</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sex</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sab</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Dom</span>
-                    </div>
-                </section>
 
                 <!-- Chart: Cadastros Motoristas x Passageiros -->
                 <section
@@ -288,7 +249,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-base font-bold leading-tight">Cadastros: Motoristas x Passageiros</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs">Evolução mensal</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs">Evolução diária</p>
                         </div>
                         <div class="flex gap-2">
                             <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span
@@ -297,78 +258,67 @@
                                     class="w-2 h-2 rounded-full bg-purple-500"></span> Pas</span>
                         </div>
                     </div>
-                    <div class="relative h-40 w-full mb-4">
-                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%"
+                    <div class="relative h-40 w-full mb-4 group/chart">
+                        <!-- Tooltip -->
+                        <div id="chart-tooltip" class="absolute z-10 hidden pointer-events-none bg-slate-900 border border-slate-700 p-2 rounded-lg shadow-xl text-[10px] font-bold text-white transition-all duration-300 scale-90 opacity-0 transform -translate-x-1/2 -translate-y-full mb-2">
+                            <div id="tooltip-date" class="text-slate-400 mb-1">...</div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                <span>Mot: <span id="tooltip-mot">0</span></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                                <span>Pas: <span id="tooltip-pas">0</span></span>
+                            </div>
+                        </div>
+                        <svg id="chart-registrations" fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%"
                             xmlns="http://www.w3.org/2000/svg">
                             <!-- Passageiros (Purple) -->
-                            <path d="M0 80 C50 70, 100 90, 150 60 C200 30, 250 50, 300 40 C350 30, 400 20, 472 10"
+                            <path id="path-passageiros" d="M0 150 L 472 150"
                                 stroke="#a855f7" stroke-width="3" stroke-linecap="round" />
                             <!-- Motoristas (Primary/Blue) -->
-                            <path d="M0 120 C50 115, 100 110, 150 100 C200 90, 250 95, 300 85 C350 75, 400 80, 472 70"
+                            <path id="path-motoristas" d="M0 150 L 472 150"
                                 stroke="#0f38bd" stroke-width="3" stroke-linecap="round" />
+                            
+                            <!-- Interactive Dots Group -->
+                            <g id="chart-dots"></g>
                         </svg>
                     </div>
-                    <div class="flex justify-between px-1">
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jan</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Fev</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mar</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Abr</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mai</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jun</span>
+                    <div id="chart-labels" class="flex justify-between px-1">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
                     </div>
                 </section>
 
-                <!-- Chart: Postagens no Blog -->
                 <section
-                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm relative group/chart2">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-base font-bold leading-tight">Postagens no Blog</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs">Publicações por semana</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs text-nowrap">Publicações por mês</p>
                         </div>
-                        <div class="bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold">
-                            +3
-                        </div>
-                    </div>
-                    <div class="relative h-40 w-full mb-4 flex items-end justify-between gap-2 px-2">
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[30%] relative group">
-                            <div
-                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                3</div>
-                        </div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[50%] relative group">
-                            <div
-                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                5</div>
-                        </div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[40%] relative group">
-                            <div
-                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                4</div>
-                        </div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[70%] relative group">
-                            <div
-                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                7</div>
-                        </div>
-                        <div class="w-full bg-cyan-500/20 rounded-t-sm h-[60%] relative group">
-                            <div
-                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                6</div>
-                        </div>
-                        <div class="w-full bg-cyan-500 rounded-t-sm h-[80%] relative group">
-                            <div
-                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                8</div>
+                        <div id="blog-growth" class="bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold">
+                            ...
                         </div>
                     </div>
-                    <div class="flex justify-between px-1">
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 1</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 2</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 3</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 4</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Sem 5</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Atual</span>
+                    <!-- Tooltip Blog -->
+                    <div id="blog-tooltip" class="absolute z-10 hidden pointer-events-none bg-slate-900 border border-slate-700 p-2 rounded-lg shadow-xl text-[10px] font-bold text-white transition-all duration-300 scale-90 opacity-0 transform -translate-x-1/2 -translate-y-full mb-2">
+                        <div id="blog-tooltip-date" class="text-slate-400 mb-1">...</div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
+                            <span>Postagens: <span id="blog-tooltip-value">0</span></span>
+                        </div>
+                    </div>
+                    <div id="blog-bars-container" class="relative h-40 w-full mb-4 flex items-end justify-between gap-1 px-1">
+                        <!-- Bars will be injected here -->
+                    </div>
+                    <div id="blog-labels" class="flex justify-between px-1">
+                        <!-- Labels will be injected here -->
                     </div>
                 </section>
 
@@ -571,7 +521,260 @@
                 }
             }
 
-            updateStats();
+            async function updateRegistrationChart() {
+                try {
+                    const days = 7;
+                    const labelsContainer = document.getElementById('chart-labels');
+                    const pathPas = document.getElementById('path-passageiros');
+                    const pathMot = document.getElementById('path-motoristas');
+
+                    // 1. Get dates for the last 7 days
+                    const dates = [];
+                    for (let i = days - 1; i >= 0; i--) {
+                        const d = new Date();
+                        d.setDate(d.getDate() - i);
+                        dates.push(d);
+                    }
+
+                    // 2. Update X-axis labels
+                    const labelsElements = labelsContainer.querySelectorAll('span');
+                    dates.forEach((date, i) => {
+                        labelsElements[i].textContent = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+                    });
+
+                    // 3. Fetch all users (excluding admins if possible, though we'll just filter in JS)
+                    const { data: users, error } = await sb
+                        .from('usuarios')
+                        .select('tipo_usuario, criado_em');
+
+                    if (error) throw error;
+
+                    // 4. Calculate cumulative counts per day
+                    const pasCounts = Array(days).fill(0);
+                    const motCounts = Array(days).fill(0);
+
+                    dates.forEach((date, i) => {
+                        const endOfDay = new Date(date);
+                        endOfDay.setHours(23, 59, 59, 999);
+
+                        pasCounts[i] = users.filter(u => u.tipo_usuario === 'passageiro' && new Date(u.criado_em) <= endOfDay).length;
+                        motCounts[i] = users.filter(u => u.tipo_usuario === 'motorista' && new Date(u.criado_em) <= endOfDay).length;
+                    });
+
+                    // 5. Generate SVG Paths
+                    const maxCount = Math.max(...pasCounts, ...motCounts, 10); // Min scale of 10
+                    const width = 472;
+                    const height = 150;
+                    const padding = 20;
+                    const availableHeight = height - (padding * 2);
+
+                    function getPath(counts) {
+                        return counts.map((count, i) => {
+                            const x = (i / (days - 1)) * width;
+                            const y = height - padding - (count / maxCount) * availableHeight;
+                            return `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
+                        }).join(' ');
+                    }
+
+                    pathPas.setAttribute('d', getPath(pasCounts));
+                    pathMot.setAttribute('d', getPath(motCounts));
+
+                    // 6. Create Interactive Dots and Tooltip Logic
+                    const dotsContainer = document.getElementById('chart-dots');
+                    const tooltip = document.getElementById('chart-tooltip');
+                    dotsContainer.innerHTML = '';
+
+                    dates.forEach((date, i) => {
+                        const x = (i / (days - 1)) * width;
+                        const yPas = height - padding - (pasCounts[i] / maxCount) * availableHeight;
+                        const yMot = height - padding - (motCounts[i] / maxCount) * availableHeight;
+
+                        // Create invisible trigger for better touch area
+                        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                        rect.setAttribute("x", (x - 20));
+                        rect.setAttribute("y", 0);
+                        rect.setAttribute("width", 40);
+                        rect.setAttribute("height", height);
+                        rect.setAttribute("fill", "transparent");
+                        rect.setAttribute("class", "cursor-pointer");
+                        
+                        const showTooltip = (e) => {
+                            tooltip.classList.remove('hidden');
+                            setTimeout(() => {
+                                tooltip.style.opacity = '1';
+                                tooltip.style.transform = 'translate(-50%, -100%) scale(1)';
+                            }, 10);
+                            
+                            tooltip.style.left = `${(x / width) * 100}%`;
+                            tooltip.style.top = `${Math.min(yPas, yMot)}px`;
+                            
+                            document.getElementById('tooltip-date').textContent = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
+                            document.getElementById('tooltip-mot').textContent = motCounts[i];
+                            document.getElementById('tooltip-pas').textContent = pasCounts[i];
+                            
+                            // Highlight dots
+                            document.querySelectorAll(`.chart-dot-${i}`).forEach(d => {
+                                d.setAttribute('r', '6');
+                                d.setAttribute('stroke-width', '4');
+                            });
+                        };
+
+                        const hideTooltip = () => {
+                            tooltip.style.opacity = '0';
+                            tooltip.style.transform = 'translate(-50%, -100%) scale(0.9)';
+                            setTimeout(() => tooltip.classList.add('hidden'), 300);
+                            
+                            document.querySelectorAll(`.chart-dot-${i}`).forEach(d => {
+                                d.setAttribute('r', '4');
+                                d.setAttribute('stroke-width', '2');
+                            });
+                        };
+
+                        rect.addEventListener('mouseenter', showTooltip);
+                        rect.addEventListener('mouseleave', hideTooltip);
+                        rect.addEventListener('click', showTooltip);
+
+                        // Visual dots
+                        const dotPas = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        dotPas.setAttribute("cx", x);
+                        dotPas.setAttribute("cy", yPas);
+                        dotPas.setAttribute("r", "4");
+                        dotPas.setAttribute("fill", "#a855f7");
+                        dotPas.setAttribute("stroke", "white");
+                        dotPas.setAttribute("stroke-width", "2");
+                        dotPas.setAttribute("class", `chart-dot-${i} transition-all duration-300`);
+
+                        const dotMot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        dotMot.setAttribute("cx", x);
+                        dotMot.setAttribute("cy", yMot);
+                        dotMot.setAttribute("r", "4");
+                        dotMot.setAttribute("fill", "#0f38bd");
+                        dotMot.setAttribute("stroke", "white");
+                        dotMot.setAttribute("stroke-width", "2");
+                        dotMot.setAttribute("class", `chart-dot-${i} transition-all duration-300`);
+
+                        dotsContainer.appendChild(dotPas);
+                        dotsContainer.appendChild(dotMot);
+                        dotsContainer.appendChild(rect);
+                    });
+
+                } catch (error) {
+                    console.error('Erro ao buscar dados do gráfico:', error);
+                }
+            }
+
+            async function updateBlogChart() {
+                try {
+                    const barsContainer = document.getElementById('blog-bars-container');
+                    const labelsContainer = document.getElementById('blog-labels');
+                    const growthBadge = document.getElementById('blog-growth');
+                    const tooltip = document.getElementById('blog-tooltip');
+
+                    if (!barsContainer || !labelsContainer || !growthBadge || !tooltip) return;
+
+                    // 1. Get Jan-Dec 2026
+                    const monthsCount = 12;
+                    const year = 2026;
+                    const months = [];
+                    for (let i = 0; i < monthsCount; i++) {
+                        months.push(new Date(year, i, 1));
+                    }
+
+                    // 2. Fetch posts
+                    const { data: posts, error } = await sb
+                        .from('postagens')
+                        .select('criado_em')
+                        .eq('publicado', true);
+
+                    if (error) throw error;
+
+                    // 3. Count posts per month
+                    const monthlyCounts = months.map(m => {
+                        return posts.filter(p => {
+                            const postDate = new Date(p.criado_em);
+                            return postDate.getMonth() === m.getMonth() && 
+                                   postDate.getFullYear() === m.getFullYear();
+                        }).length;
+                    });
+
+                    // 4. Update growth badge (based on current real month if in 2026, otherwise last month)
+                    const now = new Date();
+                    const currentMonthIdx = (now.getFullYear() === year) ? now.getMonth() : monthsCount - 1;
+                    const currentMonthCount = monthlyCounts[currentMonthIdx];
+                    const lastMonthCount = monthlyCounts[monthsCount - 2] || 0;
+                    const diff = currentMonthCount - lastMonthCount;
+                    const sign = diff >= 0 ? '+' : '';
+                    growthBadge.textContent = `${sign}${diff}`;
+                    growthBadge.className = diff >= 0 ? 
+                        'bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold' : 
+                        'bg-red-500/10 text-red-600 px-3 py-1 rounded-full text-xs font-bold';
+
+                    // 5. Render bars and labels
+                    barsContainer.innerHTML = '';
+                    labelsContainer.innerHTML = '';
+                    const maxCount = Math.max(...monthlyCounts, 5); // Min scale of 5
+
+                    months.forEach((date, i) => {
+                        const count = monthlyCounts[i];
+                        const heightPct = (count / maxCount) * 100;
+
+                        // Create bar
+                        const barWrapper = document.createElement('div');
+                        barWrapper.className = 'flex-1 h-full relative cursor-pointer flex items-end';
+                        
+                        const bar = document.createElement('div');
+                        bar.style.height = `${Math.max(heightPct, 5)}%`;
+                        bar.className = `w-full ${i === currentMonthIdx ? 'bg-cyan-500' : 'bg-cyan-500/20'} rounded-t-sm transition-all duration-300 transform origin-bottom hover:bg-cyan-400`;
+                        
+                        barWrapper.appendChild(bar);
+                        barsContainer.appendChild(barWrapper);
+
+                        // Create label
+                        const label = document.createElement('span');
+                        label.className = 'text-slate-400 text-[10px] font-bold uppercase tracking-tighter flex-1 text-center';
+                        label.textContent = date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+                        labelsContainer.appendChild(label);
+
+                        // Interactivity
+                        const showTooltip = (e) => {
+                            tooltip.classList.remove('hidden');
+                            setTimeout(() => {
+                                tooltip.style.opacity = '1';
+                                tooltip.style.transform = 'translate(-50%, -100%) scale(1)';
+                            }, 10);
+
+                            const rect = barWrapper.getBoundingClientRect();
+                            const containerRect = document.querySelector('.group\\/chart2').getBoundingClientRect();
+                            
+                            tooltip.style.left = `${((rect.left + rect.width / 2) - containerRect.left)}px`;
+                            tooltip.style.top = `${((rect.top + rect.height * (1 - heightPct/100)) - containerRect.top)}px`;
+
+                            document.getElementById('blog-tooltip-date').textContent = date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+                            document.getElementById('blog-tooltip-value').textContent = count;
+                            
+                            bar.classList.add('brightness-125');
+                        };
+
+                        const hideTooltip = () => {
+                            tooltip.style.opacity = '0';
+                            tooltip.style.transform = 'translate(-50%, -100%) scale(0.9)';
+                            setTimeout(() => tooltip.classList.add('hidden'), 300);
+                            bar.classList.remove('brightness-125');
+                        };
+
+                        barWrapper.addEventListener('mouseenter', showTooltip);
+                        barWrapper.addEventListener('mouseleave', hideTooltip);
+                        barWrapper.addEventListener('click', showTooltip);
+                    });
+
+                } catch (error) {
+                    console.error('Erro ao buscar dados do blog:', error);
+                }
+            }
+
+            await updateStats();
+            await updateRegistrationChart();
+            await updateBlogChart();
         });
     </script>
 </body>

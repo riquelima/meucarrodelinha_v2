@@ -19,15 +19,15 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&display=block"
         rel="stylesheet" />
 
-    <!-- Google Maps SDK -->
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap"></script>
+    <!-- Google Maps SDK is loaded at the bottom after initMap is defined -->
+    
+    <!-- Core Dependencies (Supabase and Client) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    
     <link rel="stylesheet" href="css/ui-style.css" />
 
     <script id="tailwind-config">tailwind.config = {
@@ -606,13 +606,15 @@
         }
     </style>
 
-    <script src="js/location-modal.js"></script>
     <script>
+        // Define global map variables first
         let googleMap;
         let userMarker;
+        let destinationMarker;
         let currentCoords = null;
         let isFirstLocationUpdate = true;
 
+        // Define initMap before loading the SDK to avoid "initMap is not a function"
         window.initMap = function () {
             const mapContainer = document.getElementById('passageiro-map');
             if (mapContainer) {
@@ -620,6 +622,7 @@
                     center: { lat: -12.8711, lng: -38.7614 },
                     zoom: 14,
                     disableDefaultUI: true,
+                    mapId: 'DEMO_MAP_ID', // Requerido para Advanced Markers
                     styles: [
                         {
                             "featureType": "poi",
@@ -634,19 +637,21 @@
                 function updateUserMarker(lat, lng) {
                     currentCoords = { lat, lng };
                     if (userMarker) {
-                        userMarker.setPosition(currentCoords);
+                        userMarker.position = currentCoords;
                     } else {
-                        userMarker = new google.maps.Marker({
+                        // User location marker as a custom HTML element
+                        const userLocationDiv = document.createElement('div');
+                        userLocationDiv.style.width = '14px';
+                        userLocationDiv.style.height = '14px';
+                        userLocationDiv.style.backgroundColor = '#4285F4';
+                        userLocationDiv.style.borderRadius = '50%';
+                        userLocationDiv.style.border = '2px solid white';
+                        userLocationDiv.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
+
+                        userMarker = new google.maps.marker.AdvancedMarkerElement({
                             position: currentCoords,
                             map: googleMap,
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                scale: 7,
-                                fillColor: "#4285F4",
-                                fillOpacity: 1,
-                                strokeColor: "#ffffff",
-                                strokeWeight: 2,
-                            },
+                            content: userLocationDiv,
                             title: 'Sua localização atual'
                         });
                     }
@@ -673,20 +678,13 @@
 
                 if (window.requestLocationPermission) {
                     window.requestLocationPermission().then(() => {
-                        // 1. Obter localização imediata para não esperar o watchPosition
                         navigator.geolocation.getCurrentPosition(
-                            (position) => {
-                                updateUserMarker(position.coords.latitude, position.coords.longitude);
-                            },
+                            (position) => updateUserMarker(position.coords.latitude, position.coords.longitude),
                             handleLocationError,
                             geoOptions
                         );
-
-                        // 2. Iniciar acompanhamento em tempo real
                         navigator.geolocation.watchPosition(
-                            (position) => {
-                                updateUserMarker(position.coords.latitude, position.coords.longitude);
-                            },
+                            (position) => updateUserMarker(position.coords.latitude, position.coords.longitude),
                             handleLocationError,
                             geoOptions
                         );
@@ -697,71 +695,13 @@
                 } else {
                     updateUserMarker(defaultLocation.lat, defaultLocation.lng);
                 }
-
-                // Autocomplete Logic for passageiro.html
-                const destinoInput = document.getElementById('destino-input');
-                const suggestionsList = document.getElementById('destino-suggestions');
-
-                if (destinoInput && suggestionsList) {
-                    const autocompleteService = new google.maps.places.AutocompleteService();
-                    const geocoder = new google.maps.Geocoder();
-                    let debounceTimer;
-
-                    destinoInput.addEventListener('input', () => {
-                        const query = destinoInput.value;
-                        clearTimeout(debounceTimer);
-                        if (query.length < 3) {
-                            suggestionsList.innerHTML = '';
-                            suggestionsList.classList.add('hidden');
-                            return;
-                        }
-
-                        debounceTimer = setTimeout(() => {
-                            autocompleteService.getPlacePredictions({
-                                input: query,
-                                componentRestrictions: { country: 'br' },
-                                locationBias: currentCoords || { lat: -12.87, lng: -38.80 }
-                            }, (predictions, status) => {
-                                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                                    suggestionsList.innerHTML = '';
-                                    predictions.forEach(prediction => {
-                                        const li = document.createElement('li');
-                                        li.className = 'px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b border-slate-100 dark:border-slate-700 last:border-0 transition-colors flex items-center gap-3';
-                                        li.innerHTML = `
-                                            <span class="material-symbols-outlined text-slate-400">location_on</span>
-                                            <div class="flex-1 overflow-hidden text-black dark:text-white">
-                                                <p class="text-sm font-medium truncate">${prediction.structured_formatting.main_text}</p>
-                                                <p class="text-xs text-slate-500 truncate">${prediction.description}</p>
-                                            </div>
-                                        `;
-                                        li.addEventListener('click', () => {
-                                            geocoder.geocode({ placeId: prediction.place_id }, (results, status) => {
-                                                if (status === google.maps.GeocoderStatus.OK && results[0]) {
-                                                    const place = results[0];
-                                                    destinoInput.value = place.formatted_address;
-                                                    suggestionsList.classList.add('hidden');
-
-                                                    const pos = place.geometry.location;
-                                                    googleMap.setCenter(pos);
-                                                    googleMap.setZoom(16);
-
-                                                    new google.maps.Marker({
-                                                        position: pos,
-                                                        map: googleMap,
-                                                        animation: google.maps.Animation.DROP
-                                                    });
-                                                }
-                                            });
-                                        });
-                                        suggestionsList.appendChild(li);
-                                    });
-                                    suggestionsList.classList.remove('hidden');
-                                }
-                            });
-                        }, 300);
-                    });
-                }
             }
+        };
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async" async defer></script>
+
+    <script src="js/location-modal.js"></script>
+    <script>
 
 
 
@@ -1055,6 +995,27 @@
                             input.value = label;
                             list.classList.add('hidden');
 
+                            // Mover o mapa para o destino selecionado
+                            if (googleMap && item.lat && item.lon) {
+                                const destCoords = { 
+                                    lat: parseFloat(item.lat), 
+                                    lng: parseFloat(item.lon) 
+                                };
+                                
+                                googleMap.setCenter(destCoords);
+                                googleMap.setZoom(17);
+
+                                if (destinationMarker) {
+                                    destinationMarker.position = destCoords;
+                                } else {
+                                    destinationMarker = new google.maps.marker.AdvancedMarkerElement({
+                                        position: destCoords,
+                                        map: googleMap,
+                                        title: 'Destino selecionado'
+                                    });
+                                }
+                            }
+
                             // Highlight Ride Type Section
                             const rideTypeSection = document.getElementById('ride-type-section');
                             if (rideTypeSection) {
@@ -1074,30 +1035,42 @@
                 }
 
                 async function fetchSuggestions(query) {
-                    if (query.length < 3) { list.classList.add('hidden'); return; }
+                    if (query.length < 2) { list.classList.add('hidden'); return; }
 
                     if (currentFetch) currentFetch.abort();
                     currentFetch = new AbortController();
 
                     showLoading();
 
-                    const url = 'https://nominatim.openstreetmap.org/search?' +
-                        new URLSearchParams({
-                            q: query + ' Salinas da Margarida Bahia Brasil',
+                    const searchParams = {
+                            q: query,
                             format: 'json',
-                            limit: '6',
+                            limit: '10',
                             countrycodes: 'br',
                             'accept-language': 'pt-BR',
-                            addressdetails: '0'
-                        }).toString();
+                            viewbox: '-38.88,-12.97,-38.65,-12.77', 
+                            bounded: '0', 
+                            addressdetails: '1'
+                        };
+
+                    // Se tivermos a localização do usuário, priorizamos resultados próximos
+                    if (currentCoords) {
+                        searchParams.lat = currentCoords.lat;
+                        searchParams.lon = currentCoords.lng;
+                    }
+
+                    const url = 'https://nominatim.openstreetmap.org/search?' +
+                        new URLSearchParams(searchParams).toString();
 
                     try {
-                        const res = await fetch(url, { signal: currentFetch.signal });
+                        const res = await fetch(url, { 
+                            signal: currentFetch.signal
+                        });
                         const data = await res.json();
                         showResults(data);
                     } catch (err) {
                         if (err.name !== 'AbortError') {
-                            list.innerHTML = '<li class="px-4 py-3 text-sm text-red-400">Erro ao buscar endereços</li>';
+                            console.error('Erro Autocomplete:', err);
                         }
                     } finally {
                         currentFetch = null;
@@ -1114,11 +1087,8 @@
                 input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
                 input.addEventListener('focus', () => { if (list.children.length && !list.querySelector('[class*=animate-spin]')) list.classList.remove('hidden'); });
             })();
-        };
     </script>
-    <script src="js/chat-notifications.js"></script>
-    <script src="js/ui-transitions.js"></script>
-    <script src="js/pwa-register.js"></script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
@@ -1261,11 +1231,7 @@
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabaseClient.js"></script>
-    <script src="js/chat-notifications.js"></script>
-    <script src="js/ui-transitions.js"></script>
-    <script src="js/pwa-register.js"></script>
+    <!-- Scripts already loaded above -->
 </body>
 
 </html>
