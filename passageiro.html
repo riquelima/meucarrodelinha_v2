@@ -431,6 +431,29 @@
                             const destino = destinoInput.value.trim();
                             const origem = currentAddress; // Usa o endereço real obtido via geocodificação reversa
 
+                            // Função auxiliar para obter distância via maps
+                            function getDistancePromise(origin, destination) {
+                                return new Promise((resolve) => {
+                                    if (!window.google || !window.google.maps) {
+                                        resolve("N/D");
+                                        return;
+                                    }
+                                    const service = new google.maps.DistanceMatrixService();
+                                    service.getDistanceMatrix({
+                                        origins: [origin],
+                                        destinations: [destination],
+                                        travelMode: google.maps.TravelMode.DRIVING,
+                                        unitSystem: google.maps.UnitSystem.METRIC,
+                                    }, (response, status) => {
+                                        if (status === "OK" && response.rows[0].elements[0].status === "OK") {
+                                            resolve(response.rows[0].elements[0].distance.text);
+                                        } else {
+                                            resolve("N/D");
+                                        }
+                                    });
+                                });
+                            }
+
                             // 2. Buscar todos os motoristas
                             async function broadcastTripRequest() {
                                 try {
@@ -472,7 +495,10 @@
                                     if (motoristas && motoristas.length > 0) {
                                         const valorSugerido = "85,00";
 
-                                        const tripData = JSON.stringify({ origem, destino });
+                                        // Calcular distância antes de enviar o broadcast
+                                        const distanciaEstimada = await getDistancePromise(origem, destino);
+
+                                        const tripData = JSON.stringify({ origem, destino, distancia: distanciaEstimada });
                                         const proposalData = JSON.stringify({ valor: valorSugerido });
 
                                         const mensagens = [];

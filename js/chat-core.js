@@ -138,13 +138,13 @@ class ChatManager {
             try {
                 const data = JSON.parse(msg.conteudo.replace('[TRIP_REQUEST]', ''));
                 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.destino)}`;
-                const distId = `dist-${msg.id}`;
+                const labelDistancia = data.distancia || "N/D";
 
                 div.innerHTML = `
                     <div class="trip-card bg-orange-500/10 dark:bg-slate-800/50 px-4 py-3 rounded-xl rounded-bl-none border border-orange-500/10 w-full text-left relative overflow-hidden">
                         <div class="absolute top-3 right-4 flex items-center gap-1 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full z-10">
                             <span class="material-symbols-outlined text-[12px] text-orange-500">distance</span>
-                            <span id="${distId}" class="text-[10px] font-bold text-orange-500 italic">calculando...</span>
+                            <span class="text-[10px] font-bold text-orange-500 italic">${labelDistancia}</span>
                         </div>
                         <h3 class="text-orange-500 font-bold text-sm uppercase tracking-wider mb-2">Nova Solicitação de Viagem</h3>
                         <div class="relative h-32 w-full bg-slate-700 rounded-lg overflow-hidden mb-3 border border-orange-500/20">
@@ -276,41 +276,6 @@ class ChatManager {
 
 
         this.messagesContainer.appendChild(div);
-
-        // Se for uma solicitação de viagem, buscar a distância
-        if (msg.conteudo.startsWith('[TRIP_REQUEST]')) {
-            try {
-                const data = JSON.parse(msg.conteudo.replace('[TRIP_REQUEST]', ''));
-                this.fetchDistance(data.origem, data.destino, `dist-${msg.id}`);
-            } catch (e) {
-                console.error("Erro ao disparar fetchDistance:", e);
-            }
-        }
-    }
-
-    async fetchDistance(origin, destination, elementId) {
-        if (!window.google || !window.google.maps) return;
-
-        const service = new google.maps.DistanceMatrixService();
-        try {
-            const response = await service.getDistanceMatrix({
-                origins: [origin],
-                destinations: [destination],
-                travelMode: google.maps.TravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.METRIC,
-            });
-
-            const element = document.getElementById(elementId);
-            if (element && response.rows[0].elements[0].status === "OK") {
-                element.textContent = response.rows[0].elements[0].distance.text;
-            } else if (element) {
-                element.textContent = "N/D";
-            }
-        } catch (error) {
-            console.error("Erro no DistanceMatrix:", error);
-            const element = document.getElementById(elementId);
-            if (element) element.textContent = "Erro";
-        }
     }
 
     async sendLocation() {
