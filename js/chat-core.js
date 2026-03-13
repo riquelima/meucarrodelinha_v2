@@ -76,7 +76,7 @@ class ChatManager {
         if (!this.isMotorista && isBroadcast) return;
 
         const isMe = msg.remetente_id === this.currentUser.id;
-        const time = new Date(msg.enviada_em).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const time = new Date(msg.enviada_em).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
 
         const div = document.createElement('div');
         div.className = `flex flex-col items-end gap-2 ${isMe ? 'ml-auto' : ''} max-w-[90%] animate-fade-in`;

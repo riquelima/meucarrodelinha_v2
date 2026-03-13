@@ -85,7 +85,7 @@ class ConversasMotorista {
         conversations.forEach(conv => {
             const target = conv.user;
             const lastMsg = conv.lastMessage;
-            const time = new Date(lastMsg.enviada_em).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const time = new Date(lastMsg.enviada_em).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
             const photoUrl = target.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(target.nome)}&background=random&size=128`;
             const lastText = lastMsg.conteudo.startsWith('[LOCATION]') ? '📍 Localização' :
                 lastMsg.conteudo.startsWith('[TRIP_REQUEST]') ? '🚗 Solicitação de Viagem' :
