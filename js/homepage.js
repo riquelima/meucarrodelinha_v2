@@ -190,9 +190,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
 
-                // Add click event to navigate to all drivers page
-                card.addEventListener('click', () => {
-                    window.location.href = 'todosmotoristas.html';
+                // Add click event with smooth animation before redirect
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    card.classList.add('animate-card-click');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'todosmotoristas.html';
+                    }, 400);
                 });
 
                 return card;

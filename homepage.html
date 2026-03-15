@@ -355,6 +355,16 @@
                 logoFloat 4s ease-in-out 0.8s infinite,
                 logoGlow 4s ease-in-out 0.8s infinite;
         }
+
+        @keyframes cardClick {
+            0% { transform: scale(1); filter: brightness(1); }
+            30% { transform: scale(0.92); filter: brightness(1.2); }
+            100% { transform: scale(1.1); filter: brightness(0); opacity: 0; }
+        }
+        .animate-card-click {
+            animation: cardClick 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+            pointer-events: none;
+        }
     </style>
 </head>
 
