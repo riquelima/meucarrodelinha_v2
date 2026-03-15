@@ -149,17 +149,17 @@
 
             <!-- Stats Cards -->
             <div class="grid grid-cols-2 gap-3 mb-8">
-                <div
-                    class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center">
+                <a href="minhasAvaliacoes.html"
+                    class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all active:scale-95 cursor-pointer">
                     <div class="flex items-center gap-1">
-                        <span class="text-2xl font-bold text-slate-900 dark:text-slate-100">4.95</span>
+                        <span id="rating-value" class="text-2xl font-bold text-slate-900 dark:text-slate-100">--</span>
                         <span class="material-symbols-outlined text-yellow-500 text-2xl fill-current">star</span>
                     </div>
                     <span class="text-xs text-slate-500 uppercase font-bold tracking-wider mt-1">Avaliação</span>
-                </div>
+                </a>
                 <div
                     class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center">
-                    <span class="text-2xl font-bold text-slate-900 dark:text-slate-100">0</span>
+                    <span id="trips-count" class="text-2xl font-bold text-slate-900 dark:text-slate-100">0</span>
                     <span class="text-xs text-slate-500 uppercase font-bold tracking-wider mt-1">Viagens</span>
                 </div>
             </div>
@@ -445,16 +445,40 @@
                 }
             };
 
-            // 4. Fetch Trips Count
-            const { count, error: tripsError } = await supabaseClient
-                .from('viagens')
-                .select('*', { count: 'exact', head: true })
-                .eq('motorista_id', user.id);
+            // 4. Fetch Stats (Trips and Rating)
+            async function loadStats() {
+                try {
+                    const { data: trips, error: tripsError } = await supabaseClient
+                        .from('viagens')
+                        .select('avaliacao_motorista')
+                        .eq('motorista_id', user.id);
 
-            if (!tripsError) {
-                const statsElements = document.querySelectorAll('.text-2xl.font-bold');
-                // statsElements[1].innerText = count || 0;
+                    if (tripsError) throw tripsError;
+
+                    if (trips) {
+                        const totalTrips = trips.length;
+                        const ratings = trips
+                            .map(t => t.avaliacao_motorista)
+                            .filter(r => r !== null && r !== undefined && r > 0);
+
+                        let avgFormatted = "5.0"; // Default for new drivers
+                        
+                        if (ratings.length > 0) {
+                            const sum = ratings.reduce((acc, curr) => acc + curr, 0);
+                            const avg = sum / ratings.length;
+                            // Format to 1 decimal place if it's not a whole number, otherwise 1 decimal too
+                            avgFormatted = avg.toFixed(1);
+                        }
+
+                        document.getElementById('rating-value').innerText = avgFormatted;
+                        document.getElementById('trips-count').innerText = totalTrips;
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar estatísticas:', error);
+                }
             }
+
+            await loadStats();
         });
     </script>
 </body>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Minhas Avaliações - Salinas</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e40ae",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                        "surface-dark": "#1c2131",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            min-height: 100dvh;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .font-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="page-container">
+        <!-- Header -->
+        <header class="flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 shadow-sm z-20 shrink-0 border-b border-white/10 sticky top-0">
+            <a href="perfilMotorista.html" class="text-white p-2 -ml-2 rounded-full hover:bg-white/20 transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <h1 class="text-lg font-bold text-white">Minhas Avaliações</h1>
+            <div class="w-10"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="page-content no-scrollbar px-4 pt-6 pb-24">
+            <!-- Global Rating Summary -->
+            <section class="mb-8 p-6 bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center text-center scale-up">
+                <div id="average-display" class="text-6xl font-black text-primary mb-2">--</div>
+                <div id="stars-display" class="flex gap-1 mb-2 text-yellow-500">
+                    <!-- Stars will be injected here -->
+                </div>
+                <p id="total-evaluations" class="text-slate-500 dark:text-slate-400 text-sm font-medium italic">Carregando avaliações...</p>
+            </section>
+
+            <!-- Comments List -->
+            <div class="space-y-4" id="comments-container">
+                <div class="p-8 text-center text-slate-500 animate-pulse">Buscando comentários...</div>
+            </div>
+        </main>
+
+        <!-- Navbar -->
+        <nav class="fixed-navbar">
+            <a class="flex flex-col items-center gap-1 text-slate-500" href="motorista.html">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold">Início</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-500" href="meusganhos.html">
+                <span class="material-symbols-outlined">payments</span>
+                <span class="text-[10px] font-bold">Ganhos</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-500 relative" href="mensagensMotorista.html">
+                <span class="material-symbols-outlined">chat</span>
+                <span class="text-[10px] font-bold">Chat</span>
+                <span id="chat-badge" class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-500" href="historicoViagens.html">
+                <span class="material-symbols-outlined">history</span>
+                <span class="text-[10px] font-bold">Histórico</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-primary no-effect" href="perfilMotorista.html">
+                <span class="material-symbols-outlined font-fill">account_circle</span>
+                <span class="text-[10px] font-bold">Perfil</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/chat-notifications.js"></script>
+    <script src="js/ui-transitions.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('comments-container');
+            const avgEl = document.getElementById('average-display');
+            const totalEl = document.getElementById('total-evaluations');
+            const starsEl = document.getElementById('stars-display');
+
+            // Check Auth
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) {
+                window.location.href = 'loginMotorista.html';
+                return;
+            }
+
+            async function loadReviews() {
+                try {
+                    const { data: reviews, error } = await supabaseClient
+                        .from('viagens')
+                        .select(`
+                            avaliacao_motorista,
+                            comentario_passageiro,
+                            criado_em,
+                            passageiro_id,
+                            passageiro:usuarios!viagens_passageiro_id_fkey (
+                                nome,
+                                foto_perfil_url
+                            )
+                        `)
+                        .eq('motorista_id', user.id)
+                        .not('avaliacao_motorista', 'is', null)
+                        .order('criado_em', { ascending: false });
+
+                    if (error) throw error;
+
+                    if (!reviews || reviews.length === 0) {
+                        avgEl.innerText = "5.0";
+                        totalEl.innerText = "Nenhuma avaliação recebida ainda.";
+                        container.innerHTML = `
+                            <div class="p-12 text-center text-slate-500">
+                                <span class="material-symbols-outlined text-4xl mb-4 block">sentiment_satisfied</span>
+                                <p>Você ainda não possui comentários de passageiros.</p>
+                            </div>
+                        `;
+                        renderStars(5);
+                        return;
+                    }
+
+                    // Calculate Summary
+                    const totalCount = reviews.length;
+                    const sum = reviews.reduce((acc, r) => acc + r.avaliacao_motorista, 0);
+                    const avg = sum / totalCount;
+                    
+                    avgEl.innerText = avg.toFixed(1);
+                    totalEl.innerText = `Baseado em ${totalCount} ${totalCount === 1 ? 'avaliação' : 'avaliações'}`;
+                    renderStars(avg);
+
+                    // Render List
+                    container.innerHTML = '';
+                    reviews.forEach((rev, index) => {
+                        const date = new Date(rev.criado_em).toLocaleDateString('pt-BR', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric'
+                        });
+
+                        const comment = rev.comentario_passageiro || "O passageiro não deixou um comentário escrito.";
+                        const passageiroNome = rev.passageiro?.nome || "Passageiro";
+                        const passageiroFoto = rev.passageiro?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(passageiroNome)}&background=random`;
+
+                        const card = document.createElement('div');
+                        card.className = "bg-white dark:bg-surface-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm animate-slide-up";
+                        card.style.animationDelay = `${index * 100}ms`;
+                        
+                        card.innerHTML = `
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="size-11 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
+                                    <img src="${passageiroFoto}" alt="${passageiroNome}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-sm">${passageiroNome}</p>
+                                    <p class="text-[10px] text-slate-500">${date}</p>
+                                </div>
+                                <div class="flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-lg">
+                                    <span class="material-symbols-outlined text-xs font-fill">star</span>
+                                    <span class="font-bold text-xs">${rev.avaliacao_motorista.toFixed(1)}</span>
+                                </div>
+                            </div>
+                            <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300 italic">"${comment}"</p>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                } catch (err) {
+                    console.error("Erro ao carregar avaliações:", err);
+                    container.innerHTML = `<p class="text-center text-red-500">Erro ao carregar dados.</p>`;
+                }
+            }
+
+            function renderStars(rating) {
+                starsEl.innerHTML = '';
+                for (let i = 1; i <= 5; i++) {
+                    const span = document.createElement('span');
+                    span.className = "material-symbols-outlined text-2xl";
+                    if (i <= Math.floor(rating)) {
+                        span.classList.add('font-fill');
+                        span.innerText = 'star';
+                    } else if (i - 0.5 <= rating) {
+                        span.innerText = 'star_half';
+                    } else {
+                        span.innerText = 'star';
+                    }
+                    starsEl.appendChild(span);
+                }
+            }
+
+            await loadReviews();
+        });
+    </script>
+</body>
+
+</html>
