@@ -621,7 +621,11 @@ async function broadcastTripRequest() {
                      <div id="driver-rating-avatar" class="size-24 rounded-full border-4 border-primary/20 mx-auto overflow-hidden bg-slate-100 shadow-xl">
                          <img src="https://ui-avatars.com/api/?name=Motorista&background=random" class="size-full object-cover">
                      </div>
-                     <p id="rating-driver-name" class="font-black text-xl text-slate-900 dark:text-white tracking-tight">Seu Motorista</p>
+                        <p id="rating-driver-name" class="font-black text-xl text-slate-900 dark:text-white tracking-tight">Seu Motorista</p>
+                        <div class="flex items-center gap-1 justify-center text-yellow-500 mt-1">
+                            <span class="material-symbols-outlined text-sm font-fill">star</span>
+                            <span id="driver-current-rating" class="text-xs font-bold">5.0</span>
+                        </div>
                 </div>
 
                 <div class="space-y-4 w-full">
@@ -1305,7 +1309,7 @@ async function broadcastTripRequest() {
                             photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random&size=128`;
                         }
 
-                        const rating = parseFloat(motorista.avaliacao_media || (4.5 + Math.random() * 0.5)).toFixed(1);
+                        const rating = parseFloat(motorista.avaliacao_media || 5.0).toFixed(1);
                         const timeAway = Math.floor(Math.random() * 10) + 2;
 
                         const cardHtml = `
@@ -1435,7 +1439,7 @@ async function broadcastTripRequest() {
                 if (trip.motorista_id) {
                     const { data: motorista } = await window.supabaseClient
                         .from('motoristas')
-                        .select('usuarios(nome, foto_perfil_url)')
+                        .select('avaliacao_media, usuarios(nome, foto_perfil_url)')
                         .eq('usuario_id', trip.motorista_id)
                         .single();
                     
@@ -1443,6 +1447,9 @@ async function broadcastTripRequest() {
                         driverNameEl.textContent = motorista.usuarios.nome;
                         const photo = motorista.usuarios.foto_perfil_url;
                         if (photo) avatarImg.src = photo;
+                    }
+                    if (motorista?.avaliacao_media) {
+                        document.getElementById('driver-current-rating').textContent = parseFloat(motorista.avaliacao_media).toFixed(1);
                     }
                 }
 

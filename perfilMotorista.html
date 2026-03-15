@@ -349,6 +349,7 @@
             const mandatoryOverlay = document.getElementById('photo-mandatory-overlay');
 
             // 2. Fetch Driver Profile
+            let driverData = null;
             async function loadProfile() {
                 const { data: driver, error: profileError } = await supabaseClient
                     .from('motoristas')
@@ -366,6 +367,7 @@
                     console.error('Error fetching driver profile:', profileError);
                     return;
                 }
+                driverData = driver;
 
                 const driverName = driver.usuarios?.nome || 'Nome Sobrenome';
                 nameEl.innerText = driverName;

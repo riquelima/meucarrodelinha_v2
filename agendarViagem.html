@@ -294,52 +294,10 @@
             <!-- Driver Selection -->
             <section class="mb-6">
                 <h3 class="text-md font-bold mb-4">Escolha seu Motorista</h3>
-                <div class="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 custom-scrollbar snap-x snap-mandatory">
-                    <!-- Driver Card 1 -->
-                    <div
-                        class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
-                                <img alt="Ricardo Silva" class="w-full h-full object-cover"
-                                    src="https://randomuser.me/api/portraits/men/32.jpg" />
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-bold truncate">Ricardo Silva</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Toyota Corolla • Prata</p>
-                            </div>
-                            <div class="flex items-center gap-0.5">
-                                <span class="material-symbols-outlined text-yellow-500 text-sm font-fill">star</span>
-                                <span class="text-xs font-bold">4.9</span>
-                            </div>
-                        </div>
-                        <button
-                            class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-1 shadow-sm">
-                            Selecionar
-                        </button>
-                    </div>
-                    <!-- Driver Card 2 -->
-                    <div
-                        class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
-                                <img alt="Ana Oliveira" class="w-full h-full object-cover"
-                                    src="https://randomuser.me/api/portraits/women/44.jpg" />
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-bold truncate">Ana Oliveira</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Hyundai HB20 • Branco</p>
-                            </div>
-                            <div class="flex items-center gap-0.5">
-                                <span class="material-symbols-outlined text-yellow-500 text-sm font-fill">star</span>
-                                <span class="text-xs font-bold">5.0</span>
-                            </div>
-                        </div>
-                        <button
-                            class="w-full py-2 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-1">
-                            Selecionar
-                        </button>
+                <div id="drivers-list-container" class="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 custom-scrollbar snap-x snap-mandatory">
+                    <div class="p-4 text-center text-slate-400 text-sm w-full">
+                        <span class="material-symbols-outlined animate-spin mb-2">sync</span>
+                        <p>Buscando motoristas...</p>
                     </div>
                 </div>
             </section>
@@ -685,6 +643,59 @@
 
             setupAutocomplete('origin-input', 'origin-suggestions');
             setupAutocomplete('destination-input', 'destination-suggestions');
+
+            // Fetch Drivers
+            const driversContainer = document.getElementById('drivers-list-container');
+            if (driversContainer && window.supabaseClient) {
+                try {
+                    supabaseClient.from('motoristas')
+                        .select('*, usuarios(nome, foto_perfil_url)')
+                        .eq('status_aprovacao', 'aprovado')
+                        .then(({ data: motoristas, error }) => {
+                            if (error) throw error;
+                            
+                            driversContainer.innerHTML = '';
+                            if (!motoristas || motoristas.length === 0) {
+                                driversContainer.innerHTML = '<p class="text-center text-sm text-slate-500 w-full py-4">Nenhum motorista disponível.</p>';
+                                return;
+                            }
+
+                            motoristas.forEach((motorista, index) => {
+                                const usuario = Array.isArray(motorista.usuarios) ? motorista.usuarios[0] : motorista.usuarios;
+                                const displayName = usuario?.nome || 'Motorista';
+                                const photoUrl = usuario?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random`;
+                                const rating = parseFloat(motorista.avaliacao_media || 5.0).toFixed(1);
+
+                                const btnClass = index === 0 
+                                    ? 'bg-primary text-white hover:bg-primary/90 shadow-sm' 
+                                    : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700';
+
+                                driversContainer.innerHTML += `
+                                    <div class="flex-none w-72 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm snap-center">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex-shrink-0 ring-2 ring-primary/20">
+                                                <img alt="${displayName}" class="w-full h-full object-cover" src="${photoUrl}" />
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-bold truncate">${displayName}</p>
+                                                <p class="text-xs text-slate-500 dark:text-slate-400">${motorista.modelo_veiculo || 'Veículo'} • ${motorista.cor_veiculo || 'Cor'}</p>
+                                            </div>
+                                            <div class="flex items-center gap-0.5">
+                                                <span class="material-symbols-outlined text-yellow-500 text-sm font-fill">star</span>
+                                                <span class="text-xs font-bold">${rating}</span>
+                                            </div>
+                                        </div>
+                                        <button class="w-full py-2 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${btnClass}">
+                                            Selecionar
+                                        </button>
+                                    </div>
+                                `;
+                            });
+                        });
+                } catch (err) {
+                    console.error(err);
+                }
+            }
         });
     </script>
 </body>

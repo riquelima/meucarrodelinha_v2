@@ -165,7 +165,7 @@
                     const sum = reviews.reduce((acc, r) => acc + r.avaliacao_motorista, 0);
                     const avg = sum / totalCount;
                     
-                    avgEl.innerText = avg.toFixed(1);
+                    avgEl.innerText = parseFloat(avg || 5.0).toFixed(1);
                     totalEl.innerText = `Baseado em ${totalCount} ${totalCount === 1 ? 'avaliação' : 'avaliações'}`;
                     renderStars(avg);
 
