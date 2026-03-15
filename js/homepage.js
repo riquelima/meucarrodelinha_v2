@@ -190,10 +190,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
 
-                // Add click event (optional: navigate to driver profile or booking)
+                // Add click event to navigate to all drivers page
                 card.addEventListener('click', () => {
-                    // Future implementation: Navigate to driver details
-                    console.log('Clicked driver:', user.nome);
+                    window.location.href = 'todosmotoristas.html';
                 });
 
                 return card;
