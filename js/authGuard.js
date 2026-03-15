@@ -43,9 +43,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Proteção de rotas do Motorista
-    if (currentPath.includes('motorista.html') && tipoUsuario !== 'motorista' && tipoUsuario !== 'admin') {
-        alert("Acesso negado. Esta área é exclusiva para motoristas.");
+    const motoristaPages = ['motorista.html', 'historicoViagens.html', 'meusganhos.html', 'perfilMotorista.html', 'mensagensMotorista.html', 'chatMotorista.html'];
+    const isMotoristaPage = motoristaPages.some(page => currentPath.includes(page));
+
+    if (isMotoristaPage && tipoUsuario !== 'motorista' && tipoUsuario !== 'admin') {
+        console.warn("Acesso negado: área de motorista tentada por", tipoUsuario);
         window.location.href = 'passageiro.html';
+        return;
+    }
+
+    // Proteção de rotas do Passageiro
+    const passageiroPages = ['passageiro.html', 'minhasViagens.html', 'perfilPassageiro.html', 'mensagens.html', 'chat.html', 'agendarViagem.html', 'viagemSolicitada.html'];
+    const isPassageiroPage = passageiroPages.some(page => currentPath.includes(page));
+
+    if (isPassageiroPage && tipoUsuario !== 'passageiro' && tipoUsuario !== 'admin') {
+        console.warn("Acesso negado: área de passageiro tentada por", tipoUsuario);
+        window.location.href = 'motorista.html';
         return;
     }
 

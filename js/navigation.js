@@ -4,6 +4,13 @@
  */
 
 window.goBack = async function() {
+    // Prioridade: Se o usuário veio da Home, ele deve voltar para a Home
+    const referrer = document.referrer;
+    if (referrer && (referrer.includes('homepage.html') || referrer.includes('index.html'))) {
+        window.location.href = 'homepage.html';
+        return;
+    }
+
     try {
         if (!window.supabaseClient) {
             window.location.href = 'homepage.html';
