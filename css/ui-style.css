@@ -21,31 +21,52 @@
     height: 72px !important;
     min-height: 72px !important;
     max-height: 72px !important;
-    background-color: var(--bg-dark);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(18, 21, 32, 0.85) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
     z-index: 9999 !important;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding-bottom: env(safe-area-inset-bottom);
-    box-sizing: border-box;
-    transition: none !important;
-    transform: none !important;
-    overflow: hidden;
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    box-sizing: border-box !important;
+    transition: all 0.3s ease !important;
 }
 
 /* Itens da Navbar */
 .fixed-navbar a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    height: 100%;
-    flex: 1;
-    position: relative;
-    text-decoration: none;
-    transition: color var(--transition-fast);
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    height: 100% !important;
+    flex: 1 !important;
+    position: relative !important;
+    text-decoration: none !important;
+    color: #64748b !important; /* slate-500 */
+    transition: all 0.2s ease !important;
+}
+
+.fixed-navbar a.nav-active {
+    color: var(--primary-color) !important;
+}
+
+.fixed-navbar a .material-symbols-outlined {
+    font-size: 28px !important;
+    transition: transform 0.2s ease !important;
+}
+
+.fixed-navbar a.nav-active .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1 !important;
+}
+
+.fixed-navbar a span:nth-of-type(2) {
+    font-size: 10px !important;
+    font-weight: 700 !important;
 }
 
 /* Espaçamento para o conteúdo não ficar atrás do navbar */
@@ -57,6 +78,7 @@
 .active-scale {
     transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
+
 
 .active-scale:active {
     transform: scale(0.92) !important;

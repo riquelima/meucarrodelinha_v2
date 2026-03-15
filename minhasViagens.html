@@ -8,10 +8,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="css/ui-style.css" />
 
@@ -42,13 +39,7 @@
             min-height: 100dvh;
         }
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
 
-        .font-fill {
-            font-variation-settings: 'FILL' 1;
-        }
 
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
@@ -219,31 +210,26 @@
             </div>
         </main>
 
-        <nav class="fixed-navbar">
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                href="passageiro.html">
-                <span
-                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
-                <span class="text-[10px] font-medium">Início</span>
+        <nav class="fixed-navbar" id="main-nav">
+            <a href="passageiro.html" id="nav-home">
+                <span class="material-symbols-outlined">home</span>
+                <span>Início</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-primary group transition-colors" href="minhasViagens.html">
-                <span
-                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
-                <span class="text-[10px] font-bold">Viagens</span>
+            <a class="nav-active" href="minhasViagens.html" id="nav-trips">
+                <span class="material-symbols-outlined">history</span>
+                <span>Viagens</span>
             </a>
-            <a href="mensagens.html" class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors relative">
-                <span class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat_bubble</span>
-                <span class="text-[10px] font-medium">Mensagens</span>
-                <span id="chat-badge"
-                    class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
+            <a href="mensagens.html" id="nav-chats" class="relative">
+                <span class="material-symbols-outlined">chat</span>
+                <span>Chats</span>
+                <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                href="perfilPassageiro.html">
-                <span
-                    class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                <span class="text-[10px] font-medium">Perfil</span>
+            <a href="perfilPassageiro.html" id="nav-profile">
+                <span class="material-symbols-outlined">person</span>
+                <span>Perfil</span>
             </a>
         </nav>
+
     </div>
 
     <script>

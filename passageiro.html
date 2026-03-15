@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&display=block"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <style>
         .font-3d-orange {
@@ -74,9 +74,7 @@
             animation: successCheck 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
         }
 
-        .font-fill {
-            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-        }
+
     </style>
 
     <!-- Google Maps SDK is loaded at the bottom after initMap is defined -->
@@ -581,26 +579,27 @@ async function broadcastTripRequest() {
     </div>
     </main>
     <!-- Botões de Navegação Inferior (Fixed) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-slate-200/50 dark:border-slate-800/50 flex justify-around items-center py-3 px-6 z-50 transition-all duration-300"
-        id="main-nav">
-        <!-- ... navigation items ... -->
-        <a class="flex flex-col items-center gap-1 group text-primary" href="passageiro.html" id="nav-home">
-            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform font-fill">home</span>
-            <span class="text-[10px] font-bold">Início</span>
+    <!-- Botões de Navegação Inferior (Fixed) -->
+    <nav class="fixed-navbar" id="main-nav">
+        <a class="nav-active" href="passageiro.html" id="nav-home">
+            <span class="material-symbols-outlined">home</span>
+            <span>Início</span>
         </a>
-        <a class="flex flex-col items-center gap-1 group text-slate-400 dark:text-slate-500" href="minhasViagens.html" id="nav-trips">
-            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform">history</span>
-            <span class="text-[10px] font-medium">Viagens</span>
+        <a href="minhasViagens.html" id="nav-trips">
+            <span class="material-symbols-outlined">history</span>
+            <span>Viagens</span>
         </a>
-        <a class="flex flex-col items-center gap-1 group text-slate-400 dark:text-slate-500" href="mensagens.html" id="nav-chats">
-            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform">chat_bubble</span>
-            <span class="text-[10px] font-medium">Chats</span>
+        <a href="mensagens.html" id="nav-chats" class="relative">
+            <span class="material-symbols-outlined">chat</span>
+            <span>Chats</span>
+            <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
         </a>
-        <a class="flex flex-col items-center gap-1 group text-slate-400 dark:text-slate-500" href="perfilPassageiro.html" id="nav-profile">
-            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform">person</span>
-            <span class="text-[10px] font-medium">Perfil</span>
+        <a href="perfilPassageiro.html" id="nav-profile">
+            <span class="material-symbols-outlined">person</span>
+            <span>Perfil</span>
         </a>
     </nav>
+
 
     <!-- Rating Sheet Container (Fixed at bottom, above everything) -->
     <div id="rating-sheet" class="fixed inset-x-0 bottom-0 z-[100] bg-white dark:bg-[#121520] rounded-t-[2.5rem] hidden flex-col shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.5)] border-t border-slate-100 dark:border-slate-800 animate-slide-up h-[60dvh] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">

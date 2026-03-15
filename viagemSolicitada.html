@@ -140,27 +140,24 @@
   <!-- END: ActionButtons -->
 
   <!-- Bottom Navigation Bar (Fixed) -->
-  <nav class="fixed-navbar">
-    <div class="flex justify-around items-end w-full">
-      <a class="flex flex-col items-center gap-1 text-primary group transition-colors" href="passageiro.html">
-        <span class="material-symbols-outlined text-[28px] font-fill">home</span>
-        <span class="text-[10px] font-bold">Início</span>
+  <nav class="fixed-navbar" id="main-nav">
+      <a class="nav-active" href="passageiro.html" id="nav-home">
+          <span class="material-symbols-outlined">home</span>
+          <span>Início</span>
       </a>
-      <a class="flex flex-col items-center gap-1 text-slate-400 group" href="minhasViagens.html">
-        <span class="material-symbols-outlined text-[28px]">history</span>
-        <span class="text-[10px] font-medium">Viagens</span>
+      <a href="minhasViagens.html" id="nav-trips">
+          <span class="material-symbols-outlined">history</span>
+          <span>Viagens</span>
       </a>
-      <a class="flex flex-col items-center gap-1 text-slate-400 group relative" href="mensagens.html">
-        <span class="material-symbols-outlined text-[28px]">chat_bubble</span>
-        <span class="text-[10px] font-medium">Mensagens</span>
-        <span id="chat-badge"
-          class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
+      <a href="mensagens.html" id="nav-chats" class="relative">
+          <span class="material-symbols-outlined">chat</span>
+          <span>Chats</span>
+          <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
       </a>
-      <a class="flex flex-col items-center gap-1 text-slate-400 group" href="perfilPassageiro.html">
-        <span class="material-symbols-outlined text-[28px]">person</span>
-        <span class="text-[10px] font-medium">Perfil</span>
+      <a href="perfilPassageiro.html" id="nav-profile">
+          <span class="material-symbols-outlined">person</span>
+          <span>Perfil</span>
       </a>
-    </div>
   </nav>
 
   <script src="js/ui-transitions.js"></script>

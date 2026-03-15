@@ -398,34 +398,24 @@
     <!-- Dynamic Navigation Container -->
     <div id="nav-container" class="hidden">
         <!-- Bottom Navigation Bar (Fixed) -->
-        <nav id="nav-passageiro"
-            class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4 hidden">
-            <div class="grid grid-cols-4 w-full items-end text-center">
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="passageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">home</span>
-                    <span class="text-[10px] font-medium">Início</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="minhasViagens.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">route</span>
-                    <span class="text-[10px] font-medium">Viagens</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="mensagens.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat_bubble</span>
-                    <span class="text-[10px] font-medium">Mensagens</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-                    href="perfilPassageiro.html">
-                    <span
-                        class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
-                    <span class="text-[10px] font-medium">Perfil</span>
-                </a>
-            </div>
+        <nav id="nav-passageiro" class="fixed-navbar hidden">
+            <a href="passageiro.html" id="nav-home">
+                <span class="material-symbols-outlined">home</span>
+                <span>Início</span>
+            </a>
+            <a href="minhasViagens.html" id="nav-trips">
+                <span class="material-symbols-outlined">history</span>
+                <span>Viagens</span>
+            </a>
+            <a href="mensagens.html" id="nav-chats" class="relative">
+                <span class="material-symbols-outlined">chat</span>
+                <span>Chats</span>
+                <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
+            </a>
+            <a class="nav-active" href="perfilPassageiro.html" id="nav-profile">
+                <span class="material-symbols-outlined">person</span>
+                <span>Perfil</span>
+            </a>
         </nav>
 
         <nav id="nav-motorista"
