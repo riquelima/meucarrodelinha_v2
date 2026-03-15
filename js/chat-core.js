@@ -579,7 +579,7 @@ class ChatManager {
                             destino_lng: tripData.destino_lng,
                             valor_estimado: valorFinal,
                             valor_final: valorFinal,
-                            status: 'aceita'
+                            status: 'Em Aberto'
                         })
                         .select()
                         .single();

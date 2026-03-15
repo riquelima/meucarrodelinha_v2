@@ -54,6 +54,29 @@
             animation: popIn3D 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
             animation-delay: 0.2s;
         }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes successCheck {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-success-check {
+            animation: successCheck 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .font-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
     </style>
 
     <!-- Google Maps SDK is loaded at the bottom after initMap is defined -->
@@ -255,7 +278,7 @@
                 </div>
 
                 <!-- Scrollable Content Area -->
-                <div class="flex-1 overflow-y-auto px-6 pb-safe">
+                <div class="flex-1 overflow-y-auto px-6 pb-20">
                     <!-- Header Content (Greeting + Search) -->
                     <div id="sheet-header-content" class="space-y-6 pb-6 pt-2">
                         <!-- Greeting -->
@@ -557,40 +580,94 @@ async function broadcastTripRequest() {
             </div>
     </div>
     </main>
-    <!-- Bottom Navigation Bar (Fixed) -->
-    <nav class="fixed-navbar">
-        <a class="flex flex-col items-center gap-1 text-primary group transition-colors" href="passageiro.html">
-            <span
-                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">home</span>
+    <!-- Botões de Navegação Inferior (Fixed) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-slate-200/50 dark:border-slate-800/50 flex justify-around items-center py-3 px-6 z-50 transition-all duration-300"
+        id="main-nav">
+        <!-- ... navigation items ... -->
+        <a class="flex flex-col items-center gap-1 group text-primary" href="passageiro.html" id="nav-home">
+            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform font-fill">home</span>
             <span class="text-[10px] font-bold">Início</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-            href="minhasViagens.html">
-            <span
-                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">history</span>
+        <a class="flex flex-col items-center gap-1 group text-slate-400 dark:text-slate-500" href="historicoViagens.html" id="nav-trips">
+            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform">history</span>
             <span class="text-[10px] font-medium">Viagens</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors relative"
-            href="conversas.html">
-            <span
-                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">chat</span>
+        <a class="flex flex-col items-center gap-1 group text-slate-400 dark:text-slate-500" href="mensagens.html" id="nav-chats">
+            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform">chat_bubble</span>
             <span class="text-[10px] font-medium">Chats</span>
-            <span id="chat-badge"
-                class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-            href="https://www.instagram.com/meucarrodelinhasalinas/">
-            <span
-                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">social_leaderboard</span>
-            <span class="text-[10px] font-medium">Instagram</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400 group hover:text-slate-300 transition-colors"
-            href="perfilPassageiro.html">
-            <span
-                class="material-symbols-outlined text-[28px] font-fill group-hover:scale-110 transition-transform">person</span>
+        <a class="flex flex-col items-center gap-1 group text-slate-400 dark:text-slate-500" href="configuracoes.html" id="nav-profile">
+            <span class="material-symbols-outlined text-2xl group-active:scale-95 transition-transform">person</span>
             <span class="text-[10px] font-medium">Perfil</span>
         </a>
     </nav>
+
+    <!-- Rating Sheet Container (Fixed at bottom, above everything) -->
+    <div id="rating-sheet" class="fixed inset-x-0 bottom-0 z-[100] bg-white dark:bg-[#121520] rounded-t-[2.5rem] hidden flex-col shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.5)] border-t border-slate-100 dark:border-slate-800 animate-slide-up h-[60dvh] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div id="rating-expand-handle" class="flex justify-center py-4 shrink-0 cursor-pointer group/handle">
+            <div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full group-hover/handle:bg-primary/50 transition-colors"></div>
+        </div>
+        
+        <div id="rating-form-content" class="flex flex-col h-full overflow-hidden">
+            <div class="flex justify-between items-center px-8 pb-4">
+                <h3 class="text-xl font-black text-slate-900 dark:text-white">Avalie sua Viagem</h3>
+                <button id="close-rating" class="size-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto px-8 py-4 flex flex-col items-center text-center space-y-6 pb-20">
+                <div class="space-y-3">
+                     <div id="driver-rating-avatar" class="size-24 rounded-full border-4 border-primary/20 mx-auto overflow-hidden bg-slate-100 shadow-xl">
+                         <img src="https://ui-avatars.com/api/?name=Motorista&background=random" class="size-full object-cover">
+                     </div>
+                     <p id="rating-driver-name" class="font-black text-xl text-slate-900 dark:text-white tracking-tight">Seu Motorista</p>
+                </div>
+
+                <div class="space-y-4 w-full">
+                    <p class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Sua experiência</p>
+                    <div class="flex justify-center gap-3" id="star-rating">
+                        <button data-index="1" class="star-btn transition-all duration-300 hover:scale-125 focus:outline-none ring-primary/20 rounded-lg">
+                            <span class="material-symbols-outlined text-5xl text-slate-200 dark:text-slate-800">star</span>
+                        </button>
+                        <button data-index="2" class="star-btn transition-all duration-300 hover:scale-125 focus:outline-none ring-primary/20 rounded-lg">
+                            <span class="material-symbols-outlined text-5xl text-slate-200 dark:text-slate-800">star</span>
+                        </button>
+                        <button data-index="3" class="star-btn transition-all duration-300 hover:scale-125 focus:outline-none ring-primary/20 rounded-lg">
+                            <span class="material-symbols-outlined text-5xl text-slate-200 dark:text-slate-800">star</span>
+                        </button>
+                        <button data-index="4" class="star-btn transition-all duration-300 hover:scale-125 focus:outline-none ring-primary/20 rounded-lg">
+                            <span class="material-symbols-outlined text-5xl text-slate-200 dark:text-slate-800">star</span>
+                        </button>
+                        <button data-index="5" class="star-btn transition-all duration-300 hover:scale-125 focus:outline-none ring-primary/20 rounded-lg">
+                            <span class="material-symbols-outlined text-5xl text-slate-200 dark:text-slate-800">star</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="w-full space-y-6 pt-2">
+                    <textarea id="rating-comment" placeholder="Conte-nos o que achou... (opcional)" class="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-2xl p-5 text-base focus:border-primary/50 focus:ring-0 transition-all resize-none h-28 placeholder:text-slate-400 dark:text-white"></textarea>
+                    
+                    <button id="submit-rating" disabled class="w-full bg-primary hover:bg-primary/90 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600 disabled:shadow-none text-white font-black py-5 rounded-2xl shadow-2xl shadow-primary/40 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
+                        <span>Enviar Avaliação</span>
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success View (Hidden by default) -->
+        <div id="rating-success-content" class="hidden flex-col items-center justify-center p-8 text-center space-y-6 animate-fadeIn h-full">
+            <div class="size-32 rounded-full bg-green-500/10 flex items-center justify-center relative shadow-2xl shadow-green-500/20">
+                <span class="material-symbols-outlined text-7xl text-green-500 animate-success-check">check_circle</span>
+                <div class="absolute inset-0 rounded-full border-4 border-green-500/20 animate-ping"></div>
+            </div>
+            <div class="space-y-2">
+                <h4 class="text-2xl font-black text-slate-900 dark:text-white">Obrigado!</h4>
+                <p class="text-slate-500 dark:text-slate-400 font-medium">Sua avaliação ajuda a manter<br>nossa comunidade segura e confiável.</p>
+            </div>
+        </div>
+    </div>
     </div>
     <style>
         .pb-safe {
@@ -1307,6 +1384,191 @@ async function broadcastTripRequest() {
                     `;
                 }
             }
+
+            // --- Lógica de Avaliação ---
+            const ratingSheet = document.getElementById('rating-sheet');
+            const ratingExpandHandle = document.getElementById('rating-expand-handle');
+            const ratingFormContent = document.getElementById('rating-form-content');
+            const ratingSuccessContent = document.getElementById('rating-success-content');
+            const stars = document.querySelectorAll('.star-btn');
+            const submitRatingBtn = document.getElementById('submit-rating');
+            const closeRatingBtn = document.getElementById('close-rating');
+            let selectedRating = 0;
+            let currentFinishedTripId = null;
+            let isExpanded = false;
+
+            // Função para controlar expansão
+            const setExpansion = (expand) => {
+                isExpanded = expand;
+                if (isExpanded) {
+                    ratingSheet.classList.replace('h-[60dvh]', 'h-[92dvh]');
+                } else {
+                    ratingSheet.classList.replace('h-[92dvh]', 'h-[60dvh]');
+                }
+            };
+
+            // Expansão do Painel no Handle
+            ratingExpandHandle.addEventListener('click', () => {
+                setExpansion(!isExpanded);
+            });
+
+            // Função para exibir o painel de avaliação
+            window.showRatingPanel = async (trip) => {
+                // Verificar se já fechou ou avaliou esta viagem no localStorage
+                if (localStorage.getItem(`rated_${trip.id}`)) return;
+
+                currentFinishedTripId = trip.id;
+                const driverNameEl = document.getElementById('rating-driver-name');
+                const avatarImg = document.querySelector('#driver-rating-avatar img');
+                
+                // Reset views
+                ratingFormContent.classList.remove('hidden');
+                ratingFormContent.classList.add('flex');
+                ratingSuccessContent.classList.add('hidden');
+                ratingSuccessContent.classList.remove('flex');
+                selectedRating = 0;
+                submitRatingBtn.disabled = true;
+                submitRatingBtn.innerHTML = '<span>Enviar Avaliação</span><span class="material-symbols-outlined">send</span>';
+                document.getElementById('rating-comment').value = '';
+                
+                // Limpar estrelas
+                stars.forEach(s => s.querySelector('span').classList.remove('text-yellow-500', 'font-fill'));
+
+                // Carregar dados reais do motorista
+                if (trip.motorista_id) {
+                    const { data: motorista } = await window.supabaseClient
+                        .from('motoristas')
+                        .select('usuarios(nome, foto_perfil_url)')
+                        .eq('usuario_id', trip.motorista_id)
+                        .single();
+                    
+                    if (motorista?.usuarios) {
+                        driverNameEl.textContent = motorista.usuarios.nome;
+                        const photo = motorista.usuarios.foto_perfil_url;
+                        if (photo) avatarImg.src = photo;
+                    }
+                }
+
+                ratingSheet.classList.remove('hidden');
+                ratingSheet.classList.add('flex');
+                
+                // Garantir que o bottom sheet pai esteja visível (caso fosse embutido)
+                const bottomSheet = document.getElementById('bottom-sheet');
+                if (bottomSheet && bottomSheet.style.transform.includes('100%')) {
+                     bottomSheet.style.transform = 'translateY(0)';
+                     bottomSheet.style.opacity = '1';
+                }
+            };
+
+            // Estrelas Click
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    selectedRating = parseInt(star.dataset.index);
+                    submitRatingBtn.disabled = false;
+                    
+                    // Expandir automaticamente ao selecionar estrela
+                    if (!isExpanded) setExpansion(true);
+                    
+                    stars.forEach(s => {
+                        const icon = s.querySelector('span');
+                        if (parseInt(s.dataset.index) <= selectedRating) {
+                            icon.classList.add('text-yellow-500', 'font-fill');
+                            icon.classList.remove('text-slate-200', 'dark:text-slate-800');
+                        } else {
+                            icon.classList.remove('text-yellow-500', 'font-fill');
+                            icon.classList.add('text-slate-200', 'dark:text-slate-800');
+                        }
+                    });
+                });
+            });
+
+            // Fechar no X
+            closeRatingBtn.addEventListener('click', () => {
+                if (currentFinishedTripId) {
+                    localStorage.setItem(`rated_${currentFinishedTripId}`, 'dismissed');
+                }
+                ratingSheet.classList.add('hidden');
+                ratingSheet.classList.remove('flex');
+                // Reset expansion
+                ratingSheet.classList.replace('h-[92dvh]', 'h-[60dvh]');
+                isExpanded = false;
+            });
+
+            // Enviar Avaliação
+            submitRatingBtn.addEventListener('click', async () => {
+                if (!currentFinishedTripId || selectedRating === 0) return;
+
+                const comment = document.getElementById('rating-comment').value;
+                submitRatingBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Enviando...';
+                submitRatingBtn.disabled = true;
+
+                try {
+                    const { error } = await window.supabaseClient
+                        .from('viagens')
+                        .update({ 
+                            avaliacao_motorista: selectedRating,
+                            comentario_passageiro: comment
+                        })
+                        .eq('id', currentFinishedTripId);
+
+                    if (error) throw error;
+
+                    localStorage.setItem(`rated_${currentFinishedTripId}`, 'done');
+                    
+                    // Animação de Sucesso Elegante
+                    ratingFormContent.classList.add('hidden');
+                    ratingFormContent.classList.remove('flex');
+                    ratingSuccessContent.classList.remove('hidden');
+                    ratingSuccessContent.classList.add('flex');
+
+                    setTimeout(() => {
+                        ratingSheet.classList.add('hidden');
+                        ratingSheet.classList.remove('flex');
+                        // Reset expansion for next time
+                        ratingSheet.classList.replace('h-[92dvh]', 'h-[60dvh]');
+                        isExpanded = false;
+                    }, 3000);
+
+                } catch (err) {
+                    console.error("Erro ao enviar avaliação:", err);
+                    alert("Erro ao enviar avaliação.");
+                    submitRatingBtn.innerHTML = '<span>Enviar Avaliação</span><span class="material-symbols-outlined">send</span>';
+                    submitRatingBtn.disabled = false;
+                }
+            });
+
+            // Realtime listener para viagens finalizadas
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            if (user) {
+                // Verificar se existe alguma viagem finalizada recente não avaliada
+                const { data: lastTrips } = await window.supabaseClient
+                    .from('viagens')
+                    .select('*')
+                    .eq('passageiro_id', user.id)
+                    .eq('status', 'Finalizado')
+                    .is('avaliacao_motorista', null)
+                    .order('criado_em', { ascending: false })
+                    .limit(1);
+
+                if (lastTrips && lastTrips.length > 0) {
+                    setTimeout(() => showRatingPanel(lastTrips[0]), 2000);
+                }
+
+                // Inscrever em mudanças de status
+                window.supabaseClient.channel('trip-updates')
+                    .on('postgres_changes', {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'viagens',
+                        filter: `passageiro_id=eq.${user.id}`
+                    }, (payload) => {
+                        if (payload.new.status === 'Finalizado' && payload.old.status !== 'Finalizado') {
+                            showRatingPanel(payload.new);
+                        }
+                    })
+                    .subscribe();
+            }
+
         });
     </script>
     <script src="js/pwa-register.js"></script>

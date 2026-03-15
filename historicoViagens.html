@@ -72,7 +72,8 @@
             <!-- Filter Tabs -->
             <div class="flex gap-2 mb-6" id="filter-tabs">
                 <button class="filter-btn px-4 py-2 rounded-full bg-primary text-white text-xs font-bold active" data-filter="tudo">Tudo</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold" data-filter="concluida">Finalizadas</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold" data-filter="Em Aberto">Em Aberto</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold" data-filter="Finalizado">Finalizadas</button>
                 <button class="filter-btn px-4 py-2 rounded-full bg-slate-200 dark:bg-surface-dark text-slate-500 text-xs font-bold" data-filter="cancelada">Canceladas</button>
             </div>
 
@@ -167,13 +168,13 @@
                 const passName = trip.passageiro?.nome || 'Passageiro';
                 const passPhoto = trip.passageiro?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(passName)}&background=random`;
                 
-                const statusColor = trip.status === 'concluida' ? 'bg-green-500/10 text-green-500' : 
+                const statusColor = trip.status === 'Finalizado' ? 'bg-green-500/10 text-green-500' : 
                                    (trip.status === 'cancelada' ? 'bg-red-500/10 text-red-500' : 
-                                   (trip.status === 'aceita' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-primary/10 text-primary'));
+                                   (trip.status === 'Em Aberto' ? 'bg-yellow-500/10 text-yellow-600' : 'bg-primary/10 text-primary'));
                 
-                const statusLabel = trip.status === 'concluida' ? 'Finalizada' : 
+                const statusLabel = trip.status === 'Finalizado' ? 'Finalizada' : 
                                   trip.status === 'cancelada' ? 'Cancelada' : 
-                                  trip.status === 'aceita' ? 'Confirmada' : 'Em andamento';
+                                  trip.status === 'Em Aberto' ? 'Em Aberto' : 'Em andamento';
 
                 // Static Maps URL
                 const apiKey = 'AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8';
@@ -230,10 +231,53 @@
                                  <span class="px-2 py-0.5 bg-white/90 dark:bg-slate-900/90 text-primary dark:text-blue-400 text-[8px] font-black uppercase rounded shadow-lg backdrop-blur-md border border-primary/10">Google Maps</span>
                              </div>
                         </div>
+
+                        ${trip.status === 'Em Aberto' ? `
+                        <div class="mt-4">
+                            <button onclick="finishTrip('${trip.id}', this)" class="w-full bg-green-500 hover:bg-green-600 text-white font-black py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-green-500/25 group/btn overflow-hidden relative">
+                                <span class="material-symbols-outlined text-xl group-hover/btn:translate-x-1 transition-transform">check_circle</span>
+                                <span class="text-sm uppercase tracking-wider">Viagem concluída</span>
+                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
+                            </button>
+                        </div>
+                        ` : ''}
                     </div>
                 `;
                 return div;
             }
+
+            window.finishTrip = async (tripId, btn) => {
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
+                btn.disabled = true;
+
+                try {
+                    const { error } = await supabase
+                        .from('viagens')
+                        .update({ status: 'Finalizado' })
+                        .eq('id', tripId);
+
+                    if (error) throw error;
+
+                    // Atualizar localmente
+                    const trip = allTrips.find(t => t.id === tripId);
+                    if (trip) trip.status = 'Finalizado';
+                    
+                    btn.innerHTML = '<span class="material-symbols-outlined">done_all</span> Concluído!';
+                    btn.classList.replace('bg-green-500', 'bg-slate-600');
+                    
+                    setTimeout(() => {
+                        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+                        renderTrips(activeFilter);
+                    }, 1000);
+
+                } catch (err) {
+                    console.error("Erro ao finalizar:", err);
+                    alert("Erro ao finalizar viagem.");
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                }
+            };
 
 
             // Filter functionality
