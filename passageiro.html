@@ -1089,77 +1089,94 @@ async function broadcastTripRequest() {
                 });
             });
 
-            // Address Autocomplete Logic
+            // Address Autocomplete Logic (Google Maps)
             (function () {
                 const input = document.getElementById('destino-input');
                 const list = document.getElementById('destino-suggestions');
-                if (!input || !list) return;
+                if (!input || !list || !window.google) return;
 
+                const autocompleteService = new google.maps.places.AutocompleteService();
+                const placesService = new google.maps.places.PlacesService(document.createElement('div'));
                 let debounceTimer = null;
-                let currentFetch = null;
 
                 function showLoading() {
-                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando endereços…</li>';
+                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locais…</li>';
                     list.classList.remove('hidden');
                 }
 
-                function showResults(items) {
+                function showResults(predictions) {
                     list.innerHTML = '';
-                    if (!items || !items.length) {
-                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic">Nenhum resultado encontrado</li>';
+                    if (!predictions || !predictions.length) {
+                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic font-medium">Nenhum endereço encontrado</li>';
                         list.classList.remove('hidden');
                         return;
                     }
-                    items.forEach(item => {
-                        const label = item.display_name || '';
-                        if (!label) return;
+
+                    predictions.forEach(prediction => {
                         const li = document.createElement('li');
-                        li.className = 'flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-700/50 transition-colors';
+                        li.className = 'flex items-start gap-3 px-4 py-3.5 cursor-pointer hover:bg-primary/5 active:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-800/50 transition-all';
 
+                        const iconContainer = document.createElement('div');
+                        iconContainer.className = 'mt-0.5 size-8 rounded-full bg-primary/5 flex items-center justify-center shrink-0';
                         const icon = document.createElement('span');
-                        icon.className = 'material-symbols-outlined text-primary text-base flex-none';
-                        icon.textContent = 'location_on';
+                        icon.className = 'material-symbols-outlined text-primary text-xl';
+                        icon.textContent = prediction.types.includes('establishment') ? 'location_on' : 'map';
+                        iconContainer.appendChild(icon);
 
-                        const text = document.createElement('span');
-                        text.className = 'truncate leading-snug';
-                        text.textContent = label;
+                        const textContainer = document.createElement('div');
+                        textContainer.className = 'flex flex-col min-w-0';
+                        
+                        // Main text (Name or primary address part)
+                        const mainText = document.createElement('span');
+                        mainText.className = 'font-bold text-[15px] truncate';
+                        mainText.textContent = prediction.structured_formatting.main_text;
+                        
+                        // Secondary text (City, state, number details)
+                        const secondaryText = document.createElement('span');
+                        secondaryText.className = 'text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5';
+                        secondaryText.textContent = prediction.structured_formatting.secondary_text;
 
-                        li.appendChild(icon);
-                        li.appendChild(text);
+                        textContainer.appendChild(mainText);
+                        textContainer.appendChild(secondaryText);
+
+                        li.appendChild(iconContainer);
+                        li.appendChild(textContainer);
 
                         li.addEventListener('mousedown', e => {
                             e.preventDefault();
-                            input.value = label;
+                            input.value = prediction.description;
                             list.classList.add('hidden');
 
-                            // Mover o mapa para o destino selecionado
-                            if (googleMap && item.lat && item.lon) {
-                                destCoords = { 
-                                    lat: parseFloat(item.lat), 
-                                    lng: parseFloat(item.lon) 
-                                };
-                                
-                                googleMap.setCenter(destCoords);
-                                googleMap.setZoom(17);
+                            // Mover o mapa para o destino selecionado com detalhes precisos
+                            placesService.getDetails({ 
+                                placeId: prediction.place_id,
+                                fields: ['geometry', 'formatted_address']
+                            }, (place, status) => {
+                                if (status === google.maps.places.PlacesServiceStatus.OK && place.geometry && place.geometry.location) {
+                                    destCoords = { 
+                                        lat: place.geometry.location.lat(), 
+                                        lng: place.geometry.location.lng() 
+                                    };
+                                    
+                                    googleMap.setCenter(destCoords);
+                                    googleMap.setZoom(17);
 
-                                if (destinationMarker) {
-                                    destinationMarker.position = destCoords;
-                                } else {
-                                    destinationMarker = new google.maps.marker.AdvancedMarkerElement({
-                                        position: destCoords,
-                                        map: googleMap,
-                                        title: 'Destino selecionado'
-                                    });
+                                    if (destinationMarker) {
+                                        destinationMarker.position = destCoords;
+                                    } else {
+                                        destinationMarker = new google.maps.marker.AdvancedMarkerElement({
+                                            position: destCoords,
+                                            map: googleMap,
+                                            title: 'Destino selecionado'
+                                        });
+                                    }
                                 }
-                            }
+                            });
 
                             // Highlight Ride Type Section
                             const rideTypeSection = document.getElementById('ride-type-section');
                             if (rideTypeSection) {
-                                // Add highlight classes
                                 rideTypeSection.classList.add('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
-
-                                // Scroll to it smoothly
                                 setTimeout(() => {
                                     rideTypeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                 }, 300);
@@ -1172,74 +1189,54 @@ async function broadcastTripRequest() {
                 }
 
                 async function fetchSuggestions(query) {
-                    if (query.length < 2) { list.classList.add('hidden'); return; }
-
-                    if (currentFetch) currentFetch.abort();
-                    currentFetch = new AbortController();
+                    if (query.length < 3) {
+                        list.classList.add('hidden');
+                        return;
+                    }
 
                     showLoading();
 
-                    const searchParams = {
-                            q: query,
-                            format: 'json',
-                            limit: '10',
-                            countrycodes: 'br',
-                            'accept-language': 'pt-BR',
-                            viewbox: '-38.88,-12.97,-38.65,-12.77', 
-                            bounded: '0', 
-                            addressdetails: '1'
-                        };
+                    const request = {
+                        input: query,
+                        componentRestrictions: { country: 'br' },
+                        types: ['geocode', 'establishment'],
+                        language: 'pt-BR'
+                    };
 
-                    // Se tivermos a localização do usuário, priorizamos resultados próximos
+                    // Priorização por localização (Location Bias)
                     if (currentCoords) {
-                        searchParams.lat = currentCoords.lat;
-                        searchParams.lon = currentCoords.lng;
+                        // Define um círculo de 50km ao redor do usuário
+                        request.locationBias = {
+                            radius: 50000, 
+                            center: currentCoords
+                        };
                     }
 
-                    const url = 'https://nominatim.openstreetmap.org/search?' +
-                        new URLSearchParams(searchParams).toString();
-
-                    try {
-                        const res = await fetch(url, { 
-                            signal: currentFetch.signal
-                        });
-                        const data = await res.json();
-                        
-                        // Ordenação manual por proximidade se tivermos a localização do usuário
-                        if (currentCoords && data && data.length > 0) {
-                            data.sort((a, b) => {
-                                const latA = parseFloat(a.lat);
-                                const lonA = parseFloat(a.lon);
-                                const latB = parseFloat(b.lat);
-                                const lonB = parseFloat(b.lon);
-                                
-                                const distA = Math.pow(latA - currentCoords.lat, 2) + 
-                                              Math.pow(lonA - currentCoords.lng, 2);
-                                const distB = Math.pow(latB - currentCoords.lat, 2) + 
-                                              Math.pow(lonB - currentCoords.lng, 2);
-                                return distA - distB;
-                            });
+                    autocompleteService.getPlacePredictions(request, (predictions, status) => {
+                        if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                            console.error('Erro Autocomplete Google:', status);
+                            return;
                         }
-
-                        showResults(data);
-                    } catch (err) {
-                        if (err.name !== 'AbortError') {
-                            console.error('Erro Autocomplete:', err);
-                        }
-                    } finally {
-                        currentFetch = null;
-                    }
+                        showResults(predictions);
+                    });
                 }
 
                 input.addEventListener('input', () => {
                     clearTimeout(debounceTimer);
                     const q = input.value.trim();
-                    if (q.length < 3) { list.classList.add('hidden'); return; }
-                    debounceTimer = setTimeout(() => fetchSuggestions(q), 500);
+                    if (q.length < 3) {
+                        list.classList.add('hidden');
+                        return;
+                    }
+                    debounceTimer = setTimeout(() => fetchSuggestions(q), 400);
                 });
 
                 input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
-                input.addEventListener('focus', () => { if (list.children.length && !list.querySelector('[class*=animate-spin]')) list.classList.remove('hidden'); });
+                input.addEventListener('focus', () => {
+                    if (list.children.length && !list.querySelector('.animate-spin')) {
+                        list.classList.remove('hidden');
+                    }
+                });
             })();
     </script>
 
@@ -1308,7 +1305,7 @@ async function broadcastTripRequest() {
                             photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random&size=128`;
                         }
 
-                        const rating = motorista.avaliacao_media || (4.5 + Math.random() * 0.5);
+                        const rating = parseFloat(motorista.avaliacao_media || (4.5 + Math.random() * 0.5)).toFixed(1);
                         const timeAway = Math.floor(Math.random() * 10) + 2;
 
                         const cardHtml = `
@@ -1330,7 +1327,7 @@ async function broadcastTripRequest() {
                                         <div class="flex items-center gap-2 mt-1">
                                             <div class="flex items-center gap-1 text-yellow-500 group-has-[:checked]:text-black">
                                                 <span class="material-symbols-outlined text-sm font-fill">star</span>
-                                                <span class="text-xs font-bold">${rating}</span>
+                                                <span class="text-xs font-bold">${parseFloat(rating).toFixed(1)}</span>
                                             </div>
                                             <span class="text-slate-400 text-[10px] group-has-[:checked]:text-black/60">•</span>
                                             <span class="text-slate-500 dark:text-slate-400 text-xs font-medium truncate group-has-[:checked]:text-black">

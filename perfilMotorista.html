@@ -151,8 +151,8 @@
             <div class="grid grid-cols-2 gap-3 mb-8">
                 <a href="minhasAvaliacoes.html"
                     class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all active:scale-95 cursor-pointer">
-                    <div class="flex items-center gap-1">
-                        <span id="rating-value" class="text-2xl font-bold text-slate-900 dark:text-slate-100">--</span>
+                    <div class="flex items-center gap-1 justify-center">
+                        <span id="rating-value" class="text-2xl font-bold text-slate-900 dark:text-slate-100">5.0</span>
                         <span class="material-symbols-outlined text-yellow-500 text-2xl fill-current">star</span>
                     </div>
                     <span class="text-xs text-slate-500 uppercase font-bold tracking-wider mt-1">Avaliação</span>
@@ -461,17 +461,21 @@
                             .map(t => t.avaliacao_motorista)
                             .filter(r => r !== null && r !== undefined && r > 0);
 
-                        let avgFormatted = "5.0"; // Default for new drivers
-                        
-                        if (ratings.length > 0) {
-                            const sum = ratings.reduce((acc, curr) => acc + curr, 0);
-                            const avg = sum / ratings.length;
-                            // Format to 1 decimal place if it's not a whole number, otherwise 1 decimal too
-                            avgFormatted = avg.toFixed(1);
+                        let avgFormatted = parseFloat(driverData.avaliacao_media || 5.0).toFixed(1);
+
+                        // If no trips and no manual rating set, default to 5.0
+                        if (totalTrips === 0 && !driverData.avaliacao_media) {
+                            avgFormatted = '5.0';
                         }
 
-                        document.getElementById('rating-value').innerText = avgFormatted;
-                        document.getElementById('trips-count').innerText = totalTrips;
+                        const ratingEl = document.getElementById('rating-value');
+                        if (ratingEl) {
+                            ratingEl.textContent = avgFormatted;
+                        }
+                        const tripsEl = document.getElementById('trips-count');
+                        if (tripsEl) {
+                            tripsEl.textContent = totalTrips;
+                        }
                     }
                 } catch (error) {
                     console.error('Erro ao buscar estatísticas:', error);

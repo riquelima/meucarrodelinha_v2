@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
         if (driverStats) {
              const ratingElement = document.getElementById('header-rating');
-             if (ratingElement) ratingElement.textContent = driverStats.avaliacao_media || '5.0';
+             if (ratingElement) ratingElement.textContent = parseFloat(driverStats.avaliacao_media || 5.0).toFixed(1);
         }
     }
 });

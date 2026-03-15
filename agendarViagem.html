@@ -387,6 +387,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places&loading=async" async defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Calendar Logic ---
@@ -559,130 +560,127 @@
             const onScroll = (e) => {
                 window.clearTimeout(isScrolling);
                 isScrolling = setTimeout(() => {
-                    updateActiveItem(e.target);
+                        updateActiveItem(e.target);
                 }, 50);
             };
 
             hoursScroll.addEventListener('scroll', onScroll);
             minutesScroll.addEventListener('scroll', onScroll);
 
-            // --- Address Autocomplete Logic ---
+            // --- Address Autocomplete Logic (Google Maps) ---
+            let currentCoords = null;
+            // Tenta obter localização para bias
+            navigator.geolocation.getCurrentPosition(pos => {
+                currentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            }, err => console.warn('Geolocation bias disabled:', err));
+
             function setupAutocomplete(inputId, listId) {
                 const input = document.getElementById(inputId);
                 const list = document.getElementById(listId);
                 if (!input || !list) return;
 
-                let debounceTimer = null;
-                let currentFetch = null;
-
-                function showLoading() {
-                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando endereços…</li>';
-                    list.classList.remove('hidden');
-                }
-
-                function showResults(items) {
-                    list.innerHTML = '';
-                    if (!items || !items.length) {
-                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic">Nenhum resultado encontrado</li>';
-                        list.classList.remove('hidden');
+                // Espera o Google Maps carregar
+                const initService = () => {
+                    if (!window.google || !window.google.maps || !window.google.maps.places) {
+                        setTimeout(initService, 200);
                         return;
                     }
-                    items.forEach(item => {
-                        const label = item.display_name || '';
-                        if (!label) return;
-                        const li = document.createElement('li');
-                        li.className = 'flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-700/50 transition-colors';
 
-                        const icon = document.createElement('span');
-                        icon.className = 'material-symbols-outlined text-primary text-base flex-none';
-                        icon.textContent = 'location_on';
+                    const autocompleteService = new google.maps.places.AutocompleteService();
+                    let debounceTimer = null;
 
-                        const text = document.createElement('span');
-                        text.className = 'truncate leading-snug';
-                        text.textContent = label;
-
-                        li.appendChild(icon);
-                        li.appendChild(text);
-
-                        li.addEventListener('mousedown', e => {
-                            e.preventDefault();
-                            input.value = label;
-                            list.classList.add('hidden');
-                        });
-
-                        list.appendChild(li);
-                    });
-                    list.classList.remove('hidden');
-                }
-
-                async function fetchSuggestions(query) {
-                    if (query.length < 2) { list.classList.add('hidden'); return; }
-
-                    if (currentFetch) currentFetch.abort();
-                    currentFetch = new AbortController();
-
-                    showLoading();
-
-                    const searchParams = {
-                        q: query,
-                        format: 'json',
-                        limit: '10',
-                        countrycodes: 'br',
-                        'accept-language': 'pt-BR',
-                        viewbox: '-38.88,-12.97,-38.65,-12.77', 
-                        bounded: '0',
-                        addressdetails: '1'
-                    };
-
-                    if (currentCoords) {
-                        searchParams.lat = currentCoords.lat;
-                        searchParams.lon = currentCoords.lng;
+                    function showLoading() {
+                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locais…</li>';
+                        list.classList.remove('hidden');
                     }
 
-                    const url = 'https://nominatim.openstreetmap.org/search?' +
-                        new URLSearchParams(searchParams).toString();
+                    function showResults(predictions) {
+                        list.innerHTML = '';
+                        if (!predictions || !predictions.length) {
+                            list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic font-medium">Nenhum endereço encontrado</li>';
+                            list.classList.remove('hidden');
+                            return;
+                        }
 
-                    try {
-                        const res = await fetch(url, { 
-                            signal: currentFetch.signal
-                        });
-                        const data = await res.json();
+                        predictions.forEach(prediction => {
+                            const li = document.createElement('li');
+                            li.className = 'flex items-start gap-3 px-4 py-3.5 cursor-pointer hover:bg-primary/5 active:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-800/50 transition-all';
 
-                        // Ordenação manual por proximidade se tivermos a localização do usuário
-                        if (currentCoords && data && data.length > 0) {
-                            data.sort((a, b) => {
-                                const latA = parseFloat(a.lat);
-                                const lonA = parseFloat(a.lon);
-                                const latB = parseFloat(b.lat);
-                                const lonB = parseFloat(b.lon);
-                                
-                                const distA = Math.pow(latA - currentCoords.lat, 2) + 
-                                              Math.pow(lonA - currentCoords.lng, 2);
-                                const distB = Math.pow(latB - currentCoords.lat, 2) + 
-                                              Math.pow(lonB - currentCoords.lng, 2);
-                                return distA - distB;
+                            const iconContainer = document.createElement('div');
+                            iconContainer.className = 'mt-0.5 size-7 rounded-full bg-primary/5 flex items-center justify-center shrink-0';
+                            const icon = document.createElement('span');
+                            icon.className = 'material-symbols-outlined text-primary text-lg';
+                            icon.textContent = prediction.types.includes('establishment') ? 'location_on' : 'map';
+                            iconContainer.appendChild(icon);
+
+                            const textContainer = document.createElement('div');
+                            textContainer.className = 'flex flex-col min-w-0';
+                            
+                            const mainText = document.createElement('span');
+                            mainText.className = 'font-bold text-sm truncate';
+                            mainText.textContent = prediction.structured_formatting.main_text;
+                            
+                            const secondaryText = document.createElement('span');
+                            secondaryText.className = 'text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5';
+                            secondaryText.textContent = prediction.structured_formatting.secondary_text;
+
+                            textContainer.appendChild(mainText);
+                            textContainer.appendChild(secondaryText);
+
+                            li.appendChild(iconContainer);
+                            li.appendChild(textContainer);
+
+                            li.addEventListener('mousedown', e => {
+                                e.preventDefault();
+                                input.value = prediction.description;
+                                list.classList.add('hidden');
                             });
-                        }
 
-                        showResults(data);
-                    } catch (err) {
-                        if (err.name !== 'AbortError') {
-                            console.error('Erro Autocomplete:', err);
-                        }
-                    } finally {
-                        currentFetch = null;
+                            list.appendChild(li);
+                        });
+                        list.classList.remove('hidden');
                     }
-                }
 
-                input.addEventListener('input', () => {
-                    clearTimeout(debounceTimer);
-                    const q = input.value.trim();
-                    if (q.length < 3) { list.classList.add('hidden'); return; }
-                    debounceTimer = setTimeout(() => fetchSuggestions(q), 500);
-                });
+                    async function fetchSuggestions(query) {
+                        if (query.length < 3) { list.classList.add('hidden'); return; }
+                        showLoading();
 
-                input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
-                input.addEventListener('focus', () => { if (list.children.length && !list.querySelector('[class*=animate-spin]')) list.classList.remove('hidden'); });
+                        const request = {
+                            input: query,
+                            componentRestrictions: { country: 'br' },
+                            types: ['geocode', 'establishment'],
+                            language: 'pt-BR'
+                        };
+
+                        if (currentCoords) {
+                            request.locationBias = { radius: 50000, center: currentCoords };
+                        }
+
+                        autocompleteService.getPlacePredictions(request, (predictions, status) => {
+                            if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                                console.error('Erro Autocomplete Google:', status);
+                                return;
+                            }
+                            showResults(predictions);
+                        });
+                    }
+
+                    input.addEventListener('input', () => {
+                        clearTimeout(debounceTimer);
+                        const q = input.value.trim();
+                        if (q.length < 3) { list.classList.add('hidden'); return; }
+                        debounceTimer = setTimeout(() => fetchSuggestions(q), 400);
+                    });
+
+                    input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
+                    input.addEventListener('focus', () => {
+                        if (list.children.length && !list.querySelector('.animate-spin')) {
+                            list.classList.remove('hidden');
+                        }
+                    });
+                };
+
+                initService();
             }
 
             setupAutocomplete('origin-input', 'origin-suggestions');

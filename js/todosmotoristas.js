@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="flex items-center gap-2 mt-1">
                             <div class="flex items-center gap-1 text-yellow-500">
                                 <span class="material-symbols-outlined text-sm fill-1">star</span>
-                                <span class="text-xs font-bold">${driver.avaliacao_media || '5.0'}</span>
+                                <span class="text-xs font-bold">${parseFloat(driver.avaliacao_media || 5).toFixed(1)}</span>
                             </div>
                             <span class="text-slate-400 text-[10px]">•</span>
                             <span class="text-slate-500 dark:text-slate-400 text-xs font-medium">Motorista Verificado</span>
