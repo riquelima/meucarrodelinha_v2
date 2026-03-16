@@ -509,22 +509,29 @@
             const loader = document.getElementById('loader');
             const successModal = document.getElementById('success-modal');
             const btnCloseModal = document.getElementById('btn-close-modal');
-
-            // Check auth state
-            const { data: { user } } = await sb.auth.getUser();
             const backBtn = document.getElementById('back-button');
 
+            // 1. Check User Session
+            const { data: { user } } = await sb.auth.getUser();
+
             if (user) {
-                // Fetch user profile to get role and name
-                const { data: profile } = await window.supabaseClient
+                // 2. Fetch User Profile (Role)
+                const { data: profile } = await sb
                     .from('usuarios')
                     .select('nome, tipo_usuario')
                     .eq('id', user.id)
                     .single();
 
-                const role = profile?.tipo_usuario || 'passageiro';
+                const role = profile?.tipo_usuario || 'passageiro'; // Default to passenger if null
+
+                // 3. Show Correct Navbar & Link Back Button
                 const navContainer = document.getElementById('nav-container');
                 navContainer.classList.remove('hidden');
+
+                // Hide all navs first
+                document.getElementById('nav-admin').classList.add('hidden');
+                document.getElementById('nav-motorista').classList.add('hidden');
+                document.getElementById('nav-passageiro').classList.add('hidden');
 
                 if (role === 'admin') {
                     document.getElementById('nav-admin').classList.remove('hidden');
@@ -533,15 +540,17 @@
                     document.getElementById('nav-motorista').classList.remove('hidden');
                     backBtn.href = 'motorista.html';
                 } else {
+                    // Passageiro (default)
                     document.getElementById('nav-passageiro').classList.remove('hidden');
                     backBtn.href = 'passageiro.html';
                 }
 
-                // Pre-fill form if logged in
-                document.getElementById('name').value = profile?.nome || user.user_metadata?.full_name || '';
-                document.getElementById('email').value = user.email || '';
+                // 4. Pre-fill Form
+                if (profile?.nome) document.getElementById('name').value = profile.nome;
+                if (user.email) document.getElementById('email').value = user.email;
+
             } else {
-                // Public user - ensure back button goes to homepage
+                // Not Logged In -> Homepage
                 backBtn.href = 'homepage.html';
             }
 
@@ -549,40 +558,45 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                const formData = {
-                    usuario_id: user ? user.id : null,
-                    nome: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    telefone: document.getElementById('phone').value,
-                    assunto: document.getElementById('subject').value,
-                    mensagem: document.getElementById('message').value,
-                    status: 'aberto'
-                };
+                // Get values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
 
-                // Simple validation
-                if (!formData.nome || !formData.email || !formData.mensagem || !formData.assunto) {
+                if (!name || !email || !message || !subject) {
                     alert('Por favor, preencha todos os campos obrigatórios.');
                     return;
                 }
 
                 try {
+                    // UI Loading State
                     btnSubmit.disabled = true;
                     btnSubmit.querySelector('span').innerText = 'Enviando...';
                     loader.classList.remove('hidden');
 
-                    const { error } = await sb
-                        .from('suporte')
-                        .insert([formData]);
+                    const payload = {
+                        usuario_id: user ? user.id : null,
+                        nome: name,
+                        email: email,
+                        telefone: phone,
+                        assunto: subject,
+                        mensagem: message,
+                        status: 'aberto'
+                    };
+
+                    const { error } = await sb.from('suporte').insert([payload]);
 
                     if (error) throw error;
 
-                    // Show success modal
-                    successModal.classList.add('active');
+                    // Show Success
+                    successModal.classList.add('active'); // CSS class to show modal
                     form.reset();
 
                 } catch (err) {
                     console.error('Erro ao enviar mensagem:', err);
-                    alert('Erro ao enviar mensagem. Por favor, tente novamente.');
+                    alert('Erro ao enviar mensagem. Tente novamente.');
                 } finally {
                     btnSubmit.disabled = false;
                     btnSubmit.querySelector('span').innerText = 'Enviar Mensagem';
@@ -595,7 +609,7 @@
                 successModal.classList.remove('active');
             });
 
-            // Phone mask handler
+            // Phone mask
             const phoneInput = document.getElementById('phone');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function (e) {

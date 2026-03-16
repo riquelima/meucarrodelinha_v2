@@ -434,108 +434,151 @@
                 const list = document.getElementById(listId);
                 if (!input || !list) return;
 
-                // Espera o Google Maps carregar
-                const initService = () => {
-                    if (!window.google || !window.google.maps || !window.google.maps.places) {
-                        setTimeout(initService, 200);
+                let autocompleteService;
+                let debounceTimer = null;
+
+                // Function to initialize service only after Google Maps is ready
+                function initAutocompleteService() {
+                    if (window.google && window.google.maps && window.google.maps.places) {
+                        autocompleteService = new google.maps.places.AutocompleteService();
+                        console.log(`Autocomplete service initialized for ${inputId}`);
+                        return true;
+                    }
+                    return false;
+                }
+
+                // Polling to ensure SDK is loaded
+                const initTimeout = setInterval(() => {
+                    if (initAutocompleteService()) {
+                        clearInterval(initTimeout);
+                    }
+                }, 500);
+
+                function showLoading() {
+                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locais…</li>';
+                    list.classList.remove('hidden');
+                }
+
+                function showResults(predictions) {
+                    list.innerHTML = '';
+                    if (!predictions || !predictions.length) {
+                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic font-medium">Nenhum endereço encontrado</li>';
+                        list.classList.remove('hidden');
                         return;
                     }
 
-                    const autocompleteService = new google.maps.places.AutocompleteService();
-                    let debounceTimer = null;
+                    predictions.forEach(prediction => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start gap-3 px-4 py-3.5 cursor-pointer hover:bg-primary/5 active:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-800/50 transition-all';
 
-                    function showLoading() {
-                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locais…</li>';
-                        list.classList.remove('hidden');
+                        const iconContainer = document.createElement('div');
+                        iconContainer.className = 'mt-0.5 size-7 rounded-full bg-primary/5 flex items-center justify-center shrink-0';
+                        const icon = document.createElement('span');
+                        icon.className = 'material-symbols-outlined text-primary text-lg';
+                        
+                        // Icon mapping based on types
+                        if (prediction.types.includes('establishment')) {
+                            icon.textContent = 'location_on';
+                        } else if (prediction.types.includes('route') || prediction.types.includes('street_address')) {
+                            icon.textContent = 'home_pin';
+                        } else {
+                            icon.textContent = 'map';
+                        }
+                        
+                        iconContainer.appendChild(icon);
+
+                        const textContainer = document.createElement('div');
+                        textContainer.className = 'flex flex-col min-w-0';
+                        
+                        const mainText = document.createElement('span');
+                        mainText.className = 'font-bold text-sm truncate';
+                        mainText.textContent = prediction.structured_formatting.main_text;
+                        
+                        const secondaryText = document.createElement('span');
+                        secondaryText.className = 'text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5';
+                        secondaryText.textContent = prediction.structured_formatting.secondary_text;
+
+                        textContainer.appendChild(mainText);
+                        textContainer.appendChild(secondaryText);
+
+                        li.appendChild(iconContainer);
+                        li.appendChild(textContainer);
+
+                        li.addEventListener('mousedown', e => {
+                            e.preventDefault();
+                            input.value = prediction.description;
+                            list.classList.add('hidden');
+                        });
+
+                        list.appendChild(li);
+                    });
+                    list.classList.remove('hidden');
+                }
+
+                async function fetchSuggestions(query) {
+                    if (query.length < 2) {
+                        list.classList.add('hidden');
+                        return;
                     }
 
-                    function showResults(predictions) {
-                        list.innerHTML = '';
-                        if (!predictions || !predictions.length) {
-                            list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic font-medium">Nenhum endereço encontrado</li>';
-                            list.classList.remove('hidden');
+                    if (!autocompleteService) {
+                        if (!initAutocompleteService()) return;
+                    }
+
+                    showLoading();
+
+                    // Modern biasing: focus on Salinas da Margarida, BA if no location is available,
+                    // or use the user's current location with a tighter radius for better local results.
+                    const salinasCoords = { lat: -12.8711, lng: -38.7614 };
+                    const biasCoords = currentCoords || salinasCoords;
+
+                    const request = {
+                        input: query,
+                        componentRestrictions: { country: 'br' },
+                        language: 'pt-BR',
+                        locationBias: {
+                            radius: 20000, 
+                            center: biasCoords
+                        }
+                    };
+
+                    autocompleteService.getPlacePredictions(request, (predictions, status) => {
+                        if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                            console.error('Erro Autocomplete Google:', status);
+                            
+                            let errorMsg = 'Erro ao buscar endereços.';
+                            if (status === 'OVER_QUERY_LIMIT') {
+                                errorMsg = 'Limite de buscas excedido.';
+                            } else if (status === 'REQUEST_DENIED') {
+                                errorMsg = 'Acesso à API negado. Verifique a chave.';
+                                console.warn('Dica: Verifique se o Billing está ativo e se a Places API (New) está habilitada no Console do Google Cloud.');
+                            } else if (status === 'INVALID_REQUEST') {
+                                errorMsg = 'Requisição inválida.';
+                            }
+
+                            list.innerHTML = `<li class="px-4 py-3 text-sm text-red-400 flex items-center gap-2"><span class="material-symbols-outlined text-base">error</span>${errorMsg}</li>`;
                             return;
                         }
+                        showResults(predictions);
+                    });
+                }
 
-                        predictions.forEach(prediction => {
-                            const li = document.createElement('li');
-                            li.className = 'flex items-start gap-3 px-4 py-3.5 cursor-pointer hover:bg-primary/5 active:bg-primary/10 text-sm text-slate-800 dark:text-slate-200 border-b last:border-0 border-slate-100 dark:border-slate-800/50 transition-all';
+                input.addEventListener('input', () => {
+                    clearTimeout(debounceTimer);
+                    const q = input.value.trim();
+                    if (q.length < 2) {
+                        list.classList.add('hidden');
+                        return;
+                    }
+                    debounceTimer = setTimeout(() => fetchSuggestions(q), 300);
+                });
 
-                            const iconContainer = document.createElement('div');
-                            iconContainer.className = 'mt-0.5 size-7 rounded-full bg-primary/5 flex items-center justify-center shrink-0';
-                            const icon = document.createElement('span');
-                            icon.className = 'material-symbols-outlined text-primary text-lg';
-                            icon.textContent = prediction.types.includes('establishment') ? 'location_on' : 'map';
-                            iconContainer.appendChild(icon);
-
-                            const textContainer = document.createElement('div');
-                            textContainer.className = 'flex flex-col min-w-0';
-                            
-                            const mainText = document.createElement('span');
-                            mainText.className = 'font-bold text-sm truncate';
-                            mainText.textContent = prediction.structured_formatting.main_text;
-                            
-                            const secondaryText = document.createElement('span');
-                            secondaryText.className = 'text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5';
-                            secondaryText.textContent = prediction.structured_formatting.secondary_text;
-
-                            textContainer.appendChild(mainText);
-                            textContainer.appendChild(secondaryText);
-
-                            li.appendChild(iconContainer);
-                            li.appendChild(textContainer);
-
-                            li.addEventListener('mousedown', e => {
-                                e.preventDefault();
-                                input.value = prediction.description;
-                                list.classList.add('hidden');
-                            });
-
-                            list.appendChild(li);
-                        });
+                input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 250));
+                input.addEventListener('focus', () => {
+                    if (list.children.length && !list.querySelector('.animate-spin')) {
                         list.classList.remove('hidden');
                     }
-
-                    async function fetchSuggestions(query) {
-                        if (query.length < 3) { list.classList.add('hidden'); return; }
-                        showLoading();
-
-                        const request = {
-                            input: query,
-                            componentRestrictions: { country: 'br' },
-                            types: ['geocode', 'establishment'],
-                            language: 'pt-BR'
-                        };
-
-                        if (currentCoords) {
-                            request.locationBias = { radius: 50000, center: currentCoords };
-                        }
-
-                        autocompleteService.getPlacePredictions(request, (predictions, status) => {
-                            if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-                                console.error('Erro Autocomplete Google:', status);
-                                return;
-                            }
-                            showResults(predictions);
-                        });
-                    }
-
-                    input.addEventListener('input', () => {
-                        clearTimeout(debounceTimer);
-                        const q = input.value.trim();
-                        if (q.length < 3) { list.classList.add('hidden'); return; }
-                        debounceTimer = setTimeout(() => fetchSuggestions(q), 400);
-                    });
-
-                    input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
-                    input.addEventListener('focus', () => {
-                        if (list.children.length && !list.querySelector('.animate-spin')) {
-                            list.classList.remove('hidden');
-                        }
-                    });
-                };
-
-                initService();
+                });
             }
 
             setupAutocomplete('origin-input', 'origin-suggestions');

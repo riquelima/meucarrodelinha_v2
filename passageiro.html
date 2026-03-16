@@ -1096,11 +1096,29 @@ async function broadcastTripRequest() {
             (function () {
                 const input = document.getElementById('destino-input');
                 const list = document.getElementById('destino-suggestions');
-                if (!input || !list || !window.google) return;
+                if (!input || !list) return;
 
-                const autocompleteService = new google.maps.places.AutocompleteService();
-                const placesService = new google.maps.places.PlacesService(document.createElement('div'));
+                let autocompleteService;
+                let placesService;
                 let debounceTimer = null;
+
+                // Function to initialize services only after Google Maps is ready
+                function initAutocompleteServices() {
+                    if (window.google && window.google.maps && window.google.maps.places) {
+                        autocompleteService = new google.maps.places.AutocompleteService();
+                        placesService = new google.maps.places.PlacesService(document.createElement('div'));
+                        console.log("Autocomplete services initialized.");
+                        return true;
+                    }
+                    return false;
+                }
+
+                // Polling to ensure SDK is loaded
+                const initTimeout = setInterval(() => {
+                    if (initAutocompleteServices()) {
+                        clearInterval(initTimeout);
+                    }
+                }, 500);
 
                 function showLoading() {
                     list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locais…</li>';
@@ -1123,18 +1141,25 @@ async function broadcastTripRequest() {
                         iconContainer.className = 'mt-0.5 size-8 rounded-full bg-primary/5 flex items-center justify-center shrink-0';
                         const icon = document.createElement('span');
                         icon.className = 'material-symbols-outlined text-primary text-xl';
-                        icon.textContent = prediction.types.includes('establishment') ? 'location_on' : 'map';
+                        
+                        // Icon mapping based on types
+                        if (prediction.types.includes('establishment')) {
+                            icon.textContent = 'location_on';
+                        } else if (prediction.types.includes('route') || prediction.types.includes('street_address')) {
+                            icon.textContent = 'home_pin';
+                        } else {
+                            icon.textContent = 'map';
+                        }
+                        
                         iconContainer.appendChild(icon);
 
                         const textContainer = document.createElement('div');
                         textContainer.className = 'flex flex-col min-w-0';
                         
-                        // Main text (Name or primary address part)
                         const mainText = document.createElement('span');
                         mainText.className = 'font-bold text-[15px] truncate';
                         mainText.textContent = prediction.structured_formatting.main_text;
                         
-                        // Secondary text (City, state, number details)
                         const secondaryText = document.createElement('span');
                         secondaryText.className = 'text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5';
                         secondaryText.textContent = prediction.structured_formatting.secondary_text;
@@ -1150,7 +1175,8 @@ async function broadcastTripRequest() {
                             input.value = prediction.description;
                             list.classList.add('hidden');
 
-                            // Mover o mapa para o destino selecionado com detalhes precisos
+                            if (!placesService) return;
+
                             placesService.getDetails({ 
                                 placeId: prediction.place_id,
                                 fields: ['geometry', 'formatted_address']
@@ -1176,7 +1202,6 @@ async function broadcastTripRequest() {
                                 }
                             });
 
-                            // Highlight Ride Type Section
                             const rideTypeSection = document.getElementById('ride-type-section');
                             if (rideTypeSection) {
                                 rideTypeSection.classList.add('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
@@ -1192,32 +1217,47 @@ async function broadcastTripRequest() {
                 }
 
                 async function fetchSuggestions(query) {
-                    if (query.length < 3) {
+                    if (query.length < 2) {
                         list.classList.add('hidden');
                         return;
                     }
 
+                    if (!autocompleteService) {
+                        if (!initAutocompleteServices()) return;
+                    }
+
                     showLoading();
+
+                    // Modern biasing: focus on Salinas da Margarida, BA if no location is available,
+                    // or use the user's current location with a tighter radius for better local results.
+                    const salinasCoords = { lat: -12.8711, lng: -38.7614 };
+                    const biasCoords = currentCoords || salinasCoords;
 
                     const request = {
                         input: query,
                         componentRestrictions: { country: 'br' },
-                        types: ['geocode', 'establishment'],
-                        language: 'pt-BR'
+                        language: 'pt-BR',
+                        locationBias: {
+                            radius: 20000, // 20km for tighter local results
+                            center: biasCoords
+                        }
                     };
-
-                    // Priorização por localização (Location Bias)
-                    if (currentCoords) {
-                        // Define um círculo de 50km ao redor do usuário
-                        request.locationBias = {
-                            radius: 50000, 
-                            center: currentCoords
-                        };
-                    }
 
                     autocompleteService.getPlacePredictions(request, (predictions, status) => {
                         if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
                             console.error('Erro Autocomplete Google:', status);
+                            
+                            let errorMsg = 'Erro ao buscar endereços.';
+                            if (status === 'OVER_QUERY_LIMIT') {
+                                errorMsg = 'Limite de buscas excedido.';
+                            } else if (status === 'REQUEST_DENIED') {
+                                errorMsg = 'Acesso à API negado. Verifique a chave.';
+                                console.warn('Dica: Verifique se o Billing está ativo e se a Places API (New) está habilitada no Console do Google Cloud.');
+                            } else if (status === 'INVALID_REQUEST') {
+                                errorMsg = 'Requisição inválida.';
+                            }
+
+                            list.innerHTML = `<li class="px-4 py-3 text-sm text-red-400 flex items-center gap-2"><span class="material-symbols-outlined text-base">error</span>${errorMsg}</li>`;
                             return;
                         }
                         showResults(predictions);
@@ -1227,14 +1267,14 @@ async function broadcastTripRequest() {
                 input.addEventListener('input', () => {
                     clearTimeout(debounceTimer);
                     const q = input.value.trim();
-                    if (q.length < 3) {
+                    if (q.length < 2) {
                         list.classList.add('hidden');
                         return;
                     }
-                    debounceTimer = setTimeout(() => fetchSuggestions(q), 400);
+                    debounceTimer = setTimeout(() => fetchSuggestions(q), 300);
                 });
 
-                input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 200));
+                input.addEventListener('blur', () => setTimeout(() => list.classList.add('hidden'), 250));
                 input.addEventListener('focus', () => {
                     if (list.children.length && !list.querySelector('.animate-spin')) {
                         list.classList.remove('hidden');

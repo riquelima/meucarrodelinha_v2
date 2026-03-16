@@ -10,25 +10,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             clearTimeout(debounceTimeout);
 
-            if (query.length < 3) {
+            if (query.length < 2) {
                 suggestionsList.classList.add('hidden');
                 suggestionsList.innerHTML = '';
                 return;
             }
 
-            const service = new google.maps.places.AutocompleteService();
-            service.getPlacePredictions({
-                input: query,
-                componentRestrictions: { country: 'br' },
-                // Biasing result to Salinas da Margarida area
-                locationBias: { lat: -12.87, lng: -38.80, radius: 20000 }
-            }, (predictions, status) => {
-                if (status !== google.maps.places.PlacesServiceStatus.OK) {
-                    suggestionsList.classList.add('hidden');
-                    return;
-                }
-                renderSuggestions(predictions);
-            });
+            debounceTimeout = setTimeout(() => {
+                if (typeof google === 'undefined' || !google.maps || !google.maps.places) return;
+
+                const service = new google.maps.places.AutocompleteService();
+                
+                // Focusing on Salinas da Margarida area
+                const salinasCoords = { lat: -12.8711, lng: -38.7614 };
+
+                service.getPlacePredictions({
+                    input: query,
+                    componentRestrictions: { country: 'br' },
+                    locationBias: { radius: 20000, center: salinasCoords },
+                    language: 'pt-BR'
+                }, (predictions, status) => {
+                    if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                        console.error('Erro Autocomplete Google:', status);
+                        suggestionsList.classList.add('hidden');
+                        return;
+                    }
+                    renderSuggestions(predictions);
+                });
+            }, 300);
         });
 
         // Close suggestions when clicking outside
