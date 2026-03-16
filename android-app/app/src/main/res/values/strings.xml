@@ -16,6 +16,12 @@
 -->
 <resources>
   
+    <string-array name="additional_trusted_origins">
+    
+      <item>https://https://meucarrodelinhasalinas.com.br</item>
+    
+    </string-array>
+  
 
   <!--
     The "fullscreen" and "fullscreen-sticky" TWA manifest values correspond to "immersive" and "sticky-immersive"
@@ -34,9 +40,17 @@
         \"relation\": [\"delegate_permission/common.handle_all_urls\"],
         \"target\": {
             \"namespace\": \"web\",
-            \"site\": \"https://meucarrodelinhasalinas.com.br\"
+            \"site\": \"https://www.meucarrodelinhasalinas.com.br\"
         }
     }]
+    
+      ,[{
+          \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+          \"target\": {
+              \"namespace\": \"web\",
+              \"site\": \"https://https://meucarrodelinhasalinas.com.br\"
+          }
+      }]        
     
   </string>  
 </resources>

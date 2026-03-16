@@ -23,8 +23,8 @@
 23-->
 24<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 25    package="com.meucarrosalinas.twa"
-26    android:versionCode="2"
-27    android:versionName="1.0.0" >
+26    android:versionCode="3"
+27    android:versionName="y" >
 28
 29    <uses-sdk
 30        android:minSdkVersion="21"
@@ -39,16 +39,16 @@
 36        <intent>
 36-->[com.google.androidbrowserhelper:androidbrowserhelper:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\5053e02be90783e54992393be394bb70\transformed\androidbrowserhelper-2.6.2\AndroidManifest.xml:23:9-29:18
 37            <action android:name="android.intent.action.VIEW" />
-37-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:148:17-68
-37-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:148:25-66
+37-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:17-68
+37-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:25-66
 38
 39            <category android:name="android.intent.category.BROWSABLE" />
-39-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:150:17-77
-39-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:150:27-75
+39-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:154:17-77
+39-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:154:27-75
 40
 41            <data android:scheme="https" />
-41-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:151:17-154:19
-41-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:151:23-45
+41-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:155:17-158:19
+41-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:155:23-45
 42        </intent>
 43    </queries>
 44
@@ -64,7 +64,7 @@
 49-->[androidx.core:core:1.13.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\a5429f7b20c607b890f08b5283ad4ec0\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
 50
 51    <application
-51-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:35:5-199:19
+51-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:35:5-211:19
 52        android:name="com.meucarrosalinas.twa.Application"
 52-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:36:9-35
 53        android:allowBackup="true"
@@ -130,7 +130,7 @@
 84            </intent-filter>
 85        </activity>
 86        <activity
-86-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:79:9-160:20
+86-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:79:9-172:20
 87            android:name="com.meucarrosalinas.twa.LauncherActivity"
 87-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:79:19-50
 88            android:alwaysRetainTaskState="true"
@@ -223,163 +223,190 @@
 131-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:133:24-92
 132                android:value="@string/orientation" />
 132-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:134:17-52
-133
-134            <intent-filter>
-134-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:142:13-145:29
-135                <action android:name="android.intent.action.MAIN" />
-135-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:143:17-69
-135-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:143:25-66
+133            <meta-data
+133-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:137:17-139:76
+134                android:name="android.support.customtabs.trusted.ADDITIONAL_TRUSTED_ORIGINS"
+134-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:138:21-97
+135                android:resource="@array/additional_trusted_origins" />
+135-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:139:21-73
 136
-137                <category android:name="android.intent.category.LAUNCHER" />
-137-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:144:17-77
-137-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:144:27-74
-138            </intent-filter>
-139            <intent-filter android:autoVerify="true" >
-139-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:147:13-155:29
-139-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:147:28-53
-140                <action android:name="android.intent.action.VIEW" />
-140-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:148:17-68
-140-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:148:25-66
-141
-142                <category android:name="android.intent.category.DEFAULT" />
-142-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:21-80
-142-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:31-77
-143                <category android:name="android.intent.category.BROWSABLE" />
-143-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:150:17-77
-143-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:150:27-75
+137            <intent-filter>
+137-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:146:13-149:29
+138                <action android:name="android.intent.action.MAIN" />
+138-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:147:17-69
+138-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:147:25-66
+139
+140                <category android:name="android.intent.category.LAUNCHER" />
+140-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:148:17-77
+140-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:148:27-74
+141            </intent-filter>
+142            <intent-filter android:autoVerify="true" >
+142-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:151:13-159:29
+142-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:151:28-53
+143                <action android:name="android.intent.action.VIEW" />
+143-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:17-68
+143-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:25-66
 144
-145                <data
-145-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:151:17-154:19
-146                    android:host="@string/hostName"
-146-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:21-52
-147                    android:scheme="https" />
-147-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:151:23-45
-148            </intent-filter>
-149        </activity>
-150        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
-150-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:162:9-90
-150-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:162:19-87
-151        <activity
-151-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:164:9-165:62
-152            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
-152-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:164:19-97
-153            android:configChanges="orientation|screenSize" />
-153-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:165:13-59
+145                <category android:name="android.intent.category.DEFAULT" />
+145-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:21-80
+145-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:31-77
+146                <category android:name="android.intent.category.BROWSABLE" />
+146-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:154:17-77
+146-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:154:27-75
+147
+148                <data
+148-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:155:17-158:19
+149                    android:host="@string/hostName"
+149-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:156:21-52
+150                    android:scheme="https" />
+150-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:155:23-45
+151            </intent-filter>
+152            <intent-filter android:autoVerify="true" >
+152-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:162:17-168:33
+152-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:162:32-57
+153                <action android:name="android.intent.action.VIEW" />
+153-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:17-68
+153-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:152:25-66
 154
-155        <provider
-155-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:167:9-175:20
-156            android:name="androidx.core.content.FileProvider"
-156-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:168:13-62
-157            android:authorities="@string/providerAuthority"
-157-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:169:13-60
-158            android:exported="false"
-158-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:171:13-37
-159            android:grantUriPermissions="true" >
-159-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:170:13-47
-160            <meta-data
-160-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:172:13-174:53
-161                android:name="android.support.FILE_PROVIDER_PATHS"
-161-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:173:17-67
-162                android:resource="@xml/filepaths" />
-162-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:174:17-50
-163        </provider>
-164
-165        <service
-165-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:177:9-192:19
-166            android:name="com.meucarrosalinas.twa.DelegationService"
-166-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:178:13-46
-167            android:enabled="@bool/enableNotification"
-167-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:179:13-55
-168            android:exported="@bool/enableNotification" >
-168-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:180:13-56
-169            <meta-data
-169-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:183:17-185:73
-170                android:name="android.support.customtabs.trusted.SMALL_ICON"
-170-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:184:21-81
-171                android:resource="@drawable/ic_notification_icon" />
-171-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:185:21-70
-172
-173            <intent-filter>
-173-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:188:13-191:29
-174                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
-174-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:189:17-105
-174-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:189:25-103
-175
-176                <category android:name="android.intent.category.DEFAULT" />
-176-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:21-80
-176-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:31-77
-177            </intent-filter>
-178        </service>
-179
-180        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
-180-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:195:13-118
-180-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:195:23-115
-181
-182        <provider
-182-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-183            android:name="androidx.startup.InitializationProvider"
-183-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-184            android:authorities="com.meucarrosalinas.twa.androidx-startup"
-184-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-185            android:exported="false" >
-185-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-186            <meta-data
-186-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-187                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-187-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-188                android:value="androidx.startup" />
-188-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-189            <meta-data
-189-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-190                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-190-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-191                android:value="androidx.startup" />
-191-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
-192            <meta-data
-192-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-193                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-193-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
-194                android:value="androidx.startup" />
-194-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-195        </provider>
-196
-197        <receiver
-197-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-198            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-198-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-199            android:directBootAware="false"
-199-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-200            android:enabled="true"
-200-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-201            android:exported="true"
-201-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-202            android:permission="android.permission.DUMP" >
-202-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-203            <intent-filter>
-203-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-204                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-204-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-204-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-205            </intent-filter>
-206            <intent-filter>
-206-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-207                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-207-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-207-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-208            </intent-filter>
-209            <intent-filter>
-209-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-210                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-210-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-210-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-211            </intent-filter>
-212            <intent-filter>
-212-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-213                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-213-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-213-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-214            </intent-filter>
-215        </receiver>
-216    </application>
-217
-218</manifest>
+155                <category android:name="android.intent.category.DEFAULT" />
+155-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:21-80
+155-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:31-77
+156                <category android:name="android.intent.category.BROWSABLE" />
+156-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:154:17-77
+156-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:154:27-75
+157
+158                <data
+158-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:155:17-158:19
+159                    android:host="https://meucarrodelinhasalinas.com.br"
+159-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:156:21-52
+160                    android:scheme="https" />
+160-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:155:23-45
+161            </intent-filter>
+162        </activity>
+163        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
+163-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:174:9-90
+163-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:174:19-87
+164        <activity
+164-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:176:9-177:62
+165            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
+165-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:176:19-97
+166            android:configChanges="orientation|screenSize" />
+166-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:177:13-59
+167
+168        <provider
+168-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:179:9-187:20
+169            android:name="androidx.core.content.FileProvider"
+169-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:180:13-62
+170            android:authorities="@string/providerAuthority"
+170-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:181:13-60
+171            android:exported="false"
+171-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:183:13-37
+172            android:grantUriPermissions="true" >
+172-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:182:13-47
+173            <meta-data
+173-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:184:13-186:53
+174                android:name="android.support.FILE_PROVIDER_PATHS"
+174-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:185:17-67
+175                android:resource="@xml/filepaths" />
+175-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:186:17-50
+176        </provider>
+177
+178        <service
+178-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:189:9-204:19
+179            android:name="com.meucarrosalinas.twa.DelegationService"
+179-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:190:13-46
+180            android:enabled="@bool/enableNotification"
+180-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:191:13-55
+181            android:exported="@bool/enableNotification" >
+181-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:192:13-56
+182            <meta-data
+182-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:195:17-197:73
+183                android:name="android.support.customtabs.trusted.SMALL_ICON"
+183-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:196:21-81
+184                android:resource="@drawable/ic_notification_icon" />
+184-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:197:21-70
+185
+186            <intent-filter>
+186-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:200:13-203:29
+187                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+187-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:201:17-105
+187-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:201:25-103
+188
+189                <category android:name="android.intent.category.DEFAULT" />
+189-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:21-80
+189-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:74:31-77
+190            </intent-filter>
+191        </service>
+192
+193        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
+193-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:207:13-118
+193-->C:\Users\henri\OneDrive\Documentos\Henrique\Projetos Sistemas\Meu carro de linha\meucarrodelinhasalinas_v2\android-app\app\src\main\AndroidManifest.xml:207:23-115
+194
+195        <provider
+195-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+196            android:name="androidx.startup.InitializationProvider"
+196-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+197            android:authorities="com.meucarrosalinas.twa.androidx-startup"
+197-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+198            android:exported="false" >
+198-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+199            <meta-data
+199-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+200                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+200-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+201                android:value="androidx.startup" />
+201-->[androidx.emoji2:emoji2:1.3.0] C:\Users\henri\.gradle\caches\8.11.1\transforms\5cb7738f5242d8c4e38c8ffa2b265b31\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+202            <meta-data
+202-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+203                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+203-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+204                android:value="androidx.startup" />
+204-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\henri\.gradle\caches\8.11.1\transforms\4bc52031417e9743197e36b704fe409f\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+205            <meta-data
+205-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+206                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+206-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+207                android:value="androidx.startup" />
+207-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+208        </provider>
+209
+210        <receiver
+210-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+211            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+211-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+212            android:directBootAware="false"
+212-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+213            android:enabled="true"
+213-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+214            android:exported="true"
+214-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+215            android:permission="android.permission.DUMP" >
+215-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+216            <intent-filter>
+216-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+217                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+217-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+217-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+218            </intent-filter>
+219            <intent-filter>
+219-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+220                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+220-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+220-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+221            </intent-filter>
+222            <intent-filter>
+222-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+223                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+223-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+223-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+224            </intent-filter>
+225            <intent-filter>
+225-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+226                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+226-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+226-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\henri\.gradle\caches\8.11.1\transforms\bb4a0d32d1b17a1dcea0cf71d2bde5e0\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+227            </intent-filter>
+228        </receiver>
+229    </application>
+230
+231</manifest>

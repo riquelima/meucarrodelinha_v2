@@ -10277,6 +10277,7 @@ com.google.j2objc.annotations.WeakOuter
 com.google.thirdparty.publicsuffix.PublicSuffixPatterns
 com.google.thirdparty.publicsuffix.PublicSuffixType
 com.google.thirdparty.publicsuffix.TrieParser
+com.meucarrosalinas.twa.R$array
 com.meucarrosalinas.twa.R$bool
 com.meucarrosalinas.twa.R$color
 com.meucarrosalinas.twa.R$drawable

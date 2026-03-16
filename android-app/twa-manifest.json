@@ -1,6 +1,6 @@
 {
   "packageId": "com.meucarrosalinas.twa",
-  "host": "meucarrodelinhasalinas.com.br",
+  "host": "www.meucarrodelinhasalinas.com.br",
   "name": "Meu Carro de Linha Salinas",
   "launcherName": "Carro de Linha",
   "display": "standalone",
@@ -13,18 +13,18 @@
   "backgroundColor": "#121520",
   "enableNotifications": true,
   "startUrl": "/",
-  "iconUrl": "https://meucarrodelinhasalinas.com.br/icon-512.png",
-  "maskableIconUrl": "https://meucarrodelinhasalinas.com.br/icon-512.png",
+  "iconUrl": "https://www.meucarrodelinhasalinas.com.br/icon-512.png",
+  "maskableIconUrl": "https://www.meucarrodelinhasalinas.com.br/icon-512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "./android.keystore",
     "alias": "android"
   },
-  "appVersionName": "1.0.0",
-  "appVersionCode": 2,
+  "appVersionName": "y",
+  "appVersionCode": 3,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
-  "webManifestUrl": "https://meucarrodelinhasalinas.com.br/manifest.json",
+  "webManifestUrl": "https://www.meucarrodelinhasalinas.com.br/manifest.json",
   "fallbackType": "customtabs",
   "features": {},
   "alphaDependencies": {
@@ -36,8 +36,10 @@
   "minSdkVersion": 21,
   "orientation": "portrait",
   "fingerprints": [],
-  "additionalTrustedOrigins": [],
+  "additionalTrustedOrigins": [
+    "https://meucarrodelinhasalinas.com.br"
+  ],
   "retainedBundles": [],
   "displayOverride": [],
-  "appVersion": "1.0.0"
+  "appVersion": "y"
 }
