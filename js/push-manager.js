@@ -104,11 +104,18 @@ const PushManager = {
                     onConflict: 'endpoint' // Usamos apenas endpoint para conflito se user_id puder ser nulo
                 });
 
-            if (error) throw error;
+            if (error) {
+                console.error('Erro ao salvar assinatura no Supabase:', error);
+                // Alerta temporário para depuração no celular
+                alert('Erro ao salvar no banco: ' + error.message);
+                throw error;
+            }
             console.log('Assinatura persistida no Supabase.');
+            // alert('Inscrição confirmada e salva com sucesso!'); 
 
         } catch (error) {
             console.error('Erro ao salvar assinatura no Supabase:', error);
+            // alert('Erro crítico no salvamento: ' + error.message);
         }
     },
 
