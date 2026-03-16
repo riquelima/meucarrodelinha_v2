@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meucarrosalinas-v3';
+const CACHE_NAME = 'meucarrosalinas-v4';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -116,28 +116,38 @@ self.addEventListener('periodicsync', (event) => {
 
 // PUSH NOTIFICATIONS - Recebe notificações do servidor
 self.addEventListener('push', (event) => {
-  let data = { title: 'Salinas Corridas', body: 'Nova atualização!' };
-  if (event.data) {
-    try {
-      data = event.data.json();
-    } catch (e) {
-      data.body = event.data.text();
-    }
-  }
+    let data = { 
+        title: 'Meu Carro de Linha', 
+        body: 'Você tem uma nova mensagem!',
+        icon: '/splashScreen.jpeg',
+        url: '/'
+    };
 
-  const options = {
-    body: data.body,
-    icon: '/icon-192.png',
-    badge: '/icon-192.png',
-    vibrate: [100, 50, 100],
-    data: {
-      url: data.url || '/'
+    if (event.data) {
+        try {
+            const json = event.data.json();
+            data = { ...data, ...json };
+        } catch (e) {
+            data.body = event.data.text();
+        }
     }
-  };
 
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+    const options = {
+        body: data.body,
+        icon: data.icon || '/icon-192.png',
+        badge: '/logoTransparente.png',
+        vibrate: [200, 100, 200],
+        data: {
+            url: data.url || '/'
+        },
+        actions: [
+            { action: 'open', title: 'Ver Agora' }
+        ]
+    };
+
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
 });
 
 // NOTIFICATION CLICK - Abre o app e vai para a URL específica

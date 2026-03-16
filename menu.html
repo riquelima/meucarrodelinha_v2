@@ -322,6 +322,16 @@
                         <span class="material-symbols-outlined text-primary">chat</span>
                         <span class="font-medium">Fale Conosco</span>
                     </a>
+
+                    <!-- Opção de Notificações Push -->
+                    <button id="btnActivatePush" class="w-full flex items-center gap-3 p-4 rounded-xl text-slate-300 hover:bg-slate-800/50 transition-colors text-left">
+                        <span class="material-symbols-outlined text-primary">notifications</span>
+                        <div class="flex-1">
+                            <span class="font-medium block">Ativar Notificações</span>
+                            <span class="text-[10px] text-slate-500">Receba avisos de novas corridas</span>
+                        </div>
+                    </button>
+
                     <div class="pt-6 mt-6 border-t border-slate-800 space-y-1">
                         <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs text-slate-500 hover:text-slate-300"
                             href="#">
@@ -329,7 +339,7 @@
                             <span>Termos de Uso</span>
                         </a>
                         <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs text-slate-500 hover:text-slate-300"
-                            href="#">
+                            href="politicaPrivacidade.html">
                             <span class="material-symbols-outlined text-lg">gavel</span>
                             <span>Política de Privacidade</span>
                         </a>
@@ -337,7 +347,7 @@
                 </nav>
                 <div class="p-6">
                     <div class="p-4 rounded-2xl bg-primary/10 border border-primary/20">
-                        <p class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Versão 2.0.0</p>
+                        <p class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Versão 2.1.0</p>
                         <p class="text-xs text-slate-400">Desenvolvido para sua segurança em Salinas.</p>
                     </div>
                 </div>
@@ -345,9 +355,37 @@
         </div>
     </div>
 
+    <!-- Scripts Supabase e PWA -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/push-manager.js"></script>
+    <script src="js/pwa-register.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa o PushManager
+            if (typeof PushManager !== 'undefined') {
+                PushManager.init();
+            }
+
+            // Evento do botão de notificações
+            const btnPush = document.getElementById('btnActivatePush');
+            if (btnPush) {
+                btnPush.addEventListener('click', async () => {
+                    const success = await PushManager.requestPermission();
+                    if (success) {
+                        btnPush.innerHTML = `
+                            <span class="material-symbols-outlined text-green-500">notifications_active</span>
+                            <div class="flex-1">
+                                <span class="font-medium block text-green-500">Notificações Ativas</span>
+                                <span class="text-[10px] text-slate-500">Você receberá avisos no celular</span>
+                            </div>
+                        `;
+                        setTimeout(() => alert('Notificações ativadas com sucesso!'), 500);
+                    }
+                });
+            }
+
             document.querySelectorAll('a[href]').forEach(link => {
                 link.addEventListener('click', e => {
                     const href = link.getAttribute('href');

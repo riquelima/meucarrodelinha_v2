@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Enviar Notificações Push - Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f38bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101422",
+                    },
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "xl": "0.75rem", "2xl": "1rem" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; min-height: 100dvh; }
+        .active-scale:active { transform: scale(0.98); transition: 0.1s; }
+        .glass-card { @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: slideIn 0.3s ease-out forwards; }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header -->
+        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
+            <a href="perfilAdministrador.html" class="text-white flex size-10 shrink-0 items-center justify-center hover:bg-white/20 rounded-full transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <h1 class="text-white text-lg font-bold flex-1 text-center">Notificações Push</h1>
+            <div class="size-10"></div>
+        </header>
+
+        <main class="flex flex-col p-4 gap-6 pb-32 max-w-lg mx-auto w-full">
+            <!-- Estatísticas Rápidas -->
+            <section class="glass-card rounded-2xl p-6 flex items-center justify-between animate-in">
+                <div>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Público Ativo</p>
+                    <div class="flex items-baseline gap-2">
+                        <span id="sub-count" class="text-3xl font-bold">...</span>
+                        <span class="text-sm text-slate-500 font-medium">dispositivos</span>
+                    </div>
+                </div>
+                <div class="size-14 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
+                    <span class="material-symbols-outlined text-3xl">people</span>
+                </div>
+            </section>
+
+            <!-- Formulário de Envio -->
+            <section class="flex flex-col gap-5 animate-in" style="animation-delay: 100ms;">
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-bold text-slate-400 ml-1">Título da Notificação</label>
+                    <input type="text" id="title" placeholder="Ex: Corrida disponível!" 
+                        class="w-full h-14 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl px-4 focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-bold text-slate-400 ml-1">Conteúdo da Mensagem</label>
+                    <textarea id="body" rows="4" placeholder="Escreva aqui o que o usuário verá no celular..."
+                        class="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-4 focus:ring-primary focus:border-primary resize-none"></textarea>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-bold text-slate-400 ml-1">Link de Destino (Opcional)</label>
+                    <input type="text" id="url" placeholder="Ex: /admin.html" 
+                        class="w-full h-14 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl px-4 focus:ring-primary focus:border-primary">
+                    <p class="text-[10px] text-slate-500 ml-1">Caminho relativo para abrir no app ao clicar.</p>
+                </div>
+
+                <button id="btnSend" onclick="sendNotification()"
+                    class="w-full h-16 bg-primary text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-2 active-scale shadow-lg shadow-primary/20 mt-4 disabled:opacity-50 disabled:pointer-events-none">
+                    <span class="material-symbols-outlined">send</span>
+                    Enviar Notificação
+                </button>
+            </section>
+
+            <!-- Preview Card -->
+            <section class="flex flex-col gap-3 animate-in" style="animation-delay: 200ms;">
+                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Preview no Android</h3>
+                <div class="bg-slate-100 dark:bg-slate-900/50 rounded-2xl p-4 border border-dashed border-slate-300 dark:border-slate-800">
+                    <div class="flex gap-3">
+                        <div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary text-xl">notifications</span>
+                        </div>
+                        <div class="flex-1">
+                            <p id="preview-title" class="font-bold text-sm">Título da Notificação</p>
+                            <p id="preview-body" class="text-xs text-slate-500">Sua mensagem aparecerá aqui para o usuário...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script>
+        const titleInput = document.getElementById('title');
+        const bodyInput = document.getElementById('body');
+        const previewTitle = document.getElementById('preview-title');
+        const previewBody = document.getElementById('preview-body');
+        const subCountEl = document.getElementById('sub-count');
+        const btnSend = document.getElementById('btnSend');
+
+        // Update preview in real-time
+        titleInput.addEventListener('input', () => previewTitle.innerText = titleInput.value || 'Título da Notificação');
+        bodyInput.addEventListener('input', () => previewBody.innerText = bodyInput.value || 'Sua mensagem aparecerá aqui...');
+
+        async function loadStats() {
+            try {
+                const { count, error } = await window.supabaseClient
+                    .from('push_subscriptions')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error) throw error;
+                subCountEl.innerText = count || 0;
+                
+                if (count === 0) {
+                    btnSend.disabled = true;
+                    btnSend.innerText = 'Sem usuários inscritos';
+                }
+            } catch (err) {
+                console.error('Erro ao carregar estatísticas:', err);
+                subCountEl.innerText = '?';
+            }
+        }
+
+        async function sendNotification() {
+            const title = titleInput.value.trim();
+            const body = bodyInput.value.trim();
+            const url = document.getElementById('url').value.trim() || '/';
+
+            if (!title || !body) {
+                alert('Por favor, preencha o título e a mensagem.');
+                return;
+            }
+
+            try {
+                setLoading(true);
+
+                // Chama a Edge Function do Supabase
+                const { data, error } = await window.supabaseClient.functions.invoke('send-push-notification', {
+                    body: { title, body, url }
+                });
+
+                if (error) throw error;
+
+                alert('Notificação enviada com sucesso para todos os dispositivos!');
+                titleInput.value = '';
+                bodyInput.value = '';
+            } catch (err) {
+                console.error('Erro no envio:', err);
+                alert('Erro ao enviar: ' + (err.message || 'Verifique se a Edge Function está implantada.'));
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function setLoading(isLoading) {
+            btnSend.disabled = isLoading;
+            btnSend.innerHTML = isLoading 
+                ? '<span class="material-symbols-outlined animate-spin">sync</span> Enviando...'
+                : '<span class="material-symbols-outlined">send</span> Enviar Notificação';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>
