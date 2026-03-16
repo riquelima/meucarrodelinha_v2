@@ -160,7 +160,11 @@
 
                 if (error) throw error;
 
-                alert('Notificação enviada com sucesso para todos os dispositivos!');
+                const message = data?.message || 'Processamento concluído.';
+                const successful = data?.results?.filter(r => r.success).length || 0;
+                const total = data?.results?.length || 0;
+
+                alert(`${message}\n\nDetalhes técnico: ${successful} enviados com sucesso.`);
                 titleInput.value = '';
                 bodyInput.value = '';
             } catch (err) {
