@@ -263,66 +263,6 @@
                 }
             }
         };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Toggle Online/Offline Logic
-            const toggleBtn = document.getElementById('toggle-online-btn');
-            const toggleIcon = document.getElementById('toggle-icon');
-            const toggleText = document.getElementById('toggle-text');
-            const statusText = document.getElementById('status-text');
-            const notificationContainer = document.getElementById('notification-container');
-            const notificationBox = document.getElementById('notification-box');
-            const notificationIcon = document.getElementById('notification-icon');
-            const notificationText = document.getElementById('notification-text');
-            let isOnline = false;
-
-            function showNotification(message, isOnlineStatus) {
-                notificationText.textContent = message;
-                if (isOnlineStatus) {
-                    notificationBox.classList.remove('bg-slate-700');
-                    notificationBox.classList.add('bg-green-500');
-                    notificationIcon.textContent = 'check_circle';
-                } else {
-                    notificationBox.classList.remove('bg-green-500');
-                    notificationBox.classList.add('bg-slate-700');
-                    notificationIcon.textContent = 'power_settings_new';
-                }
-
-                notificationContainer.classList.remove('-translate-y-full');
-                setTimeout(() => {
-                    notificationContainer.classList.add('-translate-y-full');
-                }, 3000); // Hide after 3 seconds
-            }
-
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', () => {
-                    isOnline = !isOnline;
-
-                    if (isOnline) {
-                        // Go Online State
-                        toggleBtn.classList.remove('bg-primary', 'shadow-primary/20', 'text-white');
-                        toggleBtn.classList.add('bg-slate-700', 'text-slate-300', 'shadow-none');
-                        toggleText.textContent = 'Ficar Offline';
-                        statusText.textContent = 'Você está online e visível para passageiros';
-                        statusText.classList.add('text-green-500');
-                        statusText.classList.remove('text-slate-500');
-
-                        showNotification('Você está online', true);
-
-                    } else {
-                        // Go Offline State
-                        toggleBtn.classList.add('bg-primary', 'shadow-primary/20', 'text-white');
-                        toggleBtn.classList.remove('bg-slate-700', 'text-slate-300', 'shadow-none');
-                        toggleText.textContent = 'Ficar Online';
-                        statusText.textContent = 'Você está offline no momento';
-                        statusText.classList.remove('text-green-500');
-                        statusText.classList.add('text-slate-500');
-
-                        showNotification('Você está offline', false);
-                    }
-                });
-            }
-        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>

@@ -71,15 +71,15 @@
             <div class="bg-primary p-6 rounded-2xl shadow-xl shadow-primary/20 mb-8 relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
                 <p class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">Ganhos Totais</p>
-                <h2 class="text-4xl font-black text-white mb-6">R$ 1.254,80</h2>
+                <h2 id="total-earnings" class="text-4xl font-black text-white mb-6">R$ 0,00</h2>
                 <div class="flex gap-4">
                     <div class="flex-1 bg-white/10 p-3 rounded-xl backdrop-blur-sm">
                         <p class="text-white/60 text-[10px] uppercase font-bold">Hoje</p>
-                        <p class="text-white font-bold text-lg">R$ 142,50</p>
+                        <p id="today-earnings" class="text-white font-bold text-lg">R$ 0,00</p>
                     </div>
                     <div class="flex-1 bg-white/10 p-3 rounded-xl backdrop-blur-sm">
                         <p class="text-white/60 text-[10px] uppercase font-bold">Semana</p>
-                        <p class="text-white font-bold text-lg">R$ 845,00</p>
+                        <p id="week-earnings" class="text-white font-bold text-lg">R$ 0,00</p>
                     </div>
                 </div>
             </div>
@@ -90,40 +90,12 @@
                     <h3 class="font-bold text-slate-900 dark:text-slate-100">Últimos Lançamentos</h3>
                 </div>
 
-                <!-- Single Item -->
-                <div
-                    class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-border-dark flex items-center gap-4">
-                    <div class="size-10 rounded-lg bg-success/10 text-success flex items-center justify-center">
-                        <span class="material-symbols-outlined">add_circle</span>
+                <!-- Transactions List -->
+                <div id="transactions-list" class="space-y-4">
+                    <div class="flex flex-col items-center justify-center py-10 text-slate-500">
+                        <span class="material-symbols-outlined animate-spin mb-2">sync</span>
+                        <p>Carregando ganhos...</p>
                     </div>
-                    <div class="flex-1">
-                        <p class="font-bold text-sm">Viagem #8421</p>
-                        <p class="text-xs text-slate-500">Hoje, 14:20</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-bold text-success">R$ 18,50</p>
-                        <p class="text-[10px] text-slate-400">Finalizada</p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-border-dark flex items-center gap-4">
-                    <div class="size-10 rounded-lg bg-success/10 text-success flex items-center justify-center">
-                        <span class="material-symbols-outlined">add_circle</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-bold text-sm">Viagem #8420</p>
-                        <p class="text-xs text-slate-500">Hoje, 12:45</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-bold text-success">R$ 22,90</p>
-                        <p class="text-[10px] text-slate-400">Finalizada</p>
-                    </div>
-                </div>
-
-                <!-- Floating Action Button Area (now inside main to avoid overlap) -->
-                <div class="py-10 max-w-md mx-auto">
-                    <!-- Button removed -->
                 </div>
         </main>
 
@@ -157,6 +129,102 @@
     <script src="js/chat-notifications.js"></script>
     <script src="js/ui-transitions.js"></script>
     <script src="js/pwa-register.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const supabase = window.supabaseClient;
+            const totalEl = document.getElementById('total-earnings');
+            const todayEl = document.getElementById('today-earnings');
+            const weekEl = document.getElementById('week-earnings');
+            const listEl = document.getElementById('transactions-list');
+
+            // Auth Check
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                window.location.href = 'loginMotorista.html';
+                return;
+            }
+
+            // Fetch Trips
+            const { data: trips, error } = await supabase
+                .from('viagens')
+                .select('*')
+                .eq('motorista_id', user.id)
+                .eq('status', 'Finalizado')
+                .order('criado_em', { ascending: false });
+
+            if (error) {
+                console.error('Error fetching earnings:', error);
+                listEl.innerHTML = '<p class="text-center text-red-500">Erro ao carregar dados.</p>';
+                return;
+            }
+
+            // Calculations
+            const now = new Date();
+            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            // Week start (Sunday)
+            const startOfWeek = new Date(startOfDay);
+            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+
+            let total = 0;
+            let today = 0;
+            let week = 0;
+
+            trips.forEach(trip => {
+                const val = parseFloat(trip.valor_final || 0);
+                const date = new Date(trip.criado_em);
+
+                total += val;
+
+                if (date >= startOfDay) {
+                    today += val;
+                }
+
+                if (date >= startOfWeek) {
+                    week += val;
+                }
+            });
+
+            // Update UI
+            const formatCurrency = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            totalEl.textContent = formatCurrency(total);
+            todayEl.textContent = formatCurrency(today);
+            weekEl.textContent = formatCurrency(week);
+
+            // Render List
+            if (trips.length === 0) {
+                listEl.innerHTML = '<p class="text-center text-slate-500 py-10">Nenhuma viagem finalizada ainda.</p>';
+                return;
+            }
+
+            listEl.innerHTML = '';
+            trips.forEach(trip => {
+                const date = new Date(trip.criado_em);
+                const isToday = date >= startOfDay;
+                const dateStr = isToday 
+                    ? `Hoje, ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`
+                    : date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+
+                const item = document.createElement('div');
+                item.className = 'bg-white dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-border-dark flex items-center gap-4 animate-slide-up';
+                item.innerHTML = `
+                    <div class="size-10 rounded-lg bg-success/10 text-success flex items-center justify-center">
+                        <span class="material-symbols-outlined">add_circle</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">Viagem #${trip.id.substring(0, 8)}</p>
+                        <p class="text-xs text-slate-500">${dateStr}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-success">${formatCurrency(trip.valor_final || 0)}</p>
+                        <p class="text-[10px] text-slate-400">Finalizada</p>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+        });
+    </script>
 </body>
 
 </html>
