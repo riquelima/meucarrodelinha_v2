@@ -626,6 +626,14 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script src="js/push-manager.js"></script>
+    <script>
+        // Inicializa o gerenciador de push e tenta o prompt único
+        document.addEventListener('DOMContentLoaded', () => {
+            PushManager.init();
+            PushManager.promptOnce();
+        });
+    </script>
     <script src="js/location-modal.js"></script>
     <script src="js/homepage.js"></script>
     <script>

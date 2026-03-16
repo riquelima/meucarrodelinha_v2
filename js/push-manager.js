@@ -11,20 +11,50 @@ const PushManager = {
             return;
         }
 
-        // Verifica se já temos permissão
+        // Tenta sincronizar se já tivermos permissão
         if (Notification.permission === 'granted') {
             await this.subscribeUser();
+        }
+
+        // Listener para vincular usuário após login (se ele permitir enquanto deslogado)
+        window.supabaseClient.auth.onAuthStateChange(async (event, session) => {
+            if (event === 'SIGNED_IN' && Notification.permission === 'granted') {
+                console.log('Usuário logou, sincronizando assinatura push...');
+                await this.subscribeUser();
+            }
+        });
+    },
+
+    /**
+     * Exibe o prompt de permissão apenas uma vez se ainda não foi decidido.
+     */
+    async promptOnce() {
+        const hasPrompted = localStorage.getItem('push_prompt_seen');
+        
+        if (!hasPrompted && Notification.permission === 'default') {
+            console.log('Exibindo prompt de notificação inicial...');
+            
+            // Pequeno delay para não assustar o usuário na primeira carga
+            setTimeout(async () => {
+                const granted = await this.requestPermission();
+                localStorage.setItem('push_prompt_seen', 'true');
+                if (granted) {
+                    console.log('Usuário aceitou as notificações no prompt inicial.');
+                }
+            }, 3000);
         }
     },
 
     async requestPermission() {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            console.log('Permissão concedida para notificações.');
-            await this.subscribeUser();
-            return true;
-        } else {
-            console.warn('Permissão negada para notificações.');
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                await this.subscribeUser();
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.error('Erro ao solicitar permissão:', err);
             return false;
         }
     },
@@ -33,52 +63,49 @@ const PushManager = {
         try {
             const registration = await navigator.serviceWorker.ready;
             
-            // Verifica inscrição existente
-            const existingSubscription = await registration.pushManager.getSubscription();
-            if (existingSubscription) {
-                await this.saveSubscriptionToSupabase(existingSubscription);
-                return;
-            }
-
-            // Cria nova inscrição
+            // Cria ou recupera inscrição
             const subscription = await registration.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: this.urlBase64ToUint8Array(this.publicVapidKey)
             });
 
-            console.log('Usuário inscrito com sucesso:', subscription);
             await this.saveSubscriptionToSupabase(subscription);
+            return subscription;
 
         } catch (error) {
-            console.error('Falha ao inscrever o usuário:', error);
+            console.warn('Falha ao inscrever o usuário (provavelmente permissão negada):', error);
         }
     },
 
     async saveSubscriptionToSupabase(subscription) {
         try {
             const { data: { user } } = await window.supabaseClient.auth.getUser();
-            if (!user) {
-                console.log('Usuário não logado, inscrição não salva no banco.');
-                return;
+            
+            // Prepara o objeto de salvamento
+            const payload = {
+                endpoint: subscription.endpoint,
+                subscription: subscription,
+                device_info: {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    lastSync: new Date().toISOString()
+                }
+            };
+
+            // Se o usuário estiver logado, vincula o ID
+            if (user) {
+                payload.user_id = user.id;
             }
 
             // Salva ou atualiza no banco
             const { error } = await window.supabaseClient
                 .from('push_subscriptions')
-                .upsert({
-                    user_id: user.id,
-                    endpoint: subscription.endpoint, // Coluna dedicada para busca rápida e unicidade
-                    subscription: subscription,
-                    device_info: {
-                        userAgent: navigator.userAgent,
-                        platform: navigator.platform
-                    }
-                }, { 
-                    onConflict: 'user_id, endpoint' // Agora usamos colunas válidas para conflito
+                .upsert(payload, { 
+                    onConflict: 'endpoint' // Usamos apenas endpoint para conflito se user_id puder ser nulo
                 });
 
             if (error) throw error;
-            console.log('Assinatura salva no Supabase com sucesso.');
+            console.log('Assinatura persistida no Supabase.');
 
         } catch (error) {
             console.error('Erro ao salvar assinatura no Supabase:', error);
