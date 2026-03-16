@@ -133,4 +133,5 @@ const PushManager = {
 };
 
 // Inicializa quando o app carregar
+window.PushManager = PushManager;
 // PushManager.init();

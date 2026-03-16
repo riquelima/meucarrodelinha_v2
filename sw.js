@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meucarrosalinas-v4';
+const CACHE_NAME = 'meucarrosalinas-v5';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -116,21 +116,30 @@ self.addEventListener('periodicsync', (event) => {
 
 // PUSH NOTIFICATIONS - Recebe notificações do servidor
 self.addEventListener('push', (event) => {
+    console.log('[SW] Push recebido');
     let data = { 
-        title: 'Meu Carro de Linha', 
+        title: 'Meu Carro de Linha Salinas', 
         body: 'Você tem uma nova mensagem!',
-        icon: '/splashScreen.jpeg',
+        icon: '/icon-192.png',
         url: '/'
     };
 
     if (event.data) {
         try {
             const json = event.data.json();
-            data = { ...data, ...json };
+            console.log('[SW] Push payload JSON:', json);
+            // Mescla os dados recebidos com os padrões
+            data = Object.assign({}, data, json);
         } catch (e) {
-            data.body = event.data.text();
+            const text = event.data.text();
+            console.log('[SW] Push payload Text:', text);
+            if (text) data.body = text;
         }
     }
+
+    // Validação extra de segurança para o Android
+    if (!data.title || data.title === '') data.title = 'Meu Carro de Linha Salinas';
+    if (!data.body || data.body === '') data.body = 'Toque para ver os detalhes no app.';
 
     const options = {
         body: data.body,
@@ -142,11 +151,15 @@ self.addEventListener('push', (event) => {
         },
         actions: [
             { action: 'open', title: 'Ver Agora' }
-        ]
+        ],
+        tag: 'push-notification-salinas',
+        renotify: true
     };
 
     event.waitUntil(
         self.registration.showNotification(data.title, options)
+            .then(() => console.log('[SW] Notificação exibida'))
+            .catch(err => console.error('[SW] Erro showNotification:', err))
     );
 });
 
