@@ -67,12 +67,15 @@ const PushManager = {
                 .from('push_subscriptions')
                 .upsert({
                     user_id: user.id,
+                    endpoint: subscription.endpoint, // Coluna dedicada para busca rápida e unicidade
                     subscription: subscription,
                     device_info: {
                         userAgent: navigator.userAgent,
                         platform: navigator.platform
                     }
-                }, { onConflict: 'user_id, subscription' });
+                }, { 
+                    onConflict: 'user_id, endpoint' // Agora usamos colunas válidas para conflito
+                });
 
             if (error) throw error;
             console.log('Assinatura salva no Supabase com sucesso.');

@@ -26,7 +26,8 @@ if ('serviceWorker' in navigator) {
                     }
                 }
 
-                // NOTIFICAÇÕES - Solicita permissão se ainda não foi concedida
+                // NOTIFICAÇÕES - Removido daqui pois agora é gerenciado pelo PushManager no menu.html
+                /*
                 if ('Notification' in window && Notification.permission === 'default') {
                     Notification.requestPermission().then(permission => {
                         if (permission === 'granted') {
@@ -34,6 +35,7 @@ if ('serviceWorker' in navigator) {
                         }
                     });
                 }
+                */
 
                 // Detecta atualizações no Service Worker
                 registration.addEventListener('updatefound', () => {
