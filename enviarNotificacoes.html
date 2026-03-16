@@ -164,7 +164,10 @@
                 titleInput.value = '';
                 bodyInput.value = '';
             } catch (err) {
-                console.error('Erro no envio:', err);
+                console.error('Erro detalhado no envio:', err);
+                if (err.context) {
+                    console.error('Contexto do erro:', await err.context.json());
+                }
                 alert('Erro ao enviar: ' + (err.message || 'Verifique se a Edge Function está implantada.'));
             } finally {
                 setLoading(false);
