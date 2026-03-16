@@ -233,28 +233,27 @@
             <p class="text-center text-slate-400 text-xs pb-4">Versão 2.0.0</p>
         </main>
 
-        <nav class="fixed-navbar">
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="motorista.html">
+        <nav class="fixed-navbar" id="main-nav">
+            <a href="motorista.html" id="nav-home">
                 <span class="material-symbols-outlined">home</span>
-                <span class="text-[10px] font-bold">Início</span>
+                <span>Início</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="meusganhos.html">
+            <a href="meusganhos.html" id="nav-earnings">
                 <span class="material-symbols-outlined">payments</span>
-                <span class="text-[10px] font-bold">Ganhos</span>
+                <span>Ganhos</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-500 relative" href="conversasMotorista.html">
+            <a href="mensagensMotorista.html" id="nav-chats">
                 <span class="material-symbols-outlined">chat</span>
-                <span class="text-[10px] font-bold">Chat</span>
-                <span id="chat-badge"
-                    class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
+                <span>Chat</span>
+                <span id="chat-badge" class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="historicoViagens.html">
+            <a href="historicoViagens.html" id="nav-history">
                 <span class="material-symbols-outlined">history</span>
-                <span class="text-[10px] font-bold">Histórico</span>
+                <span>Histórico</span>
             </a>
-            <a class="flex flex-col items-center gap-1 text-primary no-effect" href="perfilMotorista.html">
-                <span class="material-symbols-outlined font-fill">account_circle</span>
-                <span class="text-[10px] font-bold">Perfil</span>
+            <a class="nav-active" href="perfilMotorista.html" id="nav-profile">
+                <span class="material-symbols-outlined">account_circle</span>
+                <span>Perfil</span>
             </a>
         </nav>
     </div>

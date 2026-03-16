@@ -296,6 +296,30 @@
             loadHistory();
         });
     </script>
+        <!-- Bottom Navigation Bar (Fixed) -->
+        <nav class="fixed-navbar" id="main-nav">
+            <a href="motorista.html" id="nav-home">
+                <span class="material-symbols-outlined">home</span>
+                <span>Início</span>
+            </a>
+            <a href="meusganhos.html" id="nav-earnings">
+                <span class="material-symbols-outlined">payments</span>
+                <span>Ganhos</span>
+            </a>
+            <a href="mensagensMotorista.html" id="nav-chats">
+                <span class="material-symbols-outlined">chat</span>
+                <span>Chat</span>
+                <span id="chat-badge" class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
+            </a>
+            <a class="nav-active" href="historicoViagens.html" id="nav-history">
+                <span class="material-symbols-outlined">history</span>
+                <span>Histórico</span>
+            </a>
+            <a href="perfilMotorista.html" id="nav-profile">
+                <span class="material-symbols-outlined">account_circle</span>
+                <span>Perfil</span>
+            </a>
+        </nav>
     <script src="js/chat-notifications.js"></script>
     <script src="js/ui-transitions.js"></script>
 </body>
