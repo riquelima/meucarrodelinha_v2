@@ -153,6 +153,16 @@
             try {
                 setLoading(true);
 
+                // DEBUG: Verifica se há sessão
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                console.log('Sessão ativa para push:', session ? 'Sim' : 'Não');
+                
+                if (!session) {
+                    alert('Erro: Você não está logado ou sua sessão expirou. Por favor, faça login novamente.');
+                    window.location.href = 'index.html';
+                    return;
+                }
+
                 // Chama a Edge Function do Supabase
                 const { data, error } = await window.supabaseClient.functions.invoke('send-push-notification', {
                     body: { title, body, url }
@@ -169,10 +179,21 @@
                 bodyInput.value = '';
             } catch (err) {
                 console.error('Erro detalhado no envio:', err);
+                
+                // Evita erro de 'body stream already read' capturando o JSON uma única vez
                 if (err.context) {
-                    console.error('Contexto do erro:', await err.context.json());
+                    try {
+                        const ctx = await err.context.json();
+                        console.log('Contexto do erro recebido:', ctx);
+                        if (ctx.error && (ctx.error.includes('Sessão') || ctx.error.includes('sub claim'))) {
+                            alert('Sessão inválida: Sua conta de administrador não foi reconhecida. Por favor, SAIA e entre novamente no aplicativo.');
+                            return;
+                        }
+                    } catch (e) {
+                        console.error('Não foi possível ler o JSON do erro:', e);
+                    }
                 }
-                alert('Erro ao enviar: ' + (err.message || 'Verifique se a Edge Function está implantada.'));
+                alert('Erro técnico: ' + (err.message || 'Erro desconhecido. Verifique se você está logado.'));
             } finally {
                 setLoading(false);
             }
