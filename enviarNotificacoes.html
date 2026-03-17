@@ -171,10 +171,10 @@
                 if (error) throw error;
 
                 const message = data?.message || 'Processamento concluído.';
+                const technicalError = data?.error || data?.details || 'Nenhum';
                 const successful = data?.results?.filter(r => r.success).length || 0;
-                const total = data?.results?.length || 0;
 
-                alert(`${message}\n\nDetalhes técnico: ${successful} enviados com sucesso.`);
+                alert(`${message}\n\nErro Técnico: ${technicalError}\n\nDetalhes: ${successful} enviados com sucesso.`);
                 titleInput.value = '';
                 bodyInput.value = '';
             } catch (err) {
