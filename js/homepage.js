@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', async () => {
+const initHomepage = async () => {
+    console.log('[Homepage] Iniciando inicialização da homepage...');
+
     // Autocomplete Logic
     const destinoInput = document.getElementById('destino-input');
     const suggestionsList = document.getElementById('destino-suggestions');
@@ -335,7 +337,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const now = new Date();
                     const diffMs = now - postDate;
                     const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-                    const timeStr = diffHrs < 1 ? 'Poucos minutos' : `Há ${diffHrs} ${diffHrs === 1 ? 'hora' : 'horas'}`;
+                    
+                    let timeStr;
+                    if (diffHrs < 1) {
+                        timeStr = 'Poucos minutos';
+                    } else if (diffHrs < 24) {
+                        timeStr = `Há ${diffHrs} ${diffHrs === 1 ? 'hora' : 'horas'}`;
+                    } else {
+                        // Mais de 24h -> Exibir data formatada
+                        timeStr = postDate.toLocaleDateString('pt-BR');
+                    }
+
 
                     const postElement = document.createElement('a');
                     postElement.href = `blogPost.html?slug=${post.slug}`;
@@ -377,11 +389,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // Execute all loads in parallel to optimize TTFB/UX
-    await Promise.allSettled([
-        loadDrivers(),
-        loadAds(),
-        loadBlog()
-    ]);
-});
+    // Execute all loads independently to prevent one failure from blocking others
+    console.log('[Homepage] Disparando cargas de dados paralelos...');
+    
+    const safeLoad = async (name, fn) => {
+        try {
+            console.log(`[Homepage] Iniciando carga: ${name}`);
+            await fn();
+            console.log(`[Homepage] Carga finalizada com sucesso: ${name}`);
+        } catch (err) {
+            console.error(`[Homepage] Erro crítico na carga ${name}:`, err);
+        }
+    };
+
+    // Parallel execution without waiting for all to finish before proceeding
+    safeLoad('Drivers', loadDrivers);
+    safeLoad('Ads', loadAds);
+    safeLoad('Blog', loadBlog);
+};
+
+// Robust initialization
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHomepage);
+} else {
+    initHomepage();
+}
+
 
