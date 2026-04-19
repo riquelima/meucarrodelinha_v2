@@ -114,23 +114,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Driver Loading Logic (Existing)
-    const driversContainer = document.getElementById('drivers-container');
-    if (driversContainer) {
+    // --- Refactored Sections for Independent & Parallel Loading ---
+
+    const loadDrivers = async () => {
+        const driversContainer = document.getElementById('drivers-container');
+        if (!driversContainer) return;
+
         try {
-            // Fetch drivers who are approved
-            // We join with the 'usuarios' table to get the name and profile picture
             const { data: drivers, error } = await supabaseClient
                 .from('motoristas')
                 .select(`
-                modelo_veiculo,
-                avaliacao_media,
-                status_online,
-                usuarios (
-                    nome,
-                    foto_perfil_url
-                )
-            `)
+                    modelo_veiculo,
+                    avaliacao_media,
+                    status_online,
+                    usuarios (
+                        nome,
+                        foto_perfil_url
+                    )
+                `)
                 .order('status_online', { ascending: false })
                 .order('avaliacao_media', { ascending: false })
                 .limit(10);
@@ -146,13 +147,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            // Clear loading state/mock data
             driversContainer.innerHTML = '';
 
-            // Function to create a driver card
             const createDriverCard = (driver) => {
-                const user = driver.usuarios;
-                // Get initials for fallback avatar
+                const user = driver.usuarios || {};
                 const initials = user.nome
                     ? user.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
                     : '??';
@@ -160,50 +158,45 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const card = document.createElement('div');
                 card.className = 'flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow';
 
-                // Avatar HTML logic
                 let avatarHtml;
                 if (user.foto_perfil_url) {
                     avatarHtml = `<img alt="${user.nome}" class="w-full h-full object-cover" src="${user.foto_perfil_url}" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='${initials}'" />`;
                 } else {
-                    // Generate a random color for the placeholder background
                     const colors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500', 'bg-pink-500', 'bg-indigo-500', 'bg-teal-500'];
                     const randomColor = colors[Math.floor(Math.random() * colors.length)];
                     avatarHtml = `<div class="w-full h-full flex items-center justify-center text-white font-bold ${randomColor}">${initials}</div>`;
                 }
 
-                // Status Badge Logic - FORCED DISPONIVEL FOR HOMEPAGE HIGHLIGHTS
                 const statusClass = 'bg-green-500/10 text-green-500';
                 const statusText = 'Disponível';
 
                 card.innerHTML = `
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold">
-                        ${avatarHtml}
-                    </div>
-                    <div>
-                        <p class="font-bold truncate w-32">${user.nome || 'Motorista'}</p>
-                        <div class="flex items-center gap-1 text-yellow-500">
-                            <span class="material-symbols-outlined text-sm fill-1">star</span>
-                            <span class="text-xs font-bold">${parseFloat(driver.avaliacao_media || 5.0).toFixed(1)}</span>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xl font-bold">
+                            ${avatarHtml}
+                        </div>
+                        <div>
+                            <p class="font-bold truncate w-32">${user.nome || 'Motorista'}</p>
+                            <div class="flex items-center gap-1 text-yellow-500">
+                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                <span class="text-xs font-bold">${parseFloat(driver.avaliacao_media || 5.0).toFixed(1)}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
-                    <span class="flex items-center gap-1">
-                        <span class="material-symbols-outlined text-sm">local_taxi</span> 
-                        ${driver.modelo_veiculo || 'Veículo não inf.'}
-                    </span>
-                    <span class="px-2 py-1 rounded-full font-bold uppercase tracking-tight ${statusClass}">
-                        ${statusText}
-                    </span>
-                </div>
-            `;
+                    <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
+                        <span class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">local_taxi</span> 
+                            ${driver.modelo_veiculo || 'Veículo não inf.'}
+                        </span>
+                        <span class="px-2 py-1 rounded-full font-bold uppercase tracking-tight ${statusClass}">
+                            ${statusText}
+                        </span>
+                    </div>
+                `;
 
-                // Add click event with smooth animation before redirect
                 card.addEventListener('click', (e) => {
                     e.preventDefault();
                     card.classList.add('animate-card-click');
-                    
                     setTimeout(() => {
                         window.location.href = 'todosmotoristas.html';
                     }, 400);
@@ -212,28 +205,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return card;
             };
 
-            // Render drivers
             drivers.forEach(driver => {
                 driversContainer.appendChild(createDriverCard(driver));
             });
 
-            // Clone for infinite scroll (if we have enough items)
             if (drivers.length > 3) {
                 drivers.forEach(driver => {
                     const clone = createDriverCard(driver);
-                    clone.setAttribute('aria-hidden', 'true'); // Accessibility: hide duplicates
+                    clone.setAttribute('aria-hidden', 'true');
                     driversContainer.appendChild(clone);
                 });
             }
-
         } catch (err) {
             console.error('Unexpected error loading drivers:', err);
         }
-    }
+    };
 
-    // Ads Loading Logic
-    const adsContainer = document.getElementById('ads-container');
-    if (adsContainer) {
+    const loadAds = async () => {
+        const adsContainer = document.getElementById('ads-container');
+        if (!adsContainer) return;
+
         try {
             const { data: ads, error } = await supabaseClient
                 .from('anuncios')
@@ -243,7 +234,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (error) throw error;
 
-            // Always clear static content first
             adsContainer.innerHTML = '';
 
             if (ads && ads.length > 0) {
@@ -270,15 +260,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     `;
 
                     adElement.addEventListener('click', (e) => {
-                        if (targetUrl) {
-                            e.stopPropagation(); // Prevent global navigation scripts from interfering
-                        }
+                        if (targetUrl) e.stopPropagation();
                     });
 
                     adsContainer.appendChild(adElement);
                 });
             } else {
-                // Placeholder if no ads
                 adsContainer.innerHTML = `
                     <div class="flex-none w-48 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center p-4 text-center gap-2">
                         <span class="material-symbols-outlined text-slate-400">campaign</span>
@@ -286,68 +273,49 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 `;
             }
-        } catch (err) {
-            console.error('Error loading ads:', err);
-        }
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('adCreated') === 'true') {
-            const { data: { session } } = await supabaseClient.auth.getSession();
 
-            // Highlight for all users to celebrate the new ad
-            if (adsContainer) {
+            // Spotlight Logic for newly created ad
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('adCreated') === 'true') {
                 setTimeout(() => {
-                    // Create Elegant Spotlight Overlay
                     const overlay = document.createElement('div');
                     overlay.className = 'spotlight-overlay';
                     document.body.appendChild(overlay);
-
-                    // Allow browser to register the element before animating
                     requestAnimationFrame(() => overlay.classList.add('active'));
-
-                    // Scroll to target smoothly
                     adsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                    // Apply Premium Focus
                     adsContainer.classList.add('ad-shimmer-focus');
-
-                    // Create Floating Status Badge
                     const badge = document.createElement('div');
                     badge.className = 'ad-status-badge';
-                    badge.innerHTML = `
-                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
-                        <span>Seu anúncio já está no ar!</span>
-                    `;
-                    adsContainer.style.position = 'relative'; // Ensure badge anchors correctly
+                    badge.innerHTML = `<span class="material-symbols-outlined text-sm">auto_awesome</span><span>Seu anúncio já está no ar!</span>`;
+                    adsContainer.style.position = 'relative';
                     adsContainer.appendChild(badge);
-
-                    // Auto-cleanup after 6 seconds or on click/scroll
                     const cleanup = () => {
                         overlay.style.opacity = '0';
                         badge.style.opacity = '0';
                         badge.style.transform = 'translate(-50%, -10px)';
                         badge.style.transition = 'all 0.5s ease';
-
                         setTimeout(() => {
                             overlay.remove();
                             badge.remove();
                             adsContainer.classList.remove('ad-shimmer-focus');
                         }, 500);
-
                         window.removeEventListener('scroll', cleanup);
                         overlay.removeEventListener('click', cleanup);
                     };
-
                     setTimeout(cleanup, 6000);
                     window.addEventListener('scroll', cleanup, { once: true });
                     overlay.addEventListener('click', cleanup, { once: true });
                 }, 1000);
             }
+        } catch (err) {
+            console.error('Error loading ads:', err);
         }
-    }
+    };
 
-    // Blog Loading Logic
-    const blogContainer = document.getElementById('blog-container');
-    if (blogContainer) {
+    const loadBlog = async () => {
+        const blogContainer = document.getElementById('blog-container');
+        if (!blogContainer) return;
+
         try {
             const { data: posts, error } = await supabaseClient
                 .from('postagens')
@@ -373,7 +341,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     postElement.href = `blogPost.html?slug=${post.slug}`;
                     postElement.className = 'flex gap-4 items-center stagger-item active-scale group';
 
-                    const categoryUpper = post.categoria.charAt(0).toUpperCase() + post.categoria.slice(1);
+                    const categoryUpper = post.categoria ? (post.categoria.charAt(0).toUpperCase() + post.categoria.slice(1)) : 'Notícia';
 
                     postElement.innerHTML = `
                         <div class="size-20 rounded-xl overflow-hidden shrink-0 bg-slate-200 dark:bg-slate-800">
@@ -407,5 +375,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error loading blog posts:', err);
             blogContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Erro ao carregar postagens.</p>';
         }
-    }
+    };
+
+    // Execute all loads in parallel to optimize TTFB/UX
+    await Promise.allSettled([
+        loadDrivers(),
+        loadAds(),
+        loadBlog()
+    ]);
 });
+
