@@ -72,3 +72,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Exibe ou oculta elementos baseados no login (opcional)
     document.body.classList.remove('hidden-until-auth');
 });
+
+window.handleLogout = async function() {
+    if (window.supabaseClient) {
+        await window.supabaseClient.auth.signOut();
+    }
+    localStorage.clear();
+    window.location.href = 'index.html';
+};

@@ -397,40 +397,46 @@
                 </div>
 
                 <!-- Tela de Conversa Ativa (Sub-View) -->
-                <div id="active-chat-view" class="absolute inset-0 z-50 bg-white dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pt-16 pb-[85px]">
+                <div id="active-chat-view" class="absolute inset-0 z-50 bg-[#0d111a]/95 backdrop-blur-3xl flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] pt-16 pb-[85px] border-l border-white/5 shadow-2xl">
                     <!-- Chat Header -->
-                    <header class="flex items-center justify-between bg-white dark:bg-slate-900 px-4 py-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                    <header class="flex items-center justify-between bg-white/5 backdrop-blur-md px-4 py-4 border-b border-white/10 shrink-0">
                         <div class="flex items-center gap-3">
-                            <button onclick="closeActiveChat()" class="p-2 -ml-2 text-primary active:opacity-50 transition-opacity">
-                                <span class="material-symbols-outlined">arrow_back_ios</span>
+                            <button onclick="closeActiveChat()" class="p-2 -ml-2 text-primary hover:bg-primary/10 rounded-full transition-all">
+                                <span class="material-symbols-outlined font-bold">arrow_back_ios</span>
                             </button>
                             <div class="flex items-center gap-3">
                                 <div class="relative">
-                                    <img id="active-chat-photo" alt="Motorista" class="w-10 h-10 rounded-full bg-slate-700 border border-primary/30" src="https://ui-avatars.com/api/?name=Motorista&background=random" />
-                                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+                                    <img id="active-chat-photo" alt="Motorista" class="w-11 h-11 rounded-full bg-slate-800 border-2 border-primary/20 shadow-lg shadow-primary/10" src="https://ui-avatars.com/api/?name=Motorista&background=random" />
+                                    <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-[#0d111a] rounded-full shadow-sm"></div>
                                 </div>
                                 <div>
-                                    <h2 id="active-chat-name" class="font-bold text-sm text-slate-900 dark:text-white">Motorista</h2>
-                                    <p class="text-[10px] text-slate-400">Online agora</p>
+                                    <h2 id="active-chat-name" class="font-black text-base text-white tracking-tight">Motorista</h2>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Online agora</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <button id="active-chat-call" class="bg-primary/10 p-2.5 rounded-full text-primary active:scale-95 transition-transform">
+                        <button id="active-chat-call" onclick="window.chamarMotorista()" class="bg-primary/20 p-3 rounded-2xl text-primary hover:scale-110 active:scale-95 transition-all border border-primary/10">
                             <span class="material-symbols-outlined font-fill">call</span>
                         </button>
                     </header>
 
                     <!-- Messages Area -->
-                    <div id="active-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-slate-50 dark:bg-[#0a0c14]">
+                    <div id="active-chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar bg-transparent">
                         <!-- Messages injected here -->
                     </div>
 
                     <!-- Input Area -->
-                    <div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 shrink-0">
-                        <div class="flex items-center gap-2">
-                            <input id="active-chat-input" type="text" placeholder="Digite uma mensagem..." class="flex-1 bg-slate-100 dark:bg-slate-800 border-none rounded-2xl py-3.5 px-5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20" />
-                            <button id="active-chat-send" class="size-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/30 active:scale-90 transition-transform">
-                                <span class="material-symbols-outlined font-fill rotate-[-30deg] translate-x-0.5">send</span>
+                    <div class="p-5 bg-white/5 backdrop-blur-xl border-t border-white/10 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 relative group">
+                                <input id="active-chat-input" type="text" placeholder="Escreva para o motorista..." class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-500 focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all" />
+                                <div class="absolute inset-0 rounded-2xl bg-primary/5 opacity-0 group-focus-within:opacity-100 pointer-events-none transition-opacity"></div>
+                            </div>
+                            <button id="active-chat-send" onclick="window.sendActiveChatMessage()" class="size-14 rounded-2xl bg-primary text-white flex items-center justify-center shadow-xl shadow-primary/30 hover:scale-105 active:scale-90 transition-all border border-white/20">
+                                <span class="material-symbols-outlined font-fill rotate-[-20deg] translate-x-0.5 text-2xl">send</span>
                             </button>
                         </div>
                     </div>
@@ -439,16 +445,23 @@
 
             <!-- ABA 4: PERFIL -->
             <section id="view-profile" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
-                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar flex-1">
                     <div class="flex items-center gap-4 mb-8 p-4 bg-white dark:bg-slate-800 rounded-3xl">
-                        <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                            <span class="material-symbols-outlined text-3xl">person</span>
+                        <div id="profile-avatar-container" class="relative cursor-pointer group" onclick="document.getElementById('photo-upload-input').click()">
+                            <img id="profile-avatar" class="w-16 h-16 rounded-full object-cover bg-primary/20 border-2 border-primary/20"
+                                src="https://ui-avatars.com/api/?name=Usu%C3%A1rio&background=1e3fae&color=fff&size=128"
+                                alt="Foto de Perfil"
+                                onerror="this.parentElement.innerHTML='<div class=\'w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary\'><span class=\'material-symbols-outlined text-3xl\'>person</span></div>'">
+                            <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="material-symbols-outlined text-white text-lg">camera_alt</span>
+                            </div>
                         </div>
                         <div>
                             <h3 id="profile-name" class="font-black text-lg">Nome Usuário</h3>
-                            <p class="text-sm opacity-60">Passageiro verificado</p>
+                            <p id="profile-email" class="text-sm opacity-60">email@exemplo.com</p>
                         </div>
                     </div>
+                    <input type="file" id="photo-upload-input" accept="image/*" class="hidden">
                     <div class="space-y-3">
                         <button class="w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl active-scale">
                             <div class="flex items-center gap-3">
@@ -457,13 +470,17 @@
                             </div>
                             <span class="material-symbols-outlined">chevron_right</span>
                         </button>
-                        <button onclick="handleLogout()" class="w-full flex items-center justify-between p-5 bg-red-50 dark:bg-red-900/10 text-red-600 rounded-2xl active-scale">
-                            <div class="flex items-center gap-3">
-                                <span class="material-symbols-outlined">logout</span>
-                                <span class="font-bold">Sair da Conta</span>
-                            </div>
-                        </button>
                     </div>
+                </div>
+                <!-- Logout Button Fixed at Bottom -->
+                <div class="px-6 pb-4">
+                    <button onclick="handleLogout()" class="w-full flex items-center justify-between p-5 bg-red-50 dark:bg-red-900/10 text-red-600 rounded-2xl active-scale border border-red-500/10">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined">logout</span>
+                            <span class="font-bold uppercase tracking-widest text-xs">Sair da Conta</span>
+                        </div>
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
                 </div>
             </section>
         </div>
@@ -511,6 +528,11 @@
                 document.querySelectorAll('.view-section').forEach((sec, i) => {
                     sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
                 });
+
+                // Recarregar lista de chats ao entrar na aba
+                if (tabName === 'chats' && typeof window.loadChatList === 'function') {
+                    window.loadChatList();
+                }
             }
         </script>
 
@@ -673,12 +695,25 @@
                     center: { lat: -12.8711, lng: -38.7614 },
                     zoom: 14,
                     disableDefaultUI: true,
-                    mapId: 'DEMO_MAP_ID', // Requerido para Advanced Markers
                     styles: [
-                        {
-                            "featureType": "poi",
-                            "stylers": [{ "visibility": "off" }]
-                        }
+                        { "elementType": "geometry", "stylers": [{ "color": "#242f3e" }] },
+                        { "elementType": "labels.text.stroke", "stylers": [{ "color": "#242f3e" }] },
+                        { "elementType": "labels.text.fill", "stylers": [{ "color": "#746855" }] },
+                        { "featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers": [{ "color": "#d59563" }] },
+                        { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [{ "color": "#d59563" }] },
+                        { "featureType": "poi.park", "elementType": "geometry", "stylers": [{ "color": "#263c3f" }] },
+                        { "featureType": "poi.park", "elementType": "labels.text.fill", "stylers": [{ "color": "#6b9a76" }] },
+                        { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#38414e" }] },
+                        { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#212a37" }] },
+                        { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#9ca5b1" }] },
+                        { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "color": "#746855" }] },
+                        { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#1f2835" }] },
+                        { "featureType": "road.highway", "elementType": "labels.text.fill", "stylers": [{ "color": "#f3d19c" }] },
+                        { "featureType": "transit", "elementType": "geometry", "stylers": [{ "color": "#2f3948" }] },
+                        { "featureType": "transit.station", "elementType": "labels.text.fill", "stylers": [{ "color": "#d59563" }] },
+                        { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#17263c" }] },
+                        { "featureType": "water", "elementType": "labels.text.fill", "stylers": [{ "color": "#515c6d" }] },
+                        { "featureType": "water", "elementType": "labels.text.stroke", "stylers": [{ "color": "#17263c" }] }
                     ]
                 });
 
@@ -688,21 +723,19 @@
                 function updateUserMarker(lat, lng) {
                     currentCoords = { lat, lng };
                     if (userMarker) {
-                        userMarker.position = currentCoords;
+                        userMarker.setPosition(currentCoords);
                     } else {
-                        // User location marker as a custom HTML element
-                        const userLocationDiv = document.createElement('div');
-                        userLocationDiv.style.width = '14px';
-                        userLocationDiv.style.height = '14px';
-                        userLocationDiv.style.backgroundColor = '#4285F4';
-                        userLocationDiv.style.borderRadius = '50%';
-                        userLocationDiv.style.border = '2px solid white';
-                        userLocationDiv.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
-
-                        userMarker = new google.maps.marker.AdvancedMarkerElement({
+                        userMarker = new google.maps.Marker({
                             position: currentCoords,
                             map: googleMap,
-                            content: userLocationDiv,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 7,
+                                fillColor: "#4285F4",
+                                fillOpacity: 1,
+                                strokeColor: "#ffffff",
+                                strokeWeight: 2,
+                            },
                             title: 'Sua localização atual'
                         });
                     }
@@ -761,7 +794,172 @@
 
 <script src="js/location-modal.js"></script>
     <script>
+        // Estado global do chat — acessível antes do DOMContentLoaded
+        window._chatState = { targetId: null, user: null, targetPhone: null };
+
+        window.sendActiveChatMessage = async function() {
+            const input = document.getElementById('active-chat-input');
+            const text = input?.value?.trim();
+            if (!text) return;
+            if (!window._chatState.targetId) {
+                alert('Nenhum motorista selecionado.');
+                return;
+            }
+            if (!window._chatState.user) {
+                alert('Usuário não autenticado.');
+                return;
+            }
+
+            const msgText = text;
+            input.value = '';
+
+            try {
+                const { data, error } = await window.supabaseClient
+                    .from('mensagens')
+                    .insert({
+                        remetente_id: window._chatState.user.id,
+                        destinatario_id: window._chatState.targetId,
+                        conteudo: msgText
+                    })
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                if (!data) throw new Error('Nenhum dado retornado.');
+
+                // Renderizar mensagem inline
+                const container = document.getElementById('active-chat-messages');
+                if (container) {
+                    const emptyMsg = container.querySelector('.text-slate-400');
+                    if (emptyMsg) container.innerHTML = '';
+
+                    const isMine = data.remetente_id === window._chatState.user.id;
+                    const div = document.createElement('div');
+                    div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-6 group animate-fade-in`;
+                    div.innerHTML = `
+                        <div class="max-w-[85%] relative">
+                            <div class="rounded-3xl px-5 py-3.5 ${isMine ?
+                                'bg-primary/90 text-white rounded-tr-none shadow-xl shadow-primary/10 border border-white/10' :
+                                'bg-white/10 backdrop-blur-md text-white rounded-tl-none border border-white/5 shadow-lg'}">
+                                <p class="text-[13px] leading-relaxed font-medium">${data.conteudo}</p>
+                                <div class="flex items-center justify-end gap-1 mt-1.5 opacity-60">
+                                    <p class="text-[9px] font-bold uppercase tracking-tighter">${new Date(data.enviada_em).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                                    ${isMine ? '<span class="material-symbols-outlined text-[10px] text-white">done_all</span>' : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                    container.scrollTop = container.scrollHeight;
+                }
+
+                if (typeof window.loadChatList === 'function') {
+                    window.loadChatList();
+                }
+            } catch (err) {
+                console.error("Erro ao enviar mensagem:", err);
+                alert("Falha ao enviar mensagem: " + err.message);
+            }
+        };
+
+        window.chamarMotorista = function() {
+            const phone = window._chatState?.targetPhone;
+            console.log('[Call] Telefone:', phone);
+            if (!phone) {
+                alert('Telefone do motorista não disponível.');
+                return;
+            }
+            const cleanPhone = phone.replace(/\D/g, '');
+            if (cleanPhone.length < 8) {
+                alert('Número de telefone inválido.');
+                return;
+            }
+            window.location.href = `tel:${cleanPhone}`;
+        };
+
         document.addEventListener('DOMContentLoaded', async () => {
+            const supabaseClient = window.supabaseClient;
+            let user = null;
+            let activeChatTargetId = null;
+            let activeChatChannel = null;
+
+            try {
+                if (supabaseClient) {
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    user = session?.user;
+                    window._chatState.user = user;
+                }
+            } catch (err) {
+                console.error("Erro ao autenticar usuário:", err);
+            }
+
+            // --- Global Chat Helpers ---
+            window.openActiveChat = async function(driver) {
+                const chatView = document.getElementById('active-chat-view');
+                const chatName = document.getElementById('active-chat-name');
+                const chatPhoto = document.getElementById('active-chat-photo');
+                
+                if (!chatView) return;
+
+                window._chatState.targetId = driver.id;
+                activeChatTargetId = driver.id;
+                if (chatName) chatName.textContent = driver.name;
+                if (driver.photo && chatPhoto) chatPhoto.src = driver.photo;
+
+                // Buscar telefone
+                const phoneFromDriver = driver.phone && driver.phone.trim() ? driver.phone.trim() : null;
+                window._chatState.targetPhone = phoneFromDriver;
+                console.log('[Chat] phone direto do driver:', phoneFromDriver);
+
+                if (!window._chatState.targetPhone && driver.id && window.supabaseClient) {
+                    try {
+                        const { data: motorista } = await window.supabaseClient
+                            .from('motoristas')
+                            .select('telefone_whatsapp')
+                            .eq('usuario_id', driver.id)
+                            .maybeSingle();
+                        if (motorista?.telefone_whatsapp) {
+                            window._chatState.targetPhone = motorista.telefone_whatsapp;
+                            console.log('[Chat] phone buscado da tabela motoristas:', motorista.telefone_whatsapp);
+                        }
+                    } catch (err) {
+                        console.warn('[Chat] Erro ao buscar telefone do motorista:', err);
+                    }
+                }
+                console.log('[Chat] phone final:', window._chatState.targetPhone);
+
+                chatView.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    chatView.classList.remove('translate-x-full');
+                    chatView.classList.add('translate-x-0');
+                });
+
+                // Carregar mensagens e assinar tempo real
+                await loadActiveChatMessages();
+                setupChatRealtime();
+            };
+
+            window.closeActiveChat = function() {
+                const chatView = document.getElementById('active-chat-view');
+                if (!chatView) return;
+                chatView.classList.add('translate-x-full');
+                chatView.classList.remove('translate-x-0');
+                setTimeout(() => chatView.classList.add('hidden'), 500);
+                if (activeChatChannel) {
+                    activeChatChannel.unsubscribe();
+                    activeChatChannel = null;
+                }
+                window._chatState.targetId = null;
+                activeChatTargetId = null;
+            };
+
+            window.scrollToBottom = function scrollToBottom() {
+                const container = document.getElementById('active-chat-messages');
+                if (container) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            };
+
             // --- Bottom Sheet Logic ---
             const sheet = document.getElementById('bottom-sheet');
             const handle = document.getElementById('sheet-handle-area');
@@ -799,8 +997,8 @@
                 const rect = sheet.getBoundingClientRect();
                 const sheetHeight = rect.height || sheet.offsetHeight || (windowHeight * 0.9);
                 
-                // Posição alvo para o TOPO do painel: 55% da viewport (mais alto para mostrar motoristas)
-                const targetTop = windowHeight * 0.55;
+                // Posição alvo para o TOPO do painel: 48% da viewport (exibe cards dos motoristas com foco na parte inferior acima da navbar)
+                const targetTop = windowHeight * 0.48;
                 
                 const parent = sheet.parentElement;
                 const parentRect = parent ? parent.getBoundingClientRect() : null;
@@ -1141,9 +1339,9 @@
                                     googleMap.setZoom(17);
 
                                     if (destinationMarker) {
-                                        destinationMarker.position = destCoords;
+                                        destinationMarker.setPosition(destCoords);
                                     } else {
-                                        destinationMarker = new google.maps.marker.AdvancedMarkerElement({
+                                        destinationMarker = new google.maps.Marker({
                                             position: destCoords,
                                             map: googleMap,
                                             title: 'Destino selecionado'
@@ -1236,10 +1434,8 @@
             const driversContainer = document.getElementById('drivers-list-container');
 
             // 1. Carregar nome do usuário
-            if (greetingElement && window.supabaseClient) {
+            if (greetingElement && supabaseClient) {
                 try {
-                    const { data: { session } } = await supabaseClient.auth.getSession();
-                    const user = session?.user;
                     if (user && user.user_metadata && user.user_metadata.nome) {
                         const firstName = user.user_metadata.nome.split(' ')[0];
                         greetingElement.textContent = `Olá, ${firstName}`;
@@ -1249,7 +1445,90 @@
                 }
             }
 
-            // 2. Carregar lista de motoristas
+            // 2. Carregar dados do perfil (nome + foto) da tabela usuarios
+            const profileNameEl = document.getElementById('profile-name');
+            const profileAvatarEl = document.getElementById('profile-avatar');
+
+            if (supabaseClient && user) {
+                try {
+                    const { data: profile, error } = await supabaseClient
+                        .from('usuarios')
+                        .select('nome, email, foto_perfil_url')
+                        .eq('id', user.id)
+                        .single();
+
+                    if (profile) {
+                        if (profileNameEl) profileNameEl.textContent = profile.nome;
+
+                        const profileEmailEl = document.getElementById('profile-email');
+                        if (profileEmailEl && profile.email) {
+                            profileEmailEl.textContent = profile.email;
+                        }
+
+                        if (greetingElement && profile.nome) {
+                            const firstName = profile.nome.split(' ')[0];
+                            greetingElement.textContent = `Olá, ${firstName}`;
+                        }
+
+                        if (profile.foto_perfil_url && profileAvatarEl) {
+                            profileAvatarEl.src = profile.foto_perfil_url;
+                        } else if (profile.nome && profileAvatarEl) {
+                            profileAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.nome)}&background=1e3fae&color=fff&size=128`;
+                        }
+                    }
+                } catch (err) {
+                    console.error('Erro ao carregar perfil:', err);
+                }
+            }
+
+            // 3. Upload de foto do perfil
+            const photoInput = document.getElementById('photo-upload-input');
+            const avatarImg = document.getElementById('profile-avatar');
+
+            photoInput?.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                if (file.size > 50 * 1024 * 1024) {
+                    alert('A imagem deve ter no máximo 50MB.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    if (avatarImg) avatarImg.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                try {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('avatars')
+                        .upload(fileName, file, { cacheControl: '3600', upsert: true });
+
+                    if (uploadError) throw uploadError;
+
+                    const { data: { publicUrl } } = supabaseClient.storage
+                        .from('avatars')
+                        .getPublicUrl(fileName);
+
+                    const { error: updateError } = await supabaseClient
+                        .from('usuarios')
+                        .update({ foto_perfil_url: publicUrl })
+                        .eq('id', user.id);
+
+                    if (updateError) throw updateError;
+
+                    console.log('Foto atualizada com sucesso!');
+                } catch (err) {
+                    console.error('Erro ao atualizar foto:', err);
+                    alert('Erro ao enviar foto. Tente novamente.');
+                }
+            });
+
+            // 4. Carregar lista de motoristas
             if (driversContainer && window.supabaseClient) {
                 try {
                     // Busca motoristas aprovados e seus dados de usuário
@@ -1406,23 +1685,30 @@
                         window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
                     });
 
-                    btnChat?.addEventListener('click', () => {
+                    btnChat?.addEventListener('click', async () => {
                         const driver = getSelectedDriverData();
                         if (!driver) return;
                         
                         // 1. Navegar para aba de chats
                         switchTab('chats');
                         
-                        // 2. Abrir conversa específica
-                        window.openActiveChat(driver);
+                        // 2. Abrir conversa específica (Garante que a função existe antes de chamar)
+                        if (typeof window.openActiveChat === 'function') {
+                            await window.openActiveChat(driver);
+                        } else {
+                            console.error('Chat logic not yet initialized');
+                            return;
+                        }
 
-                        // 3. Injetar mensagem automática no input
+                        // 3. Injetar e Enviar mensagem automática
                         const message = getRouteMessage(driver.name);
                         const chatInput = document.getElementById('active-chat-input');
                         if (chatInput) {
                             chatInput.value = message;
-                            // Opcional: auto-send
-                            // setTimeout(() => document.getElementById('active-chat-send')?.click(), 500);
+                            // Envio automático após um breve delay para garantir que o chat carregou
+                            setTimeout(() => {
+                                document.getElementById('active-chat-send')?.click();
+                            }, 800);
                         }
                     });
 
@@ -1592,7 +1878,6 @@
             });
 
             // Realtime listener para viagens finalizadas
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
             if (user) {
                 // Verificar se existe alguma viagem finalizada recente não avaliada
                 const { data: lastTrips } = await window.supabaseClient
@@ -1623,12 +1908,10 @@
                     .subscribe();
 
                 // Inicializar lista de chats
-                loadChatList();
+                if (typeof window.loadChatList === 'function') {
+                    window.loadChatList();
+                }
             }
-
-            // --- Chat SPA State ---
-            let activeChatTargetId = null;
-            let activeChatChannel = null;
 
             // --- Chat SPA Helpers ---
             window.loadChatList = async function() {
@@ -1636,6 +1919,7 @@
                 if (!container) return;
 
                 try {
+                    console.log('[ChatList] Buscando mensagens para user.id:', user.id);
                     const { data: messages, error } = await window.supabaseClient
                         .from('mensagens')
                         .select(`
@@ -1647,11 +1931,17 @@
                         .order('enviada_em', { ascending: false });
 
                     if (error) throw error;
+                    console.log('[ChatList] Mensagens encontradas:', messages?.length, messages);
 
                     const conversationsMap = new Map();
-                    messages.forEach(msg => {
+                    (messages || []).forEach(msg => {
+                        console.log('[ChatList] Processando msg:', msg.id, 'remetente:', msg.remetente, 'destinatario:', msg.destinatario);
                         const target = msg.remetente_id === user.id ? msg.destinatario : msg.remetente;
-                        if (!target) return;
+                        if (!target) {
+                            console.log('[ChatList] target é null para msg:', msg.id);
+                            return;
+                        }
+                        console.log('[ChatList] target:', target);
                         if (!conversationsMap.has(target.id)) {
                             conversationsMap.set(target.id, {
                                 user: target,
@@ -1664,6 +1954,7 @@
                     });
 
                     const conversations = Array.from(conversationsMap.values());
+                    console.log('[ChatList] Conversões montadas:', conversations.length);
                     if (conversations.length === 0) {
                         container.innerHTML = '<div class="p-8 text-center text-slate-500 text-sm">Nenhuma conversa iniciada.</div>';
                         return;
@@ -1695,27 +1986,7 @@
                 }
             };
 
-            window.openActiveChat = async function(driver) {
-                const chatView = document.getElementById('active-chat-view');
-                const chatName = document.getElementById('active-chat-name');
-                const chatPhoto = document.getElementById('active-chat-photo');
-                
-                if (!chatView) return;
-
-                activeChatTargetId = driver.id;
-                chatName.textContent = driver.name;
-                if (driver.photo) chatPhoto.src = driver.photo;
-
-                chatView.classList.remove('hidden');
-                setTimeout(() => {
-                    chatView.classList.remove('translate-x-full');
-                    chatView.classList.add('translate-x-0');
-                }, 10);
-
-                // Carregar mensagens e assinar tempo real
-                await loadActiveChatMessages();
-                setupChatRealtime();
-            };
+            // --- Chat Core Logic ---
 
             async function loadActiveChatMessages() {
                 const msgContainer = document.getElementById('active-chat-messages');
@@ -1758,19 +2029,24 @@
                 const container = document.getElementById('active-chat-messages');
                 if (!container) return;
 
-                // Remover mensagem de "sem mensagens" se existir
-                if (container.querySelector('.text-slate-400')) {
-                    container.innerHTML = '';
-                }
+                const emptyMsg = container.querySelector('.text-slate-400');
+                if (emptyMsg) emptyMsg.remove();
 
                 const isMine = msg.remetente_id === user.id;
                 const div = document.createElement('div');
-                div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-4`;
+                div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-6 group animate-fade-in`;
                 
                 div.innerHTML = `
-                    <div class="max-w-[80%] rounded-2xl px-4 py-2.5 ${isMine ? 'bg-primary text-white rounded-tr-none' : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-tl-none'} shadow-sm">
-                        <p class="text-sm leading-relaxed">${msg.conteudo}</p>
-                        <p class="text-[9px] mt-1 opacity-70 text-right">${new Date(msg.enviada_em).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                    <div class="max-w-[85%] relative">
+                        <div class="rounded-3xl px-5 py-3.5 ${isMine ? 
+                            'bg-primary/90 text-white rounded-tr-none shadow-xl shadow-primary/10 border border-white/10' : 
+                            'bg-white/10 backdrop-blur-md text-white rounded-tl-none border border-white/5 shadow-lg'}">
+                            <p class="text-[13px] leading-relaxed font-medium">${msg.conteudo}</p>
+                            <div class="flex items-center justify-end gap-1 mt-1.5 opacity-60">
+                                <p class="text-[9px] font-bold uppercase tracking-tighter">${new Date(msg.enviada_em).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                                ${isMine ? `<span class="material-symbols-outlined text-[10px] ${msg.lida ? 'text-blue-300' : 'text-white'}">done_all</span>` : ''}
+                            </div>
+                        </div>
                     </div>
                 `;
                 container.appendChild(div);
@@ -1796,61 +2072,9 @@
                     .subscribe();
             }
 
-            window.sendActiveChatMessage = async function() {
-                const input = document.getElementById('active-chat-input');
-                const text = input.value.trim();
-                if (!text || !activeChatTargetId) return;
-
-                input.value = '';
-                
-                try {
-                    const { data, error } = await window.supabaseClient
-                        .from('mensagens')
-                        .insert({
-                            remetente_id: user.id,
-                            destinatario_id: activeChatTargetId,
-                            conteudo: text
-                        })
-                        .select()
-                        .single();
-
-                    if (error) throw error;
-
-                    renderSingleMessage(data);
-                    scrollToBottom();
-                    loadChatList(); // Atualizar lista em background
-                } catch (err) {
-                    console.error("Erro ao enviar mensagem:", err);
-                    alert("Falha ao enviar mensagem.");
-                }
-            };
-
-            function scrollToBottom() {
-                const msgContainer = document.getElementById('active-chat-messages');
-                if (msgContainer) {
-                    msgContainer.scrollTo({
-                        top: msgContainer.scrollHeight,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-
-            // Event Listeners para o input
-            document.getElementById('active-chat-send')?.addEventListener('click', window.sendActiveChatMessage);
             document.getElementById('active-chat-input')?.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') window.sendActiveChatMessage();
             });
-
-            window.closeActiveChat = function() {
-                const chatView = document.getElementById('active-chat-view');
-                if (!chatView) return;
-
-                chatView.classList.add('translate-x-full');
-                chatView.classList.remove('translate-x-0');
-                setTimeout(() => {
-                    chatView.classList.add('hidden');
-                }, 300);
-            };
 
         });
     </script>
