@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const toggleIcon = document.getElementById('toggle-icon');
     const toggleText = document.getElementById('toggle-text');
     const statusText = document.getElementById('status-text');
+    const statusLabel = document.getElementById('status-label');
     const notificationContainer = document.getElementById('notification-container');
     const notificationBox = document.getElementById('notification-box');
     const notificationIcon = document.getElementById('notification-icon');
@@ -24,22 +25,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (isOnline) {
             // Online State
             toggleBtn?.classList.remove('bg-primary', 'shadow-primary/20', 'text-white');
-            toggleBtn?.classList.add('bg-slate-700', 'text-slate-300', 'shadow-none');
+            toggleBtn?.classList.add('bg-slate-800', 'text-slate-400', 'border', 'border-white/5');
             if (toggleText) toggleText.textContent = 'Ficar Offline';
-            if (statusText) {
-                statusText.textContent = 'Você está online e visível para passageiros';
-                statusText.classList.add('text-green-500');
-                statusText.classList.remove('text-slate-500');
+            if (statusLabel) {
+                statusLabel.textContent = 'Online';
+                statusLabel.classList.add('text-green-400');
+                statusLabel.classList.remove('text-slate-400');
             }
         } else {
             // Offline State
             toggleBtn?.classList.add('bg-primary', 'shadow-primary/20', 'text-white');
-            toggleBtn?.classList.remove('bg-slate-700', 'text-slate-300', 'shadow-none');
+            toggleBtn?.classList.remove('bg-slate-800', 'text-slate-400', 'border', 'border-white/5');
             if (toggleText) toggleText.textContent = 'Ficar Online';
-            if (statusText) {
-                statusText.textContent = 'Você está offline no momento';
-                statusText.classList.remove('text-green-500');
-                statusText.classList.add('text-slate-500');
+            if (statusLabel) {
+                statusLabel.textContent = 'Offline';
+                statusLabel.classList.remove('text-green-400');
+                statusLabel.classList.add('text-slate-400');
             }
         }
     }

@@ -1414,7 +1414,7 @@
                         switchTab('chats');
                         
                         // 2. Abrir conversa específica
-                        openActiveChat(driver);
+                        window.openActiveChat(driver);
 
                         // 3. Injetar mensagem automática no input
                         const message = getRouteMessage(driver.name);
@@ -1621,16 +1621,88 @@
                         }
                     })
                     .subscribe();
+
+                // Inicializar lista de chats
+                loadChatList();
             }
 
+            // --- Chat SPA State ---
+            let activeChatTargetId = null;
+            let activeChatChannel = null;
+
             // --- Chat SPA Helpers ---
-            window.openActiveChat = function(driver) {
+            window.loadChatList = async function() {
+                const container = document.getElementById('chats-list-container');
+                if (!container) return;
+
+                try {
+                    const { data: messages, error } = await window.supabaseClient
+                        .from('mensagens')
+                        .select(`
+                            id, conteudo, enviada_em, lida, remetente_id, destinatario_id,
+                            remetente:usuarios!remetente_id(id, nome, foto_perfil_url),
+                            destinatario:usuarios!destinatario_id(id, nome, foto_perfil_url)
+                        `)
+                        .or(`remetente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+                        .order('enviada_em', { ascending: false });
+
+                    if (error) throw error;
+
+                    const conversationsMap = new Map();
+                    messages.forEach(msg => {
+                        const target = msg.remetente_id === user.id ? msg.destinatario : msg.remetente;
+                        if (!target) return;
+                        if (!conversationsMap.has(target.id)) {
+                            conversationsMap.set(target.id, {
+                                user: target,
+                                lastMessage: msg,
+                                unreadCount: (msg.destinatario_id === user.id && !msg.lida) ? 1 : 0
+                            });
+                        } else if (msg.destinatario_id === user.id && !msg.lida) {
+                            conversationsMap.get(target.id).unreadCount++;
+                        }
+                    });
+
+                    const conversations = Array.from(conversationsMap.values());
+                    if (conversations.length === 0) {
+                        container.innerHTML = '<div class="p-8 text-center text-slate-500 text-sm">Nenhuma conversa iniciada.</div>';
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    conversations.forEach(conv => {
+                        const card = document.createElement('div');
+                        card.className = "flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm active:scale-95 transition-transform cursor-pointer";
+                        const photoUrl = conv.user.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(conv.user.nome)}&background=random`;
+                        
+                        card.innerHTML = `
+                            <div class="size-12 rounded-full overflow-hidden shrink-0">
+                                <img src="${photoUrl}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-baseline">
+                                    <h4 class="font-bold text-slate-900 dark:text-white truncate">${conv.user.nome}</h4>
+                                    <span class="text-[10px] text-slate-400">${new Date(conv.lastMessage.enviada_em).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                                </div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 truncate">${conv.lastMessage.conteudo}</p>
+                            </div>
+                        `;
+                        card.onclick = () => window.openActiveChat({ id: conv.user.id, name: conv.user.nome, photo: photoUrl });
+                        container.appendChild(card);
+                    });
+                } catch (err) {
+                    console.error("Erro ao carregar lista de chats:", err);
+                }
+            };
+
+            window.openActiveChat = async function(driver) {
                 const chatView = document.getElementById('active-chat-view');
                 const chatName = document.getElementById('active-chat-name');
                 const chatPhoto = document.getElementById('active-chat-photo');
                 
                 if (!chatView) return;
 
+                activeChatTargetId = driver.id;
                 chatName.textContent = driver.name;
                 if (driver.photo) chatPhoto.src = driver.photo;
 
@@ -1638,20 +1710,136 @@
                 setTimeout(() => {
                     chatView.classList.remove('translate-x-full');
                     chatView.classList.add('translate-x-0');
-                    
-                    // Rolar para o fim das mensagens
-                    const msgContainer = document.getElementById('active-chat-messages');
-                    if (msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight;
                 }, 10);
 
-                // Inicializar lógica de mensagens (ChatManager adaptado ou similar)
-                // Se o chat-core.js estiver carregado, podemos instanciar ou atualizar
-                if (window.ChatManager) {
-                    // Nota: ChatManager precisa ser adaptado para SPA se não for
-                    // Por enquanto, apenas exibimos a tela.
-                    console.log("Abrindo chat com:", driver.id);
+                // Carregar mensagens e assinar tempo real
+                await loadActiveChatMessages();
+                setupChatRealtime();
+            };
+
+            async function loadActiveChatMessages() {
+                const msgContainer = document.getElementById('active-chat-messages');
+                if (!msgContainer || !activeChatTargetId) return;
+
+                msgContainer.innerHTML = '<div class="flex justify-center p-4"><span class="animate-spin material-symbols-outlined text-primary">sync</span></div>';
+
+                try {
+                    const { data, error } = await window.supabaseClient
+                        .from('mensagens')
+                        .select('*')
+                        .or(`and(remetente_id.eq.${user.id},destinatario_id.eq.${activeChatTargetId}),and(remetente_id.eq.${activeChatTargetId},destinatario_id.eq.${user.id})`)
+                        .order('enviada_em', { ascending: true });
+
+                    if (error) throw error;
+
+                    msgContainer.innerHTML = '';
+                    if (data.length === 0) {
+                        msgContainer.innerHTML = '<div class="text-center p-8 text-slate-400 text-sm">Inicie sua conversa com o motorista.</div>';
+                    } else {
+                        data.forEach(msg => renderSingleMessage(msg));
+                        scrollToBottom();
+                    }
+
+                    // Marcar como lidas
+                    await window.supabaseClient
+                        .from('mensagens')
+                        .update({ lida: true })
+                        .eq('destinatario_id', user.id)
+                        .eq('remetente_id', activeChatTargetId)
+                        .eq('lida', false);
+
+                } catch (err) {
+                    console.error("Erro ao carregar mensagens:", err);
+                    msgContainer.innerHTML = '<div class="text-center p-4 text-red-500">Erro ao carregar mensagens.</div>';
+                }
+            }
+
+            function renderSingleMessage(msg) {
+                const container = document.getElementById('active-chat-messages');
+                if (!container) return;
+
+                // Remover mensagem de "sem mensagens" se existir
+                if (container.querySelector('.text-slate-400')) {
+                    container.innerHTML = '';
+                }
+
+                const isMine = msg.remetente_id === user.id;
+                const div = document.createElement('div');
+                div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-4`;
+                
+                div.innerHTML = `
+                    <div class="max-w-[80%] rounded-2xl px-4 py-2.5 ${isMine ? 'bg-primary text-white rounded-tr-none' : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-tl-none'} shadow-sm">
+                        <p class="text-sm leading-relaxed">${msg.conteudo}</p>
+                        <p class="text-[9px] mt-1 opacity-70 text-right">${new Date(msg.enviada_em).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                    </div>
+                `;
+                container.appendChild(div);
+            }
+
+            function setupChatRealtime() {
+                if (activeChatChannel) activeChatChannel.unsubscribe();
+
+                activeChatChannel = window.supabaseClient.channel(`chat-${activeChatTargetId}`)
+                    .on('postgres_changes', {
+                        event: 'INSERT',
+                        schema: 'public',
+                        table: 'mensagens',
+                        filter: `destinatario_id=eq.${user.id}`
+                    }, (payload) => {
+                        if (payload.new.remetente_id === activeChatTargetId) {
+                            renderSingleMessage(payload.new);
+                            scrollToBottom();
+                            // Marcar como lida
+                            window.supabaseClient.from('mensagens').update({ lida: true }).eq('id', payload.new.id).then();
+                        }
+                    })
+                    .subscribe();
+            }
+
+            window.sendActiveChatMessage = async function() {
+                const input = document.getElementById('active-chat-input');
+                const text = input.value.trim();
+                if (!text || !activeChatTargetId) return;
+
+                input.value = '';
+                
+                try {
+                    const { data, error } = await window.supabaseClient
+                        .from('mensagens')
+                        .insert({
+                            remetente_id: user.id,
+                            destinatario_id: activeChatTargetId,
+                            conteudo: text
+                        })
+                        .select()
+                        .single();
+
+                    if (error) throw error;
+
+                    renderSingleMessage(data);
+                    scrollToBottom();
+                    loadChatList(); // Atualizar lista em background
+                } catch (err) {
+                    console.error("Erro ao enviar mensagem:", err);
+                    alert("Falha ao enviar mensagem.");
                 }
             };
+
+            function scrollToBottom() {
+                const msgContainer = document.getElementById('active-chat-messages');
+                if (msgContainer) {
+                    msgContainer.scrollTo({
+                        top: msgContainer.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            // Event Listeners para o input
+            document.getElementById('active-chat-send')?.addEventListener('click', window.sendActiveChatMessage);
+            document.getElementById('active-chat-input')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') window.sendActiveChatMessage();
+            });
 
             window.closeActiveChat = function() {
                 const chatView = document.getElementById('active-chat-view');

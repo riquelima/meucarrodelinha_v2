@@ -14,3 +14,4 @@ Thumbs.db
 # Skill/tool internals (not part of the app)
 ~/
 ~\.gemini/
+.vercel

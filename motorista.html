@@ -49,25 +49,7 @@
         }
 
         /* [AESTHETICS]: Floating Deep Sea Navbar Standard */
-        .fixed-navbar {
-            position: fixed;
-            bottom: 24px;
-            left: 20px;
-            right: 20px;
-            height: 72px;
-            background: rgba(18, 21, 32, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 10px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-        }
-
+        /* [AESTHETICS]: Navbar items are now handled by global CSS */
         .nav-item {
             flex: 1;
             display: flex;
@@ -82,19 +64,6 @@
             background: transparent;
             border: none;
             cursor: pointer;
-        }
-
-        .nav-item span:first-child {
-            font-size: 24px;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .nav-item span:last-child {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
         }
 
         .nav-active {
@@ -181,15 +150,18 @@
                     <div id="motorista-map" class="absolute inset-0 z-0 h-full w-full"></div>
                     
                     <!-- Floating Online Controls -->
-                    <div class="absolute bottom-24 left-0 right-0 z-30 px-6 animate-slide-up">
-                        <div class="p-4 bg-background-dark/90 backdrop-blur-xl border border-white/5 rounded-[2.5rem] shadow-2xl flex flex-col items-center gap-3">
-                            <button id="toggle-online-btn" class="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-3xl h-16 bg-primary text-white text-base font-black transition-all shadow-lg shadow-primary/30 active-scale">
-                                <div class="flex items-center gap-3">
-                                    <span class="material-symbols-outlined" id="toggle-icon">power_settings_new</span>
-                                    <span class="uppercase tracking-widest" id="toggle-text">Ficar Online</span>
+                    <div class="absolute bottom-[96px] left-0 right-0 z-30 px-8 animate-slide-up">
+                        <div class="p-2.5 bg-background-dark/95 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl flex items-center gap-4">
+                            <button id="toggle-online-btn" class="group relative flex flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 bg-primary text-white text-xs font-black transition-all shadow-lg shadow-primary/20 active-scale">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-lg" id="toggle-icon">power_settings_new</span>
+                                    <span class="uppercase tracking-tighter" id="toggle-text">Ficar Online</span>
                                 </div>
                             </button>
-                            <p id="status-text" class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Você está offline</p>
+                            <div class="pr-4 shrink-0">
+                                <p id="status-text" class="text-[9px] text-slate-500 font-black uppercase tracking-tighter leading-none mb-0.5">Status</p>
+                                <p id="status-label" class="text-[10px] text-slate-400 font-bold uppercase tracking-tight leading-none">Offline</p>
+                            </div>
                         </div>
                     </div>
                 </main>
