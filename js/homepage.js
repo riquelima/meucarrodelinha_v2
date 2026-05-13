@@ -122,21 +122,47 @@ const initHomepage = async () => {
         const driversContainer = document.getElementById('drivers-container');
         if (!driversContainer) return;
 
-        try {
-            const { data: drivers, error } = await supabaseClient
+        const cache = window.DataCache;
+        const cachedDrivers = cache.get(cache.KEYS.KEY_DRIVERS);
+        let drivers = null;
+
+        if (cachedDrivers) {
+            renderDrivers(cachedDrivers);
+            supabaseClient
                 .from('motoristas')
                 .select(`
                     modelo_veiculo,
                     avaliacao_media,
                     status_online,
-                    usuarios (
-                        nome,
-                        foto_perfil_url
-                    )
+                    usuarios ( nome, foto_perfil_url )
+                `)
+                .order('status_online', { ascending: false })
+                .order('avaliacao_media', { ascending: false })
+                .limit(10)
+                .then(({ data }) => {
+                    if (data) {
+                        cache.set(cache.KEYS.KEY_DRIVERS, data, 5 * 60 * 1000);
+                        renderDrivers(data);
+                    }
+                })
+                .catch(() => {});
+            return;
+        }
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('motoristas')
+                .select(`
+                    modelo_veiculo,
+                    avaliacao_media,
+                    status_online,
+                    usuarios ( nome, foto_perfil_url )
                 `)
                 .order('status_online', { ascending: false })
                 .order('avaliacao_media', { ascending: false })
                 .limit(10);
+
+            drivers = data;
 
             if (error) {
                 console.error('Error fetching drivers:', error);
@@ -149,6 +175,13 @@ const initHomepage = async () => {
                 return;
             }
 
+            cache.set(cache.KEYS.KEY_DRIVERS, drivers, 5 * 60 * 1000);
+            renderDrivers(drivers);
+        } catch (err) {
+            console.error('Unexpected error loading drivers:', err);
+        }
+
+        function renderDrivers(drivers) {
             driversContainer.innerHTML = '';
 
             const createDriverCard = (driver) => {
@@ -218,14 +251,23 @@ const initHomepage = async () => {
                     driversContainer.appendChild(clone);
                 });
             }
-        } catch (err) {
-            console.error('Unexpected error loading drivers:', err);
         }
     };
 
     const loadAds = async () => {
         const adsContainer = document.getElementById('ads-container');
         if (!adsContainer) return;
+
+        const cache = window.DataCache;
+        const cachedAds = cache.get(cache.KEYS.KEY_ADS);
+
+        if (cachedAds) {
+            renderAds(cachedAds);
+            supabaseClient.from('anuncios').select('*').eq('ativo', true).order('criado_em', { ascending: false })
+                .then(({ data }) => { if (data) { cache.set(cache.KEYS.KEY_ADS, data, 10 * 60 * 1000); renderAds(data); } })
+                .catch(() => {});
+            return;
+        }
 
         try {
             const { data: ads, error } = await supabaseClient
@@ -235,10 +277,16 @@ const initHomepage = async () => {
                 .order('criado_em', { ascending: false });
 
             if (error) throw error;
+            cache.set(cache.KEYS.KEY_ADS, ads || [], 10 * 60 * 1000);
+            renderAds(ads || []);
+        } catch (err) {
+            console.error('Error loading ads:', err);
+        }
 
+        function renderAds(ads) {
             adsContainer.innerHTML = '';
 
-            if (ads && ads.length > 0) {
+            if (ads.length > 0) {
                 ads.forEach(ad => {
                     const adElement = document.createElement('a');
                     let targetUrl = ad.link_acao || ad.url;
@@ -309,14 +357,23 @@ const initHomepage = async () => {
                     overlay.addEventListener('click', cleanup, { once: true });
                 }, 1000);
             }
-        } catch (err) {
-            console.error('Error loading ads:', err);
         }
     };
 
     const loadBlog = async () => {
         const blogContainer = document.getElementById('blog-container');
         if (!blogContainer) return;
+
+        const cache = window.DataCache;
+        const cachedPosts = cache.get(cache.KEYS.KEY_BLOG);
+
+        if (cachedPosts) {
+            renderBlog(cachedPosts);
+            supabaseClient.from('postagens').select('*').eq('publicado', true).order('criado_em', { ascending: false }).limit(3)
+                .then(({ data }) => { if (data) { cache.set(cache.KEYS.KEY_BLOG, data, 10 * 60 * 1000); renderBlog(data); } })
+                .catch(() => {});
+            return;
+        }
 
         try {
             const { data: posts, error } = await supabaseClient
@@ -327,8 +384,15 @@ const initHomepage = async () => {
                 .limit(3);
 
             if (error) throw error;
+            cache.set(cache.KEYS.KEY_BLOG, posts || [], 10 * 60 * 1000);
+            renderBlog(posts || []);
+        } catch (err) {
+            console.error('Error loading blog posts:', err);
+            blogContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Erro ao carregar postagens.</p>';
+        }
 
-            if (posts && posts.length > 0) {
+        function renderBlog(posts) {
+            if (posts.length > 0) {
                 blogContainer.innerHTML = '';
                 blogContainer.classList.remove('text-center');
 
@@ -383,9 +447,6 @@ const initHomepage = async () => {
                     </div>
                 `;
             }
-        } catch (err) {
-            console.error('Error loading blog posts:', err);
-            blogContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Erro ao carregar postagens.</p>';
         }
     };
 

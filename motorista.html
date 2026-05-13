@@ -48,48 +48,97 @@
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Pulse Animation for User Location */
-        .user-location-marker {
+        /* [AESTHETICS]: Floating Deep Sea Navbar Standard */
+        .fixed-navbar {
+            position: fixed;
+            bottom: 24px;
+            left: 20px;
+            right: 20px;
+            height: 72px;
+            background: rgba(18, 21, 32, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            height: 100%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
         }
 
+        .nav-item span:first-child {
+            font-size: 24px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .nav-item span:last-child {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+        }
+
+        .nav-active {
+            color: #FF9100 !important;
+        }
+
+        .nav-active span:first-child {
+            transform: translateY(-4px) scale(1.1);
+            color: #FF9100;
+        }
+
+        /* Indicador Ativo */
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            width: 4px;
+            height: 4px;
+            background: #FF9100;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #FF9100;
+        }
+
+        .view-section {
+            padding-bottom: 120px !important;
+        }
+
+        /* Pulse Animation for User Location */
+        .user-location-marker { position: relative; }
         .user-location-dot {
-            width: 12px;
-            height: 12px;
-            background-color: #4285F4;
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
+            width: 12px; height: 12px;
+            background-color: #4285F4; border-radius: 50%;
+            border: 2px solid white; box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;
         }
-
         .user-location-pulse {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(66, 133, 244, 0.4);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse-ring 2s infinite;
-            z-index: 1;
+            width: 40px; height: 40px;
+            background-color: rgba(66, 133, 244, 0.4); border-radius: 50%;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            animation: pulse-ring 2s infinite; z-index: 1;
         }
-
         @keyframes pulse-ring {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(-50%, -50%) scale(1.5);
-                opacity: 0;
-            }
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
         }
     </style>
     <style>
@@ -101,83 +150,176 @@
 
 <body
     class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display overflow-hidden">
-    <div class="page-container">
-        <!-- Notification Container -->
-        <div id="notification-container"
-            class="absolute top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transform -translate-y-full transition-transform duration-500">
-            <div id="notification-box"
-                class="mt-4 bg-green-500 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2">
-                <span id="notification-icon" class="material-symbols-outlined">check_circle</span>
-                <span id="notification-text" class="font-bold text-sm">Você está online</span>
-            </div>
-        </div>
-        <!-- Header / Top Bar -->
-        <header
-            class="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-background-dark/80 to-transparent">
+    <!-- [SPA_HORIZONTAL_MANDATE]: Contêiner Raiz -->
+    <div id="app-root" class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
+        
+        <!-- Header Universal -->
+        <header class="absolute top-0 left-0 right-0 z-[100] flex items-center justify-between p-4 bg-gradient-to-b from-background-dark/90 to-transparent">
             <div class="flex items-center gap-3">
-                <div class="size-10 rounded-full border-2 border-primary overflow-hidden bg-surface-dark">
-                    <img id="header-avatar" class="w-full h-full object-cover"
-                        data-alt="Profile picture of a professional driver"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD627-BeU1gC_HNClizGCx9bN-a-wIVbc8sCHJ1kEUcJxgz5UHBS90CbXE-aCsIWzgi1sU60B560ZqrHmswoOtIIrWjknwhSbeeUu1xuV9qQlkdAXldToogyaTO3GfXrz9oThcNeRodXD9LsP4ekDm9SlJxE5ebrKZJTVz1Ztj1-M46vnqJwCmJgxQahl3SO9w1Si22lMsmxicP0vWcjkr5LLnveL69up9rKHhSPSks6wflWueXGqNMAkO1hhgq4SSVwGJYW9loyk7n" />
+                <div class="size-10 rounded-full border-2 border-primary overflow-hidden bg-surface-dark shadow-xl">
+                    <img id="header-avatar" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=Motorista&background=random" />
                 </div>
                 <div>
-                    <h1 class="text-sm font-semibold text-slate-100">Olá, <span id="header-username">Motorista</span></h1>
+                    <h1 class="text-sm font-bold text-slate-100">Olá, <span id="header-username">Motorista</span></h1>
                     <div class="flex items-center gap-1">
                         <span class="material-symbols-outlined text-[14px] text-yellow-400">star</span>
-                        <span id="header-rating" class="text-xs text-slate-300">--</span>
+                        <span id="header-rating" class="text-xs text-slate-300 font-bold">5.0</span>
                     </div>
                 </div>
             </div>
-            <button
-                class="size-10 flex items-center justify-center rounded-full bg-surface-dark/90 text-slate-100 shadow-lg backdrop-blur-md active-scale">
+            <button class="size-10 flex items-center justify-center rounded-full bg-surface-dark/90 text-slate-100 shadow-xl backdrop-blur-md active-scale">
                 <span class="material-symbols-outlined">notifications</span>
             </button>
         </header>
-        <!-- Main Map Area (Interactive background) -->
-        <main class="page-content relative w-full bg-surface-dark overflow-hidden">
-            <div id="motorista-map" class="absolute inset-0 z-0 h-full w-full"></div>
-            <!-- Earnings Summary Card Overlay Removed -->
-            <!-- Map Controls Removed -->
-            <!-- Search bar for manual location/destinations Removed -->
-        </main>
-        <!-- Bottom Action & Navigation Area -->
-        <footer class="fixed bottom-0 left-0 right-0 z-50 bg-background-dark border-t border-slate-800 pb-navbar">
-            <!-- Go Online Button Area -->
-            <div class="p-4 flex flex-col items-center">
-                <button id="toggle-online-btn"
-                    class="group relative flex w-full max-w-md cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-white text-base font-bold transition-all shadow-lg shadow-primary/20 active-scale">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined" id="toggle-icon">power_settings_new</span>
-                        <span class="uppercase tracking-widest" id="toggle-text">Ficar Online</span>
+
+        <!-- [SPA_HORIZONTAL_MANDATE]: Slider de Views -->
+        <div id="view-slider" class="flex h-full w-[500vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
+            
+            <!-- ABA 1: INÍCIO (MAPA) -->
+            <section id="view-home" class="view-section shrink-0 w-[100vw] h-full relative overflow-hidden flex flex-col">
+                <main class="relative flex-1 w-full bg-surface-dark overflow-hidden">
+                    <div id="motorista-map" class="absolute inset-0 z-0 h-full w-full"></div>
+                    
+                    <!-- Floating Online Controls -->
+                    <div class="absolute bottom-24 left-0 right-0 z-30 px-6 animate-slide-up">
+                        <div class="p-4 bg-background-dark/90 backdrop-blur-xl border border-white/5 rounded-[2.5rem] shadow-2xl flex flex-col items-center gap-3">
+                            <button id="toggle-online-btn" class="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-3xl h-16 bg-primary text-white text-base font-black transition-all shadow-lg shadow-primary/30 active-scale">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined" id="toggle-icon">power_settings_new</span>
+                                    <span class="uppercase tracking-widest" id="toggle-text">Ficar Online</span>
+                                </div>
+                            </button>
+                            <p id="status-text" class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Você está offline</p>
+                        </div>
                     </div>
-                </button>
-                <p id="status-text" class="mt-2 text-[10px] text-slate-500 font-medium">Você está offline no momento</p>
-            </div>
-            <!-- Navigation Bar -->
-            <nav class="fixed-navbar" id="main-nav">
-                <a class="nav-active" href="motorista.html" id="nav-home">
-                    <span class="material-symbols-outlined">home</span>
-                    <span>Início</span>
-                </a>
-                <a href="meusganhos.html" id="nav-earnings">
-                    <span class="material-symbols-outlined">payments</span>
-                    <span>Ganhos</span>
-                </a>
-                <a href="mensagensMotorista.html" id="nav-chats">
-                    <span class="material-symbols-outlined">chat</span>
-                    <span>Chat</span>
-                    <span id="chat-badge" class="chat-badge hidden absolute top-0 right-4 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
-                </a>
-                <a href="historicoViagens.html" id="nav-history">
-                    <span class="material-symbols-outlined">history</span>
-                    <span>Histórico</span>
-                </a>
-                <a href="perfilMotorista.html" id="nav-profile">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <span>Perfil</span>
-                </a>
-            </nav>
-        </footer>
+                </main>
+            </section>
+
+            <!-- ABA 2: GANHOS -->
+            <section id="view-earnings" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-20">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                    <h2 class="text-3xl font-black mb-8 tracking-tighter">Seus Ganhos</h2>
+                    <div class="p-8 bg-white dark:bg-slate-800 rounded-[2.5rem] text-center border border-white/5 shadow-xl mb-6">
+                        <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Total de Hoje</p>
+                        <h3 class="text-4xl font-black text-primary">R$ 0,00</h3>
+                    </div>
+                    <div id="earnings-container" class="space-y-4">
+                        <div class="p-6 text-center opacity-40">
+                            <span class="material-symbols-outlined text-4xl mb-2">payments</span>
+                            <p class="font-bold">Nenhum ganho registrado hoje</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA 3: CHAT -->
+            <section id="view-chats" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-20">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                    <h2 class="text-3xl font-black mb-8 tracking-tighter">Mensagens</h2>
+                    <div id="chats-list-container" class="space-y-4">
+                        <div class="p-6 text-center opacity-40">
+                            <span class="material-symbols-outlined text-4xl mb-2">forum</span>
+                            <p class="font-bold">Suas conversas aparecerão aqui</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA 4: HISTÓRICO -->
+            <section id="view-history" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-20">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                    <h2 class="text-3xl font-black mb-8 tracking-tighter">Histórico</h2>
+                    <div id="history-container" class="space-y-4">
+                        <div class="p-6 text-center opacity-40">
+                            <span class="material-symbols-outlined text-4xl mb-2">history</span>
+                            <p class="font-bold">Nenhuma corrida concluída ainda</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA 5: PERFIL -->
+            <section id="view-profile" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-20">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                    <div class="p-6 bg-white dark:bg-slate-800 rounded-[2.5rem] border border-white/5 shadow-xl mb-8">
+                        <div class="flex items-center gap-4">
+                            <div class="size-20 rounded-full bg-primary/10 flex items-center justify-center text-primary border-4 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl">account_circle</span>
+                            </div>
+                            <div>
+                                <h3 id="profile-name" class="text-xl font-black tracking-tight">Motorista Parceiro</h3>
+                                <p class="text-sm font-bold text-slate-500 uppercase">Perfil Ativo</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-primary">directions_car</span>
+                                <span class="font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-xs">Dados do Veículo</span>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
+                        </button>
+                        <button onclick="handleLogout()" class="w-full flex items-center justify-between p-6 bg-red-500/10 text-red-500 rounded-3xl active-scale border border-red-500/20">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined">logout</span>
+                                <span class="font-black uppercase tracking-widest text-xs">Sair da Conta</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- [BOTTOM_NAVBAR_PERSISTENCE] -->
+        <nav class="fixed-navbar !z-[200]" id="main-nav">
+            <button onclick="switchTab('home')" class="nav-item nav-active" id="nav-home">
+                <span class="material-symbols-outlined">home</span>
+                <span>Início</span>
+            </button>
+            <button onclick="switchTab('earnings')" class="nav-item" id="nav-earnings">
+                <span class="material-symbols-outlined">payments</span>
+                <span>Ganhos</span>
+            </button>
+            <button onclick="switchTab('chats')" class="nav-item" id="nav-chats">
+                <span class="material-symbols-outlined">chat</span>
+                <span>Chat</span>
+                <span id="chat-badge" class="chat-badge hidden">0</span>
+            </button>
+            <button onclick="switchTab('history')" class="nav-item" id="nav-history">
+                <span class="material-symbols-outlined">history</span>
+                <span>Histórico</span>
+            </button>
+            <button onclick="switchTab('profile')" class="nav-item" id="nav-profile">
+                <span class="material-symbols-outlined">account_circle</span>
+                <span>Perfil</span>
+            </button>
+        </nav>
+
+        <!-- SPA Navigation Logic -->
+        <script>
+            function switchTab(tabName) {
+                const slider = document.getElementById('view-slider');
+                const tabs = ['home', 'earnings', 'chats', 'history', 'profile'];
+                const index = tabs.indexOf(tabName);
+                
+                if (index === -1) return;
+
+                // Hardware Accelerated Navigation
+                slider.style.transform = `translate3d(${-index * 100}vw, 0, 0)`;
+
+                // Update UI State
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('nav-active');
+                    if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
+                });
+
+                // Optimization: Hide non-neighbor sections
+                document.querySelectorAll('.view-section').forEach((sec, i) => {
+                    sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
+                });
+            }
+        </script>
     </div>
     <script src="js/location-modal.js"></script>
     <script>

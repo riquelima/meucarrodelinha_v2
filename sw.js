@@ -1,4 +1,5 @@
-const CACHE_NAME = 'meucarrosalinas-v5';
+const CACHE_NAME = 'meucarrosalinas-v6';
+const API_CACHE = 'meucarrosalinas-api-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -10,6 +11,7 @@ const ASSETS_TO_CACHE = [
   '/js/supabaseClient.js',
   '/js/homepage.js',
   '/js/location-modal.js',
+  '/js/data-cache.js',
   '/offline.html',
   '/admin.html',
   '/gerenciarUsuarios.html',
@@ -34,7 +36,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => Promise.all(
       keys.map((key) => {
-        if (key !== CACHE_NAME) {
+        if (key !== CACHE_NAME && key !== API_CACHE) {
           console.log('[SW] Deleting old cache:', key);
           return caches.delete(key);
         }
@@ -54,13 +56,32 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // BYPASS for APIs and Analytics
-  if (url.hostname.includes('maps.googleapis.com') ||
-    url.hostname.includes('maps.gstatic.com') ||
-    url.pathname.includes('/rest/v1/') || // Supabase REST API
-    url.pathname.includes('/auth/v1/') || // Supabase Auth API
-    url.hostname.includes('google-analytics.com')) {
-    return; // Pass through to network
+  // BYPASS for Analytics
+  if (url.hostname.includes('google-analytics.com') ||
+    url.hostname.includes('maps.googleapis.com') ||
+    url.hostname.includes('maps.gstatic.com')) {
+    return;
+  }
+
+  // Supabase REST API: Cache First with Network Refresh (stale-while-revalidate)
+  if (url.pathname.includes('/rest/v1/') && event.request.method === 'GET') {
+    event.respondWith(
+      caches.open(API_CACHE).then(cache => {
+        return cache.match(event.request).then(cached => {
+          const fetchPromise = fetch(event.request).then(response => {
+            if (response.ok) cache.put(event.request, response.clone());
+            return response;
+          }).catch(() => cached);
+          return cached || fetchPromise;
+        });
+      })
+    );
+    return;
+  }
+
+  // Supabase Auth: Network only
+  if (url.pathname.includes('/auth/v1/')) {
+    return;
   }
 
   // Strategy: Network First for HTML, Cache First for others

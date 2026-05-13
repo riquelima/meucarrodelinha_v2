@@ -169,299 +169,249 @@
             }
         }
 
+        /* [AESTHETICS]: Floating Deep Sea Navbar Standard */
+        .fixed-navbar {
+            position: fixed;
+            bottom: 24px;
+            left: 20px;
+            right: 20px;
+            height: 72px;
+            background: rgba(18, 21, 32, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            height: 100%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-item span:first-child {
+            font-size: 24px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .nav-item span:last-child {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+        }
+
+        .nav-active {
+            color: #FF9100 !important;
+        }
+
+        .nav-active span:first-child {
+            transform: translateY(-4px) scale(1.1);
+            color: #FF9100;
+        }
+
+        /* Indicador Ativo */
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            width: 4px;
+            height: 4px;
+            background: #FF9100;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #FF9100;
+        }
+
+        .view-section {
+            padding-bottom: 120px !important;
+        }
+
         /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .delay-300 {
-            animation-delay: 300ms;
-        }
-
-        .delay-400 {
-            animation-delay: 400ms;
-        }
-
-        .delay-500 {
-            animation-delay: 500ms;
-        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
     </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
-        <!-- Header -->
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 py-3 border-b border-slate-200 dark:border-slate-800 animate-fade-in">
+    <!-- [SPA_HORIZONTAL_MANDATE]: Contêiner Raiz do SPA Admin -->
+    <div id="app-root" class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
+        
+        <!-- Header Universal -->
+        <header class="absolute top-0 left-0 right-0 z-[100] flex items-center justify-between p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
             <div class="w-10"></div>
-            <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">
-                Meu Carro de Linha Salinas
-            </h1>
-            <div class="flex w-10 items-center justify-end">
-                <button
-                    class="relative flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
-                    <span class="material-symbols-outlined">notifications</span>
-                    <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500"></span>
-                </button>
-            </div>
+            <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">Meu Carro de Linha</h1>
+            <button class="relative flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-slate-400">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500"></span>
+            </button>
         </header>
-        <!-- Main Content -->
-        <main class="flex flex-col gap-6 p-4 animate-slide-up delay-100">
-            <!-- Statistical Grid -->
-            <section>
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3 px-1">Resumo Geral</h2>
-                <div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
-                    <div
-                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
-                        <div class="flex items-center justify-between">
-                            <span
-                                class="material-symbols-outlined text-primary bg-primary/10 rounded-lg p-2">group</span>
-                            <span id="pct-clientes" class="text-xs font-bold leading-normal">...</span>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                Clientes</p>
-                            <p id="stat-clientes" class="text-2xl font-bold leading-tight">...</p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
-                        <div class="flex items-center justify-between">
-                            <span
-                                class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-lg p-2">directions_car</span>
-                            <span class="text-emerald-500 text-xs font-bold leading-normal">+5%</span>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                Viagens</p>
-                            <p id="stat-viagens" class="text-2xl font-bold leading-tight">0</p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
-                        <div class="flex items-center justify-between">
-                            <span
-                                class="material-symbols-outlined text-purple-500 bg-purple-500/10 rounded-lg p-2">person</span>
-                            <span id="pct-passageiros" class="text-xs font-bold leading-normal">...</span>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                Passageiros</p>
-                            <p id="stat-passageiros" class="text-2xl font-bold leading-tight">...</p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex-none w-40 flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm snap-start">
-                        <div class="flex items-center justify-between">
-                            <span
-                                class="material-symbols-outlined text-blue-500 bg-blue-500/10 rounded-lg p-2">badge</span>
-                            <span id="pct-motoristas" class="text-xs font-bold leading-normal">...</span>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase leading-normal">
-                                Motoristas</p>
-                            <p id="stat-motoristas" class="text-2xl font-bold leading-tight">...</p>
-                        </div>
-                    </div>
-                    <!-- Redundant card removed -->
-                </div>
-            </section>
-            <!-- Charts Section (Horizontal Scroll) -->
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 no-scrollbar">
 
-
-                <!-- Chart: Cadastros Motoristas x Passageiros -->
-                <section
-                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="text-base font-bold leading-tight">Cadastros: Motoristas x Passageiros</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs">Evolução diária</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span
-                                    class="w-2 h-2 rounded-full bg-primary"></span> Mot</span>
-                            <span class="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase"><span
-                                    class="w-2 h-2 rounded-full bg-purple-500"></span> Pas</span>
-                        </div>
-                    </div>
-                    <div class="relative h-40 w-full mb-4 group/chart">
-                        <!-- Tooltip -->
-                        <div id="chart-tooltip" class="absolute z-10 hidden pointer-events-none bg-slate-900 border border-slate-700 p-2 rounded-lg shadow-xl text-[10px] font-bold text-white transition-all duration-300 scale-90 opacity-0 transform -translate-x-1/2 -translate-y-full mb-2">
-                            <div id="tooltip-date" class="text-slate-400 mb-1">...</div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                                <span>Mot: <span id="tooltip-mot">0</span></span>
+        <!-- [SPA_HORIZONTAL_MANDATE]: Slider de Views -->
+        <div id="view-slider" class="flex h-full w-[400vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
+            
+            <!-- ABA 1: PAINEL (DASHBOARD) -->
+            <section id="view-dashboard" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24">
+                <main class="flex flex-col gap-6 p-4">
+                    <!-- Resumo Estatístico -->
+                    <div>
+                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Estatísticas Gerais</h2>
+                        <div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
+                            <!-- Clientes -->
+                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="material-symbols-outlined text-primary bg-primary/10 rounded-xl p-3">group</span>
+                                    <span id="pct-clientes" class="text-[10px] font-black">+5%</span>
+                                </div>
+                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Clientes</p>
+                                <p id="stat-clientes" class="text-3xl font-black tracking-tighter">0</p>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-                                <span>Pas: <span id="tooltip-pas">0</span></span>
+                            <!-- Viagens -->
+                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-xl p-3">directions_car</span>
+                                    <span class="text-emerald-500 text-[10px] font-black">+12%</span>
+                                </div>
+                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Viagens</p>
+                                <p id="stat-viagens" class="text-3xl font-black tracking-tighter">0</p>
                             </div>
                         </div>
-                        <svg id="chart-registrations" fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <!-- Passageiros (Purple) -->
-                            <path id="path-passageiros" d="M0 150 L 472 150"
-                                stroke="#a855f7" stroke-width="3" stroke-linecap="round" />
-                            <!-- Motoristas (Primary/Blue) -->
-                            <path id="path-motoristas" d="M0 150 L 472 150"
-                                stroke="#0f38bd" stroke-width="3" stroke-linecap="round" />
-                            
-                            <!-- Interactive Dots Group -->
-                            <g id="chart-dots"></g>
-                        </svg>
                     </div>
-                    <div id="chart-labels" class="flex justify-between px-1">
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">...</span>
-                    </div>
-                </section>
 
-                <section
-                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm relative group/chart2">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="text-base font-bold leading-tight">Postagens no Blog</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs text-nowrap">Publicações por mês</p>
-                        </div>
-                        <div id="blog-growth" class="bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold">
-                            ...
-                        </div>
+                    <!-- Ações Administrativas -->
+                    <div class="space-y-3">
+                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Gestão de Conteúdo</h2>
+                        <button onclick="window.location.href='novoPost.html'" class="w-full p-6 rounded-3xl bg-primary text-white flex items-center gap-4 active-scale shadow-2xl shadow-primary/20">
+                            <span class="material-symbols-outlined bg-white/20 p-3 rounded-2xl">edit_document</span>
+                            <div class="text-left">
+                                <p class="font-black text-sm uppercase tracking-widest">Novo Post</p>
+                                <p class="text-[10px] opacity-70">Publicar novidades no blog</p>
+                            </div>
+                        </button>
+                        <button onclick="window.location.href='novoAnuncio.html'" class="w-full p-6 rounded-3xl bg-slate-800 text-white flex items-center gap-4 active-scale">
+                            <span class="material-symbols-outlined bg-white/10 p-3 rounded-2xl">campaign</span>
+                            <div class="text-left">
+                                <p class="font-black text-sm uppercase tracking-widest">Criar Anúncio</p>
+                                <p class="text-[10px] opacity-70">Gerenciar parceiros locais</p>
+                            </div>
+                        </button>
                     </div>
-                    <!-- Tooltip Blog -->
-                    <div id="blog-tooltip" class="absolute z-10 hidden pointer-events-none bg-slate-900 border border-slate-700 p-2 rounded-lg shadow-xl text-[10px] font-bold text-white transition-all duration-300 scale-90 opacity-0 transform -translate-x-1/2 -translate-y-full mb-2">
-                        <div id="blog-tooltip-date" class="text-slate-400 mb-1">...</div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
-                            <span>Postagens: <span id="blog-tooltip-value">0</span></span>
-                        </div>
-                    </div>
-                    <div id="blog-bars-container" class="relative h-40 w-full mb-4 flex items-end justify-between gap-1 px-1">
-                        <!-- Bars will be injected here -->
-                    </div>
-                    <div id="blog-labels" class="flex justify-between px-1">
-                        <!-- Labels will be injected here -->
-                    </div>
-                </section>
+                </main>
+            </section>
 
-                <!-- Chart: Evolução de Anúncios -->
-                <section
-                    class="min-w-[90%] snap-center rounded-xl p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="text-base font-bold leading-tight">Novos Anúncios</h3>
-                            <p class="text-slate-500 dark:text-slate-400 text-xs">Crescimento mensal</p>
-                        </div>
-                        <div class="bg-emerald-500/10 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold">
-                            +12%
+            <!-- ABA 2: USUÁRIOS -->
+            <section id="view-users" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
+                <div class="p-6">
+                    <h2 class="text-3xl font-black tracking-tighter mb-8">Gerenciar Usuários</h2>
+                    <div class="space-y-4" id="users-list-container">
+                        <div class="p-12 text-center opacity-40">
+                            <span class="material-symbols-outlined text-5xl mb-4">group</span>
+                            <p class="font-bold uppercase tracking-widest text-xs">Carregando usuários...</p>
                         </div>
                     </div>
-                    <div class="relative h-40 w-full mb-4">
-                        <svg fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5"
-                                stroke="#10b981" stroke-width="3" stroke-linecap="round" />
-                            <path
-                                d="M0 130 C40 120, 80 125, 120 100 C160 75, 200 90, 240 60 C280 30, 320 40, 360 20 C400 10, 440 15, 472 5 V150 H0 Z"
-                                fill="url(#chartFillAds)" opacity="0.2" />
-                            <defs>
-                                <linearGradient id="chartFillAds" x1="0" x2="0" y1="0" y2="1">
-                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.5"></stop>
-                                    <stop offset="100%" stop-color="#10b981" stop-opacity="0"></stop>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="flex justify-between px-1">
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jan</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Fev</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mar</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Abr</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Mai</span>
-                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Jun</span>
-                    </div>
-                </section>
-            </div>
-            <section class="flex flex-col gap-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 px-1">Ações Rápidas</h2>
-                <div class="flex flex-col gap-3">
-                    <button onclick="window.location.href='novoPost.html'"
-                        class="flex items-center gap-4 w-full p-4 rounded-xl bg-primary text-white font-bold transition-all active:scale-95 shadow-lg shadow-primary/20">
-                        <span class="material-symbols-outlined bg-white/20 p-2 rounded-lg">edit_document</span>
-                        <div class="flex flex-col items-start">
-                            <span class="text-sm">Nova Postagem no Blog</span>
-                            <span class="text-[10px] font-normal opacity-80 text-left">Atualize os passageiros com
-                                novidades</span>
-                        </div>
-                        <span class="material-symbols-outlined ml-auto text-sm">chevron_right</span>
-                    </button>
-                    <button onclick="window.location.href='novoAnuncio.html'"
-                        class="flex items-center gap-4 w-full p-4 rounded-xl bg-slate-800 dark:bg-slate-700/50 text-white font-bold border border-slate-700 transition-all active:scale-95">
-                        <span
-                            class="material-symbols-outlined text-cyan-400 bg-cyan-400/10 p-2 rounded-lg">campaign</span>
-                        <div class="flex flex-col items-start">
-                            <span class="text-sm">Criar Anúncio</span>
-                            <span class="text-[10px] font-normal text-slate-400 text-left">Promova parceiros locais na
-                                cidade</span>
-                        </div>
-                        <span class="material-symbols-outlined ml-auto text-sm text-slate-500">chevron_right</span>
-                    </button>
-                    <button onclick="window.location.href='novoMotorista.html'"
-                        class="flex items-center gap-4 w-full p-4 rounded-xl bg-slate-800 dark:bg-slate-700/50 text-white font-bold border border-slate-700 transition-all active:scale-95">
-                        <span
-                            class="material-symbols-outlined text-primary bg-primary/20 p-2 rounded-lg">person_add</span>
-                        <div class="flex flex-col items-start">
-                            <span class="text-sm">Cadastrar Motorista</span>
-                            <span class="text-[10px] font-normal text-slate-400 text-left">Aumente sua frota de
-                                transporte</span>
-                        </div>
-                        <span class="material-symbols-outlined ml-auto text-sm text-slate-500">chevron_right</span>
-                    </button>
                 </div>
             </section>
-        </main>
-        <!-- Bottom Navigation Bar -->
-        <nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50"
-            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
-            <div class="flex gap-2 max-w-lg mx-auto">
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary " href="admin.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined"
-                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+
+            <!-- ABA 3: VIAGENS -->
+            <section id="view-trips" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
+                <div class="p-6">
+                    <h2 class="text-3xl font-black tracking-tighter mb-8">Histórico Geral</h2>
+                    <div class="space-y-4" id="all-trips-container">
+                        <div class="p-12 text-center opacity-40">
+                            <span class="material-symbols-outlined text-5xl mb-4">route</span>
+                            <p class="font-bold uppercase tracking-widest text-xs">Aguardando dados das rotas</p>
+                        </div>
                     </div>
-                    <p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 "
-                    href="gerenciarUsuarios.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">group</span>
+                </div>
+            </section>
+
+            <!-- ABA 4: AJUSTES -->
+            <section id="view-settings" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
+                <div class="p-6">
+                    <h2 class="text-3xl font-black tracking-tighter mb-8">Configurações</h2>
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-primary">security</span>
+                                <span class="font-black uppercase tracking-widest text-xs">Segurança da Plataforma</span>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
+                        </button>
+                        <button onclick="handleLogout()" class="w-full flex items-center justify-between p-6 bg-red-500/10 text-red-500 rounded-3xl active-scale border border-red-500/20 mt-8">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined">logout</span>
+                                <span class="font-black uppercase tracking-widest text-xs">Encerrar Sessão Admin</span>
+                            </div>
+                        </button>
                     </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="historicoGeral.html">
-                    <div class="flex h-8 items-center justify-center"><span
-                            class="material-symbols-outlined">route</span></div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 "
-                    href="perfilAdministrador.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">settings</span>
-                    </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
-                </a>
-            </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- [BOTTOM_NAVBAR_PERSISTENCE] -->
+        <nav class="fixed-navbar !z-[200]" id="main-nav">
+            <button onclick="switchTab('dashboard')" class="nav-item nav-active" id="nav-dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Painel</span>
+            </button>
+            <button onclick="switchTab('users')" class="nav-item" id="nav-users">
+                <span class="material-symbols-outlined">group</span>
+                <span>Usuários</span>
+            </button>
+            <button onclick="switchTab('trips')" class="nav-item" id="nav-trips">
+                <span class="material-symbols-outlined">route</span>
+                <span>Viagens</span>
+            </button>
+            <button onclick="switchTab('settings')" class="nav-item" id="nav-settings">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Ajustes</span>
+            </button>
         </nav>
+
+        <!-- SPA Navigation Logic -->
+        <script>
+            function switchTab(tabName) {
+                const slider = document.getElementById('view-slider');
+                const tabs = ['dashboard', 'users', 'trips', 'settings'];
+                const index = tabs.indexOf(tabName);
+                
+                if (index === -1) return;
+
+                // Hardware Accelerated Slider
+                slider.style.transform = `translate3d(${-index * 100}vw, 0, 0)`;
+
+                // Update Navbar UI
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('nav-active');
+                    if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
+                });
+
+                // Optimization: Hide sections out of viewport
+                document.querySelectorAll('.view-section').forEach((sec, i) => {
+                    sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
+                });
+            }
+        </script>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>

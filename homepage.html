@@ -21,8 +21,9 @@
     <meta name="theme-color" content="#1e3fae" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -41,7 +42,8 @@
                         "background-dark": "#121520",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "editorial": ["Bricolage Grotesque", "sans-serif"]
                     },
                     borderRadius: {
                         "DEFAULT": "0.25rem",
@@ -310,14 +312,15 @@
         }
 
         .font-3d-orange {
-            font-family: 'Titan One', cursive;
+            font-family: 'Outfit', sans-serif;
             color: #FF9100;
             text-transform: uppercase;
+            font-weight: 800;
             white-space: nowrap;
             overflow: visible;
-            line-height: 1.2;
-            padding-bottom: 5px;
-            letter-spacing: 1px;
+            line-height: 1;
+            padding-bottom: 2px;
+            letter-spacing: -0.02em;
         }
 
         .animate-pop-in-3d {
@@ -373,35 +376,62 @@
         <header
             class="flex items-center justify-between bg-background-light dark:bg-background-dark px-4 py-3 sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800">
             <div class="w-10"></div>
-            <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">
-                Meu Carro de Linha Salinas
+            <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(18px, 5vw, 24px);">
+                Meu Carro de Linha
             </h1>
             <div id="menu-toggle-btn"
                 class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800 ml-2 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors active-scale">
                 <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">menu</span>
             </div>
         </header>
-        <!-- Logo mascot hero — above the map -->
-        <div class="flex justify-center items-end w-full"
-            style="min-height: clamp(160px, 40vw, 260px); pointer-events: none; position: relative; z-index: 5;">
-            <img id="logo-mascot" src="logoTransparente.png" alt="Meu Carro de Linha Salinas — mascote" style="
-                    width: clamp(200px, 70vw, 340px);
-                    max-width: 90%;
-                    object-fit: contain;
-                    transform-origin: bottom center;
-                    will-change: transform, filter;
-                " />
+        <!-- Logo mascot hero — Luxury Editorial version -->
+        <div class="px-4 py-6 sm:py-10">
+            <div class="relative overflow-hidden rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 flex flex-row items-center gap-6 sm:gap-10 shadow-2xl shadow-primary/5 dark:shadow-none animate-slide-up">
+                <!-- Mascot (Left - 35% on mobile) -->
+                <div class="relative flex-shrink-0 w-[35%] sm:w-auto flex items-center justify-center p-3 sm:p-5 rounded-[2rem] bg-gradient-to-br from-slate-50 to-white dark:from-slate-800/50 dark:to-slate-900/50 border border-slate-100 dark:border-slate-700/50 shadow-inner">
+                    <img id="logo-mascot" src="logoTransparente.png" alt="Mascote Salinas" style="
+                        width: 100%;
+                        max-width: 180px;
+                        object-fit: contain;
+                        transform-origin: bottom center;
+                        will-change: transform, filter;
+                    " />
+
+                </div>
+
+                <!-- Text (Right - 65% on mobile) -->
+                <div class="flex-1 pointer-events-auto min-w-0">
+                    <div class="relative">
+                        <!-- Stylized quote mark -->
+                        <span class="absolute -top-6 sm:-top-10 -left-2 sm:-left-4 text-6xl sm:text-8xl text-primary/10 font-editorial pointer-events-none opacity-50">“</span>
+                        <p class="font-editorial leading-[1.05] sm:leading-tight tracking-tighter text-slate-800 dark:text-white"
+                            style="font-size: clamp(20px, 5vw, 36px);">
+                            <span class="font-extrabold text-primary dark:text-blue-400 uppercase tracking-widest text-[0.55em] block mb-2 opacity-80">Tradição & Tecnologia</span>
+                            Em Salinas, táxi sempre foi chamado de <span class="relative inline-block">
+                                <span class="relative z-10 font-extrabold">carro de linha</span>
+                                <span class="absolute bottom-1 left-0 w-full h-3 bg-primary/10 -rotate-1"></span>
+                            </span>.
+                        </p>
+                        <p class="mt-4 sm:mt-6 font-display font-medium leading-relaxed text-slate-500 dark:text-slate-400"
+                            style="font-size: clamp(14px, 3vw, 22px);">
+                            Agora você pode encontrar seu motorista pelo <span class="text-primary dark:text-blue-400 font-bold underline decoration-primary/30 decoration-2 underline-offset-4">celular</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
         <section class="relative px-4 pt-0 pb-6" style="min-height: 300px;">
             <!-- OpenStreetMap via Leaflet.js — fully visible -->
             <div id="homepage-map" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;"></div>
             <!-- Subtle gradient at the bottom so content below reads cleanly -->
             <div
-                style="position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, transparent, var(--map-fade, #f1f5f9)); z-index: 1; pointer-events: none;">
+                style="position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, #121520); z-index: 1; pointer-events: none;">
             </div>
             <div class="relative pt-6 px-0" style="z-index: 2;">
                 <div class="flex justify-between items-end mb-4">
-                    <h2 class="text-2xl font-bold text-slate-900 drop-shadow-sm">Para onde vamos hoje?</h2>
+                    <div class="px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-sm border border-white/10">
+                        <h2 class="text-xl sm:text-2xl font-bold text-white drop-shadow-md">Para onde vamos hoje?</h2>
+                    </div>
                 </div>
                 <div class="flex flex-col gap-3">
                     <!-- Autocomplete wrapper -->
@@ -635,6 +665,7 @@
         });
     </script>
     <script src="js/location-modal.js"></script>
+    <script src="js/data-cache.js"></script>
     <script src="js/homepage.js"></script>
     <script>
         // Register Service Worker for PWA (Unified)
@@ -710,13 +741,25 @@
                     center: { lat: -12.8700, lng: -38.8000 },
                     zoom: 14,
                     disableDefaultUI: true,
-                    mapId: "HOMEPAGE_MAP_ID", // Necessity for AdvancedMarkerElement
                     styles: [
-                        {
-                            "featureType": "all",
-                            "elementType": "labels.text.fill",
-                            "stylers": [{ "color": "#7c93a3" }, { "lightness": "-10" }]
-                        }
+                        { "elementType": "geometry", "stylers": [{ "color": "#242f3e" }] },
+                        { "elementType": "labels.text.stroke", "stylers": [{ "color": "#242f3e" }] },
+                        { "elementType": "labels.text.fill", "stylers": [{ "color": "#746855" }] },
+                        { "featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers": [{ "color": "#d59563" }] },
+                        { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [{ "color": "#d59563" }] },
+                        { "featureType": "poi.park", "elementType": "geometry", "stylers": [{ "color": "#263c3f" }] },
+                        { "featureType": "poi.park", "elementType": "labels.text.fill", "stylers": [{ "color": "#6b9a76" }] },
+                        { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#38414e" }] },
+                        { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#212a37" }] },
+                        { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#9ca5b1" }] },
+                        { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "color": "#746855" }] },
+                        { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#1f2835" }] },
+                        { "featureType": "road.highway", "elementType": "labels.text.fill", "stylers": [{ "color": "#f3d19c" }] },
+                        { "featureType": "transit", "elementType": "geometry", "stylers": [{ "color": "#2f3948" }] },
+                        { "featureType": "transit.station", "elementType": "labels.text.fill", "stylers": [{ "color": "#d59563" }] },
+                        { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#17263c" }] },
+                        { "featureType": "water", "elementType": "labels.text.fill", "stylers": [{ "color": "#515c6d" }] },
+                        { "featureType": "water", "elementType": "labels.text.stroke", "stylers": [{ "color": "#17263c" }] }
                     ]
                 });
 
@@ -731,19 +774,17 @@
                                 googleMap.setCenter(pos);
                                 googleMap.setZoom(16);
 
-                                userMarker = new google.maps.marker.AdvancedMarkerElement({
+                                userMarker = new google.maps.Marker({
                                     position: pos,
                                     map: googleMap,
-                                    content: (() => {
-                                        const pin = document.createElement('div');
-                                        pin.style.width = '16px';
-                                        pin.style.height = '16px';
-                                        pin.style.backgroundColor = '#1e3fae';
-                                        pin.style.borderRadius = '50%';
-                                        pin.style.border = '2px solid white';
-                                        pin.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
-                                        return pin;
-                                    })(),
+                                    icon: {
+                                        path: google.maps.SymbolPath.CIRCLE,
+                                        fillColor: '#1e3fae',
+                                        fillOpacity: 1,
+                                        strokeColor: 'white',
+                                        strokeWeight: 2,
+                                        scale: 8
+                                    },
                                     title: 'Sua localização atual'
                                 });
                             },
@@ -767,7 +808,7 @@
                         destinationMarker.setMap(null);
                     }
 
-                    destinationMarker = new google.maps.marker.AdvancedMarkerElement({
+                    destinationMarker = new google.maps.Marker({
                         position: pos,
                         map: googleMap,
                         title: `Destino: ${name}`

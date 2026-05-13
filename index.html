@@ -317,6 +317,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
+    <script src="js/data-cache.js"></script>
     <script>
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
@@ -336,42 +337,47 @@
         async function preloadAssets() {
             console.log('[Preload] Starting preloading...');
             try {
-                // Preload Driver photos
-                const { data: drivers } = await supabaseClient
-                    .from('motoristas')
-                    .select('usuarios(foto_perfil_url)')
-                    .limit(10);
+                const cache = window.DataCache;
 
-                if (drivers) {
-                    drivers.forEach(d => {
+                const [drivers, ads, posts] = await Promise.all([
+                    supabaseClient.from('motoristas')
+                        .select('modelo_veiculo,avaliacao_media,status_online,usuarios(nome,foto_perfil_url)')
+                        .order('status_online', { ascending: false })
+                        .order('avaliacao_media', { ascending: false })
+                        .limit(10),
+                    supabaseClient.from('anuncios')
+                        .select('*')
+                        .eq('ativo', true)
+                        .order('criado_em', { ascending: false }),
+                    supabaseClient.from('postagens')
+                        .select('*')
+                        .eq('publicado', true)
+                        .order('criado_em', { ascending: false })
+                        .limit(3)
+                ]);
+
+                if (drivers?.data) {
+                    cache.set(cache.KEYS.KEY_DRIVERS, drivers.data, 5 * 60 * 1000);
+                    drivers.data.forEach(d => {
                         if (d.usuarios?.foto_perfil_url) preloadImage(d.usuarios.foto_perfil_url);
                     });
                 }
 
-                // Preload Ad images
-                const { data: ads } = await supabaseClient
-                    .from('anuncios')
-                    .select('imagem_url')
-                    .eq('ativo', true);
-
-                if (ads) {
-                    ads.forEach(ad => {
+                if (ads?.data) {
+                    cache.set(cache.KEYS.KEY_ADS, ads.data, 10 * 60 * 1000);
+                    ads.data.forEach(ad => {
                         if (ad.imagem_url) preloadImage(ad.imagem_url);
                     });
                 }
 
-                // Preload Blog images
-                const { data: posts } = await supabaseClient
-                    .from('postagens')
-                    .select('imagem_capa_url')
-                    .eq('publicado', true)
-                    .limit(3);
-
-                if (posts) {
-                    posts.forEach(p => {
+                if (posts?.data) {
+                    cache.set(cache.KEYS.KEY_BLOG, posts.data, 10 * 60 * 1000);
+                    posts.data.forEach(p => {
                         if (p.imagem_capa_url) preloadImage(p.imagem_capa_url);
                     });
                 }
+
+                console.log('[Preload] Dados cacheados com sucesso');
             } catch (e) {
                 console.warn('[Preload] Error preloading:', e);
             }

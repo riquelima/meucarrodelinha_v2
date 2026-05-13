@@ -110,48 +110,96 @@
             min-height: 100dvh;
         }
 
-        /* Pulse Animation for User Location */
-        .user-location-marker {
+        /* [AESTHETICS]: Floating Deep Sea Navbar Standard */
+        .fixed-navbar {
+            position: fixed;
+            bottom: 24px;
+            left: 20px;
+            right: 20px;
+            height: 72px;
+            background: rgba(18, 21, 32, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            height: 100%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
         }
 
+        .nav-item span:first-child {
+            font-size: 24px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .nav-item span:last-child {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+        }
+
+        .nav-active {
+            color: #FF9100 !important;
+        }
+
+        .nav-active span:first-child {
+            transform: translateY(-4px) scale(1.1);
+            color: #FF9100;
+        }
+
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            width: 4px;
+            height: 4px;
+            background: #FF9100;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #FF9100;
+        }
+
+        .view-section {
+            padding-bottom: 120px !important;
+        }
+
+        /* Pulse Animation for User Location */
+        .user-location-marker { position: relative; }
         .user-location-dot {
-            width: 12px;
-            height: 12px;
-            background-color: #4285F4;
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
+            width: 12px; height: 12px;
+            background-color: #4285F4; border-radius: 50%;
+            border: 2px solid white; box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;
         }
-
         .user-location-pulse {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(66, 133, 244, 0.4);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse-ring 2s infinite;
-            z-index: 1;
+            width: 40px; height: 40px;
+            background-color: rgba(66, 133, 244, 0.4); border-radius: 50%;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            animation: pulse-ring 2s infinite; z-index: 1;
         }
-
         @keyframes pulse-ring {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(-50%, -50%) scale(1.5);
-                opacity: 0;
-            }
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
         }
 
         /* Global Mobile Native Fixes */
@@ -246,359 +294,225 @@
 <body
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
     <!-- Use h-[100dvh] for the main container to ensure it fits the dynamic viewport -->
-    <div class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
-        <!-- Header -->
-        <header
-            class="absolute top-0 left-0 right-0 z-20 flex items-center bg-white/90 dark:bg-background-dark/90 backdrop-blur-md px-4 py-3 shadow-sm dark:bg-[#121520]/90">
-
-            <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">Meu Carro de Linha Salinas</h1>
-
+    <!-- [SPA_HORIZONTAL_MANDATE]: Contêiner Raiz do SPA -->
+    <div id="app-root" class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
+        
+        <!-- Header Universal (Persistente) -->
+        <header class="absolute top-0 left-0 right-0 z-[100] flex items-center bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl px-4 py-3 border-b border-white/10">
+            <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">Meu Carro de Linha</h1>
         </header>
-        <!-- Main Map Area -->
-        <main class="relative flex-1 w-full bg-slate-200 dark:bg-slate-800">
-            <!-- Interactive Map -->
-            <div id="passageiro-map" class="absolute inset-0 z-0 h-full w-full"></div>
-            <!-- Gradient fade at the bottom of the map above the navbar -->
-            <div
-                class="absolute bottom-[72px] left-0 right-0 h-24 bg-gradient-to-t from-background-dark/80 to-transparent z-10 pointer-events-none">
-            </div>
 
+        <!-- [SPA_HORIZONTAL_MANDATE]: O Carrossel de Views -->
+        <div id="view-slider" class="flex h-full w-[400vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
+            
+            <!-- ABA 1: INÍCIO (MAPA) -->
+            <section id="view-home" class="view-section shrink-0 w-[100vw] h-full relative overflow-hidden flex flex-col">
+                <main class="relative flex-1 w-full bg-slate-200 dark:bg-slate-800 pt-14">
+                    <div id="passageiro-map" class="absolute inset-0 z-0 h-full w-full"></div>
+                    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background-dark/80 to-transparent z-10 pointer-events-none"></div>
 
-            <!-- Search and Overlay Content (Draggable Bottom Sheet) -->
-            <!-- Adjusted bottom offset to 0 to clear navbar gap, added padding bottom to content -->
-            <div id="bottom-sheet"
-                class="absolute bottom-0 left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-24 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col max-h-[calc(100dvh-140px)] opacity-0"
-                style="transform: translateY(100%)">
-                <!-- Drag Handle -->
-                <div id="drag-handle-area" class="flex justify-center py-5 -mt-2 cursor-pointer touch-none shrink-0"
-                    title="Arraste para minimizar">
-                    <div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                    <!-- Bottom Sheet (Dento da Home) -->
+                    <div id="bottom-sheet"
+                        class="absolute bottom-0 left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-24 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col h-[90dvh] opacity-0"
+                        style="transform: translateY(100%); will-change: transform;">
+                        <div id="sheet-handle-area" class="flex justify-center py-5 -mt-2 cursor-pointer touch-none shrink-0">
+                            <div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                        </div>
+                        <div class="flex-1 overflow-y-auto px-6 pb-20 no-scrollbar">
+                            <div id="sheet-header-content" class="space-y-6 pb-6 pt-2">
+                                <div>
+                                    <p id="user-greeting" class="text-sm text-slate-500 dark:text-slate-400">Olá, Passageiro</p>
+                                    <h2 class="text-xl font-bold dark:text-white">Onde vamos hoje?</h2>
+                                </div>
+                                <div id="drivers-section" class="space-y-3 flex flex-col pb-2 rounded-xl">
+                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Motoristas Disponíveis</p>
+                                    <div id="drivers-list-container" class="flex gap-4 overflow-x-auto pb-4 no-scrollbar snap-x snap-mandatory min-h-[160px]">
+                                        <div class="p-4 text-center text-slate-400 text-sm w-full flex flex-col items-center">
+                                            <span class="material-symbols-outlined animate-spin mb-2">sync</span>
+                                            <p>Buscando motoristas...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Sua Rota</p>
+                                    <div class="relative w-full">
+                                        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-green-500 text-xl">my_location</span>
+                                        </div>
+                                        <input id="origem-input" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl py-3.5 pl-12 pr-4 text-sm text-slate-600 dark:text-slate-300" placeholder="Sua localização atual" type="text" />
+                                    </div>
+                                    <div class="relative w-full">
+                                        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-primary text-xl">location_on</span>
+                                        </div>
+                                        <input id="destino-input" autocomplete="off" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-12 pr-4 text-base font-bold dark:text-white" placeholder="Para onde você vai?" type="text" />
+                                        <ul id="destino-suggestions" class="absolute left-0 right-0 top-[60px] z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-60 overflow-y-auto"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="action-buttons-container" class="space-y-3 hidden animate-fade-in">
+                                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Contato Direto</p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button id="btn-chat-driver" class="active-scale flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-black py-4 rounded-2xl transition-all border border-slate-700">
+                                        <span class="material-symbols-outlined">chat</span>
+                                        <span>Chat</span>
+                                    </button>
+                                    <button id="btn-whatsapp-driver" class="active-scale flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba56] text-white font-black py-4 rounded-2xl shadow-lg shadow-green-500/20 transition-all">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/15713/15713434.png" class="size-6" alt="WhatsApp">
+                                        <span>WhatsApp</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </section>
+
+            <!-- ABA 2: VIAGENS -->
+            <section id="view-trips" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                    <h2 class="text-2xl font-black mb-6">Minhas Viagens</h2>
+                    <div id="trips-history-container" class="space-y-4">
+                        <div class="p-8 text-center opacity-50">
+                            <span class="material-symbols-outlined text-4xl mb-2">history</span>
+                            <p>Suas viagens aparecerão aqui</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA 3: CHATS -->
+            <section id="view-chats" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
+                <!-- Lista de Conversas (Main View) -->
+                <div id="chats-list-view" class="flex flex-col h-full overflow-hidden">
+                    <div class="px-6 py-4 overflow-y-auto no-scrollbar flex-1">
+                        <h2 class="text-2xl font-black mb-6">Conversas</h2>
+                        <div id="chats-list-container" class="space-y-4">
+                            <div class="p-8 text-center opacity-50">
+                                <span class="material-symbols-outlined text-4xl mb-2">chat_bubble</span>
+                                <p>Nenhuma conversa ativa</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Scrollable Content Area -->
-                <div class="flex-1 overflow-y-auto px-6 pb-20">
-                    <!-- Header Content (Greeting + Search) -->
-                    <div id="sheet-header-content" class="space-y-6 pb-6 pt-2">
-                        <!-- Greeting -->
-                        <div>
-                            <p id="user-greeting" class="text-sm text-slate-500 dark:text-slate-400">Olá, Passageiro</p>
-                            <h2 class="text-xl font-bold dark:text-white">Onde vamos hoje?</h2>
-                        </div>
-                        <!-- Search Input -->
-                        <div class="relative w-full">
-                            <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-primary">search</span>
+                <!-- Tela de Conversa Ativa (Sub-View) -->
+                <div id="active-chat-view" class="absolute inset-0 z-50 bg-white dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pt-16 pb-[85px]">
+                    <!-- Chat Header -->
+                    <header class="flex items-center justify-between bg-white dark:bg-slate-900 px-4 py-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <button onclick="closeActiveChat()" class="p-2 -ml-2 text-primary active:opacity-50 transition-opacity">
+                                <span class="material-symbols-outlined">arrow_back_ios</span>
+                            </button>
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <img id="active-chat-photo" alt="Motorista" class="w-10 h-10 rounded-full bg-slate-700 border border-primary/30" src="https://ui-avatars.com/api/?name=Motorista&background=random" />
+                                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+                                </div>
+                                <div>
+                                    <h2 id="active-chat-name" class="font-bold text-sm text-slate-900 dark:text-white">Motorista</h2>
+                                    <p class="text-[10px] text-slate-400">Online agora</p>
+                                </div>
                             </div>
-                            <input id="destino-input" autocomplete="off"
-                                class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-12 pr-4 text-base focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-400"
-                                placeholder="Para onde você vai?" type="text" />
-                            <!-- Suggestions dropdown -->
-                            <ul id="destino-suggestions"
-                                class="absolute left-0 right-0 top-[60px] z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-60 overflow-y-auto">
-                            </ul>
                         </div>
+                        <button id="active-chat-call" class="bg-primary/10 p-2.5 rounded-full text-primary active:scale-95 transition-transform">
+                            <span class="material-symbols-outlined font-fill">call</span>
+                        </button>
+                    </header>
+
+                    <!-- Messages Area -->
+                    <div id="active-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-slate-50 dark:bg-[#0a0c14]">
+                        <!-- Messages injected here -->
                     </div>
 
-                    <!-- Scrollable Body Content -->
-                    <div class="space-y-6">
-                        <!-- Trip Type Selection -->
-                        <div class="space-y-2">
-                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">QUANDO?</p>
-                            <div class="grid grid-cols-2 gap-3">
-                                <!-- Opção Agora -->
-                                <div class="relative">
-                                    <input type="radio" name="trip_time" id="trip-now" class="peer hidden" value="now">
-                                    <label for="trip-now"
-                                        class="flex items-center justify-center gap-3 p-4 rounded-xl font-semibold transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary peer-checked:shadow-lg peer-checked:shadow-primary/30 peer-checked:scale-[1.02]">
-                                        <span class="material-symbols-outlined"
-                                            style="font-variation-settings: 'FILL' 1">bolt</span>
-                                        <span>Agora</span>
-                                    </label>
-                                </div>
-
-                                <!-- Opção Agendar -->
-                                <div class="relative">
-                                    <input type="radio" name="trip_time" id="trip-schedule" class="peer hidden"
-                                        value="schedule">
-                                    <label for="trip-schedule"
-                                        class="flex items-center justify-center gap-3 p-4 rounded-xl font-semibold transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary peer-checked:shadow-lg peer-checked:shadow-primary/30 peer-checked:scale-[1.02]">
-                                        <span class="material-symbols-outlined">calendar_today</span>
-                                        <span>Agendar</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Script para gerenciar seleção de tempo da viagem -->
-                        <script>
-                            // Listener para Agendar
-                            document.getElementById('trip-schedule').addEventListener('change', () => {
-                                setTimeout(() => {
-                                    window.location.href = 'agendarViagem.html';
-                                }, 300);
-                            });
-
-                            // Listener para Agora (Destaque visual para escolher motorista)
-                            document.getElementById('trip-now').addEventListener('change', (e) => {
-                                if (e.target.checked) {
-                                    const driversSection = document.getElementById('drivers-section');
-                                    if (driversSection) {
-                                        // Aplica o destaque azul com pulso suave
-                                        driversSection.classList.add('ring-4', 'ring-primary/40', 'bg-primary/5', 'animate-pulse-subtle');
-
-                                        // Rola suavemente para a seção
-                                        setTimeout(() => {
-                                            driversSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                        }, 100);
-
-                                        // Remove o pulso mas mantém a borda suave para orientação
-                                        setTimeout(() => {
-                                            driversSection.classList.remove('animate-pulse-subtle');
-                                            driversSection.classList.add('ring-2', 'ring-primary/30');
-                                        }, 1500);
-                                    }
-                                }
-                            });
-                        </script>
-
-                        <!-- Quick Favorites -->
-                        <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x snap-mandatory">
-                            <button
-                                class="flex items-center gap-2 bg-primary/10 dark:bg-primary/20 text-primary px-4 py-2.5 rounded-full whitespace-nowrap border border-primary/20 snap-start shrink-0">
-                                <span class="material-symbols-outlined text-lg">home</span>
-                                <span class="text-sm font-medium">Casa</span>
-                            </button>
-                            <button
-                                class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2.5 rounded-full whitespace-nowrap border border-transparent snap-start shrink-0">
-                                <span class="material-symbols-outlined text-lg">work</span>
-                                <span class="text-sm font-medium">Trabalho</span>
-                            </button>
-                            <button
-                                class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2.5 rounded-full whitespace-nowrap border border-transparent snap-start shrink-0">
-                                <span class="material-symbols-outlined text-lg">shopping_basket</span>
-                                <span class="text-sm font-medium">Mercado</span>
-                            </button>
-                            <button
-                                class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2.5 rounded-full whitespace-nowrap border border-transparent snap-start shrink-0">
-                                <span class="material-symbols-outlined text-lg">fitness_center</span>
-                                <span class="text-sm font-medium">Academia</span>
-                            </button>
-                            <button
-                                class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2.5 rounded-full whitespace-nowrap border border-transparent snap-start shrink-0">
-                                <span class="material-symbols-outlined text-lg">school</span>
-                                <span class="text-sm font-medium">Faculdade</span>
-                            </button>
-                        </div>
-                        <!-- Ride Options (Driver Cards) -->
-                        <div id="drivers-section"
-                            class="space-y-3 flex flex-col pb-2 rounded-xl transition-all duration-500 p-2 -mx-2">
-                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 shrink-0">ESCOLHA O
-                                MOTORISTA</p>
-                            <!-- Adicionado max-height e overflow-y-auto para permitir rolagem de apenas 3 itens visíveis -->
-                            <div id="drivers-list-container"
-                                class="space-y-3 flex flex-col pb-4 max-h-[480px] overflow-y-auto custom-scrollbar pr-1">
-                                <!-- Drivers will be populated here dynamically -->
-                                <div class="p-4 text-center text-slate-400 text-sm">
-                                    <span class="material-symbols-outlined animate-spin mb-2">sync</span>
-                                    <p>Buscando motoristas próximos...</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Payment Method -->
-                    <div class="flex items-center justify-between px-2 pt-2 mt-2">
+                    <!-- Input Area -->
+                    <div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 shrink-0">
                         <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
-                            <span class="text-sm font-semibold">Pagamento via PIX</span>
+                            <input id="active-chat-input" type="text" placeholder="Digite uma mensagem..." class="flex-1 bg-slate-100 dark:bg-slate-800 border-none rounded-2xl py-3.5 px-5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20" />
+                            <button id="active-chat-send" class="size-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/30 active:scale-90 transition-transform">
+                                <span class="material-symbols-outlined font-fill rotate-[-30deg] translate-x-0.5">send</span>
+                            </button>
                         </div>
-                        <button class="text-primary text-sm font-bold">Alterar</button>
                     </div>
-                    <!-- Action Button -->
-                    <button id="btn-request-ride"
-                        class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 mt-6">
-                        Solicitar Viagem
-                    </button>
-                    <script>
-                        document.getElementById('btn-request-ride').addEventListener('click', () => {
-                            const destinoInput = document.getElementById('destino-input');
-
-                            // Validação do destino
-                            if (!destinoInput || !destinoInput.value.trim()) {
-                                // Feedback visual de erro
-                                if (destinoInput) {
-                                    destinoInput.classList.add('ring-4', 'ring-red-500/50', 'bg-red-50', 'dark:bg-red-900/20');
-                                    destinoInput.focus();
-
-                                    // Remove o feedback após 3 segundos
-                                    setTimeout(() => {
-                                        destinoInput.classList.remove('ring-4', 'ring-red-500/50', 'bg-red-50', 'dark:bg-red-900/20');
-                                    }, 3000);
-                                }
-
-                                if (window.AppUI) {
-                                    AppUI.showDialog({
-                                        title: 'Destino Ausente',
-                                        message: 'Por favor, informe para onde você deseja ir antes de solicitar.',
-                                        icon: 'location_off',
-                                        type: 'error'
-                                    });
-                                } else {
-                                    alert('Por favor, informe o destino da viagem.');
-                                }
-                                return;
-                            }
-
-                            // Validação do motorista (opcional, mas recomendada para evitar erros)
-                            const selectedDriver = document.querySelector('input[name="driver_selection"]:checked');
-                            if (!selectedDriver) {
-                                if (window.AppUI) {
-                                    AppUI.showDialog({
-                                        title: 'Selecione um Motorista',
-                                        message: 'Escolha um dos motoristas disponíveis na lista abaixo.',
-                                        icon: 'person_search'
-                                    });
-                                } else {
-                                    alert('Por favor, selecione um motorista para continuar.');
-                                }
-
-                                const driversSection = document.getElementById('drivers-section');
-                                if (driversSection) {
-                                    driversSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                    driversSection.classList.add('ring-2', 'ring-red-500');
-                                    setTimeout(() => driversSection.classList.remove('ring-2', 'ring-red-500'), 2000);
-                                }
-                                return;
-                            }
-
-                            // 1. Obter dados para o broadcast
-                            const destino = destinoInput.value.trim();
-                            const origem = currentAddress; // Usa o endereço real obtido via geocodificação reversa
-
-                            // Função auxiliar para obter distância via maps
-                            function getDistancePromise(origin, destination) {
-                                return new Promise((resolve) => {
-                                    if (!window.google || !window.google.maps) {
-                                        resolve("N/D");
-                                        return;
-                                    }
-                                    const service = new google.maps.DistanceMatrixService();
-                                    service.getDistanceMatrix({
-                                        origins: [origin],
-                                        destinations: [destination],
-                                        travelMode: google.maps.TravelMode.DRIVING,
-                                        unitSystem: google.maps.UnitSystem.METRIC,
-                                    }, (response, status) => {
-                                        if (status === "OK" && response.rows[0].elements[0].status === "OK") {
-                                            resolve(response.rows[0].elements[0].distance.text);
-                                        } else {
-                                            resolve("N/D");
-                                        }
-                                    });
-                                });
-                            }
-
-// 2. Buscar motoristas aprovados
-async function broadcastTripRequest() {
-    try {
-        // Feedback visual de carregamento
-        const btn = document.getElementById('btn-request-ride');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Enviando solicitações...';
-        btn.disabled = true;
-
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (!user) {
-            window.location.href = 'loginPassageiro.html';
-            return;
-        }
-
-        const { data: motoristas, error: errorMot } = await window.supabaseClient
-            .from('motoristas')
-            .select('usuario_id')
-            .eq('status_aprovacao', 'aprovado');
-
-        if (errorMot) throw errorMot;
-
-        if (motoristas && motoristas.length > 0) {
-            const valorSugerido = "85,00";
-
-            // Calcular distância antes de enviar o broadcast
-            const distanciaEstimada = await getDistancePromise(origem, destino);
-
-            const tripData = JSON.stringify({ 
-                origem, 
-                destino, 
-                distancia: distanciaEstimada,
-                origem_lat: currentCoords?.lat,
-                origem_lng: currentCoords?.lng,
-                destino_lat: destCoords?.lat,
-                destino_lng: destCoords?.lng
-            });
-            const proposalData = JSON.stringify({ valor: valorSugerido });
-
-            const mensagens = [];
-            motoristas.forEach(m => {
-                mensagens.push({
-                    remetente_id: user.id,
-                    destinatario_id: m.usuario_id,
-                    // viagem_id agora é nulo no início
-                    conteudo: `[TRIP_REQUEST]${tripData}`
-                });
-                mensagens.push({
-                    remetente_id: user.id,
-                    destinatario_id: m.usuario_id,
-                    conteudo: `[VALUE_PROPOSAL]${proposalData}`
-                });
-            });
-
-                                        const { error: errorMsg } = await window.supabaseClient
-                                            .from('mensagens')
-                                            .insert(mensagens);
-
-                                        if (errorMsg) throw errorMsg;
-                                    }
-
-
-                                    // Redirecionar após o broadcast bem sucedido
-                                    window.location.href = 'viagemSolicitada.html';
-
-                                } catch (error) {
-                                    console.error("Erro no broadcast:", error);
-                                    alert("Houve um erro ao enviar sua solicitação. Tente novamente.");
-                                    const btn = document.getElementById('btn-request-ride');
-                                    btn.innerHTML = 'Solicitar Viagem';
-                                    btn.disabled = false;
-                                }
-                            }
-
-                            broadcastTripRequest();
-                        });
-                    </script>
                 </div>
-            </div>
-    </div>
-    </main>
-    <!-- Botões de Navegação Inferior (Fixed) -->
-    <!-- Botões de Navegação Inferior (Fixed) -->
-    <nav class="fixed-navbar" id="main-nav">
-        <a class="nav-active" href="passageiro.html" id="nav-home">
-            <span class="material-symbols-outlined">home</span>
-            <span>Início</span>
-        </a>
-        <a href="minhasViagens.html" id="nav-trips">
-            <span class="material-symbols-outlined">history</span>
-            <span>Viagens</span>
-        </a>
-        <a href="mensagens.html" id="nav-chats" class="relative">
-            <span class="material-symbols-outlined">chat</span>
-            <span>Chats</span>
-            <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
-        </a>
-        <a href="perfilPassageiro.html" id="nav-profile">
-            <span class="material-symbols-outlined">person</span>
-            <span>Perfil</span>
-        </a>
-    </nav>
+            </section>
+
+            <!-- ABA 4: PERFIL -->
+            <section id="view-profile" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
+                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
+                    <div class="flex items-center gap-4 mb-8 p-4 bg-white dark:bg-slate-800 rounded-3xl">
+                        <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined text-3xl">person</span>
+                        </div>
+                        <div>
+                            <h3 id="profile-name" class="font-black text-lg">Nome Usuário</h3>
+                            <p class="text-sm opacity-60">Passageiro verificado</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl active-scale">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">settings</span>
+                                <span class="font-bold">Minhas Configurações</span>
+                            </div>
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                        <button onclick="handleLogout()" class="w-full flex items-center justify-between p-5 bg-red-50 dark:bg-red-900/10 text-red-600 rounded-2xl active-scale">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined">logout</span>
+                                <span class="font-bold">Sair da Conta</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- [BOTTOM_NAVBAR_PERSISTENCE]: Navbar Fixa -->
+        <nav class="fixed-navbar !z-[200]" id="main-nav">
+            <button onclick="switchTab('home')" class="nav-item nav-active" id="nav-home">
+                <span class="material-symbols-outlined">home</span>
+                <span>Início</span>
+            </button>
+            <button onclick="switchTab('trips')" class="nav-item" id="nav-trips">
+                <span class="material-symbols-outlined">history</span>
+                <span>Viagens</span>
+            </button>
+            <button onclick="switchTab('chats')" class="nav-item" id="nav-chats">
+                <span class="material-symbols-outlined">chat</span>
+                <span>Chats</span>
+                <span id="chat-badge" class="chat-badge hidden">0</span>
+            </button>
+            <button onclick="switchTab('profile')" class="nav-item" id="nav-profile">
+                <span class="material-symbols-outlined">person</span>
+                <span>Perfil</span>
+            </button>
+        </nav>
+
+        <!-- SPA Navigation Logic -->
+        <script>
+            function switchTab(tabName) {
+                const slider = document.getElementById('view-slider');
+                const tabs = ['home', 'trips', 'chats', 'profile'];
+                const index = tabs.indexOf(tabName);
+                
+                if (index === -1) return;
+
+                // Transição via Hardware Acceleration
+                slider.style.transform = `translate3d(${-index * 100}vw, 0, 0)`;
+
+                // Atualizar estado visual da Navbar
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('nav-active');
+                    if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
+                });
+
+                // Otimização: Forçar visibilidade das seções vizinhas
+                document.querySelectorAll('.view-section').forEach((sec, i) => {
+                    sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
+                });
+            }
+        </script>
 
 
     <!-- Rating Sheet Container (Fixed at bottom, above everything) -->
@@ -794,7 +708,12 @@ async function broadcastTripRequest() {
                     }
 
                     // Obter endereço amigável
-                    reverseGeocode(lat, lng);
+                    reverseGeocode(lat, lng).then(() => {
+                        const origemInput = document.getElementById('origem-input');
+                        if (origemInput && !origemInput.value) {
+                            origemInput.value = currentAddress;
+                        }
+                    });
 
                     if (isFirstLocationUpdate) {
                         googleMap.setCenter(currentCoords);
@@ -840,74 +759,90 @@ async function broadcastTripRequest() {
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async" async defer></script>
 
-    <script src="js/location-modal.js"></script>
+<script src="js/location-modal.js"></script>
     <script>
-
-
-
-            // Bottom Sheet Drag Logic
+            // --- Bottom Sheet Logic ---
             const sheet = document.getElementById('bottom-sheet');
-            const handle = document.getElementById('drag-handle-area');
+            const handle = document.getElementById('sheet-handle-area');
             const headerArea = document.getElementById('sheet-header-content');
-
-            // Allow dragging from the handle AND the top header area
-            const dragTargets = [handle, headerArea];
-
-            let isMinimized = true; // Start minimized by default
+            
+            let isMinimized = true; // Começa minimizado por padrão
             let isDragging = false;
             let startY = 0;
-            let dragStartTime = 0;
+            function getHeaderHeight() {
+                const header = document.querySelector('header');
+                return header ? header.offsetHeight : 64;
+            }
 
-            function getVisibleHeaderHeight() {
-                const handleHeight = handle.offsetHeight || 0;
-                // Calculate total height of the header content including margins/padding
-                const contentHeight = headerArea ? headerArea.offsetHeight : 0;
-                return handleHeight + contentHeight;
+            function getFullExpandOffset() {
+                const header = document.querySelector('header');
+                // Forçamos um valor mínimo de 64px para o header se ele não for encontrado
+                const headerHeight = header ? Math.max(header.offsetHeight, 64) : 64;
+                const margin = 20; // Margem de segurança
+                
+                const windowHeight = window.innerHeight;
+                // Captura a altura real calculada, ignorando o estado de animação atual
+                const sheetHeight = sheet.getBoundingClientRect().height;
+                
+                // Onde o topo do sheet estaria no seu estado "natural" (translateY=0)
+                const sheetTopAtZero = windowHeight - sheetHeight;
+                
+                // Onde queremos que o topo fique na tela (coordenada Y absoluta)
+                const targetTop = headerHeight + margin;
+                
+                // Se targetTop for 90 e sheetTopAtZero for 40, precisamos descer mais 50px
+                const neededOffset = targetTop - sheetTopAtZero;
+                
+                return Math.max(0, neededOffset);
             }
 
             function getMinimizeOffset() {
-                const visibleHeight = getVisibleHeaderHeight();
-                const nav = document.querySelector('nav');
-                const navHeight = nav ? nav.offsetHeight : 0;
-                // The sheet is at bottom: 0, so the bottom part is covered by the navbar.
-                // We need to expose (visibleHeight + navHeight).
-                const totalVisibleNeeded = visibleHeight + navHeight;
-
-                // Ensure at least some height if calculation fails
-                const safeHeight = totalVisibleNeeded > 50 ? totalVisibleNeeded : 240;
-                return Math.max(0, sheet.offsetHeight - safeHeight);
+                const windowHeight = window.innerHeight;
+                const sheetHeight = sheet.offsetHeight;
+                
+                // Posição de repouso: O topo do painel fica em 65% da viewport (mostrando 35%)
+                // Isso deixa espaço livre para o mapa e o marcador
+                const targetTop = windowHeight * 0.65;
+                const sheetTopAtZero = windowHeight - sheetHeight;
+                
+                return Math.max(0, targetTop - sheetTopAtZero);
             }
 
+            let animationFrameId = null;
             function setTranslateY(y) {
-                sheet.style.transform = `translateY(${y}px)`;
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                animationFrameId = requestAnimationFrame(() => {
+                    sheet.style.transform = `translateY(${y}px)`;
+                });
+            }
+
+            function setExpansion(expanded) {
+                isMinimized = !expanded;
+                const offset = isMinimized ? getMinimizeOffset() : getFullExpandOffset();
+                sheet.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                setTranslateY(offset);
             }
 
             // Initial positioning (minimized)
             setTimeout(() => {
                 const offset = getMinimizeOffset();
-                // Disable transition for initial setup to avoid "jumping" effect on load
                 sheet.style.transition = 'none';
                 setTranslateY(offset);
 
-                // Re-enabler a small tick
                 requestAnimationFrame(() => {
-                    sheet.classList.remove('opacity-0'); // Fade in
+                    sheet.classList.remove('opacity-0');
                     sheet.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease-out';
                 });
             }, 100);
 
-            // Auto-expand when user types in destination
+            // Auto-expand ao digitar destino
             const destInput = document.getElementById('destino-input');
             if (destInput) {
                 const expandPanel = () => {
-                    if (isMinimized) {
-                        setTranslateY(0);
-                        isMinimized = false;
-                    }
+                    if (isMinimized) setExpansion(true);
                 };
-
                 destInput.addEventListener('input', expandPanel);
-                destInput.addEventListener('focus', expandPanel); // Expand on focus for better UX
+                destInput.addEventListener('focus', expandPanel);
             }
 
             function startDrag(y) {
@@ -920,13 +855,18 @@ async function broadcastTripRequest() {
             function moveDrag(y, e) {
                 if (!isDragging) return;
                 const dy = y - startY;
-                const offset = getMinimizeOffset();
+                const minOffset = getMinimizeOffset();
+                const maxOffset = getFullExpandOffset();
 
-                let base = isMinimized ? offset : 0;
+                let base = isMinimized ? minOffset : maxOffset;
                 let newY = base + dy;
 
-                if (newY < 0) newY = newY * 0.3;
-                if (newY > offset) newY = offset + (newY - offset) * 0.3;
+                // Resistência elástica nos extremos
+                if (newY < maxOffset - 20) {
+                    newY = maxOffset - 20 + (newY - (maxOffset - 20)) * 0.1; 
+                } else if (newY > minOffset + 80) {
+                    newY = minOffset + 80 + (newY - (minOffset + 80)) * 0.2;
+                }
 
                 setTranslateY(newY);
                 if (e.cancelable && e.type.startsWith('touch')) e.preventDefault();
@@ -937,27 +877,30 @@ async function broadcastTripRequest() {
                 isDragging = false;
 
                 const dy = y - startY;
-                const offset = getMinimizeOffset();
+                const minOffset = getMinimizeOffset();
+                const maxOffset = getFullExpandOffset();
                 const time = Date.now() - dragStartTime;
+                const velocity = dy / time;
 
-                sheet.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+                sheet.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
 
-                let targetState = isMinimized;
-
-                if (!isMinimized) {
-                    if (dy > 50 || (dy > 20 && time < 300)) targetState = true;
+                // Lógica de Snapping (Mais sensível para expansão)
+                const threshold = (minOffset - maxOffset) * 0.1; // Apenas 10% de movimento
+                
+                if (velocity < -0.2 || dy < -threshold) {
+                    // Expandir (Subir)
+                    setExpansion(true);
+                } else if (velocity > 0.5 || dy > threshold * 2) {
+                    // Minimizar (Descer) - Mantém um pouco mais de resistência para não descer sem querer
+                    setExpansion(false);
                 } else {
-                    if (dy < -50 || (dy < -20 && time < 300)) targetState = false;
-                }
-
-                if (targetState) {
-                    setTranslateY(offset);
-                    isMinimized = true;
-                } else {
-                    setTranslateY(0);
-                    isMinimized = false;
+                    // Snap back para o estado original
+                    setExpansion(!isMinimized);
                 }
             }
+
+            // Permitir arrastar apenas pela alça (ícone ----)
+            const dragTargets = [handle];
 
             // Attach events to all drag targets
             dragTargets.forEach(target => {
@@ -993,27 +936,22 @@ async function broadcastTripRequest() {
                 }
             });
 
-            // Click to toggle on handle (only if not dragged)
-            handle.addEventListener('click', () => {
-                if (Date.now() - dragStartTime > 300) return;
-                const offset = getMinimizeOffset();
-                sheet.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
-
-                if (isMinimized) {
-                    setTranslateY(0);
-                    isMinimized = false;
-                } else {
-                    setTranslateY(offset);
-                    isMinimized = true;
-                }
+            // Clique para alternar expansão (apenas se não foi arrastado)
+            dragTargets.forEach(target => {
+                if (!target) return;
+                target.addEventListener('click', (e) => {
+                    // Se clicar em um input ou botão dentro da área, não fecha o painel
+                    if (e.target.closest('input') || e.target.closest('button') || e.target.closest('select')) return;
+                    
+                    // Se estiver minimizado, expande. Se estiver expandido e clicar no topo, minimiza.
+                    setExpansion(isMinimized);
+                });
             });
 
-            // Re-calculate layout if window changes
+            // Recalcular layout se a janela mudar
             window.addEventListener('resize', () => {
-                if (isMinimized) {
-                    sheet.style.transition = 'none';
-                    setTranslateY(getMinimizeOffset());
-                }
+                sheet.style.transition = 'none';
+                setTranslateY(isMinimized ? getMinimizeOffset() : getFullExpandOffset());
             });
 
             // Ride Type Toggle Logic
@@ -1352,46 +1290,40 @@ async function broadcastTripRequest() {
                         const timeAway = Math.floor(Math.random() * 10) + 2;
 
                         const cardHtml = `
-                            <div class="group p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-2 focus-within:ring-primary/50 has-[:checked]:bg-green-500 has-[:checked]:border-green-600 dark:has-[:checked]:bg-green-600 dark:has-[:checked]:border-green-500 cursor-pointer" onclick="window.location.href='todosmotoristas.html'">
-                                <div class="flex items-center gap-4 mb-3">
-                                    <div class="size-14 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700 ring-2 ring-primary/20 shrink-0 group-has-[:checked]:ring-white">
+                            <div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">
+                                <input type="radio" name="driver_selection" class="peer hidden" id="driver-${motorista.usuario_id}" value="${motorista.usuario_id}" 
+                                    data-name="${displayName}" data-phone="${motorista.telefone_whatsapp || ''}">
+                                <label for="driver-${motorista.usuario_id}" class="absolute inset-0 z-10 cursor-pointer"></label>
+                                
+                                <div class="flex items-center gap-3">
+                                    <div class="size-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-primary/10 shrink-0 group-has-[:checked]:ring-primary">
                                         <img alt="${displayName}" class="w-full h-full object-cover"
                                             src="${photoUrl}" 
                                             onerror="this.src='https://ui-avatars.com/api/?name=Motorista&background=random'"/>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <div class="flex justify-between items-start">
-                                            <p class="font-bold text-lg text-slate-900 dark:text-slate-100 truncate group-has-[:checked]:text-black">
-                                                ${displayName}</p>
-                                            <span class="px-2 py-1 rounded-md bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider border border-green-500/20 shrink-0 group-has-[:checked]:bg-white/20 group-has-[:checked]:text-black group-has-[:checked]:border-black/10">
-                                                ${timeAway} min
-                                            </span>
-                                        </div>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <div class="flex items-center gap-1 text-yellow-500 group-has-[:checked]:text-black">
-                                                <span class="material-symbols-outlined text-sm font-fill">star</span>
-                                                <span class="text-xs font-bold">${parseFloat(rating).toFixed(1)}</span>
+                                        <p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${displayName}</p>
+                                        <div class="flex items-center gap-1.5 mt-0.5">
+                                            <div class="flex items-center text-yellow-500">
+                                                <span class="material-symbols-outlined text-[12px] font-fill">star</span>
+                                                <span class="text-[10px] font-bold ml-0.5">${parseFloat(rating).toFixed(1)}</span>
                                             </div>
-                                            <span class="text-slate-400 text-[10px] group-has-[:checked]:text-black/60">•</span>
-                                            <span class="text-slate-500 dark:text-slate-400 text-xs font-medium truncate group-has-[:checked]:text-black">
-                                                ${motorista.modelo_veiculo} - ${motorista.cor_veiculo}
-                                            </span>
+                                            <span class="text-slate-400 text-[10px]">•</span>
+                                            ${motorista.status_online 
+                                                ? `<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>`
+                                                : `<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>`
+                                            }
                                         </div>
+                                    </div>
+                                    <div class="size-6 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-has-[:checked]:bg-primary group-has-[:checked]:border-primary">
+                                        <span class="material-symbols-outlined text-white text-sm scale-0 group-has-[:checked]:scale-100 transition-transform">check</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center justify-end pt-3 border-t border-slate-100 dark:border-slate-700/50 group-has-[:checked]:border-black/10">
-                                    <div class="flex gap-2" onclick="event.stopPropagation()">
-                                        <a href="chat.html?userId=${motorista.usuario_id}&name=${encodeURIComponent(displayName)}&car=${encodeURIComponent(motorista.modelo_veiculo)}&photo=${encodeURIComponent(photoUrl)}"
-                                            class="size-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors group-has-[:checked]:bg-white group-has-[:checked]:text-green-600"
-                                            title="Chat com motorista">
-                                            <span class="material-symbols-outlined text-xl">chat</span>
-                                        </a>
-                                        <input type="radio" name="driver_selection" class="peer hidden" id="driver-${motorista.usuario_id}" value="${motorista.usuario_id}">
-                                        <label for="driver-${motorista.usuario_id}"
-                                            class="px-5 py-2 rounded-lg font-bold text-sm cursor-pointer transition-colors bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 peer-checked:bg-white peer-checked:text-green-600 peer-checked:shadow-lg">
-                                            Selecionar
-                                        </label>
-                                    </div>
+                                <div class="mt-3 pt-3 border-t border-slate-50 dark:border-slate-700/30 flex items-center justify-between">
+                                    <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">
+                                        ${motorista.modelo_veiculo} • ${motorista.cor_veiculo}
+                                    </span>
+                                    <span class="text-[10px] font-black text-primary uppercase">Selecionar</span>
                                 </div>
                             </div>
                         `;
@@ -1401,18 +1333,89 @@ async function broadcastTripRequest() {
                     // Re-attach event listeners for new radio buttons
                     const driverInputs = document.querySelectorAll('input[name="driver_selection"]');
                     driverInputs.forEach(input => {
-                        input.addEventListener('change', () => {
-                            const driversSection = document.getElementById('drivers-section');
-                            if (driversSection) {
-                                driversSection.classList.remove('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
-                            }
-                            const requestBtn = document.getElementById('btn-request-ride');
-                            if (requestBtn) {
-                                requestBtn.classList.add('ring-4', 'ring-primary/40', 'scale-105');
-                                setTimeout(() => requestBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
-                                setTimeout(() => requestBtn.classList.remove('scale-105'), 600);
+                        input.addEventListener('click', (e) => {
+                            // If it was already checked, uncheck it on click (toggle behavior)
+                            if (input.getAttribute('data-was-checked') === 'true') {
+                                input.checked = false;
+                                input.setAttribute('data-was-checked', 'false');
+                                // Trigger any visual updates for deselection
+                                input.dispatchEvent(new Event('change'));
+                            } else {
+                                // Clear was-checked from others in the same group
+                                document.querySelectorAll('input[name="driver_selection"]').forEach(r => {
+                                    r.setAttribute('data-was-checked', 'false');
+                                });
+                                input.setAttribute('data-was-checked', 'true');
                             }
                         });
+
+                        input.addEventListener('change', () => {
+                            const driversSection = document.getElementById('drivers-section');
+                            const actionContainer = document.getElementById('action-buttons-container');
+                            
+                            if (input.checked) {
+                                if (driversSection) {
+                                    driversSection.classList.remove('ring-2', 'ring-primary', 'shadow-lg', 'shadow-primary/20', 'bg-primary/5');
+                                }
+                                if (actionContainer) {
+                                    actionContainer.classList.remove('hidden');
+                                    setTimeout(() => actionContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                                }
+                            } else {
+                                if (actionContainer) {
+                                    actionContainer.classList.add('hidden');
+                                }
+                            }
+                        });
+                    });
+
+                    // --- Action Buttons Logic (Chat & WhatsApp) ---
+                    const btnChat = document.getElementById('btn-chat-driver');
+                    const btnWhatsApp = document.getElementById('btn-whatsapp-driver');
+
+                    const getSelectedDriverData = () => {
+                        const selected = document.querySelector('input[name="driver_selection"]:checked');
+                        if (!selected) return null;
+                        return {
+                            id: selected.value,
+                            name: selected.dataset.name,
+                            phone: selected.dataset.phone,
+                            photo: document.querySelector(`#driver-${selected.value}`)?.closest('.flex-none')?.querySelector('img')?.src
+                        };
+                    };
+
+                    const getRouteMessage = (driverName) => {
+                        const origem = document.getElementById('origem-input')?.value || 'Localização atual';
+                        const destino = document.getElementById('destino-input')?.value || 'Destino não informado';
+                        return `Olá ${driverName}, vi seu perfil no app Meu Carro de Linha, informando que quer realizar uma viagem de ${origem} para ${destino}.`;
+                    };
+
+                    btnWhatsApp?.addEventListener('click', () => {
+                        const driver = getSelectedDriverData();
+                        if (!driver) return;
+                        const message = getRouteMessage(driver.name);
+                        const cleanPhone = driver.phone.replace(/\D/g, '');
+                        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
+                    });
+
+                    btnChat?.addEventListener('click', () => {
+                        const driver = getSelectedDriverData();
+                        if (!driver) return;
+                        
+                        // 1. Navegar para aba de chats
+                        switchTab('chats');
+                        
+                        // 2. Abrir conversa específica
+                        openActiveChat(driver);
+
+                        // 3. Injetar mensagem automática no input
+                        const message = getRouteMessage(driver.name);
+                        const chatInput = document.getElementById('active-chat-input');
+                        if (chatInput) {
+                            chatInput.value = message;
+                            // Opcional: auto-send
+                            // setTimeout(() => document.getElementById('active-chat-send')?.click(), 500);
+                        }
                     });
 
                 } catch (error) {
@@ -1611,6 +1614,47 @@ async function broadcastTripRequest() {
                     })
                     .subscribe();
             }
+
+            // --- Chat SPA Helpers ---
+            window.openActiveChat = function(driver) {
+                const chatView = document.getElementById('active-chat-view');
+                const chatName = document.getElementById('active-chat-name');
+                const chatPhoto = document.getElementById('active-chat-photo');
+                
+                if (!chatView) return;
+
+                chatName.textContent = driver.name;
+                if (driver.photo) chatPhoto.src = driver.photo;
+
+                chatView.classList.remove('hidden');
+                setTimeout(() => {
+                    chatView.classList.remove('translate-x-full');
+                    chatView.classList.add('translate-x-0');
+                    
+                    // Rolar para o fim das mensagens
+                    const msgContainer = document.getElementById('active-chat-messages');
+                    if (msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight;
+                }, 10);
+
+                // Inicializar lógica de mensagens (ChatManager adaptado ou similar)
+                // Se o chat-core.js estiver carregado, podemos instanciar ou atualizar
+                if (window.ChatManager) {
+                    // Nota: ChatManager precisa ser adaptado para SPA se não for
+                    // Por enquanto, apenas exibimos a tela.
+                    console.log("Abrindo chat com:", driver.id);
+                }
+            };
+
+            window.closeActiveChat = function() {
+                const chatView = document.getElementById('active-chat-view');
+                if (!chatView) return;
+
+                chatView.classList.add('translate-x-full');
+                chatView.classList.remove('translate-x-0');
+                setTimeout(() => {
+                    chatView.classList.add('hidden');
+                }, 300);
+            };
 
         });
     </script>
