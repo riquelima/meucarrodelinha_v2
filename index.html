@@ -67,7 +67,7 @@
         }
 
         .animate-logo-entrance {
-            animation: scale-pulse 5s ease-out forwards;
+            animation: scale-pulse 2s ease-out forwards;
         }
 
         @keyframes fill-loading {
@@ -82,7 +82,7 @@
 
         .animate-loading-bar {
             width: 0%;
-            animation: fill-loading 5s linear forwards;
+            animation: fill-loading 2s linear forwards;
         }
 
         /* Global Mobile Native Fixes */
@@ -383,13 +383,36 @@
         }
     </script>
     <script>
+        function playStartupChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
+
+                const notes = [523.25, 659.25];
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, now + i * 0.15);
+                    gain.gain.linearRampToValueAtTime(0.08, now + i * 0.15 + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.6);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.15);
+                    osc.stop(now + i * 0.15 + 0.6);
+                });
+            } catch (e) { /* fallback silencioso */ }
+        }
+
         // Auto-redirect after splash
         setTimeout(() => {
+            playStartupChime();
             document.body.classList.add('fade-out');
             setTimeout(() => {
                 window.location.href = 'homepage.html';
             }, 300);
-        }, 5000);
+        }, 2000);
     </script>
     <script src="js/pwa-register.js"></script>
 </body>

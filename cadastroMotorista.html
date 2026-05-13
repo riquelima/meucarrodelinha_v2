@@ -146,7 +146,7 @@
         </div>
         <div class="w-12"></div>
     </div>
-    <form class="flex flex-col gap-6 px-4 py-8 pb-32 animate-slide-up delay-100"
+    <form class="flex flex-col gap-6 px-4 py-8 pb-24 animate-slide-up delay-100"
         onsubmit="handleMotoristaSignup(event)">
         <div class="space-y-4">
             <label class="flex flex-col">
@@ -163,24 +163,22 @@
             </label>
             <label class="flex flex-col">
                 <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Senha</span>
-                <input id="senha" required
-                    class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
-                    placeholder="••••••••" type="password" />
+                <div class="relative">
+                    <input id="senha" required
+                        class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base pr-12"
+                        placeholder="••••••••" type="password" />
+                    <button type="button" onclick="toggleSenha()"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-1">
+                        <span id="senha-icon" class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
             </label>
-            <div class="grid grid-cols-2 gap-4">
-                <label class="flex flex-col">
-                    <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">CPF</span>
-                    <input id="cpf" required
-                        class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
-                        placeholder="000.000.000-00" type="text" />
-                </label>
-                <label class="flex flex-col">
-                    <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Telefone</span>
-                    <input id="telefone" required
-                        class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
-                        placeholder="(00) 00000-0000" type="tel" />
-                </label>
-            </div>
+            <label class="flex flex-col">
+                <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Telefone</span>
+                <input id="telefone" required
+                    class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
+                    placeholder="(00) 00000-0000" type="tel" />
+            </label>
         </div>
         <div class="pt-2">
             <h3 class="text-slate-500 dark:text-accent text-xs font-bold uppercase tracking-widest mb-4">Dados do
@@ -208,35 +206,8 @@
                 </label>
             </div>
         </div>
-        <div class="pt-2">
-            <h3 class="text-slate-500 dark:text-accent text-xs font-bold uppercase tracking-widest mb-4">Documentação
-            </h3>
-            <div class="grid grid-cols-2 gap-4">
-                <!-- CNH Input Wrapper -->
-                <label for="cnh_file"
-                    class="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 text-center cursor-pointer hover:border-primary transition-colors">
-                    <span id="icon-cnh" class="material-symbols-outlined text-primary mb-2 text-3xl">badge</span>
-                    <span id="text-cnh" class="text-xs font-medium text-slate-700 dark:text-slate-300">CNH</span>
-                    <span id="subtext-cnh" class="text-[10px] text-slate-500 dark:text-slate-500 mt-1">Clique para
-                        enviar</span>
-                    <input type="file" id="cnh_file" class="hidden" accept="image/*,application/pdf"
-                        onchange="previewFile(this, 'cnh')" />
-                </label>
 
-                <!-- Documento Veiculo Input Wrapper -->
-                <label for="doc_file"
-                    class="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 text-center cursor-pointer hover:border-primary transition-colors">
-                    <span id="icon-doc" class="material-symbols-outlined text-primary mb-2 text-3xl">description</span>
-                    <span id="text-doc" class="text-xs font-medium text-slate-700 dark:text-slate-300">Doc.
-                        Veículo</span>
-                    <span id="subtext-doc" class="text-[10px] text-slate-500 dark:text-slate-500 mt-1">Clique para
-                        enviar</span>
-                    <input type="file" id="doc_file" class="hidden" accept="image/*,application/pdf"
-                        onchange="previewFile(this, 'doc')" />
-                </label>
-            </div>
-        </div>
-        <div class="flex items-start gap-3 mt-2 mb-10">
+        <div class="flex items-start gap-3 mt-2 mb-6">
             <input required
                 class="rounded text-primary focus:ring-primary mt-1 border-slate-300 dark:border-slate-700 bg-transparent"
                 type="checkbox" />
@@ -258,26 +229,15 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/auth.js"></script>
     <script>
-        function previewFile(input, type) {
-            const icon = document.getElementById(`icon-${type}`);
-            const text = document.getElementById(`text-${type}`);
-            const subtext = document.getElementById(`subtext-${type}`);
-
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                icon.textContent = 'check_circle';
-                icon.classList.remove('text-primary');
-                icon.classList.add('text-green-500');
-
-                text.textContent = 'Anexado';
-                subtext.textContent = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
+        function toggleSenha() {
+            const input = document.getElementById('senha');
+            const icon = document.getElementById('senha-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
             } else {
-                icon.textContent = type === 'cnh' ? 'badge' : 'description';
-                icon.classList.add('text-primary');
-                icon.classList.remove('text-green-500');
-
-                text.textContent = type === 'cnh' ? 'CNH' : 'Doc. Veículo';
-                subtext.textContent = 'Clique para enviar';
+                input.type = 'password';
+                icon.textContent = 'visibility';
             }
         }
 
@@ -285,39 +245,21 @@
             event.preventDefault();
             const btn = event.target.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
-            btn.innerHTML = 'Aguarde... Fazendo upload...';
+            btn.innerHTML = 'Aguarde...';
             btn.disabled = true;
 
             const nome = document.getElementById('nomeCompleto').value;
             const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
-            const cpf = document.getElementById('cpf').value;
             const telefone = document.getElementById('telefone').value;
             const modelo = document.getElementById('modeloVeiculo').value;
             const placa = document.getElementById('placaVeiculo').value;
             const cor = document.getElementById('corVeiculo').value;
 
-            const fileCnh = document.getElementById('cnh_file').files[0];
-            const fileDoc = document.getElementById('doc_file').files[0];
-
-            if (!fileCnh || !fileDoc) {
-                alert('Por favor, anexe a CNH e o Documento do Veículo antes de prosseguir.');
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                return;
-            }
-
-            if (fileCnh.size > 50 * 1024 * 1024 || fileDoc.size > 50 * 1024 * 1024) {
-                alert('Os documentos devem ter no máximo 50MB cada.');
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                return;
-            }
-
-            const result = await signUpMotorista(nome, email, senha, cpf, telefone, modelo, placa, cor, fileCnh, fileDoc);
+            const result = await signUpMotorista(nome, email, senha, null, telefone, modelo, placa, cor);
             if (result.success) {
                 document.body.classList.add('fade-out');
-                setTimeout(() => { window.location.href = 'confirmacaoCadastroMotorista.html'; }, 200);
+                setTimeout(() => { window.location.href = 'motorista.html'; }, 200);
             } else {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
