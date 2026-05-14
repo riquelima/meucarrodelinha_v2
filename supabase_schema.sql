@@ -108,6 +108,24 @@ ALTER TABLE public.postagens ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.mensagens ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.suporte ENABLE ROW LEVEL SECURITY;
 
+-- Políticas para suporte: usuários veem seus próprios chamados, admin vê todos
+CREATE POLICY "Usuários veem seus chamados" ON public.suporte
+    FOR SELECT TO authenticated USING (
+        auth.uid() = usuario_id OR 
+        EXISTS (SELECT 1 FROM public.usuarios WHERE id = auth.uid() AND tipo_usuario = 'admin')
+    );
+CREATE POLICY "Usuários criam chamados" ON public.suporte
+    FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Usuários atualizam seus chamados" ON public.suporte
+    FOR UPDATE TO authenticated USING (
+        auth.uid() = usuario_id OR 
+        EXISTS (SELECT 1 FROM public.usuarios WHERE id = auth.uid() AND tipo_usuario = 'admin')
+    );
+
+-- Coluna de conversa (respostas do admin) adicionada à tabela suporte
+ALTER TABLE public.suporte ADD COLUMN IF NOT EXISTS conversa JSONB DEFAULT '[]'::jsonb;
+-- Cada item da conversa: {"de": "admin"|"usuario_id", "mensagem": "texto", "criado_em": "timestamp"}
+
 -- Políticas de Acesso (Exemplos)
 
 -- Usuários: Todos podem ler perfis públicos (para motorista ver passageiro e vice-versa)

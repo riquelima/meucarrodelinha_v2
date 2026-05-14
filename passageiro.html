@@ -467,12 +467,17 @@
                             </div>
                             <span class="material-symbols-outlined">chevron_right</span>
                         </button>
-                        <button onclick="abrirSuporte()" class="w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl active-scale">
-                            <div class="flex items-center gap-3">
-                                <span class="material-symbols-outlined text-primary">support</span>
-                                <span class="font-bold">Suporte</span>
+                        <button onclick="abrirSuporte()" class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5">
+                            <div class="flex items-center gap-4">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <span class="material-symbols-outlined">support</span>
+                                </div>
+                                <div>
+                                    <p class="font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-xs">Suporte</p>
+                                    <p class="text-xs text-slate-500 font-medium tracking-tight">Fale conosco</p>
+                                </div>
                             </div>
-                            <span class="material-symbols-outlined">chevron_right</span>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                         </button>
                     </div>
                 </div>
@@ -489,45 +494,77 @@
                 <!-- Tela de Suporte -->
                 <div id="suporte-view" class="absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
                     <main class="flex-1 w-full max-w-md mx-auto px-4 pt-20 overflow-y-auto pb-32">
-                        <div class="flex items-center gap-3 mb-8">
+                        <div class="flex items-center gap-3 mb-6">
                             <button onclick="fecharSuporte()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
                                 <span class="material-symbols-outlined">arrow_back</span>
                             </button>
-                            <h2 class="text-2xl font-bold">Como podemos ajudar?</h2>
+                            <h2 class="text-2xl font-bold">Suporte</h2>
                         </div>
-                        <p class="text-slate-500 dark:text-slate-400 mb-8 -mt-4">Preencha o formulário abaixo ou utilize nossos canais diretos.</p>
-                        <form id="form-suporte" class="space-y-5">
-                            <div class="flex flex-col gap-1.5">
-                                <label class="text-sm font-medium px-1" for="suporte-nome">Nome</label>
-                                <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-nome" placeholder="Seu nome completo" type="text" />
+                        <div class="flex gap-0 mb-6 border-b border-slate-200 dark:border-slate-700">
+                            <button onclick="switchAbaSuporte('novo')" id="aba-novo" class="flex-1 py-3 text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition-all">Novo Chamado</button>
+                            <button onclick="switchAbaSuporte('meus')" id="aba-meus" class="flex-1 py-3 text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition-all">Meus Chamados</button>
+                        </div>
+                        <div id="tab-novo">
+                            <p class="text-slate-500 dark:text-slate-400 mb-6 -mt-2">Preencha o formulário abaixo ou utilize nossos canais diretos.</p>
+                            <form id="form-suporte" class="space-y-5">
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium px-1" for="suporte-nome">Nome</label>
+                                    <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-nome" placeholder="Seu nome completo" type="text" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium px-1" for="suporte-email">E-mail</label>
+                                    <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-email" placeholder="seuemail@exemplo.com" type="email" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium px-1" for="suporte-telefone">Telefone</label>
+                                    <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-telefone" placeholder="(71) 99908-8651" type="tel" maxlength="15" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium px-1" for="suporte-assunto">Assunto</label>
+                                    <select class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-auto" id="suporte-assunto">
+                                        <option disabled selected value="">Selecione um assunto</option>
+                                        <option value="duvida">Dúvidas sobre viagens</option>
+                                        <option value="reclamacao">Reclamações</option>
+                                        <option value="sugestao">Sugestões</option>
+                                        <option value="financeiro">Financeiro / Pagamentos</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium px-1" for="suporte-mensagem">Mensagem</label>
+                                    <textarea class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none" id="suporte-mensagem" placeholder="Descreva como podemos te ajudar..." rows="5" required></textarea>
+                                </div>
+                                <button id="btn-suporte-submit" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2" type="submit">
+                                    <span>Enviar Mensagem</span>
+                                    <span id="suporte-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
+                                </button>
+                            </form>
+                        </div>
+                        <div id="tab-meus" class="hidden space-y-4">
+                            <p class="text-slate-500 dark:text-slate-400 -mt-2">Seus chamados de suporte.</p>
+                            <div id="meus-chamados-list" class="space-y-3">
+                                <div class="p-8 text-center text-slate-400 text-sm">Nenhum chamado encontrado.</div>
                             </div>
-                            <div class="flex flex-col gap-1.5">
-                                <label class="text-sm font-medium px-1" for="suporte-email">E-mail</label>
-                                <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-email" placeholder="seuemail@exemplo.com" type="email" />
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <label class="text-sm font-medium px-1" for="suporte-telefone">Telefone</label>
-                                <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-telefone" placeholder="(71) 99908-8651" type="tel" maxlength="15" />
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <label class="text-sm font-medium px-1" for="suporte-assunto">Assunto</label>
-                                <select class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-auto" id="suporte-assunto">
-                                    <option disabled selected value="">Selecione um assunto</option>
-                                    <option value="duvida">Dúvidas sobre viagens</option>
-                                    <option value="reclamacao">Reclamações</option>
-                                    <option value="sugestao">Sugestões</option>
-                                    <option value="financeiro">Financeiro / Pagamentos</option>
-                                </select>
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <label class="text-sm font-medium px-1" for="suporte-mensagem">Mensagem</label>
-                                <textarea class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none" id="suporte-mensagem" placeholder="Descreva como podemos te ajudar..." rows="5" required></textarea>
-                            </div>
-                            <button id="btn-suporte-submit" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2" type="submit">
-                                <span>Enviar Mensagem</span>
-                                <span id="suporte-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
+                        </div>
+                    </main>
+                </div>
+                <!-- Tela de Detalhe do Chamado -->
+                <div id="chamado-detail-view" class="absolute inset-0 z-[1001] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <main class="flex-1 w-full max-w-md mx-auto px-4 pt-20 overflow-y-auto pb-32">
+                        <div class="flex items-center gap-3 mb-6">
+                            <button onclick="fecharChamado()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                                <span class="material-symbols-outlined">arrow_back</span>
                             </button>
-                        </form>
+                            <h2 class="text-2xl font-bold" id="chamado-detail-title">Chamado</h2>
+                        </div>
+                        <div id="chamado-detail-content" class="space-y-4"></div>
+                        <div id="chamado-reply-area" class="hidden mt-6 space-y-3">
+                            <label class="text-sm font-medium px-1">Sua Resposta</label>
+                            <textarea id="chamado-resposta-input" class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none" placeholder="Digite sua resposta..." rows="3"></textarea>
+                            <button onclick="enviarRespostaChamado()" class="w-full h-12 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2">
+                                <span>Enviar Resposta</span>
+                                <span id="resposta-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
+                            </button>
+                        </div>
                     </main>
                 </div>
             </section>
@@ -954,6 +991,8 @@
             const view = document.getElementById('suporte-view');
             if (!view) return;
             
+            switchAbaSuporte('novo');
+            
             const supabase = window.supabaseClient;
             if (supabase) {
                 const { data: { user } } = await supabase.auth.getUser();
@@ -979,6 +1018,208 @@
             view.classList.add('translate-x-full');
             view.classList.remove('translate-x-0');
             setTimeout(() => view.classList.add('hidden'), 500);
+        };
+
+        window.switchAbaSuporte = function(tab) {
+            document.querySelectorAll('#suporte-view .border-b-2.border-primary').forEach(el => {
+                el.classList.remove('border-primary', 'text-primary', 'dark:text-primary');
+                el.classList.add('border-transparent');
+            });
+            if (tab === 'novo') {
+                document.getElementById('aba-novo').classList.remove('border-transparent');
+                document.getElementById('aba-novo').classList.add('border-primary', 'text-primary', 'dark:text-primary');
+                document.getElementById('tab-novo').classList.remove('hidden');
+                document.getElementById('tab-meus').classList.add('hidden');
+            } else {
+                document.getElementById('aba-meus').classList.remove('border-transparent');
+                document.getElementById('aba-meus').classList.add('border-primary', 'text-primary', 'dark:text-primary');
+                document.getElementById('tab-meus').classList.remove('hidden');
+                document.getElementById('tab-novo').classList.add('hidden');
+                carregarMeusChamados();
+            }
+        };
+
+        window.carregarMeusChamados = async function() {
+            const container = document.getElementById('meus-chamados-list');
+            if (!container) return;
+            container.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm"><span class="material-symbols-outlined animate-spin inline-block">sync</span> Carregando...</div>';
+            try {
+                const supabase = window.supabaseClient;
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) { container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">Faça login para ver seus chamados.</div>'; return; }
+                
+                const { data: tickets, error } = await supabase
+                    .from('suporte')
+                    .select('*')
+                    .eq('usuario_id', user.id)
+                    .order('criado_em', { ascending: false });
+                
+                if (error) throw error;
+                
+                if (!tickets || tickets.length === 0) {
+                    container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">Nenhum chamado encontrado.</div>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                if (!window._ticketNums) window._ticketNums = {};
+                tickets.forEach(function(t, i) { window._ticketNums[t.id] = String(i + 1).padStart(2, '0'); });
+                const statusLabels = { aberto: 'Aberto', fechado: 'Fechado', andamento: 'Em Andamento' };
+                const statusColors = { aberto: 'bg-green-500/10 text-green-500', fechado: 'bg-slate-500/10 text-slate-400', andamento: 'bg-primary/10 text-primary' };
+                const assuntoLabels = { duvida: 'Dúvida', reclamacao: 'Reclamação', sugestao: 'Sugestão', financeiro: 'Financeiro' };
+                
+                tickets.forEach(t => {
+                    var readData = JSON.parse(localStorage.getItem('mcl_suporte_read_' + t.id) || '{}');
+                    var unread = (t.conversa || []).length > (readData.count || 0) && (t.conversa || []).some(function(r) { return r.de === 'admin'; });
+                    const card = document.createElement('div');
+                    card.className = 'p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 active-scale cursor-pointer relative';
+                    card.onclick = function() { abrirChamado(t.id); };
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-wider text-slate-400">${assuntoLabels[t.assunto] || t.assunto}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${statusColors[t.status] || statusColors.aberto}">${statusLabels[t.status] || t.status}</span>
+                        </div>
+                        <p class="text-sm font-medium text-slate-700 dark:text-slate-300 line-clamp-2">${t.mensagem}</p>
+                        <p class="text-[10px] text-slate-400 mt-2">${new Date(t.criado_em).toLocaleString('pt-BR')}</p>
+                        ${unread ? '<span class="size-2.5 rounded-full bg-red-500 absolute top-3 right-3 shadow-lg shadow-red-500/50"></span>' : ''}
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Erro ao carregar chamados:', err);
+                container.innerHTML = '<div class="p-8 text-center text-red-400 text-sm">Erro ao carregar chamados.</div>';
+            }
+        };
+
+        let currentTicketId = null;
+
+        window.abrirChamado = async function(ticketId) {
+            currentTicketId = ticketId;
+            const detail = document.getElementById('chamado-detail-view');
+            if (!detail) return;
+            
+            try {
+                const supabase = window.supabaseClient;
+                const { data: ticket, error } = await supabase.from('suporte').select('*').eq('id', ticketId).single();
+                if (error) throw error;
+                
+                var conversa = ticket.conversa || [];
+                
+                var num = window._ticketNums && window._ticketNums[ticketId] ? window._ticketNums[ticketId] : ticketId.slice(0, 4).toUpperCase();
+                document.getElementById('chamado-detail-title').textContent = `Chamado #${num}`;
+                
+                const statusLabels = { aberto: 'Aberto', fechado: 'Fechado', andamento: 'Em Andamento' };
+                const statusColors = { aberto: 'text-green-500', fechado: 'text-slate-400', andamento: 'text-primary' };
+                
+                let html = `
+                    <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black uppercase tracking-wider text-slate-400">${ticket.assunto}</span>
+                            <span class="text-xs font-bold ${statusColors[ticket.status] || 'text-green-500'}">${statusLabels[ticket.status] || ticket.status}</span>
+                        </div>
+                        <div class="flex gap-2 text-[11px] text-slate-500">
+                            <span>${ticket.nome}</span>
+                            <span>•</span>
+                            <span>${ticket.email}</span>
+                            ${ticket.telefone ? `<span>•</span><span>${ticket.telefone}</span>` : ''}
+                        </div>
+                        <p class="text-sm font-medium text-slate-700 dark:text-slate-300 pt-2 border-t border-slate-100 dark:border-slate-700">${ticket.mensagem}</p>
+                        <p class="text-[10px] text-slate-400">${new Date(ticket.criado_em).toLocaleString('pt-BR')}</p>
+                    </div>
+                `;
+                
+                if (conversa && conversa.length > 0) {
+                    conversa.forEach(r => {
+                        var isAdmin = r.de === 'admin';
+                        var autorLabel = isAdmin ? 'Suporte' : 'Você';
+                        html += `
+                            <div class="p-4 rounded-2xl ${isAdmin ? 'bg-primary/5 dark:bg-primary/10 border border-primary/20' : 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700'} space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider ${isAdmin ? 'text-primary' : 'text-slate-400'}">${autorLabel}</span>
+                                    <span class="text-[10px] text-slate-400">${new Date(r.criado_em).toLocaleString('pt-BR')}</span>
+                                </div>
+                                <p class="text-sm text-slate-700 dark:text-slate-300">${r.mensagem}</p>
+                            </div>
+                        `;
+                    });
+                }
+                try { localStorage.setItem('mcl_suporte_read_' + ticketId, JSON.stringify({ count: (ticket.conversa || []).length, updatedAt: Date.now() })); } catch(e) {}
+                
+                document.getElementById('chamado-detail-content').innerHTML = html;
+                
+                const replyArea = document.getElementById('chamado-reply-area');
+                if (ticket.status === 'aberto') {
+                    replyArea.classList.remove('hidden');
+                } else {
+                    replyArea.classList.add('hidden');
+                }
+                
+                detail.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    detail.classList.remove('translate-x-full');
+                    detail.classList.add('translate-x-0');
+                });
+            } catch (err) {
+                console.error('Erro ao abrir chamado:', err);
+                alert('Erro ao carregar detalhes do chamado.');
+            }
+        };
+
+        window.fecharChamado = function() {
+            const detail = document.getElementById('chamado-detail-view');
+            if (!detail) return;
+            detail.classList.add('translate-x-full');
+            detail.classList.remove('translate-x-0');
+            setTimeout(() => {
+                detail.classList.add('hidden');
+                document.getElementById('chamado-resposta-input').value = '';
+            }, 500);
+            currentTicketId = null;
+        };
+
+        window.enviarRespostaChamado = async function() {
+            const input = document.getElementById('chamado-resposta-input') || document.getElementById('chamado-reply-input');
+            const mensagem = input?.value?.trim();
+            if (!mensagem || !currentTicketId) return;
+            
+            const btn = document.querySelector('#chamado-reply-area button, #btn-enviar-resposta');
+            const loader = document.getElementById('resposta-loader');
+            try {
+                if (btn) btn.disabled = true;
+                if (loader) loader.classList.remove('hidden');
+                
+                const supabase = window.supabaseClient;
+                const { data: { user } } = await supabase.auth.getUser();
+                
+                const ticketRes = await supabase.from('suporte').select('conversa').eq('id', currentTicketId).single();
+                const conversa = ticketRes.data.conversa || [];
+                conversa.push({ de: user?.id || 'anon', mensagem: mensagem, criado_em: new Date().toISOString() });
+                const { error } = await supabase.from('suporte').update({ conversa: conversa }).eq('id', currentTicketId);
+                
+                if (error) throw error;
+                
+                input.value = '';
+                // Appenda instantaneamente
+                const container = document.getElementById('chamado-mensagens') || document.getElementById('chamado-messages');
+                if (container) {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-end animate-slide-up';
+                    div.innerHTML = '<div class="max-w-[85%] bg-primary/90 text-white rounded-2xl rounded-tr-none px-5 py-3.5 shadow-lg shadow-primary/10 border border-white/10"><p class="text-sm">' + mensagem + '</p><p class="text-[10px] text-white/60 mt-2">Agora</p></div>';
+                    container.appendChild(div);
+                    container.scrollTop = container.scrollHeight;
+                }
+                abrirChamado(currentTicketId);
+                if (typeof carregarMeusChamados === 'function') carregarMeusChamados();
+            } catch (err) {
+                console.error('Erro ao enviar resposta:', err);
+                var code = err && (err.code || err.status);
+                var msg = code === 'PGRST205' ? 'Tabela de respostas nao encontrada. Execute a migration SQL ou recarregue a pagina.' : 'Erro ao enviar resposta. Tente novamente.';
+                alert(msg);
+            } finally {
+                if (btn) btn.disabled = false;
+                btn.querySelector('span').innerText = 'Enviar Resposta';
+                loader.classList.add('hidden');
+            }
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -2203,9 +2444,9 @@
                         
                         if (error) throw error;
                         
-                        alert('Mensagem enviada com sucesso!');
+                        alert('Chamado criado com sucesso!');
                         suporteForm.reset();
-                        fecharSuporte();
+                        switchAbaSuporte('meus');
                     } catch (err) {
                         console.error('Erro ao enviar mensagem:', err);
                         alert('Erro ao enviar mensagem. Tente novamente.');

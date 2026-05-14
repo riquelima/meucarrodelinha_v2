@@ -241,7 +241,7 @@
             <!-- AJUSTES -->
             <section id="view-settings" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
                 <div class="p-4">
-                    <h2 class="text-3xl font-black tracking-tighter mb-6">Configuracoes</h2>
+                    <h2 class="text-3xl font-black tracking-tighter mb-6">Configurações</h2>
                     <div class="flex flex-col items-center mb-8">
                         <div class="relative">
                             <div id="admin-avatar-container" class="size-24 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
@@ -282,7 +282,7 @@
                         </button>
 <button onclick="window.abrirSuporteAdmin()" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left">
                             <div class="flex items-center gap-3">
-                                <span class="material-symbols-outlined text-primary">support</span>
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary"><span class="material-symbols-outlined">support</span></div>
                                 <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Suporte</p><p class="text-xs text-slate-500 font-medium tracking-tight">Ver mensagens dos usuarios</p></div>
                             </div>
                             <span class="material-symbols-outlined text-slate-400">chevron_right</span>
@@ -545,6 +545,32 @@
             </main>
         </div>
 
+        <!-- SLIDE-IN: Chamado Detalhe -->
+        <div id="chamado-view" class="slide-in-view fixed inset-0 z-[1001] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <main class="flex-1 flex flex-col max-w-md mx-auto w-full">
+                <div class="flex items-center gap-3 p-4 pt-20 pb-3">
+                    <button onclick="fecharChamadoAdmin()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h3 class="text-xl font-bold tracking-tight flex-1">Chamado</h3>
+                    <span id="chamado-status-badge" class="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400">Aberto</span>
+                </div>
+                <div id="chamado-messages" class="flex-1 overflow-y-auto px-4 pb-4 space-y-3 no-scrollbar"></div>
+                <div class="p-4 pb-28 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                    <div class="flex gap-2 items-end">
+                        <textarea id="chamado-reply-input" rows="2" class="flex-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 text-sm outline-none focus:ring-2 focus:ring-primary resize-none placeholder:text-slate-400" placeholder="Digite sua resposta..."></textarea>
+                        <button onclick="enviarRespostaAdmin()" class="flex items-center justify-center size-11 rounded-xl bg-primary text-white shadow-lg shadow-primary/20 active-scale shrink-0">
+                            <span class="material-symbols-outlined">send</span>
+                        </button>
+                    </div>
+                    <button id="chamado-resolve-btn" onclick="fecharChamadoComoResolvido()" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 active-scale">
+                        <span class="material-symbols-outlined text-lg">check_circle</span>
+                        Marcar como Resolvido
+                    </button>
+                </div>
+            </main>
+        </div>
+
         <!-- MODAIS GLOBAIS -->
         <div id="edit-user-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
             <div class="bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-800 overflow-hidden transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
@@ -609,7 +635,7 @@
         <script>
             function switchTab(tabName) {
                 // Fecha todas as views deslizantes abertas
-                ['post-view','ad-view','blog-manage-view','ad-manage-view','suporte-view'].forEach(function(id) {
+                ['post-view','ad-view','blog-manage-view','ad-manage-view','suporte-view','chamado-view'].forEach(function(id) {
                     var v = document.getElementById(id);
                     if (v && !v.classList.contains('hidden')) {
                         v.classList.add('translate-x-full');
@@ -687,6 +713,111 @@
         };
         window.fecharSuporteAdmin = function() { closeSlideIn('suporte-view'); };
 
+        var currentChamadoId = null;
+
+        window.fecharChamadoAdmin = function() {
+            currentChamadoId = null;
+            closeSlideIn('chamado-view');
+        };
+
+        window.abrirChamadoAdmin = async function(ticketId) {
+            currentChamadoId = ticketId;
+            openSlideIn('chamado-view');
+            var sb = window.supabaseClient;
+            try {
+                var ticketRes = await sb.from('suporte').select('*').eq('id', ticketId).single();
+                if (ticketRes.error) throw ticketRes.error;
+                var ticket = ticketRes.data;
+                var badge = document.getElementById('chamado-status-badge');
+                var resolveBtn = document.getElementById('chamado-resolve-btn');
+                if (ticket.status === 'resolvido') {
+                    badge.className = 'px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400';
+                    badge.textContent = 'Resolvido';
+                    if (resolveBtn) resolveBtn.style.display = 'none';
+                } else {
+                    badge.className = 'px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400';
+                    badge.textContent = 'Aberto';
+                    if (resolveBtn) resolveBtn.style.display = '';
+                }
+                var conversa = ticket.conversa || [];
+                var container = document.getElementById('chamado-messages');
+                container.innerHTML = '';
+                var userDiv = document.createElement('div');
+                userDiv.className = 'flex flex-col items-start';
+                userDiv.innerHTML = '<div class="max-w-[85%] rounded-2xl rounded-bl-sm bg-slate-100 dark:bg-slate-800 p-3"><p class="text-xs font-bold text-slate-500 mb-1">' + escapeHTML(ticket.nome || 'Usuário') + '</p><p class="text-sm text-slate-900 dark:text-slate-100">' + escapeHTML(ticket.mensagem || '') + '</p><p class="text-[10px] text-slate-400 mt-1 text-right">' + (ticket.criado_em ? new Date(ticket.criado_em).toLocaleString() : '') + '</p></div>';
+                container.appendChild(userDiv);
+                conversa.forEach(function(r) {
+                    var div = document.createElement('div');
+                    var isAdmin = r.de === 'admin';
+                    div.className = 'flex flex-col ' + (isAdmin ? 'items-end' : 'items-start');
+                    div.innerHTML = '<div class="max-w-[85%] rounded-2xl ' + (isAdmin ? 'rounded-br-sm bg-primary text-white' : 'rounded-bl-sm bg-slate-100 dark:bg-slate-800') + ' p-3"><p class="text-sm">' + escapeHTML(r.mensagem || '') + '</p><p class="text-[10px] ' + (isAdmin ? 'text-white/70' : 'text-slate-400') + ' mt-1 text-right">' + (r.criado_em ? new Date(r.criado_em).toLocaleString() : '') + '</p></div>';
+                    container.appendChild(div);
+                });
+                container.scrollTop = container.scrollHeight;
+            } catch (err) {
+                console.error('Erro ao abrir chamado:', err);
+            }
+        };
+
+        window.enviarRespostaAdmin = async function() {
+            if (!currentChamadoId) return;
+            var input = document.getElementById('chamado-reply-input');
+            var mensagem = input ? input.value.trim() : '';
+            if (!mensagem) return;
+            input.value = '';
+            try {
+                var sb = window.supabaseClient;
+                var ticketRes = await sb.from('suporte').select('conversa').eq('id', currentChamadoId).single();
+                if (ticketRes.error) throw ticketRes.error;
+                var conversa = ticketRes.data.conversa || [];
+                conversa.push({ de: 'admin', mensagem: mensagem, criado_em: new Date().toISOString() });
+                var upd = await sb.from('suporte').update({ conversa: conversa }).eq('id', currentChamadoId);
+                if (upd.error) throw upd.error;
+                if (typeof window.carregarTicketsSuporte === 'function') window.carregarTicketsSuporte();
+                var container = document.getElementById('chamado-messages');
+                if (container) {
+                    var div = document.createElement('div');
+                    div.className = 'flex flex-col items-end animate-slide-up';
+                    div.innerHTML = '<div class="max-w-[85%] rounded-2xl rounded-br-sm bg-primary text-white p-3"><p class="text-sm">' + escapeHTML(mensagem) + '</p><p class="text-[10px] text-white/70 mt-1 text-right">Agora</p></div>';
+                    container.appendChild(div);
+                    container.scrollTop = container.scrollHeight;
+                }
+            } catch (err) {
+                console.error('Erro ao enviar resposta:', err);
+                alert('Erro ao enviar resposta: ' + (err.message || ''));
+            }
+        };
+
+        window.fecharChamadoComoResolvido = async function() {
+            if (!currentChamadoId) return;
+            if (!confirm('Marcar este chamado como resolvido?')) return;
+            try {
+                var sb = window.supabaseClient;
+                var upd = await sb.from('suporte').update({ status: 'resolvido' }).eq('id', currentChamadoId);
+                if (upd.error) throw upd.error;
+                await window.abrirChamadoAdmin(currentChamadoId);
+                if (typeof window.carregarTicketsSuporte === 'function') window.carregarTicketsSuporte();
+            } catch (err) {
+                console.error('Erro ao resolver chamado:', err);
+                alert('Erro ao marcar como resolvido.');
+            }
+        };
+
+        var _suporteFilter = 'todos';
+
+        function suporteAplicarFiltro() {
+            document.querySelectorAll('.filter-suporte').forEach(function(b) {
+                var isActive = b.dataset.filter === _suporteFilter;
+                b.className = 'filter-suporte flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 transition-all active-scale ' + (isActive ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800');
+            });
+            carregarTicketsSuporte();
+        }
+
+        document.querySelectorAll('.filter-suporte').forEach(function(b) {
+            b.addEventListener('click', function() { _suporteFilter = this.dataset.filter; suporteAplicarFiltro(); });
+        });
+        suporteAplicarFiltro();
+
         window.carregarTicketsSuporte = async function() {
             const container = document.getElementById('suporte-tickets-list');
             if (!container) return;
@@ -697,13 +828,18 @@
                     sb.from('suporte').select('*').order('criado_em', { ascending: false }),
                     sb.from('usuarios').select('id, nome, email, foto_perfil_url, tipo_usuario')
                 ]);
-                const messages = messagesRes.data || [];
+                var allMessages = messagesRes.data || [];
                 const users = usersRes.data || [];
                 const userMap = {};
                 users.forEach(u => { userMap[u.email] = u; userMap[u.email.toLowerCase()] = u; });
 
+                var messages = allMessages;
+                if (_suporteFilter !== 'todos') {
+                    messages = allMessages.filter(function(m) { return (m.status || 'aberto') === _suporteFilter; });
+                }
+
                 if (messages.length === 0) {
-                    container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">support_agent</span><p class="text-sm font-bold">Nenhuma mensagem de suporte</p></div>';
+                    container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">support_agent</span><p class="text-sm font-bold">' + (_suporteFilter === 'todos' ? 'Nenhuma mensagem de suporte' : 'Nenhum chamado ' + (_suporteFilter === 'aberto' ? 'aberto' : 'resolvido')) + '</p></div>';
                     return;
                 }
                 container.innerHTML = '';
@@ -715,7 +851,8 @@
                     const statusColor = status === 'resolvido' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400';
                     const statusLabel = status === 'resolvido' ? 'Resolvido' : 'Aberto';
                     const card = document.createElement('div');
-                    card.className = 'p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 active-scale';
+                    card.className = 'p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer active-scale';
+                    card.addEventListener('click', function() { window.abrirChamadoAdmin(msg.id); });
                     card.innerHTML = `
                         <div class="flex items-start gap-3">
                             <img src="${photoUrl}" class="size-10 rounded-full object-cover bg-slate-600 shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=U&background=f97316&color=fff&size=64'">
