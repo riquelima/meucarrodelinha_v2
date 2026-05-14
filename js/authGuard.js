@@ -11,8 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session }, error } = await window.supabaseClient.auth.getSession();
 
     if (error || !session) {
-        // Redireciona para a homepage se não estiver logado (evita o loop do splash screen)
-        window.location.href = 'homepage.html';
+        window.location.replace('homepage.html');
         return;
     }
 
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (isMotoristaPage && tipoUsuario !== 'motorista' && tipoUsuario !== 'admin') {
         console.warn("Acesso negado: área de motorista tentada por", tipoUsuario);
-        window.location.href = 'passageiro.html';
+        window.location.replace('passageiro.html');
         return;
     }
 
@@ -52,14 +51,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (isPassageiroPage && tipoUsuario !== 'passageiro' && tipoUsuario !== 'admin') {
         console.warn("Acesso negado: área de passageiro tentada por", tipoUsuario);
-        window.location.href = 'motorista.html';
+        window.location.replace('motorista.html');
         return;
     }
 
-    // Proteção de rotas do Admin
     if ((currentPath.includes('admin.html') || currentPath.includes('gerenciar') || currentPath.includes('perfilAdministrador.html')) && tipoUsuario !== 'admin') {
         alert("Acesso restrito ao administrador.");
-        window.location.href = 'passageiro.html';
+        window.location.replace('passageiro.html');
         return;
     }
 
@@ -71,5 +69,7 @@ window.handleLogout = async function() {
     if (window.supabaseClient) {
         await window.supabaseClient.auth.signOut();
     }
-    window.location.href = 'index.html';
+    window._navStack = [];
+    sessionStorage.removeItem('mclNavStack');
+    window.location.replace('index.html');
 };

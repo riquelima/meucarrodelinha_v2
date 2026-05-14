@@ -440,7 +440,7 @@
                     let destino = role === 'motorista' ? 'motorista.html' :
                                   role === 'admin' ? 'admin.html' :
                                   'passageiro.html';
-                    window.location.href = destino;
+                    window.location.replace(destino);
                     return;
                 }
             } catch (e) {
@@ -449,7 +449,7 @@
             playStartupChime();
             document.body.classList.add('fade-out');
             setTimeout(() => {
-                window.location.href = 'homepage.html';
+                window.location.replace('homepage.html');
             }, 300);
         }, 2000);
     </script>

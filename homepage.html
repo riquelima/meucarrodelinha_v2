@@ -696,7 +696,7 @@
                     const destino = role === 'motorista' ? 'motorista.html' :
                                     role === 'admin' ? 'admin.html' :
                                     'passageiro.html';
-                    window.location.href = destino;
+                    window.location.replace(destino);
                 }
             } catch (e) {}
         })();
