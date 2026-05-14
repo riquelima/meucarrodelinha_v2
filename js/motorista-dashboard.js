@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- UI Helper Actions ---
     function updateOnlineUI(isOnline) {
         currentOnlineStatus = isOnline;
+        const hint = document.getElementById('online-hint');
         if (isOnline) {
-            // Online State
             toggleBtn?.classList.remove('bg-primary', 'shadow-primary/20', 'text-white');
             toggleBtn?.classList.add('bg-slate-800', 'text-slate-400', 'border', 'border-white/5');
             if (toggleText) toggleText.textContent = 'Ficar Offline';
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 statusLabel.classList.add('text-green-400');
                 statusLabel.classList.remove('text-slate-400');
             }
+            if (hint) hint.classList.add('hidden');
         } else {
-            // Offline State
             toggleBtn?.classList.add('bg-primary', 'shadow-primary/20', 'text-white');
             toggleBtn?.classList.remove('bg-slate-800', 'text-slate-400', 'border', 'border-white/5');
             if (toggleText) toggleText.textContent = 'Ficar Online';
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 statusLabel.classList.remove('text-green-400');
                 statusLabel.classList.add('text-slate-400');
             }
+            if (hint) hint.classList.remove('hidden');
         }
     }
 
@@ -103,6 +104,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (userData.data.foto_perfil_url) {
                 const avatarElement = document.getElementById('header-avatar');
                 if (avatarElement) avatarElement.src = userData.data.foto_perfil_url;
+                const profileAvatar = document.getElementById('profile-avatar');
+                if (profileAvatar) profileAvatar.src = userData.data.foto_perfil_url;
             }
         }
 

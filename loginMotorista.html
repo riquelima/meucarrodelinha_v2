@@ -317,12 +317,7 @@
                     if (userData.tipo_usuario === 'admin') {
                         window.location.href = 'admin.html';
                     } else if (userData.tipo_usuario === 'motorista') {
-                        // Se não tem foto, vai direto pro perfil
-                        if (!userData.foto_perfil_url) {
-                            window.location.href = 'perfilMotorista.html';
-                        } else {
-                            window.location.href = 'motorista.html';
-                        }
+                        window.location.href = 'motorista.html';
                     } else {
                         window.location.href = 'passageiro.html';
                     }

@@ -211,7 +211,7 @@
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-300" for="telefone">Telefone</label>
                     <input
-                        class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500"
+                        class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder="(71) 99908-8651"
                         id="telefone" type="tel" value="" />
                 </div>
             </form>
@@ -304,6 +304,17 @@
             </a>
         </div>
     </nav>
+    <script>
+        document.querySelectorAll('input[type="tel"]').forEach(input => {
+            input.addEventListener('input', function () {
+                let v = this.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.slice(0, 11);
+                v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
+                v = v.replace(/(\d)(\d{4})$/, '$1-$2');
+                this.value = v;
+            });
+        });
+    </script>
 </body>
 
 </html>

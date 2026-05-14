@@ -34,13 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const tipoUsuario = userData.tipo_usuario;
 
-    // Foto de Perfil Obrigatória para Motoristas
-    if (tipoUsuario === 'motorista') {
-        if (!userData.foto_perfil_url && !currentPath.includes('perfilMotorista.html')) {
-            window.location.href = 'perfilMotorista.html';
-            return;
-        }
-    }
+    // Motorista: perfil integrado no navbar do motorista.html
 
     // Proteção de rotas do Motorista
     const motoristaPages = ['motorista.html', 'historicoViagens.html', 'meusganhos.html', 'perfilMotorista.html', 'mensagensMotorista.html', 'chatMotorista.html'];
@@ -77,6 +71,5 @@ window.handleLogout = async function() {
     if (window.supabaseClient) {
         await window.supabaseClient.auth.signOut();
     }
-    localStorage.clear();
     window.location.href = 'index.html';
 };

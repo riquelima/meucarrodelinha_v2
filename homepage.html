@@ -18,7 +18,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
-    <meta name="theme-color" content="#1e3fae" />
+    <meta name="theme-color" content="#f97316" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -29,6 +29,10 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <!-- Google Maps SDK with callback -->
+    <script>
+        // Placeholder para evitar erro "initMap is not a function"
+        window.initMap = function() {};
+    </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async" async defer></script>
 
     <script id="tailwind-config">
@@ -37,7 +41,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#f97316",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
                     },
@@ -367,6 +371,16 @@
         .animate-card-click {
             animation: cardClick 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
             pointer-events: none;
+        }
+        /* Remove branding do Google Maps */
+        #homepage-map .gm-style-cc,
+        #homepage-map .gm-style a[href^="https://maps.google.com"],
+        #homepage-map .gm-style a[href^="https://www.google.com/maps"] {
+            display: none !important;
+        }
+        #homepage-map .gm-ui-hover-effect,
+        #homepage-map .gm-style-mtc {
+            display: none !important;
         }
     </style>
 </head>
@@ -736,7 +750,12 @@
 
         window.initMap = function () {
             const mapContainer = document.getElementById('homepage-map');
-            if (mapContainer) {
+            if (!mapContainer) return;
+            // Garantir que o container existe e tem dimensões
+            if (mapContainer.offsetParent === null) {
+                setTimeout(() => window.initMap(), 300);
+                return;
+            }
                 googleMap = new google.maps.Map(mapContainer, {
                     center: { lat: -12.8700, lng: -38.8000 },
                     zoom: 14,
@@ -779,7 +798,7 @@
                                     map: googleMap,
                                     icon: {
                                         path: google.maps.SymbolPath.CIRCLE,
-                                        fillColor: '#1e3fae',
+                                        fillColor: '#f97316',
                                         fillOpacity: 1,
                                         strokeColor: 'white',
                                         strokeWeight: 2,
@@ -819,8 +838,12 @@
                     });
                     infoWindow.open(googleMap, destinationMarker);
                 });
-            }
         };
+
+        // Se o Maps já carregou antes de initMap ser definido, inicializa agora
+        if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
+            window.initMap();
+        }
 
         // Enhanced Navigation Logic with View Transitions
         document.addEventListener('click', (e) => {

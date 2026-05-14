@@ -21,7 +21,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#f97316",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
                     },
@@ -272,7 +272,7 @@
                 let staticMapUrl = '';
                 
                 if (trip.origem_lat && trip.destino_lat) {
-                    staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${trip.origem_lat},${trip.origem_lng}&markers=color:red%7Clabel:B%7C${trip.destino_lat},${trip.destino_lng}&path=color:0x1e3fae%7Cweight:5%7C${trip.origem_lat},${trip.origem_lng}%7C${trip.destino_lat},${trip.destino_lng}&key=${apiKey}`;
+                    staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${trip.origem_lat},${trip.origem_lng}&markers=color:red%7Clabel:B%7C${trip.destino_lat},${trip.destino_lng}&path=color:0xf97316%7Cweight:5%7C${trip.origem_lat},${trip.origem_lng}%7C${trip.destino_lat},${trip.destino_lng}&key=${apiKey}`;
                 } else {
                     // Fallback se não tiver coordenadas (busca por endereço - menos preciso mas funciona)
                     staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&markers=color:blue%7Clabel:A%7C${encodeURIComponent(trip.origem_endereco)}&markers=color:red%7Clabel:B%7C${encodeURIComponent(trip.destino_endereco)}&key=${apiKey}`;

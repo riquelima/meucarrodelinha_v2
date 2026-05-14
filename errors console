@@ -1,34 +1,4 @@
-requests.js:1  GET https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true net::ERR_BLOCKED_BY_CLIENT
-_$initInterceptor.s.XMLHttpRequest.send @ requests.js:1
-(anonymous) @ 200.js:1
-_.z.send @ main.js:346
-Pea @ main.js:323
-Sea @ main.js:316
-await in Sea
-google.maps.Load @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:38
-(anonymous) @ main.js:628
-(anonymous) @ main.js:628
-PendingScript
-(anonymous) @ 101.js:1
-getScript @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:28
-(anonymous) @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:45
-(anonymous) @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:46
-passageiro.html:1858 Uncaught (in promise) ReferenceError: loadChatList is not defined
-    at HTMLDocument.<anonymous> (passageiro.html:1858:17)
-(anonymous) @ passageiro.html:1858
-requests.js:1  GET https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true net::ERR_BLOCKED_BY_CLIENT
-_$initInterceptor.s.XMLHttpRequest.send @ requests.js:1
-_.z.send @ main.js:346
-Pea @ main.js:323
-Sea @ main.js:316
-await in Sea
-google.maps.Load @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:38
-(anonymous) @ main.js:628
-(anonymous) @ main.js:628
-PendingScript
-getScript @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:28
-(anonymous) @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:45
-(anonymous) @ js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async:46
-passageiro.html:1858 Uncaught (in promise) ReferenceError: loadChatList is not defined
-    at HTMLDocument.<anonymous> (passageiro.html:1858:17)
-(anonymous) @ passageiro.html:1858
+?plugins=forms,container-queries:64 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+(anonymous) @ ?plugins=forms,container-queries:64
+(anonymous) @ ?plugins=forms,container-queries:64
+motorista.html:41 Uncaught SyntaxError: Private field '#motorista' must be declared in an enclosing class (at motorista.html:41:9)

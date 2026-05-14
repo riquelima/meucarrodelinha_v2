@@ -91,7 +91,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#f97316",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
                     },
@@ -288,6 +288,16 @@
             transform: none !important;
             animation: none !important;
         }
+        /* Remove branding do Google Maps */
+        #passageiro-map .gm-style-cc,
+        #passageiro-map .gm-style a[href^="https://maps.google.com"],
+        #passageiro-map .gm-style a[href^="https://www.google.com/maps"] {
+            display: none !important;
+        }
+        #passageiro-map .gm-ui-hover-effect,
+        #passageiro-map .gm-style-mtc {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -303,7 +313,7 @@
         </header>
 
         <!-- [SPA_HORIZONTAL_MANDATE]: O Carrossel de Views -->
-        <div id="view-slider" class="flex h-full w-[400vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
+        <div id="view-slider" class="flex h-full w-[300vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
             
             <!-- ABA 1: INÍCIO (MAPA) -->
             <section id="view-home" class="view-section shrink-0 w-[100vw] h-full relative overflow-hidden flex flex-col">
@@ -368,20 +378,7 @@
                 </main>
             </section>
 
-            <!-- ABA 2: VIAGENS -->
-            <section id="view-trips" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
-                <div class="px-6 py-4 overflow-y-auto no-scrollbar">
-                    <h2 class="text-2xl font-black mb-6">Minhas Viagens</h2>
-                    <div id="trips-history-container" class="space-y-4">
-                        <div class="p-8 text-center opacity-50">
-                            <span class="material-symbols-outlined text-4xl mb-2">history</span>
-                            <p>Suas viagens aparecerão aqui</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ABA 3: CHATS -->
+            <!-- ABA 2: CHATS -->
             <section id="view-chats" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
                 <!-- Lista de Conversas (Main View) -->
                 <div id="chats-list-view" class="flex flex-col h-full overflow-hidden">
@@ -449,7 +446,7 @@
                     <div class="flex items-center gap-4 mb-8 p-4 bg-white dark:bg-slate-800 rounded-3xl">
                         <div id="profile-avatar-container" class="relative cursor-pointer group" onclick="document.getElementById('photo-upload-input').click()">
                             <img id="profile-avatar" class="w-16 h-16 rounded-full object-cover bg-primary/20 border-2 border-primary/20"
-                                src="https://ui-avatars.com/api/?name=Usu%C3%A1rio&background=1e3fae&color=fff&size=128"
+                                src="https://ui-avatars.com/api/?name=Usu%C3%A1rio&background=f97316&color=fff&size=128"
                                 alt="Foto de Perfil"
                                 onerror="this.parentElement.innerHTML='<div class=\'w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary\'><span class=\'material-symbols-outlined text-3xl\'>person</span></div>'">
                             <div class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -470,6 +467,13 @@
                             </div>
                             <span class="material-symbols-outlined">chevron_right</span>
                         </button>
+                        <button onclick="abrirSuporte()" class="w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl active-scale">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">support</span>
+                                <span class="font-bold">Suporte</span>
+                            </div>
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
                     </div>
                 </div>
                 <!-- Logout Button Fixed at Bottom -->
@@ -482,6 +486,50 @@
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </button>
                 </div>
+                <!-- Tela de Suporte -->
+                <div id="suporte-view" class="absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <main class="flex-1 w-full max-w-md mx-auto px-4 pt-20 overflow-y-auto pb-32">
+                        <div class="flex items-center gap-3 mb-8">
+                            <button onclick="fecharSuporte()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                                <span class="material-symbols-outlined">arrow_back</span>
+                            </button>
+                            <h2 class="text-2xl font-bold">Como podemos ajudar?</h2>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 mb-8 -mt-4">Preencha o formulário abaixo ou utilize nossos canais diretos.</p>
+                        <form id="form-suporte" class="space-y-5">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium px-1" for="suporte-nome">Nome</label>
+                                <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-nome" placeholder="Seu nome completo" type="text" />
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium px-1" for="suporte-email">E-mail</label>
+                                <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-email" placeholder="seuemail@exemplo.com" type="email" />
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium px-1" for="suporte-telefone">Telefone</label>
+                                <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-telefone" placeholder="(71) 99908-8651" type="tel" maxlength="15" />
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium px-1" for="suporte-assunto">Assunto</label>
+                                <select class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-auto" id="suporte-assunto">
+                                    <option disabled selected value="">Selecione um assunto</option>
+                                    <option value="duvida">Dúvidas sobre viagens</option>
+                                    <option value="reclamacao">Reclamações</option>
+                                    <option value="sugestao">Sugestões</option>
+                                    <option value="financeiro">Financeiro / Pagamentos</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-sm font-medium px-1" for="suporte-mensagem">Mensagem</label>
+                                <textarea class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none" id="suporte-mensagem" placeholder="Descreva como podemos te ajudar..." rows="5" required></textarea>
+                            </div>
+                            <button id="btn-suporte-submit" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2" type="submit">
+                                <span>Enviar Mensagem</span>
+                                <span id="suporte-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
+                            </button>
+                        </form>
+                    </main>
+                </div>
             </section>
         </div>
 
@@ -491,14 +539,10 @@
                 <span class="material-symbols-outlined">home</span>
                 <span>Início</span>
             </button>
-            <button onclick="switchTab('trips')" class="nav-item" id="nav-trips">
-                <span class="material-symbols-outlined">history</span>
-                <span>Viagens</span>
-            </button>
             <button onclick="switchTab('chats')" class="nav-item" id="nav-chats">
                 <span class="material-symbols-outlined">chat</span>
                 <span>Chats</span>
-                <span id="chat-badge" class="chat-badge hidden">0</span>
+                        <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-background-dark">0</span>
             </button>
             <button onclick="switchTab('profile')" class="nav-item" id="nav-profile">
                 <span class="material-symbols-outlined">person</span>
@@ -510,7 +554,7 @@
         <script>
             function switchTab(tabName) {
                 const slider = document.getElementById('view-slider');
-                const tabs = ['home', 'trips', 'chats', 'profile'];
+                const tabs = ['home', 'chats', 'profile'];
                 const index = tabs.indexOf(tabName);
                 
                 if (index === -1) return;
@@ -719,8 +763,42 @@
 
                 // Geolocation Logic
                 const defaultLocation = { lat: -12.8711, lng: -38.7614 };
+                const SALINAS_BOUNDS_KM = 20;
+
+                function distanceKm(lat1, lng1, lat2, lng2) {
+                    const R = 6371;
+                    const dLat = (lat2 - lat1) * Math.PI / 180;
+                    const dLng = (lng2 - lng1) * Math.PI / 180;
+                    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                              Math.sin(dLng/2) * Math.sin(dLng/2);
+                    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                }
+
+                function isWithinSalinas(lat, lng) {
+                    return distanceKm(lat, lng, defaultLocation.lat, defaultLocation.lng) <= SALINAS_BOUNDS_KM;
+                }
+
+                function setSalinasAsDefault() {
+                    googleMap.setCenter(defaultLocation);
+                    googleMap.setZoom(14);
+                    currentCoords = defaultLocation;
+                    const origemInput = document.getElementById('origem-input');
+                    if (origemInput && !origemInput.value) {
+                        origemInput.value = 'Salinas da Margarida - BA';
+                    }
+                }
 
                 function updateUserMarker(lat, lng) {
+                    // Só mostra marcador se estiver dentro de Salinas
+                    if (!isWithinSalinas(lat, lng)) {
+                        currentCoords = defaultLocation;
+                        if (userMarker) { userMarker.setMap(null); userMarker = null; }
+                        const origemInput = document.getElementById('origem-input');
+                        if (origemInput && !origemInput.value) origemInput.value = 'Salinas da Margarida - BA';
+                        return;
+                    }
+
                     currentCoords = { lat, lng };
                     if (userMarker) {
                         userMarker.setPosition(currentCoords);
@@ -740,7 +818,6 @@
                         });
                     }
 
-                    // Obter endereço amigável
                     reverseGeocode(lat, lng).then(() => {
                         const origemInput = document.getElementById('origem-input');
                         if (origemInput && !origemInput.value) {
@@ -758,34 +835,30 @@
                 function handleLocationError(error) {
                     console.warn('Geolocation error:', error);
                     if (!userMarker) {
-                        updateUserMarker(defaultLocation.lat, defaultLocation.lng);
+                        setSalinasAsDefault();
                     }
                 }
 
-                const geoOptions = {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                };
+                // Sempre inicia centralizado em Salinas
+                setSalinasAsDefault();
 
-                if (window.requestLocationPermission) {
-                    window.requestLocationPermission().then(() => {
+                // Só tenta geolocalização se estiver em dispositivo que suporte
+                if (navigator.geolocation) {
+                    if (window.requestLocationPermission) {
+                        window.requestLocationPermission().then(() => {
+                            navigator.geolocation.getCurrentPosition(
+                                (position) => updateUserMarker(position.coords.latitude, position.coords.longitude),
+                                handleLocationError,
+                                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                            );
+                        }).catch(() => {});
+                    } else {
                         navigator.geolocation.getCurrentPosition(
                             (position) => updateUserMarker(position.coords.latitude, position.coords.longitude),
-                            handleLocationError,
-                            geoOptions
+                            () => {},
+                            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
                         );
-                        navigator.geolocation.watchPosition(
-                            (position) => updateUserMarker(position.coords.latitude, position.coords.longitude),
-                            handleLocationError,
-                            geoOptions
-                        );
-                    }).catch(error => {
-                        console.log("Location permission dismissed or error:", error);
-                        updateUserMarker(defaultLocation.lat, defaultLocation.lng);
-                    });
-                } else {
-                    updateUserMarker(defaultLocation.lat, defaultLocation.lng);
+                    }
                 }
             }
         };
@@ -877,6 +950,37 @@
             window.location.href = `tel:${cleanPhone}`;
         };
 
+        window.abrirSuporte = async function() {
+            const view = document.getElementById('suporte-view');
+            if (!view) return;
+            
+            const supabase = window.supabaseClient;
+            if (supabase) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data: profile } = await supabase.from('usuarios').select('nome').eq('id', user.id).single();
+                    if (profile) {
+                        document.getElementById('suporte-nome').value = profile.nome || '';
+                        document.getElementById('suporte-email').value = user.email || '';
+                    }
+                }
+            }
+            
+            view.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                view.classList.remove('translate-x-full');
+                view.classList.add('translate-x-0');
+            });
+        };
+
+        window.fecharSuporte = function() {
+            const view = document.getElementById('suporte-view');
+            if (!view) return;
+            view.classList.add('translate-x-full');
+            view.classList.remove('translate-x-0');
+            setTimeout(() => view.classList.add('hidden'), 500);
+        };
+
         document.addEventListener('DOMContentLoaded', async () => {
             const supabaseClient = window.supabaseClient;
             let user = null;
@@ -898,6 +1002,7 @@
                 const chatView = document.getElementById('active-chat-view');
                 const chatName = document.getElementById('active-chat-name');
                 const chatPhoto = document.getElementById('active-chat-photo');
+                const messagesContainer = document.getElementById('active-chat-messages');
                 
                 if (!chatView) return;
 
@@ -906,33 +1011,29 @@
                 if (chatName) chatName.textContent = driver.name;
                 if (driver.photo && chatPhoto) chatPhoto.src = driver.photo;
 
-                // Buscar telefone
-                const phoneFromDriver = driver.phone && driver.phone.trim() ? driver.phone.trim() : null;
-                window._chatState.targetPhone = phoneFromDriver;
-                console.log('[Chat] phone direto do driver:', phoneFromDriver);
-
-                if (!window._chatState.targetPhone && driver.id && window.supabaseClient) {
-                    try {
-                        const { data: motorista } = await window.supabaseClient
-                            .from('motoristas')
-                            .select('telefone_whatsapp')
-                            .eq('usuario_id', driver.id)
-                            .maybeSingle();
-                        if (motorista?.telefone_whatsapp) {
-                            window._chatState.targetPhone = motorista.telefone_whatsapp;
-                            console.log('[Chat] phone buscado da tabela motoristas:', motorista.telefone_whatsapp);
-                        }
-                    } catch (err) {
-                        console.warn('[Chat] Erro ao buscar telefone do motorista:', err);
-                    }
-                }
-                console.log('[Chat] phone final:', window._chatState.targetPhone);
-
+                // Mostra o chat imediatamente com loading
+                if (messagesContainer) messagesContainer.innerHTML = '<div class="p-8 text-center text-slate-500 text-sm">Carregando...</div>';
                 chatView.classList.remove('hidden');
                 requestAnimationFrame(() => {
                     chatView.classList.remove('translate-x-full');
                     chatView.classList.add('translate-x-0');
                 });
+
+                // Buscar telefone em background (sem bloquear)
+                const phoneFromDriver = driver.phone && driver.phone.trim() ? driver.phone.trim() : null;
+                window._chatState.targetPhone = phoneFromDriver;
+                if (!phoneFromDriver && driver.id && window.supabaseClient) {
+                    (async () => {
+                        try {
+                            const [{ data: motorista }, { data: usuario }] = await Promise.all([
+                                window.supabaseClient.from('motoristas').select('telefone_whatsapp').eq('usuario_id', driver.id).maybeSingle(),
+                                window.supabaseClient.from('usuarios').select('telefone').eq('id', driver.id).single()
+                            ]);
+                            if (motorista?.telefone_whatsapp) window._chatState.targetPhone = motorista.telefone_whatsapp;
+                            else if (usuario?.telefone) window._chatState.targetPhone = usuario.telefone;
+                        } catch (err) { console.warn('[Chat] Erro ao buscar telefone:', err); }
+                    })();
+                }
 
                 // Carregar mensagens e assinar tempo real
                 await loadActiveChatMessages();
@@ -1376,18 +1477,16 @@
 
                     showLoading();
 
-                    // Modern biasing: focus on Salinas da Margarida, BA if no location is available,
-                    // or use the user's current location with a tighter radius for better local results.
+                    // Sempre foca em Salinas da Margarida
                     const salinasCoords = { lat: -12.8711, lng: -38.7614 };
-                    const biasCoords = currentCoords || salinasCoords;
 
                     const request = {
                         input: query,
                         componentRestrictions: { country: 'br' },
                         language: 'pt-BR',
                         locationBias: {
-                            radius: 20000, // 20km for tighter local results
-                            center: biasCoords
+                            radius: 20000,
+                            center: salinasCoords
                         }
                     };
 
@@ -1473,7 +1572,7 @@
                         if (profile.foto_perfil_url && profileAvatarEl) {
                             profileAvatarEl.src = profile.foto_perfil_url;
                         } else if (profile.nome && profileAvatarEl) {
-                            profileAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.nome)}&background=1e3fae&color=fff&size=128`;
+                            profileAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.nome)}&background=f97316&color=fff&size=128`;
                         }
                     }
                 } catch (err) {
@@ -1543,13 +1642,17 @@
                     // e talvez tenhamos que pegar o nome de outra forma.
                     // POR ENQUANTO: Vamos listar da tabela 'motoristas'. Se faltar nome, usaremos um placeholder ou buscaremos.
 
-                    const { data: motoristas, error } = await supabaseClient.from('motoristas')
+                    const motoristasPromise = supabaseClient.from('motoristas')
                         .select('*, usuarios(nome, foto_perfil_url)')
                         .eq('status_aprovacao', 'aprovado');
 
-                    if (error) throw error;
-
-                    driversContainer.innerHTML = '';
+                    let motoristas;
+                    if (window.DataCache) {
+                        motoristas = await DataCache.fetchAndCache(motoristasPromise, DataCache.KEYS.DRIVERS, DataCache.TTL.STATIC);
+                    } else {
+                        const { data } = await motoristasPromise;
+                        motoristas = data || [];
+                    }
 
                     if (!motoristas || motoristas.length === 0) {
                         driversContainer.innerHTML = `
@@ -2076,8 +2179,68 @@
                 if (e.key === 'Enter') window.sendActiveChatMessage();
             });
 
+            const suporteForm = document.getElementById('form-suporte');
+            if (suporteForm) {
+                suporteForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const nome = document.getElementById('suporte-nome').value;
+                    const email = document.getElementById('suporte-email').value;
+                    const telefone = document.getElementById('suporte-telefone').value;
+                    const assunto = document.getElementById('suporte-assunto').value;
+                    const mensagem = document.getElementById('suporte-mensagem').value;
+                    
+                    if (!nome || !email || !mensagem || !assunto) {
+                        alert('Por favor, preencha todos os campos obrigatórios.');
+                        return;
+                    }
+                    
+                    const btn = document.getElementById('btn-suporte-submit');
+                    const loader = document.getElementById('suporte-loader');
+                    try {
+                        btn.disabled = true;
+                        btn.querySelector('span').innerText = 'Enviando...';
+                        loader.classList.remove('hidden');
+                        
+                        const supabase = window.supabaseClient;
+                        const { data: { user } } = await supabase.auth.getUser();
+                        
+                        const { error } = await supabase.from('suporte').insert([{
+                            usuario_id: user ? user.id : null,
+                            nome, email, telefone, assunto, mensagem,
+                            status: 'aberto'
+                        }]);
+                        
+                        if (error) throw error;
+                        
+                        alert('Mensagem enviada com sucesso!');
+                        suporteForm.reset();
+                        fecharSuporte();
+                    } catch (err) {
+                        console.error('Erro ao enviar mensagem:', err);
+                        alert('Erro ao enviar mensagem. Tente novamente.');
+                    } finally {
+                        btn.disabled = false;
+                        btn.querySelector('span').innerText = 'Enviar Mensagem';
+                        loader.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Máscara de telefone
+            const telInputs = document.querySelectorAll('input[type="tel"]');
+            telInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    let v = this.value.replace(/\D/g, '');
+                    if (v.length > 11) v = v.slice(0, 11);
+                    v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
+                    v = v.replace(/(\d)(\d{4})$/, '$1-$2');
+                    this.value = v;
+                });
+            });
         });
     </script>
+    <script src="js/data-cache.js"></script>
+    <script src="js/chat-notifications.js"></script>
     <script src="js/pwa-register.js"></script>
     <!-- Scripts already loaded above -->
 </body>

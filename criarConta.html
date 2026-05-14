@@ -20,7 +20,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#f97316",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
                     },
@@ -218,7 +218,7 @@
                     <span class="material-symbols-outlined absolute left-4 text-slate-500">call</span>
                     <input id="telefone" required
                         class="w-full bg-transparent border-none py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:ring-0"
-                        placeholder="(91) 90000-0000" type="tel" />
+                        placeholder="(71) 99908-8651" type="tel" />
                 </div>
             </div>
             <div class="space-y-1.5">
@@ -295,6 +295,17 @@
         });
     </script>
     <script src="js/pwa-register.js"></script>
+    <script>
+        document.querySelectorAll('input[type="tel"]').forEach(input => {
+            input.addEventListener('input', function () {
+                let v = this.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.slice(0, 11);
+                v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
+                v = v.replace(/(\d)(\d{4})$/, '$1-$2');
+                this.value = v;
+            });
+        });
+    </script>
 </body>
 
 </html>

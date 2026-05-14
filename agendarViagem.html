@@ -17,7 +17,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1e3fae",
+                        "primary": "#f97316",
                         "background-light": "#f6f6f8",
                         "background-dark": "#121520",
                     },
@@ -527,10 +527,9 @@
 
                     showLoading();
 
-                    // Modern biasing: focus on Salinas da Margarida, BA if no location is available,
-                    // or use the user's current location with a tighter radius for better local results.
+                    // Sempre foca em Salinas da Margarida
                     const salinasCoords = { lat: -12.8711, lng: -38.7614 };
-                    const biasCoords = currentCoords || salinasCoords;
+                    const biasCoords = salinasCoords;
 
                     const request = {
                         input: query,

@@ -122,35 +122,8 @@ const initHomepage = async () => {
         const driversContainer = document.getElementById('drivers-container');
         if (!driversContainer) return;
 
-        const cache = window.DataCache;
-        const cachedDrivers = cache.get(cache.KEYS.KEY_DRIVERS);
-        let drivers = null;
-
-        if (cachedDrivers) {
-            renderDrivers(cachedDrivers);
-            supabaseClient
-                .from('motoristas')
-                .select(`
-                    modelo_veiculo,
-                    avaliacao_media,
-                    status_online,
-                    usuarios ( nome, foto_perfil_url )
-                `)
-                .order('status_online', { ascending: false })
-                .order('avaliacao_media', { ascending: false })
-                .limit(10)
-                .then(({ data }) => {
-                    if (data) {
-                        cache.set(cache.KEYS.KEY_DRIVERS, data, 5 * 60 * 1000);
-                        renderDrivers(data);
-                    }
-                })
-                .catch(() => {});
-            return;
-        }
-
         try {
-            const { data, error } = await supabaseClient
+            const driversPromise = supabaseClient
                 .from('motoristas')
                 .select(`
                     modelo_veiculo,
@@ -162,12 +135,12 @@ const initHomepage = async () => {
                 .order('avaliacao_media', { ascending: false })
                 .limit(10);
 
-            drivers = data;
-
-            if (error) {
-                console.error('Error fetching drivers:', error);
-                driversContainer.innerHTML = '<p class="text-slate-500 text-sm p-4">Não foi possível carregar os motoristas.</p>';
-                return;
+            let drivers;
+            if (window.DataCache) {
+                drivers = await DataCache.fetchAndCache(driversPromise, DataCache.KEYS.DRIVERS, DataCache.TTL.STATIC);
+            } else {
+                const { data } = await driversPromise;
+                drivers = data || [];
             }
 
             if (!drivers || drivers.length === 0) {
@@ -175,10 +148,10 @@ const initHomepage = async () => {
                 return;
             }
 
-            cache.set(cache.KEYS.KEY_DRIVERS, drivers, 5 * 60 * 1000);
             renderDrivers(drivers);
         } catch (err) {
-            console.error('Unexpected error loading drivers:', err);
+            console.error('Error loading drivers:', err);
+            driversContainer.innerHTML = '<p class="text-slate-500 text-sm p-4">Não foi possível carregar os motoristas.</p>';
         }
 
         function renderDrivers(drivers) {
@@ -258,27 +231,22 @@ const initHomepage = async () => {
         const adsContainer = document.getElementById('ads-container');
         if (!adsContainer) return;
 
-        const cache = window.DataCache;
-        const cachedAds = cache.get(cache.KEYS.KEY_ADS);
-
-        if (cachedAds) {
-            renderAds(cachedAds);
-            supabaseClient.from('anuncios').select('*').eq('ativo', true).order('criado_em', { ascending: false })
-                .then(({ data }) => { if (data) { cache.set(cache.KEYS.KEY_ADS, data, 10 * 60 * 1000); renderAds(data); } })
-                .catch(() => {});
-            return;
-        }
-
         try {
-            const { data: ads, error } = await supabaseClient
+            const adsPromise = supabaseClient
                 .from('anuncios')
                 .select('*')
                 .eq('ativo', true)
                 .order('criado_em', { ascending: false });
 
-            if (error) throw error;
-            cache.set(cache.KEYS.KEY_ADS, ads || [], 10 * 60 * 1000);
-            renderAds(ads || []);
+            let ads;
+            if (window.DataCache) {
+                ads = await DataCache.fetchAndCache(adsPromise, DataCache.KEYS.ADS, DataCache.TTL.STATIC);
+            } else {
+                const { data } = await adsPromise;
+                ads = data || [];
+            }
+
+            renderAds(ads);
         } catch (err) {
             console.error('Error loading ads:', err);
         }
@@ -364,28 +332,23 @@ const initHomepage = async () => {
         const blogContainer = document.getElementById('blog-container');
         if (!blogContainer) return;
 
-        const cache = window.DataCache;
-        const cachedPosts = cache.get(cache.KEYS.KEY_BLOG);
-
-        if (cachedPosts) {
-            renderBlog(cachedPosts);
-            supabaseClient.from('postagens').select('*').eq('publicado', true).order('criado_em', { ascending: false }).limit(3)
-                .then(({ data }) => { if (data) { cache.set(cache.KEYS.KEY_BLOG, data, 10 * 60 * 1000); renderBlog(data); } })
-                .catch(() => {});
-            return;
-        }
-
         try {
-            const { data: posts, error } = await supabaseClient
+            const postsPromise = supabaseClient
                 .from('postagens')
                 .select('*')
                 .eq('publicado', true)
                 .order('criado_em', { ascending: false })
                 .limit(3);
 
-            if (error) throw error;
-            cache.set(cache.KEYS.KEY_BLOG, posts || [], 10 * 60 * 1000);
-            renderBlog(posts || []);
+            let posts;
+            if (window.DataCache) {
+                posts = await DataCache.fetchAndCache(postsPromise, DataCache.KEYS.BLOG, DataCache.TTL.STATIC);
+            } else {
+                const { data } = await postsPromise;
+                posts = data || [];
+            }
+
+            renderBlog(posts);
         } catch (err) {
             console.error('Error loading blog posts:', err);
             blogContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Erro ao carregar postagens.</p>';

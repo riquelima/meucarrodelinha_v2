@@ -21,7 +21,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#193db3",
+                        "primary": "#f97316",
                         "accent": "#00d4ff",
                         "background-light": "#f6f6f8",
                         "background-dark": "#111521",
@@ -177,7 +177,7 @@
                 <span class="text-slate-800 dark:text-slate-200 text-sm font-semibold mb-2">Telefone</span>
                 <input id="telefone" required
                     class="form-input w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary h-14 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-4 text-base"
-                    placeholder="(00) 00000-0000" type="tel" />
+                    placeholder="(71) 99908-8651" type="tel" />
             </label>
         </div>
         <div class="pt-2">
@@ -267,6 +267,17 @@
         }
     </script>
     <script src="js/pwa-register.js"></script>
+    <script>
+        document.querySelectorAll('input[type="tel"]').forEach(input => {
+            input.addEventListener('input', function () {
+                let v = this.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.slice(0, 11);
+                v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
+                v = v.replace(/(\d)(\d{4})$/, '$1-$2');
+                this.value = v;
+            });
+        });
+    </script>
 </body>
 
 </html>

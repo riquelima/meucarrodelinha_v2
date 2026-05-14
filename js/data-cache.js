@@ -1,20 +1,26 @@
 (function () {
-    const CACHE_PREFIX = 'mcls_cache_';
+    const PREFIX = 'mcls_cache_';
     const DEFAULTS = {
-        TTL: 5 * 60 * 1000,
-        KEY_DRIVERS: 'drivers',
-        KEY_ADS: 'ads',
-        KEY_BLOG: 'blog',
-        KEY_USER: 'user_profile'
+        TTL_STATIC: 30 * 60 * 1000,
+        TTL_DYNAMIC: 2 * 60 * 1000,
+        KEYS: {
+            DRIVERS: 'drivers',
+            ADS: 'ads',
+            BLOG: 'blog',
+            USER_PROFILE: 'user_profile',
+            MESSAGES: 'messages',
+            TRIPS: 'trips',
+            NOTIFICATIONS: 'notifications',
+        }
     };
 
     function get(key) {
         try {
-            const raw = localStorage.getItem(CACHE_PREFIX + key);
+            const raw = localStorage.getItem(PREFIX + key);
             if (!raw) return null;
             const parsed = JSON.parse(raw);
             if (Date.now() > parsed.expires) {
-                localStorage.removeItem(CACHE_PREFIX + key);
+                localStorage.removeItem(PREFIX + key);
                 return null;
             }
             return parsed.data;
@@ -23,25 +29,25 @@
 
     function set(key, data, ttl) {
         try {
-            const payload = { data, expires: Date.now() + (ttl || DEFAULTS.TTL) };
-            localStorage.setItem(CACHE_PREFIX + key, JSON.stringify(payload));
+            const payload = { data, expires: Date.now() + (ttl || DEFAULTS.TTL_STATIC) };
+            localStorage.setItem(PREFIX + key, JSON.stringify(payload));
         } catch (e) {
             if (e.name === 'QuotaExceededError') {
                 prune();
-                try { localStorage.setItem(CACHE_PREFIX + key, JSON.stringify(payload)) } catch {}
+                try { localStorage.setItem(PREFIX + key, JSON.stringify(payload)) } catch {}
             }
         }
     }
 
     function remove(key) {
-        localStorage.removeItem(CACHE_PREFIX + key);
+        localStorage.removeItem(PREFIX + key);
     }
 
     function prune() {
         const now = Date.now();
         for (let i = localStorage.length - 1; i >= 0; i--) {
             const key = localStorage.key(i);
-            if (key && key.startsWith(CACHE_PREFIX)) {
+            if (key && key.startsWith(PREFIX)) {
                 try {
                     const parsed = JSON.parse(localStorage.getItem(key));
                     if (now > parsed.expires) localStorage.removeItem(key);
@@ -54,7 +60,7 @@
         const toRemove = [];
         for (let i = localStorage.length - 1; i >= 0; i--) {
             const key = localStorage.key(i);
-            if (key && key.startsWith(CACHE_PREFIX)) toRemove.push(key);
+            if (key && key.startsWith(PREFIX)) toRemove.push(key);
         }
         toRemove.forEach(k => localStorage.removeItem(k));
     }
@@ -72,5 +78,25 @@
         return result.data || [];
     }
 
-    window.DataCache = { get, set, remove, clear, prune, fetchAndCache, KEYS: DEFAULTS };
+    async function fetchFresh(supabasePromise, cacheKey, ttl) {
+        const result = await supabasePromise;
+        if (result.data) set(cacheKey, result.data, ttl);
+        return result;
+    }
+
+    function invalidate(key) {
+        remove(key);
+    }
+
+    function invalidateAll() {
+        clear();
+    }
+
+    window.DataCache = {
+        get, set, remove, clear, prune,
+        fetchAndCache, fetchFresh,
+        invalidate, invalidateAll,
+        KEYS: DEFAULTS.KEYS,
+        TTL: { STATIC: DEFAULTS.TTL_STATIC, DYNAMIC: DEFAULTS.TTL_DYNAMIC }
+    };
 })();
