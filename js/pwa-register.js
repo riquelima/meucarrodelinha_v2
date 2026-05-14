@@ -6,6 +6,10 @@
 
     // Detecta iOS
     var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isHomepage = window.location.pathname === '/' || window.location.pathname.endsWith('homepage.html');
+
+    // Só mostra o banner na homepage (nunca na splash screen)
+    if (!isHomepage) return;
 
     // Intercepta o beforeinstallprompt (Android Chrome)
     window.addEventListener('beforeinstallprompt', function(e) {
