@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="dark" lang="pt-BR">
 
 <head>
@@ -28,9 +28,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <!-- Google Maps SDK with callback -->
     <script>
-        // Placeholder para evitar erro "initMap is not a function"
         window.initMap = function() {};
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZFpqrSF2kfWsT7uoCWnXVjagCZANiD8&libraries=places,marker&callback=initMap&loading=async" async defer></script>
@@ -94,7 +92,6 @@
             font-variation-settings: 'FILL' 1;
         }
     
-        /* Global Mobile Native Fixes */
         body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
@@ -104,7 +101,6 @@
             user-select: text;
             -webkit-user-select: text;
         }
-        /* Native-like click effect */
         .active-scale {
             transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1);
             will-change: transform;
@@ -113,13 +109,11 @@
             transform: scale(0.97);
         }
         
-        /* Smooth Scroll Gradient Mask */
         .mask-gradient-x {
             mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         }
 
-        /* Entrance Animations */
         .animate-fade-in {
             opacity: 0;
             animation: fadeIn 0.5s ease-out forwards;
@@ -137,7 +131,6 @@
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 150ms; }
         .delay-300 { animation-delay: 200ms; }
@@ -152,15 +145,12 @@
         }
     </style>
 
-    <!-- Page Transitions Settings -->
     <meta name="view-transition" content="same-origin" />
     <style>
-        /* View Transitions API */
         @view-transition {
             navigation: auto;
         }
 
-        /* Forward Animation */
         :root[data-transition="forward"] ::view-transition-old(root) {
             animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-out-left;
         }
@@ -169,7 +159,6 @@
             animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-in-right;
         }
 
-        /* Backward Animation */
         :root[data-transition="back"] ::view-transition-old(root) {
             animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-out-right;
             z-index: 1;
@@ -180,7 +169,6 @@
             z-index: 2;
         }
 
-        /* Default / Fade */
         ::view-transition-old(root) {
             animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
         }
@@ -190,81 +178,42 @@
         }
 
         @keyframes slide-in-right {
-            from {
-                transform: translateX(100%);
-            }
-
-            to {
-                transform: translateX(0);
-            }
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
 
         @keyframes slide-out-left {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-30%);
-                opacity: 0.5;
-            }
+            from { transform: translateX(0); }
+            to { transform: translateX(-30%); opacity: 0.5; }
         }
 
         @keyframes slide-in-left {
-            from {
-                transform: translateX(-30%);
-                opacity: 0.5;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(-30%); opacity: 0.5; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         @keyframes slide-out-right {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(100%);
-            }
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
         }
 
         @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
 
-        /* Fallback Fade */
         body {
             animation: fadeIn 0.3s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         body.fade-out {
@@ -272,47 +221,20 @@
         }
 
         @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
 
-        /* Logo mascot animations */
         @keyframes logoEntrance {
-            0% {
-                opacity: 0;
-                transform: translateY(32px) scale(0.85);
-            }
-
-            60% {
-                opacity: 1;
-                transform: translateY(-6px) scale(1.03);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(32px) scale(0.85); }
+            60% { opacity: 1; transform: translateY(-6px) scale(1.03); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* 3D Text Animation */
         @keyframes popIn3D {
-            0% {
-                opacity: 0;
-                transform: scale(0.5) translateY(20px) rotateX(20deg);
-            }
-            60% {
-                opacity: 1;
-                transform: scale(1.05) translateY(-5px) rotateX(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            0% { opacity: 0; transform: scale(0.5) translateY(20px) rotateX(20deg); }
+            60% { opacity: 1; transform: scale(1.05) translateY(-5px) rotateX(0deg); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .font-3d-orange {
@@ -329,31 +251,17 @@
 
         .animate-pop-in-3d {
             animation: popIn3D 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            animation-delay: 0.2s; /* Slight delay to sync with logo if needed */
+            animation-delay: 0.2s;
         }
 
         @keyframes logoFloat {
-
-            0%,
-            100% {
-                transform: translateY(0px) rotate(-0.5deg);
-            }
-
-            50% {
-                transform: translateY(-10px) rotate(0.5deg);
-            }
+            0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+            50% { transform: translateY(-10px) rotate(0.5deg); }
         }
 
         @keyframes logoGlow {
-
-            0%,
-            100% {
-                filter: drop-shadow(0 8px 32px rgba(30, 63, 174, 0.18));
-            }
-
-            50% {
-                filter: drop-shadow(0 16px 48px rgba(30, 63, 174, 0.38));
-            }
+            0%, 100% { filter: drop-shadow(0 8px 32px rgba(30, 63, 174, 0.18)); }
+            50% { filter: drop-shadow(0 16px 48px rgba(30, 63, 174, 0.38)); }
         }
 
         #logo-mascot {
@@ -372,7 +280,7 @@
             animation: cardClick 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
             pointer-events: none;
         }
-        /* Remove branding do Google Maps */
+
         #homepage-map .gm-style-cc,
         #homepage-map .gm-style a[href^="https://maps.google.com"],
         #homepage-map .gm-style a[href^="https://www.google.com/maps"] {
@@ -382,27 +290,170 @@
         #homepage-map .gm-style-mtc {
             display: none !important;
         }
+
+        /* ---- PREMIUM REDESIGN STYLES ---- */
+
+        /* Scroll-triggered fade-in */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in-section.is-visible .stagger-child {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: staggerFadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        .fade-in-section.is-visible .stagger-child:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in-section.is-visible .stagger-child:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in-section.is-visible .stagger-child:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in-section.is-visible .stagger-child:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in-section.is-visible .stagger-child:nth-child(5) { animation-delay: 0.5s; }
+        @keyframes staggerFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glassmorphism card base */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card-strong {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Premium glow shadow */
+        .glow-primary {
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .glow-blue {
+            box-shadow: 0 0 30px rgba(30, 63, 174, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .glow-border-primary {
+            box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.15), 0 0 30px rgba(249, 115, 22, 0.06);
+        }
+
+        /* Glassmorphism driver cards override */
+        #drivers-container > * {
+            flex: 0 0 auto !important;
+            width: 280px !important;
+            border-radius: 1.5rem !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.04) !important;
+            padding: 1.25rem !important;
+            scroll-snap-align: center !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        #drivers-container > *:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(249, 115, 22, 0.08) !important;
+        }
+
+        /* Ad cards */
+        #ads-container > * {
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        #ads-container > *:hover {
+            transform: translateY(-4px) !important;
+        }
+
+        /* Blog items */
+        #blog-container > * {
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        #blog-container > *:hover {
+            transform: translateX(4px) !important;
+        }
+
+        /* Premium gradient overlays */
+        .hero-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 20% 50%, rgba(249, 115, 22, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 50%, rgba(30, 63, 174, 0.06) 0%, transparent 60%);
+        }
+
+        /* Wave divider container */
+        .wave-divider {
+            position: relative;
+            height: 48px;
+            width: 100%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 48px;
+        }
+
+        /* Smooth pulse for CTA buttons */
+        .cta-pulse {
+            animation: ctaPulse 3s ease-in-out infinite;
+        }
+        @keyframes ctaPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.25), 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .animate-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .hero-card-glow {
+            box-shadow:
+                0 0 40px rgba(249, 115, 22, 0.06),
+                0 0 80px rgba(30, 63, 174, 0.04),
+                0 25px 60px -12px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<body class="bg-background-dark font-display text-slate-100 antialiased">
     <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-10">
-        <header
-            class="flex items-center justify-between bg-background-light dark:bg-background-dark px-4 py-3 sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800">
+
+        <!-- ========== HEADER ========== -->
+        <header class="flex items-center justify-between px-4 py-3 sticky top-0 z-50 bg-background-dark/80 backdrop-blur-xl border-b border-white/[0.04]">
             <div class="w-10"></div>
             <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(18px, 5vw, 24px);">
                 Meu Carro de Linha
             </h1>
             <div id="menu-toggle-btn"
-                class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800 ml-2 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors active-scale">
-                <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">menu</span>
+                class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 ml-2 cursor-pointer hover:bg-white/10 hover:border-white/20 transition-all duration-300 active-scale shadow-lg shadow-primary/5">
+                <span class="material-symbols-outlined text-slate-100">menu</span>
             </div>
         </header>
-        <!-- Logo mascot hero — Luxury Editorial version -->
-        <div class="px-4 py-6 sm:py-10">
-            <div class="relative overflow-hidden rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 flex flex-row items-center gap-6 sm:gap-10 shadow-2xl shadow-primary/5 dark:shadow-none animate-slide-up">
-                <!-- Mascot (Left - 35% on mobile) -->
-                <div class="relative flex-shrink-0 w-[35%] sm:w-auto flex items-center justify-center p-3 sm:p-5 rounded-[2rem] bg-gradient-to-br from-slate-50 to-white dark:from-slate-800/50 dark:to-slate-900/50 border border-slate-100 dark:border-slate-700/50 shadow-inner">
+
+        <!-- ========== HERO CARD ========== -->
+        <div class="px-4 py-6 sm:py-10 fade-in-section">
+            <div class="relative overflow-hidden rounded-[2.5rem] glass-card p-6 sm:p-10 flex flex-row items-center gap-6 sm:gap-10 hero-card-glow animate-slide-up">
+                <div class="hero-glow"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-700/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Mascot (Left) -->
+                <div class="relative flex-shrink-0 w-[35%] sm:w-auto flex items-center justify-center p-3 sm:p-5 rounded-[2rem] bg-gradient-to-br from-primary/10 via-blue-700/5 to-slate-900/50 border border-white/10 shadow-inner">
                     <img id="logo-mascot" src="logoTransparente.png" alt="Mascote Salinas" style="
                         width: 100%;
                         max-width: 180px;
@@ -410,200 +461,222 @@
                         transform-origin: bottom center;
                         will-change: transform, filter;
                     " />
-
                 </div>
 
-                <!-- Text (Right - 65% on mobile) -->
-                <div class="flex-1 pointer-events-auto min-w-0">
+                <!-- Text (Right) -->
+                <div class="flex-1 pointer-events-auto min-w-0 relative z-10">
                     <div class="relative">
-                        <!-- Stylized quote mark -->
-                        <span class="absolute -top-6 sm:-top-10 -left-2 sm:-left-4 text-6xl sm:text-8xl text-primary/10 font-editorial pointer-events-none opacity-50">“</span>
-                        <p class="font-editorial leading-[1.05] sm:leading-tight tracking-tighter text-slate-800 dark:text-white"
+                        <span class="absolute -top-6 sm:-top-10 -left-2 sm:-left-4 text-6xl sm:text-8xl text-primary/[0.07] font-editorial pointer-events-none">"</span>
+                        <p class="font-editorial leading-[1.05] sm:leading-tight tracking-tighter text-white"
                             style="font-size: clamp(20px, 5vw, 36px);">
-                            <span class="font-extrabold text-primary dark:text-blue-400 uppercase tracking-widest text-[0.55em] block mb-2 opacity-80">Tradição & Tecnologia</span>
+                            <span class="font-extrabold text-primary uppercase tracking-[0.15em] text-[0.5em] block mb-2 opacity-90">Tradição & Tecnologia</span>
                             Em Salinas, táxi sempre foi chamado de <span class="relative inline-block">
-                                <span class="relative z-10 font-extrabold">carro de linha</span>
-                                <span class="absolute bottom-1 left-0 w-full h-3 bg-primary/10 -rotate-1"></span>
+                                <span class="relative z-10 font-extrabold text-white">carro de linha</span>
+                                <span class="absolute bottom-1 left-0 w-full h-3 bg-primary/15 -rotate-1 rounded-full"></span>
                             </span>.
                         </p>
-                        <p class="mt-4 sm:mt-6 font-display font-medium leading-relaxed text-slate-500 dark:text-slate-400"
+                        <p class="mt-4 sm:mt-6 font-display font-medium leading-relaxed text-slate-400"
                             style="font-size: clamp(14px, 3vw, 22px);">
-                            Agora você pode encontrar seu motorista pelo <span class="text-primary dark:text-blue-400 font-bold underline decoration-primary/30 decoration-2 underline-offset-4">celular</span>.
+                            Agora você pode encontrar seu motorista pelo <span class="text-primary font-bold underline decoration-primary/30 decoration-2 underline-offset-4">celular</span>.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-        <section class="relative px-4 pt-0 pb-6" style="min-height: 300px;">
-            <!-- OpenStreetMap via Leaflet.js — fully visible -->
-            <div id="homepage-map" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;"></div>
-            <!-- Subtle gradient at the bottom so content below reads cleanly -->
-            <div
-                style="position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, #121520); z-index: 1; pointer-events: none;">
-            </div>
-            <div class="relative pt-6 px-0" style="z-index: 2;">
-                <div class="flex justify-between items-end mb-4">
-                    <div class="px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-sm border border-white/10">
-                        <h2 class="text-xl sm:text-2xl font-bold text-white drop-shadow-md">Para onde vamos hoje?</h2>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3">
-                    <!-- Autocomplete wrapper -->
-                    <div class="relative w-full">
-                        <div
-                            class="flex w-full items-stretch rounded-xl h-14 bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
-                            <div class="flex items-center justify-center pl-4 text-primary">
-                                <span class="material-symbols-outlined">search</span>
-                            </div>
-                            <input id="destino-input" autocomplete="off"
-                                class="form-input flex w-full border-none bg-transparent focus:ring-0 px-4 text-base font-medium placeholder:text-slate-400"
-                                placeholder="Digite seu destino..." />
-                        </div>
-                        <!-- Suggestions dropdown -->
-                        <ul id="destino-suggestions"
-                            class="absolute left-0 right-0 top-[56px] z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden">
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-5 animate-slide-up delay-100 overflow-hidden">
-            <div class="flex gap-4 px-4 overflow-x-auto no-scrollbar snap-x snap-mandatory" id="actions-slider">
-                <!-- Card Motorista -->
-                <a href="cadastroMotorista.html"
-                    class="active-scale flex-none w-[85%] snap-center flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary to-blue-700 text-white shadow-md relative group">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-white/20 p-2 rounded-lg">
-                            <span class="material-symbols-outlined">badge</span>
-                        </div>
-                        <div class="text-left">
-                            <p class="font-bold text-sm">Quero ser motorista</p>
-                            <p class="text-[10px] opacity-90">Aumente sua renda dirigindo conosco</p>
-                        </div>
-                    </div>
-                    <span
-                        class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">chevron_right</span>
-                </a>
 
-                <!-- Card Anunciante -->
-                <a href="novoAnuncio.html"
-                    class="active-scale flex-none w-[85%] snap-center flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md relative group">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-white/20 p-2 rounded-lg">
-                            <span class="material-symbols-outlined">campaign</span>
-                        </div>
-                        <div class="text-left">
-                            <p class="font-bold text-sm">Quero anunciar</p>
-                            <p class="text-[10px] opacity-90">Divulgue seu negócio para milhares</p>
-                        </div>
-                    </div>
-                    <span
-                        class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">chevron_right</span>
+        <!-- ========== WAVE DIVIDER 1 ========== -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+                <path d="M0,20 C160,5 320,35 480,20 C640,5 800,35 960,20 C1120,5 1280,35 1440,20 L1440,48 L0,48 Z" fill="#121520"/>
+                <path d="M0,20 C160,5 320,35 480,20 C640,5 800,35 960,20 C1120,5 1280,35 1440,20" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.5"/>
+            </svg>
+        </div>
+
+        <!-- ========== DRIVER CAROUSEL (STAR) ========== -->
+        <section class="py-5 overflow-hidden fade-in-section">
+            <div class="flex items-center justify-between px-4 sm:px-6 mb-6">
+                <div>
+                    <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/70">Disponíveis agora</span>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">Motoristas em Destaque</h3>
+                </div>
+                <a class="text-primary text-sm font-semibold hover:text-primary/80 transition-colors flex items-center gap-1 shrink-0" href="todosmotoristas.html">
+                    Ver todos
+                    <span class="material-symbols-outlined text-base">chevron_right</span>
                 </a>
-            </div>
-        </section>
-        <section class="px-4 py-4 animate-slide-up delay-200">
-            <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Como
-                chamar?</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <a href="loginPassageiro.html"
-                    class="active-scale flex items-center gap-3 p-4 rounded-xl bg-primary text-white font-semibold shadow-lg shadow-primary/30">
-                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">bolt</span>
-                    <span>Agora</span>
-                </a>
-                <a href="loginPassageiro.html"
-                    class="active-scale flex items-center gap-3 p-4 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold border border-slate-300 dark:border-slate-700">
-                    <span class="material-symbols-outlined">calendar_today</span>
-                    <span>Agendar</span>
-                </a>
-            </div>
-        </section>
-        <section class="py-6 overflow-hidden animate-slide-up delay-300">
-            <div class="flex items-center justify-between px-4 mb-4">
-                <h3 class="text-lg font-bold">Motoristas em Destaque</h3>
-                <a class="text-[#f97316] text-sm font-semibold" href="todosmotoristas.html">Ver todos</a>
             </div>
             <div class="flex overflow-hidden w-full group mask-gradient-x">
                 <div class="flex animate-scroll group-hover:[animation-play-state:paused] w-max"
                     id="drivers-scroll-wrapper">
-                    <div id="drivers-container" class="flex gap-4 px-4 pb-4 no-scrollbar">
-                        <!-- Dynamic drivers list will be injected here -->
+                    <div id="drivers-container" class="flex gap-4 px-4 sm:px-6 pb-4 no-scrollbar snap-x snap-mandatory">
                     </div>
                 </div>
             </div>
         </section>
-        <section
-            class="px-4 py-6 bg-slate-100 dark:bg-slate-900/50 rounded-t-3xl border-t border-slate-200 dark:border-slate-800 animate-slide-up delay-400">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-bold">Blog</h3>
-                <a class="text-[#f97316] text-sm font-semibold" href="blog.html">Ver todos</a>
+
+        <!-- ========== WAVE DIVIDER 2 ========== -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+                <path d="M0,28 C160,48 320,18 480,28 C640,48 800,18 960,28 C1120,48 1280,18 1440,28 L1440,48 L0,48 Z" fill="#121520"/>
+                <path d="M0,28 C160,48 320,18 480,28 C640,48 800,18 960,28 C1120,48 1280,18 1440,28" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.5"/>
+            </svg>
+        </div>
+
+        <!-- ========== MAP SECTION (compact, subtle) ========== -->
+        <section class="relative fade-in-section" style="height: 260px; min-height: 260px;">
+            <div id="homepage-map" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;"></div>
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, transparent, #121520); z-index: 1; pointer-events: none;"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-background-dark/40 via-transparent to-transparent z-[1] pointer-events-none"></div>
+            <div class="relative z-10 h-full flex flex-col justify-end px-4 pb-3">
+                <div class="glass-card-strong rounded-2xl p-3 glow-primary">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">near_me</span>
+                        <span class="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/60">Para onde vamos hoje?</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="relative w-full">
+                            <div class="flex w-full items-stretch rounded-xl h-11 bg-white/10 border border-white/10 shadow-inner">
+                                <div class="flex items-center justify-center pl-3 text-primary/70">
+                                    <span class="material-symbols-outlined text-sm">search</span>
+                                </div>
+                                <input id="destino-input" autocomplete="off"
+                                    class="form-input flex w-full border-none bg-transparent focus:ring-0 px-3 text-sm font-medium placeholder:text-white/30 text-white"
+                                    placeholder="Digite seu destino..." />
+                            </div>
+                            <ul id="destino-suggestions"
+                                class="absolute left-0 right-0 top-[48px] z-[200] bg-slate-800/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-y-auto max-h-[200px] hidden">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== WAVE DIVIDER 3 ========== -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+                <path d="M0,20 C160,5 320,35 480,20 C640,5 800,35 960,20 C1120,5 1280,35 1440,20 L1440,48 L0,48 Z" fill="#121520"/>
+                <path d="M0,20 C160,5 320,35 480,20 C640,5 800,35 960,20 C1120,5 1280,35 1440,20" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.5"/>
+            </svg>
+        </div>
+
+        <!-- ========== COMO CHAMAR? ========== -->
+        <section class="px-4 sm:px-6 py-5 fade-in-section">
+            <div class="max-w-lg mx-auto">
+                <div class="text-center mb-6">
+                    <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/70">Como funciona</span>
+                    <h3 class="text-xl font-bold text-white mt-1">Como chamar?</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="loginPassageiro.html"
+                        class="active-scale relative overflow-hidden flex flex-col items-center justify-center gap-2 p-6 rounded-2xl bg-gradient-to-br from-primary to-orange-600 text-white font-bold shadow-2xl shadow-primary/20 group">
+                        <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">bolt</span>
+                        <span class="text-base">Agora</span>
+                        <span class="text-[10px] font-normal opacity-70">Corrida imediata</span>
+                    </a>
+                    <a href="loginPassageiro.html"
+                        class="active-scale relative overflow-hidden flex flex-col items-center justify-center gap-2 p-6 rounded-2xl glass-card hover:bg-white/[0.08] text-white font-bold shadow-2xl group transition-all duration-300">
+                        <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="material-symbols-outlined text-2xl text-primary">calendar_today</span>
+                        <span class="text-base">Agendar</span>
+                        <span class="text-[10px] font-normal opacity-70">Programe sua viagem</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CTA CARDS (premium) ========== -->
+        <section class="py-4 fade-in-section">
+            <div class="flex gap-4 px-4 sm:px-6 overflow-x-auto no-scrollbar snap-x snap-mandatory" id="actions-slider">
+                <!-- Quero ser motorista -->
+                <a href="cadastroMotorista.html"
+                    class="active-scale flex-none w-[85%] snap-center relative overflow-hidden flex items-center justify-between p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-blue-700/20 border border-primary/20 shadow-2xl cta-pulse group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-blue-700/10 pointer-events-none"></div>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-primary/20 p-3 rounded-xl border border-primary/20">
+                            <span class="material-symbols-outlined text-primary text-2xl">badge</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-lg text-white">Quero ser motorista</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Aumente sua renda dirigindo conosco</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-white/60 text-2xl group-hover:translate-x-1 transition-transform">chevron_right</span>
+                </a>
+
+                <!-- Quero anunciar -->
+                <a href="novoAnuncio.html"
+                    class="active-scale flex-none w-[85%] snap-center relative overflow-hidden flex items-center justify-between p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-amber-600/20 border border-amber-500/20 shadow-2xl cta-pulse group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-orange-600/10 pointer-events-none"></div>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-amber-500/20 p-3 rounded-xl border border-amber-500/20">
+                            <span class="material-symbols-outlined text-amber-400 text-2xl">campaign</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-lg text-white">Quero anunciar</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Divulgue seu negócio para milhares</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-white/60 text-2xl group-hover:translate-x-1 transition-transform">chevron_right</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== WAVE DIVIDER 4 ========== -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+                <path d="M0,28 C160,48 320,18 480,28 C640,48 800,18 960,28 C1120,48 1280,18 1440,28 L1440,48 L0,48 Z" fill="#121520"/>
+                <path d="M0,28 C160,48 320,18 480,28 C640,48 800,18 960,28 C1120,48 1280,18 1440,28" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.5"/>
+            </svg>
+        </div>
+
+        <!-- ========== BLOG ========== -->
+        <section class="px-4 sm:px-6 py-4 bg-gradient-to-b from-transparent via-slate-900/30 to-slate-900/20 fade-in-section">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/70">Novidades</span>
+                    <h3 class="text-xl font-bold text-white mt-1">Blog</h3>
+                </div>
+                <a class="text-primary text-sm font-semibold hover:text-primary/80 transition-colors flex items-center gap-1 shrink-0" href="blog.html">
+                    Ver todos
+                    <span class="material-symbols-outlined text-base">chevron_right</span>
+                </a>
             </div>
             <div id="blog-container" class="space-y-4 text-center py-4">
-                <!-- Posts will be loaded here -->
                 <p class="text-slate-500 text-sm">Carregando postagens...</p>
             </div>
         </section>
-        <section class="py-6 overflow-hidden bg-slate-100 dark:bg-slate-900/50 animate-slide-up delay-500">
-            <div class="flex items-center justify-between px-4 mb-4">
-                <h3 class="text-lg font-bold">Anúncios</h3>
-                <a class="text-[#f97316] text-sm font-semibold" href="anuncios.html">Ver todos</a>
+
+        <!-- ========== WAVE DIVIDER 5 ========== -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+                <path d="M0,20 C160,5 320,35 480,20 C640,5 800,35 960,20 C1120,5 1280,35 1440,20 L1440,48 L0,48 Z" fill="#121520"/>
+                <path d="M0,20 C160,5 320,35 480,20 C640,5 800,35 960,20 C1120,5 1280,35 1440,20" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.5"/>
+            </svg>
+        </div>
+
+        <!-- ========== ADS ========== -->
+        <section class="px-4 sm:px-6 py-4 fade-in-section">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/70">Parceiros</span>
+                    <h3 class="text-xl font-bold text-white mt-1">Anúncios</h3>
+                </div>
+                <a class="text-primary text-sm font-semibold hover:text-primary/80 transition-colors flex items-center gap-1 shrink-0" href="anuncios.html">
+                    Ver todos
+                    <span class="material-symbols-outlined text-base">chevron_right</span>
+                </a>
             </div>
-            <div id="ads-container" class="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar mask-gradient-x">
-                <div
-                    class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-                    <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
-                        <img alt="Ad 1"
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3seOHAKJ6v5NUZiynm6rVLTi9T9WbCOue6IhoJ2yW0PaKRfdF7h99MdQJi5O7Qo-bv3URuKjVbx2okfNE_6zQucUbBumL8_EVcjzKOBUXG8o51wIH2DylHr1H9mfqfzTMxHgD9S0ONpHAcPDTjuq-AeinxH0waMJrRzcU52Nd1fbb0hpeSJJ9SdtOK_39aIN-5OrlhSK2mbsu6XofaKZbQTdsmDZwB2afjMsVS2-JEu5KCRhErujkxD1pIkjrZ9KIHsgM8fIjkyJN" />
-                    </div>
-                    <div class="p-3">
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">Supermercado Silva
-                        </h4>
-                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Ofertas de hoje
-                        </p>
-                    </div>
-                </div>
-                <div
-                    class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-                    <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
-                        <img alt="Ad 2"
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdziscOzGZzwdY-6UKITd5hdYF-eAvjgE5PgFLZWWW9pZHItSKOL34yhfegI92u2x9wGXfvJaMHz0x3tWJrvu9RocB3FzOVk1Qs16jG8bzZDrL4jOVqbIKUg6dYcEu6rldcxB1tcU63sOXHQQTuqY0P6wpZJIbDnqPn-2A896Rdnw4LViUL0vEeznCgcvPSshr2EqxPUS6MTHZE1JbUabB7jJ32KiyfI_xWxZ6-DHdJmbK4xIJgqUuRQ3cd1W3C7S05CFvCYS3kVdh" />
-                    </div>
-                    <div class="p-3">
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">Farmácia Salinas
-                        </h4>
-                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Descontos 20%</p>
-                    </div>
-                </div>
-                <div
-                    class="stagger-item flex-none w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-                    <div class="h-32 w-full overflow-hidden bg-slate-200 dark:bg-slate-700 relative group">
-                        <img alt="Ad 3"
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuJwCX4_44pbKWjRuEKRMr9h0gXv1oIC1VcV2F7I3z-Ds3HMujXorovc5KPZsk_D8TEYsVeenx19iWFD9H5sxgS-v_32LPW-4jnxQ9OOgCH-ipgpM0dLzfg7927hqFfDHgwjF71yq7sJBRMVVjF3gLmlF9RvMFXCpIfaw6yc54H1SApCW9_B_jT2Ut8DiJW6nUOGECEeKo0M_8LpfM7P33R_JGFyZKkmPSghMU-4KwoqMb2TD3gQLgnVDbTJbROk_Lk3Lvjmx2CL-2" />
-                    </div>
-                    <div class="p-3">
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">Lanchonete Central
-                        </h4>
-                        <p class="text-[10px] text-[#f97316] font-medium mt-1 uppercase tracking-wide">Combo Especial
-                        </p>
-                    </div>
-                </div>
+            <div id="ads-container" class="flex gap-4 overflow-x-auto px-0 pb-2 no-scrollbar mask-gradient-x snap-x snap-mandatory">
             </div>
         </section>
 
-
-
     </div>
 
-    <!-- Sliding Menu Overlay and Drawer -->
+    <!-- ========== MENU DRAWER ========== -->
     <div id="menu-overlay"
         class="fixed inset-0 z-[100] flex justify-end opacity-0 pointer-events-none transition-opacity duration-300">
-        <!-- Backdrop -->
         <div id="menu-backdrop" class="absolute inset-0 bg-black/40"></div>
-
-        <!-- Drawer -->
         <div id="menu-drawer"
             class="relative w-[85%] max-w-sm h-full bg-background-dark border-l border-slate-800 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 pointer-events-auto">
             <div class="flex items-center justify-between p-6">
@@ -667,12 +740,11 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- ========== SCRIPTS ========== -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/push-manager.js"></script>
     <script>
-        // Inicializa o gerenciador de push e tenta o prompt único
         document.addEventListener('DOMContentLoaded', () => {
             PushManager.init();
             PushManager.promptOnce();
@@ -682,7 +754,6 @@
     <script src="js/data-cache.js"></script>
     <script src="js/homepage.js"></script>
     <script>
-        // Se já estiver logado, redireciona direto para o dashboard
         (async () => {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -702,13 +773,11 @@
         })();
     </script>
     <script>
-        // Força atualização do Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(registrations => {
                 registrations.forEach(reg => reg.update());
             });
         }
-        // Register Service Worker for PWA (Unified)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -731,7 +800,6 @@
         }
     </script>
     <script>
-        // Drawer Menu Logic
         const menuBtn = document.getElementById('menu-toggle-btn');
         const menuOverlay = document.getElementById('menu-overlay');
         const menuDrawer = document.getElementById('menu-drawer');
@@ -752,16 +820,14 @@
         menuCloseBtn.addEventListener('click', closeMenu);
         menuBackdrop.addEventListener('click', closeMenu);
 
-        // Submenu Toggle Logic
         function toggleSubmenu(id) {
             const submenu = document.getElementById(id);
             const icon = document.getElementById(id + '-icon');
 
             if (submenu.style.maxHeight === '0px' || submenu.classList.contains('hidden')) {
                 submenu.classList.remove('hidden');
-                // Small timeout to allow transition
                 setTimeout(() => {
-                    submenu.style.maxHeight = '160px'; // Approx height
+                    submenu.style.maxHeight = '160px';
                     submenu.style.opacity = '1';
                     submenu.style.paddingBottom = '16px';
                 }, 10);
@@ -771,14 +837,12 @@
                 submenu.style.opacity = '0';
                 submenu.style.paddingBottom = '0px';
                 icon.style.transform = 'rotate(-180deg)';
-                // Hide after transition
                 setTimeout(() => {
                     submenu.classList.add('hidden');
                 }, 200);
             }
         }
 
-        // Map Initialization
         let googleMap;
         let userMarker;
         let destinationMarker;
@@ -786,7 +850,6 @@
         window.initMap = function () {
             const mapContainer = document.getElementById('homepage-map');
             if (!mapContainer) return;
-            // Garantir que o container existe e tem dimensões
             if (mapContainer.offsetParent === null) {
                 setTimeout(() => window.initMap(), 300);
                 return;
@@ -817,7 +880,6 @@
                     ]
                 });
 
-                // Request User Location
                 if (window.requestLocationPermission) {
                     window.requestLocationPermission().then(() => {
                         navigator.geolocation.getCurrentPosition(
@@ -850,7 +912,6 @@
                     }).catch(error => console.log("Location request dismissed", error));
                 }
 
-                // Listen for place selection (this event will be dispatched from homepage.js)
                 document.addEventListener('placeSelected', (e) => {
                     const { lat, lng, name } = e.detail;
                     const pos = { lat, lng };
@@ -875,24 +936,19 @@
                 });
         };
 
-        // Se o Maps já carregou antes de initMap ser definido, inicializa agora
         if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
             window.initMap();
         }
 
-        // Enhanced Navigation Logic with View Transitions
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (!link) return;
 
-            // Ignore external links or anchor links on same page
             const href = link.getAttribute('href');
             if (!href || href.startsWith('http') || href.startsWith('#')) return;
 
             e.preventDefault();
 
-            // Determine transition direction based on context (simplified for homepage: always forward)
-            // In a real app, you'd track history stack
             document.documentElement.dataset.transition = 'forward';
 
             if (document.startViewTransition) {
@@ -900,22 +956,17 @@
                     window.location.href = href;
                 });
             } else {
-                // Fallback
                 window.location.href = href;
             }
         });
 
-        // Handle Back Navigation (Browser Back Button)
         window.addEventListener('pageshow', (event) => {
             if (event.persisted) {
-                // Page was restored from bfcache
-                // Reset any transition state if needed
                 document.documentElement.dataset.transition = '';
             }
         });
     </script>
     <script>
-        // Animação de "peek" para mostrar que há mais cards na horizontal
         document.addEventListener('DOMContentLoaded', () => {
             const slider = document.getElementById('actions-slider');
             if (slider) {
@@ -935,11 +986,24 @@
             }
         });
 
-        // Script para animação de fade no scroll do header
+        // IntersectionObserver for scroll-triggered fade-in
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in-section');
+            if (fadeElements.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+                fadeElements.forEach(el => observer.observe(el));
+            }
+        });
     </script>
     <script src="js/ui-transitions.js"></script>
 
-    <!-- PWA Logic -->
     <script src="js/pwa-register.js"></script>
 </body>
 

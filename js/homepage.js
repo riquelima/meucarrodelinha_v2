@@ -175,8 +175,9 @@ const initHomepage = async () => {
                     avatarHtml = `<div class="w-full h-full flex items-center justify-center text-white font-bold ${randomColor}">${initials}</div>`;
                 }
 
-                const statusClass = 'bg-green-500/10 text-green-500';
-                const statusText = 'Disponível';
+                const isOnline = driver.status_online === true;
+                const statusClass = isOnline ? 'bg-green-500/10 text-green-500' : 'bg-amber-500/10 text-amber-500';
+                const statusText = isOnline ? 'Online' : 'Agendar';
 
                 card.innerHTML = `
                     <div class="flex items-center gap-3 mb-3">

@@ -1,65 +1,159 @@
-/**
- * PWA Register
- * Gerencia o registro do Service Worker e notificações de atualização.
- */
+(function() {
+    'use strict';
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('[PWA] Service Worker registrado com sucesso:', registration.scope);
+    var deferredPrompt = null;
+    var installPromptShown = false;
 
-                // BACKGROUND SYNC - Registra tag de sincronização
-                if ('sync' in registration) {
-                    registration.sync.register('sync-messages')
-                        .catch(err => console.log('[PWA] Erro ao registrar Background Sync:', err));
-                }
+    // Detecta iOS
+    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-                // PERIODIC SYNC - Registra sincronização periódica (requer permissão e instalação)
-                if ('periodicSync' in registration) {
-                    const status = localStorage.getItem('periodic-sync-status');
-                    if (!status) {
-                        registration.periodicSync.register('update-cache', {
-                            minInterval: 24 * 60 * 60 * 1000 // 24 horas
-                        }).then(() => localStorage.setItem('periodic-sync-status', 'registered'))
-                        .catch(err => console.log('[PWA] Erro ao registrar Periodic Sync:', err));
-                    }
-                }
-
-                // NOTIFICAÇÕES - Removido daqui pois agora é gerenciado pelo PushManager no menu.html
-                /*
-                if ('Notification' in window && Notification.permission === 'default') {
-                    Notification.requestPermission().then(permission => {
-                        if (permission === 'granted') {
-                            console.log('[PWA] Permissão de notificação concedida.');
-                        }
-                    });
-                }
-                */
-
-                // Detecta atualizações no Service Worker
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // Nova versão disponível! Força a ativação
-                            console.log('[PWA] Nova versão disponível. Aplicando imediatamente...');
-                            newWorker.postMessage({ type: 'SKIP_WAITING' });
-                        }
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('[PWA] Erro ao registrar Service Worker:', error);
-            });
-    });
-
-    // Recarrega a página quando o novo Service Worker assume o controle
-    let refreshing = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-            window.location.reload();
-            refreshing = true;
+    // Intercepta o beforeinstallprompt (Android Chrome)
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (!installPromptShown) {
+            mostrarPromptInstalacao(false);
         }
     });
-}
+
+    // iOS: mostra prompt customizado após alguns segundos (sem beforeinstallprompt)
+    if (isIOS && !window.matchMedia('(display-mode: standalone)').matches && !window.matchMedia('(display-mode: fullscreen)').matches) {
+        try {
+            var iosDismissed = localStorage.getItem('pwa-ios-dismissed');
+            if (!iosDismissed || (Date.now() - parseInt(iosDismissed) > 7 * 24 * 60 * 60 * 1000)) {
+                setTimeout(function() {
+                    if (!installPromptShown) {
+                        mostrarPromptInstalacao(true);
+                    }
+                }, 3000);
+            }
+        } catch(e) {}
+    }
+
+    function mostrarPromptInstalacao(isIOS) {
+        var banner = document.createElement('div');
+        banner.id = 'pwa-install-banner';
+        var baseStyles = 'position:fixed;bottom:100px;left:16px;right:16px;z-index:99999;background:linear-gradient(135deg,#1a2233,#121520);border:1px solid rgba(249,115,22,0.3);border-radius:20px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 40px rgba(249,115,22,0.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transform:translateY(30px);opacity:0;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);max-width:400px;margin:0 auto';
+
+        if (isIOS) {
+            var iosKey = 'pwa-ios-dismissed';
+            banner.style.cssText = baseStyles;
+            banner.innerHTML = '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 24px rgba(249,115,22,0.3)"><span class="material-symbols-outlined" style="color:white;font-size:26px">install_mobile</span></div><div><p style="color:white;font-weight:700;font-size:15px;margin:0;line-height:1.3">Instalar no iPhone</p><p style="color:rgba(255,255,255,0.5);font-size:12px;margin:2px 0 0 0">Toque em <b style="color:rgba(255,255,255,0.7)">Compartilhar</b> <span style="display:inline-block;vertical-align:middle;font-size:16px">⬆️</span> e depois <b style="color:rgba(255,255,255,0.7)">Adicionar à Tela de Início</b></p></div></div><div style="display:flex;gap:10px"><button id="pwa-install-btn" style="flex:1;padding:12px;border:none;border-radius:14px;background:#f97316;color:white;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 16px rgba(249,115,22,0.3);transition:all 0.2s">Entendi</button><button id="pwa-dismiss-btn" style="padding:12px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:14px;background:transparent;color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;transition:all 0.2s">Agora não</button></div>';
+
+            document.body.appendChild(banner);
+
+            requestAnimationFrame(function() {
+                banner.style.transform = 'translateY(0)';
+                banner.style.opacity = '1';
+            });
+
+            document.getElementById('pwa-install-btn').addEventListener('click', function() {
+                fecharBanner(banner, iosKey);
+            });
+            document.getElementById('pwa-dismiss-btn').addEventListener('click', function() {
+                fecharBanner(banner, iosKey);
+            });
+        } else {
+            banner.style.cssText = baseStyles;
+            banner.innerHTML = '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 24px rgba(249,115,22,0.3)"><span class="material-symbols-outlined" style="color:white;font-size:26px">install_mobile</span></div><div><p style="color:white;font-weight:700;font-size:15px;margin:0;line-height:1.3">Instalar Carro de Linha</p><p style="color:rgba(255,255,255,0.5);font-size:12px;margin:2px 0 0 0">Adicione à tela inicial para acesso rápido</p></div></div><div style="display:flex;gap:10px"><button id="pwa-install-btn" style="flex:1;padding:12px;border:none;border-radius:14px;background:#f97316;color:white;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 16px rgba(249,115,22,0.3);transition:all 0.2s">Instalar</button><button id="pwa-dismiss-btn" style="padding:12px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:14px;background:transparent;color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;transition:all 0.2s">Agora não</button></div>';
+
+            document.body.appendChild(banner);
+
+            requestAnimationFrame(function() {
+                banner.style.transform = 'translateY(0)';
+                banner.style.opacity = '1';
+            });
+
+            document.getElementById('pwa-install-btn').addEventListener('click', function() {
+                installPromptShown = true;
+                banner.style.transform = 'translateY(30px)';
+                banner.style.opacity = '0';
+                setTimeout(function() { banner.remove(); }, 500);
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(function(choiceResult) {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('[PWA] Usuário instalou o app');
+                        } else {
+                            console.log('[PWA] Usuário recusou a instalação');
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            });
+
+            document.getElementById('pwa-dismiss-btn').addEventListener('click', function() {
+                fecharBanner(banner, 'pwa-install-dismissed');
+            });
+        }
+
+        function fecharBanner(el, storageKey) {
+            installPromptShown = true;
+            el.style.transform = 'translateY(30px)';
+            el.style.opacity = '0';
+            setTimeout(function() { el.remove(); }, 500);
+            try { localStorage.setItem(storageKey, Date.now().toString()); } catch(e) {}
+        }
+    }
+
+    // Registro do Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('[PWA] Service Worker registrado:', registration.scope);
+                    if ('sync' in registration) {
+                        registration.sync.register('sync-messages')
+                            .catch(function(err) { console.log('[PWA] Erro sync:', err); });
+                    }
+                    if ('periodicSync' in registration) {
+                        try {
+                            var ps = localStorage.getItem('pwa-install-dismissed');
+                            if (!ps) {
+                                registration.periodicSync.register('update-cache', { minInterval: 24 * 60 * 60 * 1000 })
+                                    .then(function() { localStorage.setItem('periodic-sync-status', 'registered'); })
+                                    .catch(function(err) { console.log('[PWA] Erro periodic sync:', err); });
+                            }
+                        } catch(e) {}
+                    }
+                    registration.addEventListener('updatefound', function() {
+                        var newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', function() {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                            }
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.error('[PWA] Erro ao registrar Service Worker:', error);
+                });
+        });
+
+        var refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function() {
+            if (!refreshing) {
+                window.location.reload();
+                refreshing = true;
+            }
+        });
+    }
+
+    // Verifica se já foi instalado
+    if (window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
+        try { localStorage.setItem('pwa-install-dismissed', 'installed'); } catch(e) {}
+    }
+
+    // Re-mostrar se passou 7 dias desde o dismiss
+    try {
+        var dismissed = localStorage.getItem('pwa-install-dismissed');
+        if (dismissed && dismissed !== 'installed') {
+            var diff = Date.now() - parseInt(dismissed);
+            if (diff < 7 * 24 * 60 * 60 * 1000) {
+                installPromptShown = true; // Não mostrar de novo
+            } else {
+                localStorage.removeItem('pwa-install-dismissed');
+            }
+        }
+    } catch(e) {}
+})();

@@ -190,14 +190,14 @@
     <div class="relative flex h-screen w-full flex-col overflow-x-hidden pt-16">
         <!-- Back Button - Top Left Screen -->
         <a href="homepage.html"
-            class="absolute top-6 left-6 size-10 flex items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors shadow-md z-50">
+            class="absolute top-6 left-6 size-10 flex items-center justify-center rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 text-slate-200 hover:text-white hover:bg-white/10 transition-all shadow-lg z-50 animate-slide-up-blur delay-100">
             <span class="material-symbols-outlined text-2xl">chevron_left</span>
         </a>
 
         <main class="flex-1 flex flex-col px-6 pt-4 overflow-y-auto">
-            <div class="@container w-full mb-8 relative animate-fade-in">
+            <div class="@container w-full mb-8 relative animate-logo-in">
                 <div class="absolute top-2 right-0 z-10 animate-float">
-                    <a class="active-scale flex items-center gap-1.5 bg-primary text-white text-[10px] font-bold px-3 py-2 rounded-full shadow-lg shadow-primary/40 border border-primary/50 animate-subtle-pulse"
+                    <a class="active-scale flex items-center gap-1.5 bg-primary text-white text-[10px] font-bold px-3 py-2 rounded-full shadow-lg shadow-primary/40 border border-primary/50"
                         href="cadastroMotorista.html">
                         <span class="material-symbols-outlined text-[14px] fill-1">person_add</span>
                         QUERO SER MOTORISTA
@@ -206,13 +206,13 @@
                 <img src="logoLoginMotorista.png" alt="Logo Meu Carro de Linha Motorista" loading="eager" decoding="async"
                     class="w-full max-w-[320px] min-h-[100px] object-contain drop-shadow-2xl mx-auto">
             </div>
-            <div class="mb-8 animate-slide-up delay-100">
+            <div class="mb-8 animate-slide-up-blur delay-200">
                 <p class="text-slate-400 text-base font-normal">Faça login para gerenciar suas rotas, passageiros e
                     ganhos diários.</p>
             </div>
-            <form class="space-y-6 animate-slide-up delay-200" onsubmit="handleLoginMotorista(event)">
+            <form class="space-y-6" onsubmit="handleLoginMotorista(event)">
                 <div class="space-y-4">
-                    <div class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-2 animate-slide-up-blur delay-300">
                         <label class="text-slate-300 text-sm font-medium ml-1">E-mail</label>
                         <div class="relative group">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -244,10 +244,10 @@
                 </div>
                 <div class="pt-2">
                     <button id="btn-login-motorista"
-                        class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                        class="active-scale btn-glow w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 transition-all mt-1 flex items-center justify-center gap-2 animate-slide-up-blur delay-400"
                         type="submit">
-                        <span>Acessar Painel</span>
-                        <span class="material-symbols-outlined">login</span>
+                        <span>Entrar</span>
+                        <span id="login-loader" class="material-symbols-outlined animate-spin hidden text-lg">sync</span>
                     </button>
                 </div>
                 <div class="text-center">
