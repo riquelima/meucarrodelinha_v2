@@ -30,20 +30,17 @@
         if (current !== href) pushNav(current);
     });
 
-    var startX = 0,
-        startY = 0,
-        startTime = 0;
-    var isTracking = false,
-        isSwiping = false;
+    var startX = 0, startY = 0, startTime = 0;
+    var isTracking = false, isSwiping = false;
     var currentOverlay = null;
     var overlayTransform = '';
+    var feedbackEl = null;
 
     var CONFIG = {
-        EDGE_ZONE: 25,
-        THRESHOLD: 80,
-        MAX_DURATION: 400,
-        MAX_Y_OFFSET: 80,
-        VELOCITY_THRESHOLD: 0.25
+        EDGE_ZONE: 35,
+        THRESHOLD: 60,
+        MAX_Y_OFFSET: 100,
+        VELOCITY_THRESHOLD: 0.2
     };
 
     function findOpenOverlay() {
@@ -66,10 +63,20 @@
     function getCurrentTabIndex() {
         var slider = document.getElementById('view-slider');
         if (!slider) return -1;
-        var m = slider.style.transform.match(/translate3d\((-?\d+)vw/);
-        if (m) return Math.abs(parseInt(m[1])) / 100;
-        m = slider.style.transform.match(/translateX\((-?\d+)vw\)/);
-        if (m) return Math.abs(parseInt(m[1])) / 100;
+        var transform = slider.style.transform || '';
+        if (!transform) {
+            var cs = window.getComputedStyle(slider);
+            transform = cs.transform || '';
+        }
+        var m = transform.match(/translate3d\((-?\d+)/);
+        if (m) return Math.round(Math.abs(parseInt(m[1])) / 100);
+        m = transform.match(/translateX\((-?\d+)/);
+        if (m) return Math.round(Math.abs(parseInt(m[1])) / 100);
+        m = transform.match(/matrix\(1,\s*0,\s*0,\s*1,\s*(-?\d+)/);
+        if (m) {
+            var offset = parseInt(m[1]);
+            return Math.round(Math.abs(offset) / window.innerWidth);
+        }
         return 0;
     }
 
@@ -77,6 +84,18 @@
         if (document.getElementById('view-dashboard')) return ['dashboard', 'users', 'settings'];
         if (document.getElementById('nav-home')) return ['home', 'chats', 'profile'];
         return [];
+    }
+
+    function triggerSwitchTab(tabName) {
+        if (typeof window.switchTab === 'function') {
+            window.switchTab(tabName);
+            return true;
+        }
+        if (typeof switchTab === 'function') {
+            switchTab(tabName);
+            return true;
+        }
+        return false;
     }
 
     function closeOverlay(el) {
@@ -102,8 +121,8 @@
         var tabs = getTabList();
         if (tabs.length > 0) {
             var idx = getCurrentTabIndex();
-            if (idx > 0 && typeof window.switchTab === 'function') {
-                window.switchTab(tabs[idx - 1]);
+            if (idx > 0) {
+                triggerSwitchTab(tabs[idx - 1]);
                 return;
             }
         }
@@ -122,6 +141,15 @@
     }
 
     window.goBack = goBack;
+
+    function getFeedbackEl() {
+        if (!feedbackEl) {
+            feedbackEl = document.querySelector('#app-root > .relative') ||
+                         document.querySelector('.page-container') ||
+                         document.querySelector('.flex.h-full');
+        }
+        return feedbackEl;
+    }
 
     document.addEventListener('touchstart', function (e) {
         var t = e.touches[0];
@@ -158,6 +186,14 @@
             currentOverlay.style.transition = 'none';
             currentOverlay.style.transform = 'translateX(' + Math.min(dX, window.innerWidth) + 'px)';
             currentOverlay.style.opacity = Math.max(0.2, 1 - p * 0.8);
+        } else {
+            var fb = getFeedbackEl();
+            if (fb) {
+                var p = Math.min(dX / window.innerWidth, 0.25);
+                fb.style.transition = 'none';
+                fb.style.transform = 'translateX(' + (dX * 0.2) + 'px)';
+                fb.style.opacity = Math.max(0.5, 1 - p);
+            }
         }
     }, { passive: false });
 
@@ -170,6 +206,12 @@
             currentOverlay.style.transform = overlayTransform;
             currentOverlay.style.opacity = '';
             currentOverlay = null;
+        }
+        var fb = feedbackEl || getFeedbackEl();
+        if (fb) {
+            fb.style.transition = '';
+            fb.style.transform = '';
+            fb.style.opacity = '';
         }
 
         if (!isSwiping) return;
