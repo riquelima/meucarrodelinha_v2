@@ -1,12 +1,8 @@
 ﻿<!DOCTYPE html>
-
 <html class="dark" lang="pt-br">
-
 <head>
     <meta charset="utf-8" />
     <link rel="manifest" href="/manifest.json" />
-
-    <!-- Social Share & PWA Icons -->
     <meta property="og:title" content="Meu Carro de Linha Salinas">
     <meta property="og:description" content="Chame seu transporte em Salinas da Margarida, BA">
     <meta property="og:image" content="https://www.meucarrodelinhasalinas.com.br/splashScreen.jpeg">
@@ -14,319 +10,143 @@
     <meta property="og:type" content="website">
     <link rel="icon" type="image/jpeg" href="/splashScreen.jpeg">
     <link rel="apple-touch-icon" href="/splashScreen.jpeg">
-
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta name="theme-color" content="#f97316" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#f97316",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#121520",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
+                    colors: { "primary": "#f97316", "background-light": "#f6f6f8", "background-dark": "#121520" },
+                    fontFamily: { "display": ["Inter"], "heading": ["Outfit"] },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        @keyframes scale-pulse {
-            0% {
-                transform: scale(0.8);
-                opacity: 0;
-            }
+        body { -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spinRingReverse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
         }
 
-        .animate-logo-entrance {
-            animation: scale-pulse 2s ease-out forwards;
+        @keyframes ringPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
 
-        @keyframes fill-loading {
-            0% {
-                width: 0%;
-            }
-
-            100% {
-                width: 100%;
-            }
+        @keyframes logoReveal {
+            0% { opacity: 0; transform: scale(0.6) translateY(30px); filter: blur(8px); }
+            60% { opacity: 1; transform: scale(1.03) translateY(-2px); filter: blur(0); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        .animate-logo-reveal {
+            animation: logoReveal 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
         }
 
-        .animate-loading-bar {
-            width: 0%;
-            animation: fill-loading 2s linear forwards;
+        @keyframes textReveal {
+            0% { opacity: 0; transform: translateY(20px); filter: blur(6px); }
+            60% { opacity: 0.9; transform: translateY(-2px); filter: blur(0); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        .animate-text-reveal {
+            animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
         }
 
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
+        @keyframes subtitleReveal {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-subtitle-reveal {
+            animation: subtitleReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
         }
 
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
-
-        @keyframes popIn3D {
-            0% {
-                opacity: 0;
-                transform: scale(0.5) translateY(20px) rotateX(20deg);
-            }
-            60% {
-                opacity: 1;
-                transform: scale(1.05) translateY(-5px) rotateX(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .font-3d-orange {
-            font-family: 'Titan One', cursive;
-            color: #FF9100;
-            text-transform: uppercase;
-            white-space: nowrap;
-            overflow: visible;
-            line-height: 1.2;
-            padding-bottom: 5px;
-            letter-spacing: 1px;
-        }
-
-        .animate-pop-in-3d {
-            animation: popIn3D 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            animation-delay: 0.2s;
-        }
-
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .delay-300 {
-            animation-delay: 300ms;
-        }
-
-        .delay-400 {
-            animation-delay: 400ms;
-        }
-
-        .delay-500 {
-            animation-delay: 500ms;
-        }
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
-
-    <!-- Page Transitions Settings -->
-    <meta name="view-transition" content="same-origin" />
-    <style>
-        /* View Transitions API */
-        @view-transition {
-            navigation: auto;
-        }
-
-        ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
-        }
-
-        ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Fallback Fade */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body.fade-out {
-            animation: fadeOut 0.2s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
+        .dot-pulse:nth-child(1) { animation: dotPulse 1.4s ease-in-out infinite; animation-delay: 0s; }
+        .dot-pulse:nth-child(2) { animation: dotPulse 1.4s ease-in-out infinite; animation-delay: 0.2s; }
+        .dot-pulse:nth-child(3) { animation: dotPulse 1.4s ease-in-out infinite; animation-delay: 0.4s; }
     </style>
 </head>
-
-<body class="bg-background-light dark:bg-background-dark font-display">
+<body class="bg-background-dark">
     <div class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden">
-        <!-- Background Gradient Decor -->
-        <div class="absolute inset-0 z-0 overflow-hidden">
-            <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px]"></div>
-            <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full bg-primary/15 blur-[120px]">
-            </div>
+        <!-- Background gradient orbs -->
+        <div class="absolute inset-0">
+            <div class="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-primary/5 blur-[150px] animate-pulse" style="animation-duration: 4s;"></div>
+            <div class="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-primary/8 blur-[150px] animate-pulse" style="animation-duration: 5s; animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-white/[0.02] blur-[100px]"></div>
         </div>
-        <!-- Central Content Wrapper -->
-        <div class="relative z-10 flex flex-col items-center gap-8 px-6 text-center animate-logo-entrance">
-            <!-- Logo Container -->
-            <div
-                class="flex items-center justify-center w-[280px] aspect-square rounded-[22px] overflow-hidden relative">
-                <img src="gifSplashScreen.gif" alt="Splash Screen Animation" class="w-full h-full object-contain">
+
+        <!-- Central content -->
+        <div class="relative z-10 flex flex-col items-center gap-8">
+            <!-- Logo Circle with rotating ring -->
+            <div class="relative flex items-center justify-center">
+                <!-- Outer spinning ring (gradient) -->
+                <div class="absolute inset-0 rounded-full" style="animation: spinRing 3s linear infinite;">
+                    <div class="w-full h-full rounded-full" style="background: conic-gradient(from 0deg, transparent 30%, #f97316 50%, transparent 70%); mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));"></div>
+                </div>
+                <!-- Second ring reverse for layered effect -->
+                <div class="absolute inset-0 rounded-full" style="animation: spinRingReverse 4s linear infinite; animation-delay: -1s;">
+                    <div class="w-full h-full rounded-full" style="background: conic-gradient(from 90deg, transparent 40%, rgba(249,115,22,0.4) 60%, transparent 80%); mask: radial-gradient(farthest-side, transparent calc(100% - 4.5px), #000 calc(100% - 4.5px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4.5px), #000 calc(100% - 4.5px));"></div>
+                </div>
+                <!-- Glow ring pulse -->
+                <div class="absolute inset-0 rounded-full" style="animation: ringPulse 2s ease-in-out infinite; box-shadow: 0 0 60px rgba(249,115,22,0.15), inset 0 0 60px rgba(249,115,22,0.05);"></div>
+
+                <!-- Circle container for logo -->
+                <div class="relative w-[200px] h-[200px] rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-white/[0.06] flex items-center justify-center overflow-hidden animate-logo-reveal shadow-2xl">
+                    <!-- Inner gradient overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5 pointer-events-none"></div>
+                    <img src="logoTransparente.png" alt="Meu Carro de Linha" class="w-4/5 h-4/5 object-contain drop-shadow-2xl relative z-10" />
+                </div>
             </div>
-            <!-- App Identity -->
-            <div class="space-y-2">
-                <h1 class="font-3d-orange animate-pop-in-3d text-center" style="font-size: clamp(24px, 5vw, 32px);">
-                    Meu Carro de Linha Salinas
+
+            <!-- Text -->
+            <div class="text-center">
+                <h1 class="font-heading font-extrabold text-white animate-text-reveal" style="font-size: clamp(22px, 5vw, 32px); letter-spacing: -0.02em;">
+                    Meu Carro de Linha<br/>
+                    <span class="text-primary">Salinas</span>
                 </h1>
+                <p class="text-white/30 text-sm font-medium mt-3 animate-subtitle-reveal">Tradi&ccedil;&atilde;o & Tecnologia</p>
             </div>
         </div>
-        <!-- Footer Loading State -->
-        <div class="absolute bottom-12 left-0 w-full px-8 flex flex-col items-center gap-4">
-            <div class="w-full max-w-xs space-y-4">
-                <div class="flex justify-between items-center">
-                    <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Iniciando servi&ccedil;os...</p>
-                    <span class="material-symbols-outlined text-primary text-xl animate-spin">
-                        sync
-                    </span>
-                </div>
-                <div class="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div
-                        class="h-full bg-primary rounded-full animate-loading-bar shadow-[0_0_8px_rgba(249,115,22,0.5)]">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Background Image Element (Decorative) -->
-        <div class="absolute inset-0 opacity-5 pointer-events-none">
-            <div class="w-full h-full bg-cover bg-center" data-alt="Abstract dark city map with transit lines"
-                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAWdPzqKD9Ho8KpItDLc-PS4b8JnH86Z-TEPzrw8amdUZj3tlkjpgU9_ox8RuMKJTw0vggyfkl1B3lu-0MUFIZwa6KObsMCqQwzH4yX81BrWWR2LbsVv2f5VHQScuKQXhlvencX2IEn6q8xKGg-3qu6HckZYmZPQUeWRAMFMQhely8aKVq30s9nGV05oL2YQr7TQ6kCQfy4lnU1VK5mspGnIEYF-VqMDJNW0RMKeqD9nV9yREYfZHfp8yTELR5RoTMcQLT0chHoCfog')">
-            </div>
+
+        <!-- Loading dots -->
+        <div class="absolute bottom-16 left-0 w-full flex items-center justify-center gap-1.5 z-10">
+            <span class="dot-pulse w-1.5 h-1.5 rounded-full bg-primary/60"></span>
+            <span class="dot-pulse w-1.5 h-1.5 rounded-full bg-primary/60"></span>
+            <span class="dot-pulse w-1.5 h-1.5 rounded-full bg-primary/60"></span>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/data-cache.js"></script>
 
     <script>
-        // Força atualização do Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(registrations => {
                 registrations.forEach(reg => reg.update());
             });
         }
-        // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -350,67 +170,35 @@
         }
 
         async function preloadAssets() {
-            console.log('[Preload] Starting preloading...');
             try {
                 const cache = window.DataCache;
-
                 const [drivers, ads, posts] = await Promise.all([
-                    supabaseClient.from('motoristas')
-                        .select('modelo_veiculo,avaliacao_media,status_online,usuarios(nome,foto_perfil_url)')
-                        .order('status_online', { ascending: false })
-                        .order('avaliacao_media', { ascending: false })
-                        .limit(10),
-                    supabaseClient.from('anuncios')
-                        .select('*')
-                        .eq('ativo', true)
-                        .order('criado_em', { ascending: false }),
-                    supabaseClient.from('postagens')
-                        .select('*')
-                        .eq('publicado', true)
-                        .order('criado_em', { ascending: false })
-                        .limit(3)
+                    supabaseClient.from('motoristas').select('modelo_veiculo,avaliacao_media,status_online,usuarios(nome,foto_perfil_url)').order('status_online', { ascending: false }).order('avaliacao_media', { ascending: false }).limit(10),
+                    supabaseClient.from('anuncios').select('*').eq('ativo', true).order('criado_em', { ascending: false }),
+                    supabaseClient.from('postagens').select('*').eq('publicado', true).order('criado_em', { ascending: false }).limit(3)
                 ]);
-
                 if (drivers?.data) {
                     cache.set(cache.KEYS.KEY_DRIVERS, drivers.data, 5 * 60 * 1000);
-                    drivers.data.forEach(d => {
-                        if (d.usuarios?.foto_perfil_url) preloadImage(d.usuarios.foto_perfil_url);
-                    });
+                    drivers.data.forEach(d => { if (d.usuarios?.foto_perfil_url) preloadImage(d.usuarios.foto_perfil_url); });
                 }
-
                 if (ads?.data) {
                     cache.set(cache.KEYS.KEY_ADS, ads.data, 10 * 60 * 1000);
-                    ads.data.forEach(ad => {
-                        if (ad.imagem_url) preloadImage(ad.imagem_url);
-                    });
+                    ads.data.forEach(ad => { if (ad.imagem_url) preloadImage(ad.imagem_url); });
                 }
-
                 if (posts?.data) {
                     cache.set(cache.KEYS.KEY_BLOG, posts.data, 10 * 60 * 1000);
-                    posts.data.forEach(p => {
-                        if (p.imagem_capa_url) preloadImage(p.imagem_capa_url);
-                    });
+                    posts.data.forEach(p => { if (p.imagem_capa_url) preloadImage(p.imagem_capa_url); });
                 }
-
-                console.log('[Preload] Dados cacheados com sucesso');
-            } catch (e) {
-                console.warn('[Preload] Error preloading:', e);
-            }
+            } catch (e) { console.warn('[Preload] Error:', e); }
         }
-
-        function preloadImage(url) {
-            const img = new Image();
-            img.src = url;
-        }
+        function preloadImage(url) { const img = new Image(); img.src = url; }
     </script>
     <script>
         function playStartupChime() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const now = ctx.currentTime;
-
-                const notes = [523.25, 659.25];
-                notes.forEach((freq, i) => {
+                [523.25, 659.25].forEach((freq, i) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.type = 'sine';
@@ -423,37 +211,24 @@
                     osc.start(now + i * 0.15);
                     osc.stop(now + i * 0.15 + 0.6);
                 });
-            } catch (e) { /* fallback silencioso */ }
+            } catch (e) {}
         }
 
-        // Auto-redirect after splash - verifica sessão primeiro
         setTimeout(async () => {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (session?.user) {
-                    const { data: profile } = await window.supabaseClient
-                        .from('usuarios')
-                        .select('tipo_usuario')
-                        .eq('id', session.user.id)
-                        .single();
+                    const { data: profile } = await window.supabaseClient.from('usuarios').select('tipo_usuario').eq('id', session.user.id).single();
                     const role = profile?.tipo_usuario || 'passageiro';
-                    let destino = role === 'motorista' ? 'motorista.html' :
-                                  role === 'admin' ? 'admin.html' :
-                                  'passageiro.html';
-                    window.location.replace(destino);
+                    window.location.replace(role === 'motorista' ? 'motorista.html' : role === 'admin' ? 'admin.html' : 'passageiro.html');
                     return;
                 }
-            } catch (e) {
-                console.warn('[Splash] Erro ao verificar sessão:', e);
-            }
+            } catch (e) { console.warn('[Splash] Erro:', e); }
             playStartupChime();
             document.body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.replace('homepage.html');
-            }, 300);
+            setTimeout(() => { window.location.replace('homepage.html'); }, 300);
         }, 2000);
     </script>
     <script src="js/pwa-register.js"></script>
 </body>
-
 </html>
