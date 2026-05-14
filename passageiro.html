@@ -1646,6 +1646,7 @@
                         .select('*, usuarios(nome, foto_perfil_url)')
                         .eq('status_aprovacao', 'aprovado');
 
+                    driversContainer.innerHTML = ''; // Remove "Buscando motoristas..."
                     let motoristas;
                     if (window.DataCache && DataCache.KEYS) {
                         motoristas = await DataCache.fetchAndCache(motoristasPromise, DataCache.KEYS.DRIVERS, 30 * 60 * 1000);
