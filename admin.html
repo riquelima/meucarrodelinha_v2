@@ -93,14 +93,11 @@
         <header class="absolute top-0 left-0 right-0 z-[100] flex items-center justify-between p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
             <div class="w-10"></div>
             <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">Meu Carro de Linha</h1>
-            <button class="relative flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-slate-400">
-                <span class="material-symbols-outlined">notifications</span>
-                <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500"></span>
-            </button>
+            <div class="w-10"></div>
         </header>
 
         <!-- View Slider -->
-        <div id="view-slider" class="flex h-full w-[400vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
+        <div id="view-slider" class="flex h-full w-[300vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
 
             <!-- DASHBOARD -->
             <section id="view-dashboard" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24">
@@ -241,18 +238,6 @@
             </section>
 
             <!-- VIAGENS -->
-            <section id="view-trips" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
-                <div class="p-6">
-                    <h2 class="text-3xl font-black tracking-tighter mb-8">Historico Geral</h2>
-                    <div class="space-y-4" id="all-trips-container">
-                        <div class="p-12 text-center opacity-40">
-                            <span class="material-symbols-outlined text-5xl mb-4">route</span>
-                            <p class="font-bold uppercase tracking-widest text-xs">Aguardando dados das rotas</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <!-- AJUSTES -->
             <section id="view-settings" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
                 <div class="p-4">
@@ -295,20 +280,14 @@
                             </div>
                             <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
                         </button>
-                        <a href="mensagensSuporte.html" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left no-underline">
+<button onclick="window.abrirSuporteAdmin()" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left">
                             <div class="flex items-center gap-3">
-                                <div class="size-10 flex items-center justify-center rounded-lg bg-pink-500/10 text-pink-500"><span class="material-symbols-outlined">support_agent</span></div>
+                                <span class="material-symbols-outlined text-primary">support</span>
                                 <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Suporte</p><p class="text-xs text-slate-500 font-medium tracking-tight">Ver mensagens dos usuarios</p></div>
                             </div>
-                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
-                        </a>
-                        <a href="enviarNotificacoes.html" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left no-underline">
-                            <div class="flex items-center gap-3">
-                                <div class="size-10 flex items-center justify-center rounded-lg bg-blue-500/10 text-blue-500"><span class="material-symbols-outlined">notifications_active</span></div>
-                                <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Notificacoes Push</p><p class="text-xs text-slate-500 font-medium tracking-tight">Enviar avisos para os usuarios</p></div>
-                            </div>
-                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
-                        </a>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
+                        </button>
+
                     </div>
                     <button onclick="window.openLogoffModal()" class="w-full flex items-center justify-center gap-2 p-4 mt-8 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold active-scale">
                         <span class="material-symbols-outlined">logout</span>Sair da Conta
@@ -317,17 +296,15 @@
             </section>
         </div>
         <!-- SLIDE-IN: Nova Postagem -->
-        <div id="post-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
-            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-                <button onclick="fecharPost()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Nova Postagem</h1>
-                <div class="size-10"></div>
-            </header>
-            <main class="max-w-md mx-auto p-4 space-y-6 pb-32">
-                <div class="space-y-1">
-                    <h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold tracking-tight">Criar Conteudo</h3>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">Preencha os detalhes para publicar no blog 'Meu Carro de Linha Salinas'.</p>
+        <div id="post-view" class="slide-in-view fixed inset-0 z-[60] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <main class="flex-1 max-w-md mx-auto p-4 pt-20 space-y-6 overflow-y-auto pb-32">
+                <div class="flex items-center gap-3 mb-2">
+                    <button onclick="fecharPost()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h3 class="text-xl font-bold tracking-tight">Nova Postagem</h3>
                 </div>
+                <p class="text-slate-500 dark:text-slate-400 text-sm -mt-2">Preencha os detalhes para publicar no blog.</p>
                 <div class="flex flex-col">
                     <input type="file" id="post-image-input" accept="image/*" class="hidden">
                     <div id="post-drop-zone" class="flex flex-col items-center gap-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-6 py-10 transition-colors hover:border-primary/50 cursor-pointer overflow-hidden relative min-h-[200px] justify-center">
@@ -381,13 +358,14 @@
         </div>
 
         <!-- SLIDE-IN: Novo Anuncio -->
-        <div id="ad-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
-            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-                <button onclick="fecharAd()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Criar Anuncio</h1>
-                <div class="size-10"></div>
-            </header>
-            <main class="flex flex-col gap-6 p-4 pb-32">
+        <div id="ad-view" class="slide-in-view fixed inset-0 z-[60] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <main class="flex-1 flex flex-col gap-6 p-4 pt-20 pb-32 overflow-y-auto">
+                <div class="flex items-center gap-3">
+                    <button onclick="fecharAd()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h3 class="text-xl font-bold tracking-tight">Criar Anúncio</h3>
+                </div>
                 <section class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2">
                         <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Titulo do Anuncio</label>
@@ -443,13 +421,14 @@
             </main>
         </div>
         <!-- SLIDE-IN: Gerenciar Blog -->
-        <div id="blog-manage-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
-            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-                <button onclick="fecharBlogManage()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Postagens</h1>
-                <div class="size-10"></div>
-            </header>
-            <main class="flex-1 px-4 pt-5 pb-24">
+        <div id="blog-manage-view" class="slide-in-view fixed inset-0 z-[60] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <main class="flex-1 px-4 pt-20 pb-24 overflow-y-auto">
+                <div class="flex items-center gap-3 mb-5">
+                    <button onclick="fecharBlogManage()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h3 class="text-xl font-bold tracking-tight">Gerenciar Postagens</h3>
+                </div>
                 <div class="grid grid-cols-3 gap-3 mb-6 animate-fade-in">
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-primary" id="blog-stat-total">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Total</p></div>
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-emerald-500" id="blog-stat-pub">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Publicados</p></div>
@@ -496,13 +475,14 @@
         </div>
 
         <!-- SLIDE-IN: Gerenciar Anuncios -->
-        <div id="ad-manage-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
-            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-                <button onclick="fecharAdManage()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
-                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Anuncios</h1>
-                <div class="size-10"></div>
-            </header>
-            <main class="flex-1 px-4 pt-5 pb-24">
+        <div id="ad-manage-view" class="slide-in-view fixed inset-0 z-[60] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <main class="flex-1 px-4 pt-20 pb-24 overflow-y-auto">
+                <div class="flex items-center gap-3 mb-5">
+                    <button onclick="fecharAdManage()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h3 class="text-xl font-bold tracking-tight">Gerenciar Anúncios</h3>
+                </div>
                 <div class="grid grid-cols-3 gap-3 mb-6 animate-fade-in">
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-primary" id="ad-stat-total">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Total</p></div>
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-emerald-500" id="ad-stat-ativos">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Ativos</p></div>
@@ -547,6 +527,24 @@
                 </div>
             </div>
         </div>
+        <!-- SUPORTE VIEW -->
+        <div id="suporte-view" class="slide-in-view fixed inset-0 z-[60] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <main class="flex-1 px-4 pt-20 pb-32 overflow-y-auto max-w-md mx-auto w-full">
+                <div class="flex items-center gap-3 mb-5">
+                    <button onclick="fecharSuporteAdmin()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h3 class="text-xl font-bold tracking-tight">Mensagens de Suporte</h3>
+                </div>
+                <div class="flex gap-2 overflow-x-auto pb-3 no-scrollbar">
+                    <button data-filter="todos" class="filter-suporte flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-4 shadow-lg shadow-primary/20 transition-all active-scale"><span class="text-sm font-medium">Todos</span></button>
+                    <button data-filter="aberto" class="filter-suporte flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 border border-slate-200 dark:border-slate-800 transition-all active-scale"><span class="text-sm font-medium">Abertos</span></button>
+                    <button data-filter="resolvido" class="filter-suporte flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 border border-slate-200 dark:border-slate-800 transition-all active-scale"><span class="text-sm font-medium">Resolvidos</span></button>
+                </div>
+                <div id="suporte-tickets-list" class="space-y-3"></div>
+            </main>
+        </div>
+
         <!-- MODAIS GLOBAIS -->
         <div id="edit-user-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
             <div class="bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-800 overflow-hidden transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
@@ -605,13 +603,22 @@
         <nav class="fixed-navbar !z-[200]" id="main-nav">
             <button onclick="switchTab('dashboard')" class="nav-item nav-active" id="nav-dashboard"><span class="material-symbols-outlined">dashboard</span><span>Painel</span></button>
             <button onclick="switchTab('users')" class="nav-item" id="nav-users"><span class="material-symbols-outlined">group</span><span>Usuarios</span></button>
-            <button onclick="switchTab('trips')" class="nav-item" id="nav-trips"><span class="material-symbols-outlined">route</span><span>Viagens</span></button>
+
             <button onclick="switchTab('settings')" class="nav-item" id="nav-settings"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button>
         </nav>
         <script>
             function switchTab(tabName) {
+                // Fecha todas as views deslizantes abertas
+                ['post-view','ad-view','blog-manage-view','ad-manage-view','suporte-view'].forEach(function(id) {
+                    var v = document.getElementById(id);
+                    if (v && !v.classList.contains('hidden')) {
+                        v.classList.add('translate-x-full');
+                        v.classList.remove('translate-x-0');
+                        setTimeout(function() { v.classList.add('hidden'); }, 400);
+                    }
+                });
                 var slider = document.getElementById('view-slider');
-                var tabs = ['dashboard', 'users', 'trips', 'settings'];
+                var tabs = ['dashboard', 'users', 'settings'];
                 var index = tabs.indexOf(tabName);
                 if (index === -1) return;
                 slider.style.transform = 'translate3d(' + (-index * 100) + 'vw, 0, 0)';
@@ -673,6 +680,65 @@
             if (typeof window._loadAds === 'function') window._loadAds();
         };
         window.fecharAdManage = function() { closeSlideIn('ad-manage-view'); };
+
+        window.abrirSuporteAdmin = function() {
+            openSlideIn('suporte-view');
+            carregarTicketsSuporte();
+        };
+        window.fecharSuporteAdmin = function() { closeSlideIn('suporte-view'); };
+
+        window.carregarTicketsSuporte = async function() {
+            const container = document.getElementById('suporte-tickets-list');
+            if (!container) return;
+            const sb = window.supabaseClient;
+            container.innerHTML = '<div class="p-4 text-center text-slate-500"><span class="material-symbols-outlined animate-spin mb-2 inline-block">sync</span><p class="text-sm">Carregando...</p></div>';
+            try {
+                const [messagesRes, usersRes] = await Promise.all([
+                    sb.from('suporte').select('*').order('criado_em', { ascending: false }),
+                    sb.from('usuarios').select('id, nome, email, foto_perfil_url, tipo_usuario')
+                ]);
+                const messages = messagesRes.data || [];
+                const users = usersRes.data || [];
+                const userMap = {};
+                users.forEach(u => { userMap[u.email] = u; userMap[u.email.toLowerCase()] = u; });
+
+                if (messages.length === 0) {
+                    container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">support_agent</span><p class="text-sm font-bold">Nenhuma mensagem de suporte</p></div>';
+                    return;
+                }
+                container.innerHTML = '';
+                messages.forEach(msg => {
+                    const user = userMap[msg.email] || userMap[msg.email?.toLowerCase()];
+                    const photoUrl = user?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(msg.nome || 'U')}&background=f97316&color=fff&size=64`;
+                    const time = msg.criado_em ? new Date(msg.criado_em).toLocaleDateString([], { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '--';
+                    const status = msg.status || 'aberto';
+                    const statusColor = status === 'resolvido' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400';
+                    const statusLabel = status === 'resolvido' ? 'Resolvido' : 'Aberto';
+                    const card = document.createElement('div');
+                    card.className = 'p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 active-scale';
+                    card.innerHTML = `
+                        <div class="flex items-start gap-3">
+                            <img src="${photoUrl}" class="size-10 rounded-full object-cover bg-slate-600 shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=U&background=f97316&color=fff&size=64'">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${msg.nome || 'Anônimo'}</p>
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider shrink-0 ${statusColor}">${statusLabel}</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">${msg.assunto || 'Sem assunto'}</p>
+                                <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">${msg.mensagem || ''}</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <p class="text-[9px] text-slate-500 font-medium">${time}</p>
+                                    <span class="text-[10px] text-slate-400">${msg.email || ''}</span>
+                                </div>
+                            </div>
+                        </div>`;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Erro ao carregar suporte:', err);
+                container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">error</span><p class="text-sm">Erro ao carregar mensagens.</p></div>';
+            }
+        };
         window.openLogoffModal = function() { document.getElementById('logoff-modal').classList.remove('hidden'); };
         window.closeLogoffModal = function() { document.getElementById('logoff-modal').classList.add('hidden'); };
         window.logoutAdmin = async function() {
