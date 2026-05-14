@@ -597,7 +597,8 @@
                 if (index === -1) return;
 
                 // Transição via Hardware Acceleration
-                slider.style.transform = `translate3d(${-index * 100}vw, 0, 0)`;
+                var sectionW = slider.parentElement.clientWidth || window.innerWidth;
+                slider.style.transform = `translate3d(${-index * sectionW}px, 0, 0)`;
 
                 // Atualizar estado visual da Navbar
                 document.querySelectorAll('.nav-item').forEach(btn => {
@@ -2473,7 +2474,7 @@
     </script>
     <script src="js/data-cache.js"></script>
     <script src="js/chat-notifications.js"></script>
-`n    <script src="js/pwa-register.js"></script>
+    <script src="js/pwa-register.js"></script>
     <!-- Scripts already loaded above -->
 </body>
 

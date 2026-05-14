@@ -99,20 +99,20 @@
         <!-- Central content -->
         <div class="relative z-10 flex flex-col items-center gap-8">
             <!-- Logo Circle with rotating ring -->
-            <div class="relative flex items-center justify-center">
+            <div class="relative flex items-center justify-center" style="width:210px;height:210px;">
                 <!-- Outer spinning ring (gradient) -->
-                <div class="absolute inset-0 rounded-full" style="animation: spinRing 3s linear infinite;">
-                    <div class="w-full h-full rounded-full" style="background: conic-gradient(from 0deg, transparent 30%, #f97316 50%, transparent 70%); mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));"></div>
+                <div class="absolute inset-0 rounded-full" style="animation: spinRing 2.5s linear infinite;">
+                    <div class="w-full h-full rounded-full" style="background: conic-gradient(from 0deg, transparent 25%, #f97316 35%, #f97316 55%, transparent 65%); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));"></div>
                 </div>
                 <!-- Second ring reverse for layered effect -->
-                <div class="absolute inset-0 rounded-full" style="animation: spinRingReverse 4s linear infinite; animation-delay: -1s;">
-                    <div class="w-full h-full rounded-full" style="background: conic-gradient(from 90deg, transparent 40%, rgba(249,115,22,0.4) 60%, transparent 80%); mask: radial-gradient(farthest-side, transparent calc(100% - 4.5px), #000 calc(100% - 4.5px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4.5px), #000 calc(100% - 4.5px));"></div>
+                <div class="absolute inset-0 rounded-full" style="animation: spinRingReverse 3.5s linear infinite;">
+                    <div class="w-full h-full rounded-full" style="background: conic-gradient(from 90deg, transparent 30%, rgba(249,115,22,0.3) 45%, rgba(249,115,22,0.3) 55%, transparent 70%); mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 8px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 8px));"></div>
                 </div>
                 <!-- Glow ring pulse -->
-                <div class="absolute inset-0 rounded-full" style="animation: ringPulse 2s ease-in-out infinite; box-shadow: 0 0 60px rgba(249,115,22,0.15), inset 0 0 60px rgba(249,115,22,0.05);"></div>
+                <div class="absolute inset-0 rounded-full" style="box-shadow: 0 0 40px rgba(249,115,22,0.2);"></div>
 
                 <!-- Circle container for logo -->
-                <div class="relative w-[200px] h-[200px] rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-white/[0.06] flex items-center justify-center overflow-hidden animate-logo-reveal shadow-2xl">
+                <div class="relative w-[190px] h-[190px] rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-white/[0.06] flex items-center justify-center overflow-hidden animate-logo-reveal shadow-2xl">
                     <!-- Inner gradient overlay -->
                     <div class="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5 pointer-events-none"></div>
                     <img src="logoTransparente.png" alt="Meu Carro de Linha" class="w-4/5 h-4/5 object-contain drop-shadow-2xl relative z-10" />
@@ -194,13 +194,35 @@
         function preloadImage(url) { const img = new Image(); img.src = url; }
     </script>
     <script>
+        var _audioCtx = null;
+        function unlockAudio() {
+            if (_audioCtx && _audioCtx.state === 'suspended') {
+                _audioCtx.resume().catch(function(){});
+            }
+        }
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('keydown', unlockAudio, { once: true });
+
         function playStartupChime() {
             try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const now = ctx.currentTime;
-                [523.25, 659.25].forEach((freq, i) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
+                if (!_audioCtx) {
+                    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (_audioCtx.state === 'suspended') {
+                    _audioCtx.resume().then(function() { tocarNotas(); }).catch(function(){});
+                } else {
+                    tocarNotas();
+                }
+            } catch (e) {}
+        }
+        function tocarNotas() {
+            try {
+                var ctx = _audioCtx;
+                var now = ctx.currentTime;
+                [523.25, 659.25].forEach(function(freq, i) {
+                    var osc = ctx.createOscillator();
+                    var gain = ctx.createGain();
                     osc.type = 'sine';
                     osc.frequency.value = freq;
                     gain.gain.setValueAtTime(0, now + i * 0.15);

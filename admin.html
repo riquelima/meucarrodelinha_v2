@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <link rel="stylesheet" href="css/ui-style.css" />
     <title>Painel Administrativo: Estatísticas e Ações</title>
     <script src="/js/tailwind-cdn.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
@@ -647,7 +648,8 @@
                 var tabs = ['dashboard', 'users', 'settings'];
                 var index = tabs.indexOf(tabName);
                 if (index === -1) return;
-                slider.style.transform = 'translate3d(' + (-index * 100) + 'vw, 0, 0)';
+                var sectionW = slider.parentElement.clientWidth || window.innerWidth;
+                slider.style.transform = 'translate3d(' + (-index * sectionW) + 'px, 0, 0)';
                 document.querySelectorAll('.nav-item').forEach(function(btn) {
                     btn.classList.remove('nav-active');
                     if (btn.id === 'nav-' + tabName) btn.classList.add('nav-active');
@@ -663,7 +665,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
-`n    <script src="js/pwa-register.js"></script>
+    <script src="js/pwa-register.js"></script>
     <script>
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, function(tag) {
