@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 
 <html class="dark" lang="pt-BR">
 
@@ -24,23 +24,11 @@
             padding-bottom: 5px;
             letter-spacing: 1px;
         }
-
-        /* 3D Text Animation */
         @keyframes popIn3D {
-            0% {
-                opacity: 0;
-                transform: scale(0.5) translateY(20px) rotateX(20deg);
-            }
-            60% {
-                opacity: 1;
-                transform: scale(1.05) translateY(-5px) rotateX(0deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            0% { opacity: 0; transform: scale(0.5) translateY(20px) rotateX(20deg); }
+            60% { opacity: 1; transform: scale(1.05) translateY(-5px) rotateX(0deg); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-
         .animate-pop-in-3d {
             animation: popIn3D 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
             animation-delay: 0.2s;
@@ -56,207 +44,52 @@
                         "background-light": "#f6f6f8",
                         "background-dark": "#101422",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
+                    fontFamily: { "display": ["Inter"] },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            min-height: max(884px, 100dvh);
-        }
-
-        .chart-gradient {
-            background: linear-gradient(180deg, rgba(15, 56, 189, 0.2) 0%, rgba(15, 56, 189, 0) 100%);
-        }
-
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .pb-safe {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        /* Page Transition */
-        main {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Click Animation */
-        .active-scale:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
-
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* [AESTHETICS]: Floating Deep Sea Navbar Standard */
-        .fixed-navbar {
-            position: fixed;
-            bottom: 24px;
-            left: 20px;
-            right: 20px;
-            height: 72px;
-            background: rgba(18, 21, 32, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 10px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            color: rgba(255, 255, 255, 0.4);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            height: 100%;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
-        .nav-item span:first-child {
-            font-size: 24px;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .nav-item span:last-child {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
-        }
-
-        .nav-active {
-            color: #FF9100 !important;
-        }
-
-        .nav-active span:first-child {
-            transform: translateY(-4px) scale(1.1);
-            color: #FF9100;
-        }
-
-        /* Indicador Ativo */
-        .nav-active::after {
-            content: '';
-            position: absolute;
-            bottom: 10px;
-            width: 4px;
-            height: 4px;
-            background: #FF9100;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #FF9100;
-        }
-
-        .view-section {
-            padding-bottom: 120px !important;
-        }
-
-        /* Stagger Delays */
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
+        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
+        .chart-gradient { background: linear-gradient(180deg, rgba(15, 56, 189, 0.2) 0%, rgba(15, 56, 189, 0) 100%); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        main { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+        .active-scale:active { transform: scale(0.95); transition: transform 0.1s; }
+        body { -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        input, textarea { user-select: text; -webkit-user-select: text; }
+        .active-scale { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-scale:active { transform: scale(0.96); }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.4s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(20px); animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-slide-in-right { opacity: 0; transform: translateX(20px); animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fixed-navbar { position: fixed; bottom: 24px; left: 20px; right: 20px; height: 72px; background: rgba(18, 21, 32, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2.5rem; display: flex; align-items: center; justify-content: space-around; padding: 0 10px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1); z-index: 1000; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: rgba(255, 255, 255, 0.4); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; height: 100%; background: transparent; border: none; cursor: pointer; }
+        .nav-item span:first-child { font-size: 24px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-item span:last-child { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; }
+        .nav-active { color: #FF9100 !important; }
+        .nav-active span:first-child { transform: translateY(-4px) scale(1.1); color: #FF9100; }
+        .nav-active::after { content: ''; position: absolute; bottom: 10px; width: 4px; height: 4px; background: #FF9100; border-radius: 50%; box-shadow: 0 0 10px #FF9100; }
+        .view-section { padding-bottom: 120px !important; }
+        .delay-100 { animation-delay: 100ms; } .delay-200 { animation-delay: 200ms; } .delay-300 { animation-delay: 300ms; } .delay-400 { animation-delay: 400ms; } .delay-500 { animation-delay: 500ms; }
+        @keyframes modalEnter { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes checkRotate { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 70% { transform: scale(1.2) rotate(10deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+        .animate-modal-enter { animation: modalEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-check { animation: checkRotate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards; opacity: 0; }
+        .slide-in-view { will-change: transform; }
+        .ad-preview-shadow { box-shadow: 0 10px 30px -10px rgba(15, 56, 189, 0.3); }
     </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-    <!-- [SPA_HORIZONTAL_MANDATE]: Contêiner Raiz do SPA Admin -->
     <div id="app-root" class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
-        
-        <!-- Header Universal -->
+
+        <!-- Header -->
         <header class="absolute top-0 left-0 right-0 z-[100] flex items-center justify-between p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
             <div class="w-10"></div>
             <h1 class="font-3d-orange animate-pop-in-3d text-center flex-1" style="font-size: clamp(14px, 4vw, 22px);">Meu Carro de Linha</h1>
@@ -266,17 +99,15 @@
             </button>
         </header>
 
-        <!-- [SPA_HORIZONTAL_MANDATE]: Slider de Views -->
+        <!-- View Slider -->
         <div id="view-slider" class="flex h-full w-[400vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
-            
-            <!-- ABA 1: PAINEL (DASHBOARD) -->
+
+            <!-- DASHBOARD -->
             <section id="view-dashboard" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24">
                 <main class="flex flex-col gap-6 p-4">
-                    <!-- Resumo Estatístico -->
                     <div>
                         <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Estatísticas Gerais</h2>
                         <div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
-                            <!-- Clientes -->
                             <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
                                 <div class="flex items-center justify-between mb-4">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 rounded-xl p-3">group</span>
@@ -285,7 +116,22 @@
                                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Clientes</p>
                                 <p id="stat-clientes" class="text-3xl font-black tracking-tighter">0</p>
                             </div>
-                            <!-- Viagens -->
+                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="material-symbols-outlined text-purple-500 bg-purple-500/10 rounded-xl p-3">person</span>
+                                    <span id="pct-passageiros" class="text-[10px] font-black">0%</span>
+                                </div>
+                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Passageiros</p>
+                                <p id="stat-passageiros" class="text-3xl font-black tracking-tighter">0</p>
+                            </div>
+                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-xl p-3">badge</span>
+                                    <span id="pct-motoristas" class="text-[10px] font-black">0%</span>
+                                </div>
+                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Motoristas</p>
+                                <p id="stat-motoristas" class="text-3xl font-black tracking-tighter">0</p>
+                            </div>
                             <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
                                 <div class="flex items-center justify-between mb-4">
                                     <span class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-xl p-3">directions_car</span>
@@ -296,45 +142,108 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Ações Administrativas -->
+                    <div>
+                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Cadastros (7 dias)</h2>
+                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 shadow-xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="flex items-center gap-1.5 text-[10px] font-bold"><span class="size-2.5 rounded-full bg-purple-500"></span> Passageiros</span>
+                                    <span class="flex items-center gap-1.5 text-[10px] font-bold"><span class="size-2.5 rounded-full bg-blue-500"></span> Motoristas</span>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <svg viewBox="0 0 472 150" class="w-full h-auto" preserveAspectRatio="none">
+                                    <path id="area-passageiros" fill="url(#gradPas)"/>
+                                    <path id="path-passageiros" fill="none" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path id="path-motoristas" fill="none" stroke="#0f38bd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <g id="chart-dots"></g>
+                                    <defs>
+                                        <linearGradient id="gradPas" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a855f7" stop-opacity="0.2"/><stop offset="100%" stop-color="#a855f7" stop-opacity="0"/></linearGradient>
+                                        <linearGradient id="gradMot" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f38bd" stop-opacity="0.2"/><stop offset="100%" stop-color="#0f38bd" stop-opacity="0"/></linearGradient>
+                                    </defs>
+                                </svg>
+                                <div id="chart-tooltip" class="hidden absolute z-10 bg-slate-900 text-white px-3 py-2 rounded-lg shadow-xl text-xs font-bold transition-all duration-300 pointer-events-none" style="opacity:0; transform: translate(-50%, -100%) scale(0.9);">
+                                    <p id="tooltip-date" class="text-slate-300 text-[10px] font-medium mb-1"></p>
+                                    <div class="flex gap-3"><span><span class="text-purple-400">Passageiros:</span> <span id="tooltip-pas">0</span></span><span><span class="text-blue-400">Motoristas:</span> <span id="tooltip-mot">0</span></span></div>
+                                </div>
+                            </div>
+                            <div id="chart-labels" class="flex justify-between mt-2 px-1">
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Postagens do Blog (2026)</h2>
+                        <div class="group/chart2 bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 shadow-xl relative">
+                            <div class="flex items-center justify-between mb-4">
+                                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Publicações por mês</p>
+                                <span id="blog-growth" class="bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold">0</span>
+                            </div>
+                            <div id="blog-bars-container" class="flex items-end h-24 gap-1"></div>
+                            <div id="blog-labels" class="flex mt-2"></div>
+                            <div id="blog-tooltip" class="hidden absolute z-10 bg-slate-900 text-white px-3 py-2 rounded-lg shadow-xl text-xs font-bold transition-all duration-300 pointer-events-none" style="opacity:0; transform: translate(-50%, -100%) scale(0.9);">
+                                <p id="blog-tooltip-date" class="text-slate-300 text-[10px] font-medium mb-1"></p>
+                                <p><span id="blog-tooltip-value">0</span> postagens</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="space-y-3">
                         <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Gestão de Conteúdo</h2>
-                        <button onclick="window.location.href='novoPost.html'" class="w-full p-6 rounded-3xl bg-primary text-white flex items-center gap-4 active-scale shadow-2xl shadow-primary/20">
+                        <button onclick="window.abrirPost()" class="w-full p-6 rounded-3xl bg-primary text-white flex items-center gap-4 active-scale shadow-2xl shadow-primary/20">
                             <span class="material-symbols-outlined bg-white/20 p-3 rounded-2xl">edit_document</span>
-                            <div class="text-left">
-                                <p class="font-black text-sm uppercase tracking-widest">Novo Post</p>
-                                <p class="text-[10px] opacity-70">Publicar novidades no blog</p>
-                            </div>
+                            <div class="text-left"><p class="font-black text-sm uppercase tracking-widest">Novo Post</p><p class="text-[10px] opacity-70">Publicar novidades no blog</p></div>
                         </button>
-                        <button onclick="window.location.href='novoAnuncio.html'" class="w-full p-6 rounded-3xl bg-slate-800 text-white flex items-center gap-4 active-scale">
+                        <button onclick="window.abrirAd()" class="w-full p-6 rounded-3xl bg-slate-800 text-white flex items-center gap-4 active-scale">
                             <span class="material-symbols-outlined bg-white/10 p-3 rounded-2xl">campaign</span>
-                            <div class="text-left">
-                                <p class="font-black text-sm uppercase tracking-widest">Criar Anúncio</p>
-                                <p class="text-[10px] opacity-70">Gerenciar parceiros locais</p>
-                            </div>
+                            <div class="text-left"><p class="font-black text-sm uppercase tracking-widest">Criar Anúncio</p><p class="text-[10px] opacity-70">Gerenciar parceiros locais</p></div>
                         </button>
                     </div>
                 </main>
             </section>
-
-            <!-- ABA 2: USUÁRIOS -->
+            <!-- USUARIOS -->
             <section id="view-users" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
-                <div class="p-6">
-                    <h2 class="text-3xl font-black tracking-tighter mb-8">Gerenciar Usuários</h2>
-                    <div class="space-y-4" id="users-list-container">
-                        <div class="p-12 text-center opacity-40">
-                            <span class="material-symbols-outlined text-5xl mb-4">group</span>
-                            <p class="font-bold uppercase tracking-widest text-xs">Carregando usuários...</p>
-                        </div>
+                <div class="p-4">
+                    <h2 class="text-3xl font-black tracking-tighter mb-6">Gerenciar Usuarios</h2>
+                    <div class="flex border-b border-slate-200 dark:border-slate-800 mb-4">
+                        <button id="tab-motoristas" class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2 flex-1">
+                            <span class="text-sm font-bold tracking-wide">Motoristas</span>
+                        </button>
+                        <button id="tab-passageiros" class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 flex-1">
+                            <span class="text-sm font-bold tracking-wide">Passageiros</span>
+                        </button>
+                    </div>
+                    <div class="relative mb-4">
+                        <label class="flex flex-col w-full group">
+                            <div class="flex w-full items-stretch rounded-xl h-12 bg-slate-200 dark:bg-slate-800 focus-within:ring-2 ring-primary/50 transition-all">
+                                <div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4">
+                                    <span class="material-symbols-outlined">search</span>
+                                </div>
+                                <input id="users-search" class="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 px-3 text-base" placeholder="Pesquisar motoristas em Salinas..." value="" />
+                                <div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pr-4">
+                                    <span class="material-symbols-outlined text-xl">tune</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="drivers-list" class="space-y-3"></div>
+                    <div id="passengers-list" class="space-y-3 hidden"></div>
+                    <div class="py-6 text-center pb-24">
+                        <p id="users-pagination-text" class="text-slate-500 dark:text-slate-400 text-xs">Carregando...</p>
+                        <button id="users-load-more" class="mt-4 text-primary font-bold text-sm px-6 py-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors hidden">Carregar mais</button>
                     </div>
                 </div>
             </section>
 
-            <!-- ABA 3: VIAGENS -->
+            <!-- VIAGENS -->
             <section id="view-trips" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
                 <div class="p-6">
-                    <h2 class="text-3xl font-black tracking-tighter mb-8">Histórico Geral</h2>
+                    <h2 class="text-3xl font-black tracking-tighter mb-8">Historico Geral</h2>
                     <div class="space-y-4" id="all-trips-container">
                         <div class="p-12 text-center opacity-40">
                             <span class="material-symbols-outlined text-5xl mb-4">route</span>
@@ -344,419 +253,777 @@
                 </div>
             </section>
 
-            <!-- ABA 4: AJUSTES -->
+            <!-- AJUSTES -->
             <section id="view-settings" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
-                <div class="p-6">
-                    <h2 class="text-3xl font-black tracking-tighter mb-8">Configurações</h2>
-                    <div class="space-y-3">
-                        <button class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-slate-200 dark:border-slate-700">
-                            <div class="flex items-center gap-4">
-                                <span class="material-symbols-outlined text-primary">security</span>
-                                <span class="font-black uppercase tracking-widest text-xs">Segurança da Plataforma</span>
+                <div class="p-4">
+                    <h2 class="text-3xl font-black tracking-tighter mb-6">Configuracoes</h2>
+                    <div class="flex flex-col items-center mb-8">
+                        <div class="relative">
+                            <div id="admin-avatar-container" class="size-24 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>
                             </div>
-                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
-                        </button>
-                        <button onclick="handleLogout()" class="w-full flex items-center justify-between p-6 bg-red-500/10 text-red-500 rounded-3xl active-scale border border-red-500/20 mt-8">
-                            <div class="flex items-center gap-4">
-                                <span class="material-symbols-outlined">logout</span>
-                                <span class="font-black uppercase tracking-widest text-xs">Encerrar Sessão Admin</span>
-                            </div>
-                        </button>
+                            <button id="btn-edit-photo" class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center shadow-lg active-scale" aria-label="Alterar foto">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                            </button>
+                            <input type="file" id="avatar-input" accept="image/*" class="hidden">
+                        </div>
+                        <div class="flex flex-col items-center mt-4 text-center">
+                            <h2 id="admin-name" class="text-xl font-bold text-slate-900 dark:text-slate-100">Carregando...</h2>
+                            <p id="admin-email" class="text-sm text-slate-500">...</p>
+                        </div>
                     </div>
+                    <div class="w-full space-y-2 mt-4">
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1 pt-2 pb-1">Gestao do Sistema</p>
+                        <button onclick="switchTab('users')" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary"><span class="material-symbols-outlined">group</span></div>
+                                <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Usuarios</p><p class="text-xs text-slate-500 font-medium tracking-tight">Gerenciar motoristas e passageiros</p></div>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                        </button>
+                        <button onclick="window.abrirBlogManage()" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500"><span class="material-symbols-outlined">article</span></div>
+                                <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Blog</p><p class="text-xs text-slate-500 font-medium tracking-tight">Gerenciar postagens e conteudo</p></div>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                        </button>
+                        <button onclick="window.abrirAdManage()" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-orange-500/10 text-orange-500"><span class="material-symbols-outlined">campaign</span></div>
+                                <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Anuncios</p><p class="text-xs text-slate-500 font-medium tracking-tight">Editar e excluir anuncios</p></div>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                        </button>
+                        <a href="mensagensSuporte.html" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left no-underline">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-pink-500/10 text-pink-500"><span class="material-symbols-outlined">support_agent</span></div>
+                                <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Suporte</p><p class="text-xs text-slate-500 font-medium tracking-tight">Ver mensagens dos usuarios</p></div>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                        </a>
+                        <a href="enviarNotificacoes.html" class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm active-scale w-full text-left no-underline">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-blue-500/10 text-blue-500"><span class="material-symbols-outlined">notifications_active</span></div>
+                                <div><p class="font-bold text-slate-900 dark:text-slate-100 text-base">Notificacoes Push</p><p class="text-xs text-slate-500 font-medium tracking-tight">Enviar avisos para os usuarios</p></div>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500">chevron_right</span>
+                        </a>
+                    </div>
+                    <button onclick="window.openLogoffModal()" class="w-full flex items-center justify-center gap-2 p-4 mt-8 rounded-xl border border-red-500/20 text-red-500 bg-red-500/5 hover:bg-red-500/10 transition-colors font-bold active-scale">
+                        <span class="material-symbols-outlined">logout</span>Sair da Conta
+                    </button>
                 </div>
             </section>
         </div>
+        <!-- SLIDE-IN: Nova Postagem -->
+        <div id="post-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
+            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
+                <button onclick="fecharPost()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Nova Postagem</h1>
+                <div class="size-10"></div>
+            </header>
+            <main class="max-w-md mx-auto p-4 space-y-6 pb-32">
+                <div class="space-y-1">
+                    <h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold tracking-tight">Criar Conteudo</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Preencha os detalhes para publicar no blog 'Meu Carro de Linha Salinas'.</p>
+                </div>
+                <div class="flex flex-col">
+                    <input type="file" id="post-image-input" accept="image/*" class="hidden">
+                    <div id="post-drop-zone" class="flex flex-col items-center gap-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-6 py-10 transition-colors hover:border-primary/50 cursor-pointer overflow-hidden relative min-h-[200px] justify-center">
+                        <div id="post-upload-placeholder" class="flex flex-col items-center gap-2">
+                            <div class="bg-primary/10 p-3 rounded-full mb-2"><span class="material-symbols-outlined text-primary text-3xl">add_a_photo</span></div>
+                            <p class="text-slate-900 dark:text-slate-100 text-lg font-semibold tracking-tight text-center">Imagem de Capa</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm text-center">Toque para selecionar da galeria</p>
+                        </div>
+                        <img id="post-image-preview" class="hidden absolute inset-0 w-full h-full object-cover">
+                        <button id="post-remove-image" class="hidden absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow-lg z-10 scale-90 active:scale-75 transition-transform"><span class="material-symbols-outlined text-sm">close</span></button>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-slate-900 dark:text-slate-100 text-sm font-semibold px-1">Titulo do Post</label>
+                        <input id="post-title" class="form-input flex w-full rounded-xl text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 focus:border-primary focus:ring-2 focus:ring-primary/20 h-14 placeholder:text-slate-400 dark:placeholder:text-slate-600 px-4 text-base font-normal" placeholder="Ex: Novos horarios para Salinas..." type="text" />
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-slate-900 dark:text-slate-100 text-sm font-semibold px-1">Categoria</label>
+                        <div class="relative">
+                            <select id="post-category" class="form-select flex w-full appearance-none rounded-xl text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 focus:border-primary focus:ring-2 focus:ring-primary/20 h-14 px-4 text-base font-normal">
+                                <option disabled selected value="">Selecione uma categoria</option>
+                                <option value="noticias">Noticias</option>
+                                <option value="dicas">Dicas de Viagem</option>
+                                <option value="promocoes">Promocoes</option>
+                                <option value="avisos">Avisos Importantes</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400"><span class="material-symbols-outlined">expand_more</span></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-slate-900 dark:text-slate-100 text-sm font-semibold px-1">Conteudo</label>
+                        <div class="flex items-center gap-1 p-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-t-xl border-b-0">
+                            <button class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-400 transition-colors" type="button" onclick="formatDoc('bold')"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+                            <button class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-400 transition-colors" type="button" onclick="formatDoc('italic')"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+                            <button class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-400 transition-colors" type="button" onclick="formatDoc('underline')"><span class="material-symbols-outlined text-[20px]">format_underlined</span></button>
+                            <div class="w-[1px] h-6 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                            <button class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-400 transition-colors" type="button" onclick="formatDoc('insertUnorderedList')"><span class="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+                        </div>
+                        <div id="post-content" contenteditable="true" class="form-textarea flex w-full rounded-b-xl rounded-t-none text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 focus:border-primary focus:ring-2 focus:ring-primary/20 min-h-[220px] p-4 text-base font-normal leading-relaxed overflow-y-auto" data-placeholder="Escreva o conteudo da sua postagem aqui..."></div>
+                    </div>
+                </div>
+                <div class="pt-4 pb-10">
+                    <button id="post-publish-btn" class="flex w-full cursor-pointer items-center justify-center rounded-xl h-14 bg-primary text-white gap-2 text-base font-bold tracking-wide shadow-xl shadow-primary/30 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="post-btn-icon" class="material-symbols-outlined text-xl">send</span>
+                        <span id="post-btn-text">Publicar Postagem</span>
+                    </button>
+                    <p class="text-center text-slate-500 dark:text-slate-500 text-xs mt-4">A postagem ficara visivel imediatamente para todos os usuarios do app.</p>
+                </div>
+            </main>
+        </div>
 
-        <!-- [BOTTOM_NAVBAR_PERSISTENCE] -->
+        <!-- SLIDE-IN: Novo Anuncio -->
+        <div id="ad-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
+            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
+                <button onclick="fecharAd()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Criar Anuncio</h1>
+                <div class="size-10"></div>
+            </header>
+            <main class="flex flex-col gap-6 p-4 pb-32">
+                <section class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Titulo do Anuncio</label>
+                        <input id="ad-titulo" class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Ex: Promocao Restaurante Central" type="text" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between items-center px-1">
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Descricao Curta</label>
+                            <span id="ad-char-count" class="text-[10px] font-bold text-slate-400">0/140</span>
+                        </div>
+                        <textarea id="ad-descricao" class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none" placeholder="Ex: 20% de desconto para passageiros Meu Carro Salinas" rows="2" maxlength="140"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">URL de Destino</label>
+                        <input id="ad-url" class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Ex: https://meusite.com.br ou WhatsApp" type="url" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Upload da Imagem</label>
+                        <div id="ad-drop-zone" class="w-full aspect-video rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-primary transition-colors relative overflow-hidden">
+                            <input type="file" id="ad-image-input" accept="image/*" class="hidden" />
+                            <div id="ad-no-image" class="flex flex-col items-center gap-2">
+                                <span class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary transition-colors">add_photo_alternate</span>
+                                <p class="text-sm text-slate-500 font-medium">Toque para selecionar imagem</p>
+                                <p class="text-[10px] text-slate-400">Recomendado: 1200x600px</p>
+                            </div>
+                            <img id="ad-image-preview" class="absolute inset-0 w-full h-full object-cover hidden" />
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-4 mt-2">
+                    <div class="flex items-center justify-between px-1">
+                        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Preview do Card</h2>
+                        <span class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full font-bold">Visualizacao na Home</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-2xl overflow-hidden ad-preview-shadow relative aspect-[16/9]">
+                        <img id="ad-preview-img" alt="Preview Ad" class="w-full h-full object-cover opacity-60" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-4 w-full">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-primary bg-white/90 px-2 py-0.5 rounded-sm w-fit">PATROCINADO</span>
+                                <h3 id="ad-preview-titulo" class="text-lg font-bold text-white leading-tight">Titulo do Anuncio Exemplo</h3>
+                                <p id="ad-preview-descricao" class="text-xs text-slate-200 line-clamp-1">Esta e a descricao curta que aparecera no carrossel da tela inicial.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="flex flex-col gap-3 pt-4 mb-8">
+                    <button id="ad-publish-btn" class="flex items-center justify-center gap-2 w-full p-4 rounded-xl bg-primary text-white font-bold transition-all active:scale-[0.98] shadow-lg shadow-primary/30">
+                        <span id="ad-btn-icon" class="material-symbols-outlined">rocket_launch</span>
+                        <span id="ad-btn-text">Publicar Agora</span>
+                    </button>
+                </section>
+            </main>
+        </div>
+        <!-- SLIDE-IN: Gerenciar Blog -->
+        <div id="blog-manage-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
+            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
+                <button onclick="fecharBlogManage()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Postagens</h1>
+                <div class="size-10"></div>
+            </header>
+            <main class="flex-1 px-4 pt-5 pb-24">
+                <div class="grid grid-cols-3 gap-3 mb-6 animate-fade-in">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-primary" id="blog-stat-total">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Total</p></div>
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-emerald-500" id="blog-stat-pub">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Publicados</p></div>
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-amber-500" id="blog-stat-draft">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Rascunhos</p></div>
+                </div>
+                <div class="relative mb-4 animate-fade-in delay-100">
+                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+                    <input id="blog-search" type="text" placeholder="Buscar por titulo..." class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+                </div>
+                <div class="flex items-center justify-between mb-3 animate-fade-in delay-200">
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Postagens</h2>
+                    <span id="blog-badge-count" class="text-xs font-semibold text-slate-500 bg-slate-200 dark:bg-slate-800 px-2.5 py-1 rounded-full">...</span>
+                </div>
+                <div id="blog-post-list" class="flex flex-col gap-3">
+                    <div class="skeleton-card flex gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse"><div class="size-20 rounded-xl bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div><div class="flex-1 space-y-2 pt-1"><div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/4"></div><div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div><div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div></div></div>
+                    <div class="skeleton-card flex gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse"><div class="size-20 rounded-xl bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div><div class="flex-1 space-y-2 pt-1"><div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/3"></div><div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div><div class="h-3 bg-slate-200 dark:bg-slate-700 rounded w-2/5"></div></div></div>
+                </div>
+                <div id="blog-empty-state" class="hidden flex-col items-center justify-center py-20 gap-4 text-center animate-fade-in">
+                    <div class="size-20 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center"><span class="material-symbols-outlined text-4xl text-slate-400">article</span></div>
+                    <div><p class="font-bold text-slate-700 dark:text-slate-300">Nenhuma postagem ainda</p><p class="text-sm text-slate-400 mt-1">Clique em + para criar o primeiro post</p></div>
+                    <button onclick="fecharBlogManage(); window.abrirPost()" class="mt-2 px-6 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20 active-scale"><span class="material-symbols-outlined text-base align-middle mr-1">add</span>Criar Postagem</button>
+                </div>
+            </main>
+            <div id="blog-modal-edit" class="fixed inset-0 z-[70] flex items-end justify-center bg-black/60 backdrop-blur-sm hidden">
+                <div class="w-full max-w-lg bg-background-light dark:bg-slate-900 rounded-t-2xl border-t border-slate-200 dark:border-slate-800 shadow-2xl p-6 pb-10 flex flex-col gap-4 animate-slide-up overflow-y-auto max-h-[90dvh]">
+                    <div class="flex items-center justify-between mb-1"><h3 class="text-lg font-bold">Editar Post</h3><button onclick="blogCloseEditModal()" class="flex items-center justify-center size-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><span class="material-symbols-outlined text-slate-500">close</span></button></div>
+                    <input id="blog-edit-id" type="hidden" />
+                    <div class="flex flex-col gap-1.5"><label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Titulo</label><input id="blog-edit-titulo" type="text" class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" /></div>
+                    <div class="flex flex-col gap-1.5"><label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Categoria</label><select id="blog-edit-categoria" class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary outline-none transition-all text-sm"><option value="noticias">Noticias</option><option value="dicas">Dicas</option><option value="promocoes">Promocoes</option><option value="avisos">Avisos</option></select></div>
+                    <div class="flex flex-col gap-1.5"><label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Conteudo</label><textarea id="blog-edit-conteudo" rows="5" class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary outline-none transition-all text-sm resize-none"></textarea></div>
+                    <div class="flex items-center justify-between p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"><span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Publicado</span><label class="relative inline-flex items-center cursor-pointer"><input id="blog-edit-publicado" type="checkbox" class="sr-only peer" /><div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label></div>
+                    <button onclick="blogSaveEdit()" id="blog-btn-save-edit" class="active-scale w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/20 text-sm"><span class="material-symbols-outlined text-base">save</span>Salvar Alteracoes</button>
+                </div>
+            </div>
+            <div id="blog-modal-delete" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-5">
+                <div class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 flex flex-col gap-4 animate-fade-in">
+                    <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-rose-500/10 text-rose-500"><span class="material-symbols-outlined text-3xl">delete_forever</span></div>
+                    <div class="text-center"><h3 class="font-bold text-lg">Excluir postagem?</h3><p class="text-sm text-slate-500 mt-1">Esta acao e permanente e nao pode ser desfeita.</p></div>
+                    <input id="blog-delete-id" type="hidden" />
+                    <button onclick="blogConfirmDelete()" id="blog-btn-confirm-delete" class="active-scale w-full p-3.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-600/20">Sim, excluir</button>
+                    <button onclick="blogCloseDeleteModal()" class="active-scale w-full p-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE-IN: Gerenciar Anuncios -->
+        <div id="ad-manage-view" class="slide-in-view absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto no-scrollbar">
+            <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
+                <button onclick="fecharAdManage()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+                <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Gerenciar Anuncios</h1>
+                <div class="size-10"></div>
+            </header>
+            <main class="flex-1 px-4 pt-5 pb-24">
+                <div class="grid grid-cols-3 gap-3 mb-6 animate-fade-in">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-primary" id="ad-stat-total">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Total</p></div>
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-emerald-500" id="ad-stat-ativos">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Ativos</p></div>
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 text-center"><p class="text-2xl font-bold text-slate-400" id="ad-stat-inativos">-</p><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Inativos</p></div>
+                </div>
+                <div class="relative mb-4 animate-fade-in delay-100">
+                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+                    <input id="ad-search" type="text" placeholder="Buscar por titulo..." class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+                </div>
+                <div class="flex items-center justify-between mb-3 animate-fade-in delay-200">
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Todos os anuncios</h2>
+                    <span id="ad-badge-count" class="text-xs font-semibold text-slate-500 bg-slate-200 dark:bg-slate-800 px-2.5 py-1 rounded-full">...</span>
+                </div>
+                <div id="ad-list" class="flex flex-col gap-3">
+                    <div class="skeleton-card flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse"><div class="size-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div><div class="flex-1 space-y-2"><div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div><div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div></div></div>
+                    <div class="skeleton-card flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 animate-pulse"><div class="size-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div><div class="flex-1 space-y-2"><div class="h-3.5 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div><div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded w-2/5"></div></div></div>
+                </div>
+                <div id="ad-empty-state" class="hidden flex-col items-center justify-center py-20 gap-4 text-center animate-fade-in">
+                    <div class="size-20 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center"><span class="material-symbols-outlined text-4xl text-slate-400">campaign</span></div>
+                    <div><p class="font-bold text-slate-700 dark:text-slate-300">Nenhum anuncio ainda</p><p class="text-sm text-slate-400 mt-1">Clique no botao + para criar o primeiro</p></div>
+                    <button onclick="fecharAdManage(); window.abrirAd()" class="mt-2 px-6 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20 active-scale"><span class="material-symbols-outlined text-base align-middle mr-1">add</span>Criar Anuncio</button>
+                </div>
+            </main>
+            <div id="ad-modal-edit" class="fixed inset-0 z-[70] flex items-end justify-center bg-black/60 backdrop-blur-sm hidden">
+                <div class="w-full max-w-lg bg-background-light dark:bg-slate-900 rounded-t-2xl border-t border-slate-200 dark:border-slate-800 shadow-2xl p-6 pb-10 flex flex-col gap-4 animate-slide-up">
+                    <div class="flex items-center justify-between mb-1"><h3 class="text-lg font-bold">Editar Anuncio</h3><button onclick="adCloseEditModal()" class="flex items-center justify-center size-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><span class="material-symbols-outlined text-slate-500">close</span></button></div>
+                    <input id="ad-edit-id" type="hidden" />
+                    <div class="flex flex-col gap-1.5"><label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Titulo</label><input id="ad-edit-titulo" type="text" class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm" /></div>
+                    <div class="flex flex-col gap-1.5"><label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Descricao</label><textarea id="ad-edit-descricao" rows="3" class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm resize-none"></textarea></div>
+                    <div class="flex flex-col gap-1.5"><label class="text-xs font-semibold uppercase tracking-wider text-slate-500">URL de Destino</label><input id="ad-edit-url" type="url" class="w-full rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm" /></div>
+                    <div class="flex items-center justify-between mt-1 p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"><span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Anuncio Ativo</span><label class="relative inline-flex items-center cursor-pointer"><input id="ad-edit-ativo" type="checkbox" class="sr-only peer" /><div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label></div>
+                    <button onclick="adSaveEdit()" id="ad-btn-save-edit" class="active-scale w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20 text-sm"><span class="material-symbols-outlined text-base">save</span>Salvar Alteracoes</button>
+                </div>
+            </div>
+            <div id="ad-modal-delete" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-5">
+                <div class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 flex flex-col gap-4 animate-fade-in">
+                    <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-rose-500/10 text-rose-500"><span class="material-symbols-outlined text-3xl">delete_forever</span></div>
+                    <div class="text-center"><h3 class="font-bold text-lg">Excluir anuncio?</h3><p class="text-sm text-slate-500 mt-1">Esta acao nao pode ser desfeita. O anuncio sera removido permanentemente.</p></div>
+                    <input id="ad-delete-id" type="hidden" />
+                    <button onclick="adConfirmDelete()" id="ad-btn-confirm-delete" class="active-scale w-full p-3.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-600/20">Sim, excluir</button>
+                    <button onclick="adCloseDeleteModal()" class="active-scale w-full p-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <!-- MODAIS GLOBAIS -->
+        <div id="edit-user-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
+            <div class="bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-800 overflow-hidden transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+                <div class="flex items-center justify-between p-6 border-b border-slate-800">
+                    <h2 id="edit-modal-title" class="text-xl font-bold text-white">Editar Usuario</h2>
+                    <button class="text-slate-400 hover:text-white transition-colors" onclick="closeModal()"><span class="material-symbols-outlined">close</span></button>
+                </div>
+                <form class="p-6 space-y-4" onsubmit="event.preventDefault();">
+                    <div class="space-y-2"><label class="text-sm font-medium text-slate-300" for="edit-nome">Nome Completo</label><input class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500" id="edit-nome" type="text" value="" /></div>
+                    <div class="space-y-2"><label class="text-sm font-medium text-slate-300" for="edit-email">E-mail</label><input class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500" id="edit-email" type="email" value="" /></div>
+                    <div class="space-y-2"><label class="text-sm font-medium text-slate-300" for="edit-telefone">Telefone</label><input class="w-full bg-slate-800 border-slate-700 rounded-lg text-white focus:ring-primary focus:border-primary placeholder:text-slate-500" id="edit-telefone" type="tel" value="" /></div>
+                </form>
+                <div class="p-6 pt-0 flex gap-3">
+                    <button class="flex-1 px-4 py-2.5 rounded-lg font-bold text-slate-300 bg-slate-800 hover:bg-slate-700 transition-colors" onclick="closeModal()">Cancelar</button>
+                    <button id="btn-save-user" class="flex-1 px-4 py-2.5 rounded-lg font-bold text-white bg-[#1e40af] hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20" onclick="saveUser()">Salvar Alteracoes</button>
+                </div>
+            </div>
+        </div>
+        <div id="delete-user-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
+            <div class="bg-slate-900 w-full max-w-sm rounded-2xl shadow-2xl border border-slate-800 overflow-hidden transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+                <div class="p-6 text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4"><span class="material-symbols-outlined text-4xl">warning</span></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Excluir Usuario</h3>
+                    <p class="text-slate-400 text-sm">Atencao: Tem certeza que deseja excluir o usuario <strong id="delete-user-name" class="text-white"></strong>? Esta acao removera permanentemente os dados deste usuario do sistema.</p>
+                </div>
+                <div class="p-6 pt-0 flex flex-col gap-3">
+                    <button class="w-full rounded-lg bg-red-600 px-4 py-3 text-sm font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 text-center flex items-center justify-center" onclick="confirmDeleteUser()" id="confirm-delete-btn">Sim, Excluir Agora</button>
+                    <button class="w-full rounded-lg bg-slate-800 px-4 py-3 text-sm font-bold text-slate-300 hover:bg-slate-700 transition-colors text-center" onclick="closeDeleteModal()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div id="logoff-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+            <div class="w-full max-w-sm bg-background-light dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-fade-in">
+                <div class="p-6 text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-500 mb-4"><span class="material-symbols-outlined text-4xl">logout</span></div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Deseja realmente sair?</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-base">Sua sessao sera encerrada e voce precisara fazer login novamente.</p>
+                </div>
+                <div class="flex flex-col gap-3 p-6 pt-0">
+                    <button onclick="logoutAdmin()" class="w-full rounded-lg bg-red-600 px-4 py-3 text-base font-bold text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20">Sair agora</button>
+                    <button onclick="closeLogoffModal()" class="w-full rounded-lg bg-slate-200 dark:bg-slate-800 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/60 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+            <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2.5rem] p-10 border border-slate-200/50 dark:border-slate-800/50 shadow-2xl flex flex-col items-center text-center animate-modal-enter">
+                <div class="size-24 bg-primary/10 rounded-full flex items-center justify-center mb-8 relative">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full animate-pulse"></div>
+                    <span class="material-symbols-outlined text-primary text-5xl animate-check" style="font-variation-settings: 'wght' 700">check_circle</span>
+                </div>
+                <h2 class="text-slate-900 dark:text-white text-2xl font-black mb-3 tracking-tight">Postagem Publicada!</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-10 px-4">Sua historia ja esta brilhando no blog.</p>
+                <button onclick="fecharSuccessModal()" class="w-full py-5 bg-primary hover:bg-primary/90 text-white font-bold rounded-2xl transition-all shadow-lg shadow-primary/25 active:scale-95 leading-none">Continuar</button>
+            </div>
+        </div>
         <nav class="fixed-navbar !z-[200]" id="main-nav">
-            <button onclick="switchTab('dashboard')" class="nav-item nav-active" id="nav-dashboard">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span>Painel</span>
-            </button>
-            <button onclick="switchTab('users')" class="nav-item" id="nav-users">
-                <span class="material-symbols-outlined">group</span>
-                <span>Usuários</span>
-            </button>
-            <button onclick="switchTab('trips')" class="nav-item" id="nav-trips">
-                <span class="material-symbols-outlined">route</span>
-                <span>Viagens</span>
-            </button>
-            <button onclick="switchTab('settings')" class="nav-item" id="nav-settings">
-                <span class="material-symbols-outlined">settings</span>
-                <span>Ajustes</span>
-            </button>
+            <button onclick="switchTab('dashboard')" class="nav-item nav-active" id="nav-dashboard"><span class="material-symbols-outlined">dashboard</span><span>Painel</span></button>
+            <button onclick="switchTab('users')" class="nav-item" id="nav-users"><span class="material-symbols-outlined">group</span><span>Usuarios</span></button>
+            <button onclick="switchTab('trips')" class="nav-item" id="nav-trips"><span class="material-symbols-outlined">route</span><span>Viagens</span></button>
+            <button onclick="switchTab('settings')" class="nav-item" id="nav-settings"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button>
         </nav>
-
-        <!-- SPA Navigation Logic -->
         <script>
             function switchTab(tabName) {
-                const slider = document.getElementById('view-slider');
-                const tabs = ['dashboard', 'users', 'trips', 'settings'];
-                const index = tabs.indexOf(tabName);
-                
+                var slider = document.getElementById('view-slider');
+                var tabs = ['dashboard', 'users', 'trips', 'settings'];
+                var index = tabs.indexOf(tabName);
                 if (index === -1) return;
-
-                // Hardware Accelerated Slider
-                slider.style.transform = `translate3d(${-index * 100}vw, 0, 0)`;
-
-                // Update Navbar UI
-                document.querySelectorAll('.nav-item').forEach(btn => {
+                slider.style.transform = 'translate3d(' + (-index * 100) + 'vw, 0, 0)';
+                document.querySelectorAll('.nav-item').forEach(function(btn) {
                     btn.classList.remove('nav-active');
-                    if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
+                    if (btn.id === 'nav-' + tabName) btn.classList.add('nav-active');
                 });
-
-                // Optimization: Hide sections out of viewport
-                document.querySelectorAll('.view-section').forEach((sec, i) => {
+                document.querySelectorAll('.view-section').forEach(function(sec, i) {
                     sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
                 });
+                if (tabName === 'users' && typeof window._loadUsersIfNeeded === 'function') window._loadUsersIfNeeded();
+                if (tabName === 'settings' && typeof window._loadAdminProfile === 'function') window._loadAdminProfile();
             }
         </script>
-    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/authGuard.js"></script>
     <script src="js/pwa-register.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const sb = window.supabaseClient;
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, function(tag) {
+                var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' };
+                return map[tag] || tag;
+            });
+        }
+        function stripHtml(html) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || '';
+        }
+        function openSlideIn(id) {
+            var view = document.getElementById(id);
+            if (!view) return;
+            view.classList.remove('hidden');
+            requestAnimationFrame(function() {
+                view.classList.remove('translate-x-full');
+                view.classList.add('translate-x-0');
+            });
+        }
+        function closeSlideIn(id) {
+            var view = document.getElementById(id);
+            if (!view) return;
+            view.classList.add('translate-x-full');
+            view.classList.remove('translate-x-0');
+            setTimeout(function() { view.classList.add('hidden'); }, 500);
+        }
+        window.abrirPost = function() { openSlideIn('post-view'); };
+        window.fecharPost = function() { closeSlideIn('post-view'); };
+        window.abrirAd = function() { openSlideIn('ad-view'); };
+        window.fecharAd = function() { closeSlideIn('ad-view'); };
+        window.abrirBlogManage = function() {
+            openSlideIn('blog-manage-view');
+            if (typeof window._loadBlogPosts === 'function') window._loadBlogPosts();
+        };
+        window.fecharBlogManage = function() { closeSlideIn('blog-manage-view'); };
+        window.abrirAdManage = function() {
+            openSlideIn('ad-manage-view');
+            if (typeof window._loadAds === 'function') window._loadAds();
+        };
+        window.fecharAdManage = function() { closeSlideIn('ad-manage-view'); };
+        window.openLogoffModal = function() { document.getElementById('logoff-modal').classList.remove('hidden'); };
+        window.closeLogoffModal = function() { document.getElementById('logoff-modal').classList.add('hidden'); };
+        window.logoutAdmin = async function() {
+            if (window.supabaseClient) await window.supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
+        };
+        window.handleLogout = function() { openLogoffModal(); };
+        window.fecharSuccessModal = function() {
+            var modal = document.getElementById('success-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(function() { modal.classList.add('hidden'); }, 300);
+            fecharPost();
+        };
+        document.addEventListener('DOMContentLoaded', async function() {
+            var sb = window.supabaseClient;
             if (!sb) return;
-
             async function updateStats() {
                 try {
-                    const startOfToday = new Date();
+                    var startOfToday = new Date();
                     startOfToday.setHours(0, 0, 0, 0);
-                    const isoStartOfToday = startOfToday.toISOString();
-
-                    function updatePct(elementId, current, past) {
-                        const el = document.getElementById(elementId);
-                        if (past === 0) {
-                            el.textContent = current > 0 ? '+100%' : '0%';
-                            el.className = 'text-emerald-500 text-xs font-bold leading-normal';
-                            return;
-                        }
-                        const pct = ((current - past) / past) * 100;
-                        const sign = pct >= 0 ? '+' : '';
-                        el.textContent = `${sign}${pct.toFixed(1)}%`;
-                        el.className = pct >= 0 ? 'text-emerald-500 text-xs font-bold leading-normal' : 'text-red-500 text-xs font-bold leading-normal';
+                    var iso = startOfToday.toISOString();
+                    function up(el, cur, past) {
+                        var e = document.getElementById(el);
+                        if (!e) return;
+                        if (past === 0) { e.textContent = cur > 0 ? '+100%' : '0%'; e.className = 'text-emerald-500 text-xs font-bold leading-normal'; return; }
+                        var p = ((cur - past)/past)*100;
+                        e.textContent = (p>=0?'+':'')+p.toFixed(1)+'%';
+                        e.className = p>=0?'text-emerald-500 text-xs font-bold leading-normal':'text-red-500 text-xs font-bold leading-normal';
                     }
-
-                    // Total Clientes (Usuários) - Exclui admin
-                    const { count: totalUsers, error: err1 } = await sb
-                        .from('usuarios')
-                        .select('*', { count: 'exact', head: true });
-
-                    const { count: pastUsers, error: err1p } = await sb
-                        .from('usuarios')
-                        .select('*', { count: 'exact', head: true })
-                        .lt('criado_em', isoStartOfToday);
-
-                    if (!err1) {
-                        const clientesCount = Math.max(0, totalUsers - 1);
-                        const pastClientes = Math.max(0, (pastUsers || 0) - 1);
-                        document.getElementById('stat-clientes').textContent = clientesCount.toLocaleString();
-                        if (!err1p) updatePct('pct-clientes', clientesCount, pastClientes);
+                    var r1 = await sb.from('usuarios').select('*',{count:'exact',head:true});
+                    var r1p = await sb.from('usuarios').select('*',{count:'exact',head:true}).lt('criado_em',iso);
+                    if (!r1.error) {
+                        var cc = Math.max(0,r1.count-1);
+                        var pc = Math.max(0,(r1p.count||0)-1);
+                        var el = document.getElementById('stat-clientes');
+                        if (el) el.textContent = cc.toLocaleString();
+                        up('pct-clientes',cc,pc);
                     }
-
-                    // Total Passageiros
-                    const { count: totalPassageiros, error: err2 } = await sb
-                        .from('usuarios')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('tipo_usuario', 'passageiro');
-
-                    const { count: pastPassageiros, error: err2p } = await sb
-                        .from('usuarios')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('tipo_usuario', 'passageiro')
-                        .lt('criado_em', isoStartOfToday);
-
-                    if (!err2) {
-                        document.getElementById('stat-passageiros').textContent = totalPassageiros.toLocaleString();
-                        if (!err2p) updatePct('pct-passageiros', totalPassageiros, pastPassageiros || 0);
-                    }
-
-                    // Total Motoristas
-                    const { count: totalMotoristas, error: err3 } = await sb
-                        .from('usuarios')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('tipo_usuario', 'motorista');
-
-                    const { count: pastMotoristas, error: err3p } = await sb
-                        .from('usuarios')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('tipo_usuario', 'motorista')
-                        .lt('criado_em', isoStartOfToday);
-
-                    if (!err3) {
-                        document.getElementById('stat-motoristas').textContent = totalMotoristas.toLocaleString();
-                        if (!err3p) updatePct('pct-motoristas', totalMotoristas, pastMotoristas || 0);
-                    }
-
-                    // Viagens (Hardcoded as 0 per request)
-                    document.getElementById('stat-viagens').textContent = '0';
-
-                } catch (error) {
-                    console.error('Erro ao buscar estatísticas:', error);
-                }
+                    var r2 = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro');
+                    var r2p = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro').lt('criado_em',iso);
+                    var el2 = document.getElementById('stat-passageiros');
+                    if (el2) el2.textContent = (r2.count||0).toLocaleString();
+                    up('pct-passageiros',r2.count||0,r2p.count||0);
+                    var r3 = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista');
+                    var r3p = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista').lt('criado_em',iso);
+                    var el3 = document.getElementById('stat-motoristas');
+                    if (el3) el3.textContent = (r3.count||0).toLocaleString();
+                    up('pct-motoristas',r3.count||0,r3p.count||0);
+                    var el4 = document.getElementById('stat-viagens');
+                    if (el4) el4.textContent = '0';
+                } catch(e) { console.error('Erro stats:',e); }
             }
-
             async function updateRegistrationChart() {
                 try {
-                    const days = 7;
-                    const labelsContainer = document.getElementById('chart-labels');
-                    const pathPas = document.getElementById('path-passageiros');
-                    const pathMot = document.getElementById('path-motoristas');
-
-                    // 1. Get dates for the last 7 days
-                    const dates = [];
-                    for (let i = days - 1; i >= 0; i--) {
-                        const d = new Date();
-                        d.setDate(d.getDate() - i);
-                        dates.push(d);
-                    }
-
-                    // 2. Update X-axis labels
-                    const labelsElements = labelsContainer.querySelectorAll('span');
-                    dates.forEach((date, i) => {
-                        labelsElements[i].textContent = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+                    var days=7, lc=document.getElementById('chart-labels'), pp=document.getElementById('path-passageiros'), pm=document.getElementById('path-motoristas');
+                    if (!lc||!pp||!pm) return;
+                    var dates=[];
+                    for(var i=days-1;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);dates.push(d);}
+                    var ls=lc.querySelectorAll('span');
+                    dates.forEach(function(d,i){if(ls[i])ls[i].textContent=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});});
+                    var ru=await sb.from('usuarios').select('tipo_usuario, criado_em');
+                    if(!ru.data) return;
+                    var pas=Array(days).fill(0),mot=Array(days).fill(0);
+                    dates.forEach(function(d,i){
+                        var eod=new Date(d);eod.setHours(23,59,59,999);
+                        pas[i]=ru.data.filter(function(u){return u.tipo_usuario==='passageiro'&&new Date(u.criado_em)<=eod;}).length;
+                        mot[i]=ru.data.filter(function(u){return u.tipo_usuario==='motorista'&&new Date(u.criado_em)<=eod;}).length;
                     });
-
-                    // 3. Fetch all users (excluding admins if possible, though we'll just filter in JS)
-                    const { data: users, error } = await sb
-                        .from('usuarios')
-                        .select('tipo_usuario, criado_em');
-
-                    if (error) throw error;
-
-                    // 4. Calculate cumulative counts per day
-                    const pasCounts = Array(days).fill(0);
-                    const motCounts = Array(days).fill(0);
-
-                    dates.forEach((date, i) => {
-                        const endOfDay = new Date(date);
-                        endOfDay.setHours(23, 59, 59, 999);
-
-                        pasCounts[i] = users.filter(u => u.tipo_usuario === 'passageiro' && new Date(u.criado_em) <= endOfDay).length;
-                        motCounts[i] = users.filter(u => u.tipo_usuario === 'motorista' && new Date(u.criado_em) <= endOfDay).length;
+                    var mx=Math.max.apply(null,pas.concat(mot).concat([10])),w=472,h=150,pad=20,av=h-pad*2;
+                    function gp(c){return c.map(function(v,i){var x=(i/(days-1))*w,y=h-pad-(v/mx)*av;return(i===0?'M':'L')+' '+x.toFixed(1)+' '+y.toFixed(1);}).join(' ');}
+                    pp.setAttribute('d',gp(pas));pm.setAttribute('d',gp(mot));
+                    var dc=document.getElementById('chart-dots'),tt=document.getElementById('chart-tooltip');
+                    if(!dc||!tt) return;
+                    dc.innerHTML='';
+                    dates.forEach(function(d,i){
+                        var x=(i/(days-1))*w,yPas=h-pad-(pas[i]/mx)*av,yMot=h-pad-(mot[i]/mx)*av;
+                        var r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+                        r.setAttribute('x',x-20);r.setAttribute('y',0);r.setAttribute('width',40);r.setAttribute('height',h);r.setAttribute('fill','transparent');r.setAttribute('class','cursor-pointer');
+                        var sh=function(){tt.classList.remove('hidden');setTimeout(function(){tt.style.opacity='1';tt.style.transform='translate(-50%, -100%) scale(1)';},10);tt.style.left=(x/w)*100+'%';tt.style.top=Math.min(yPas,yMot)+'px';var td=document.getElementById('tooltip-date');if(td)td.textContent=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});var tm=document.getElementById('tooltip-mot');if(tm)tm.textContent=mot[i];var tp=document.getElementById('tooltip-pas');if(tp)tp.textContent=pas[i];document.querySelectorAll('.chart-dot-'+i).forEach(function(dd){dd.setAttribute('r','6');dd.setAttribute('stroke-width','4');});};
+                        var hi=function(){tt.style.opacity='0';tt.style.transform='translate(-50%, -100%) scale(0.9)';setTimeout(function(){tt.classList.add('hidden');},300);document.querySelectorAll('.chart-dot-'+i).forEach(function(dd){dd.setAttribute('r','4');dd.setAttribute('stroke-width','2');});};
+                        r.addEventListener('mouseenter',sh);r.addEventListener('mouseleave',hi);r.addEventListener('click',sh);
+                        var dp=document.createElementNS('http://www.w3.org/2000/svg','circle');
+                        dp.setAttribute('cx',x);dp.setAttribute('cy',yPas);dp.setAttribute('r','4');dp.setAttribute('fill','#a855f7');dp.setAttribute('stroke','white');dp.setAttribute('stroke-width','2');dp.setAttribute('class','chart-dot-'+i+' transition-all duration-300');
+                        var dm=document.createElementNS('http://www.w3.org/2000/svg','circle');
+                        dm.setAttribute('cx',x);dm.setAttribute('cy',yMot);dm.setAttribute('r','4');dm.setAttribute('fill','#0f38bd');dm.setAttribute('stroke','white');dm.setAttribute('stroke-width','2');dm.setAttribute('class','chart-dot-'+i+' transition-all duration-300');
+                        dc.appendChild(dp);dc.appendChild(dm);dc.appendChild(r);
                     });
-
-                    // 5. Generate SVG Paths
-                    const maxCount = Math.max(...pasCounts, ...motCounts, 10); // Min scale of 10
-                    const width = 472;
-                    const height = 150;
-                    const padding = 20;
-                    const availableHeight = height - (padding * 2);
-
-                    function getPath(counts) {
-                        return counts.map((count, i) => {
-                            const x = (i / (days - 1)) * width;
-                            const y = height - padding - (count / maxCount) * availableHeight;
-                            return `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
-                        }).join(' ');
-                    }
-
-                    pathPas.setAttribute('d', getPath(pasCounts));
-                    pathMot.setAttribute('d', getPath(motCounts));
-
-                    // 6. Create Interactive Dots and Tooltip Logic
-                    const dotsContainer = document.getElementById('chart-dots');
-                    const tooltip = document.getElementById('chart-tooltip');
-                    dotsContainer.innerHTML = '';
-
-                    dates.forEach((date, i) => {
-                        const x = (i / (days - 1)) * width;
-                        const yPas = height - padding - (pasCounts[i] / maxCount) * availableHeight;
-                        const yMot = height - padding - (motCounts[i] / maxCount) * availableHeight;
-
-                        // Create invisible trigger for better touch area
-                        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                        rect.setAttribute("x", (x - 20));
-                        rect.setAttribute("y", 0);
-                        rect.setAttribute("width", 40);
-                        rect.setAttribute("height", height);
-                        rect.setAttribute("fill", "transparent");
-                        rect.setAttribute("class", "cursor-pointer");
-                        
-                        const showTooltip = (e) => {
-                            tooltip.classList.remove('hidden');
-                            setTimeout(() => {
-                                tooltip.style.opacity = '1';
-                                tooltip.style.transform = 'translate(-50%, -100%) scale(1)';
-                            }, 10);
-                            
-                            tooltip.style.left = `${(x / width) * 100}%`;
-                            tooltip.style.top = `${Math.min(yPas, yMot)}px`;
-                            
-                            document.getElementById('tooltip-date').textContent = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
-                            document.getElementById('tooltip-mot').textContent = motCounts[i];
-                            document.getElementById('tooltip-pas').textContent = pasCounts[i];
-                            
-                            // Highlight dots
-                            document.querySelectorAll(`.chart-dot-${i}`).forEach(d => {
-                                d.setAttribute('r', '6');
-                                d.setAttribute('stroke-width', '4');
-                            });
-                        };
-
-                        const hideTooltip = () => {
-                            tooltip.style.opacity = '0';
-                            tooltip.style.transform = 'translate(-50%, -100%) scale(0.9)';
-                            setTimeout(() => tooltip.classList.add('hidden'), 300);
-                            
-                            document.querySelectorAll(`.chart-dot-${i}`).forEach(d => {
-                                d.setAttribute('r', '4');
-                                d.setAttribute('stroke-width', '2');
-                            });
-                        };
-
-                        rect.addEventListener('mouseenter', showTooltip);
-                        rect.addEventListener('mouseleave', hideTooltip);
-                        rect.addEventListener('click', showTooltip);
-
-                        // Visual dots
-                        const dotPas = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        dotPas.setAttribute("cx", x);
-                        dotPas.setAttribute("cy", yPas);
-                        dotPas.setAttribute("r", "4");
-                        dotPas.setAttribute("fill", "#a855f7");
-                        dotPas.setAttribute("stroke", "white");
-                        dotPas.setAttribute("stroke-width", "2");
-                        dotPas.setAttribute("class", `chart-dot-${i} transition-all duration-300`);
-
-                        const dotMot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                        dotMot.setAttribute("cx", x);
-                        dotMot.setAttribute("cy", yMot);
-                        dotMot.setAttribute("r", "4");
-                        dotMot.setAttribute("fill", "#0f38bd");
-                        dotMot.setAttribute("stroke", "white");
-                        dotMot.setAttribute("stroke-width", "2");
-                        dotMot.setAttribute("class", `chart-dot-${i} transition-all duration-300`);
-
-                        dotsContainer.appendChild(dotPas);
-                        dotsContainer.appendChild(dotMot);
-                        dotsContainer.appendChild(rect);
-                    });
-
-                } catch (error) {
-                    console.error('Erro ao buscar dados do gráfico:', error);
-                }
+                } catch(e) { console.error('Erro chart:',e); }
             }
-
             async function updateBlogChart() {
                 try {
-                    const barsContainer = document.getElementById('blog-bars-container');
-                    const labelsContainer = document.getElementById('blog-labels');
-                    const growthBadge = document.getElementById('blog-growth');
-                    const tooltip = document.getElementById('blog-tooltip');
-
-                    if (!barsContainer || !labelsContainer || !growthBadge || !tooltip) return;
-
-                    // 1. Get Jan-Dec 2026
-                    const monthsCount = 12;
-                    const year = 2026;
-                    const months = [];
-                    for (let i = 0; i < monthsCount; i++) {
-                        months.push(new Date(year, i, 1));
-                    }
-
-                    // 2. Fetch posts
-                    const { data: posts, error } = await sb
-                        .from('postagens')
-                        .select('criado_em')
-                        .eq('publicado', true);
-
-                    if (error) throw error;
-
-                    // 3. Count posts per month
-                    const monthlyCounts = months.map(m => {
-                        return posts.filter(p => {
-                            const postDate = new Date(p.criado_em);
-                            return postDate.getMonth() === m.getMonth() && 
-                                   postDate.getFullYear() === m.getFullYear();
-                        }).length;
+                    var bc=document.getElementById('blog-bars-container'),lc=document.getElementById('blog-labels'),gb=document.getElementById('blog-growth'),tt=document.getElementById('blog-tooltip');
+                    if(!bc||!lc||!gb||!tt) return;
+                    var mc=12,yr=2026,ms=[];
+                    for(var i=0;i<mc;i++)ms.push(new Date(yr,i,1));
+                    var rp=await sb.from('postagens').select('criado_em').eq('publicado',true);
+                    if(!rp.data) return;
+                    var mn=ms.map(function(m){return rp.data.filter(function(p){var pd=new Date(p.criado_em);return pd.getMonth()===m.getMonth()&&pd.getFullYear()===m.getFullYear();}).length;});
+                    var now=new Date(),cmi=(now.getFullYear()===yr)?now.getMonth():mc-1;
+                    var df=mn[cmi]-(mn[mc-2]||0);
+                    gb.textContent=(df>=0?'+':'')+df;
+                    gb.className=df>=0?'bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold':'bg-red-500/10 text-red-600 px-3 py-1 rounded-full text-xs font-bold';
+                    bc.innerHTML='';lc.innerHTML='';
+                    var mx=Math.max.apply(null,mn.concat([5]));
+                    ms.forEach(function(d,i){
+                        var c=mn[i],hp=(c/mx)*100;
+                        var w=document.createElement('div');w.className='flex-1 h-full relative cursor-pointer flex items-end';
+                        var b=document.createElement('div');b.style.height=Math.max(hp,5)+'%';b.className='w-full '+(i===cmi?'bg-cyan-500':'bg-cyan-500/20')+' rounded-t-sm transition-all duration-300 transform origin-bottom hover:bg-cyan-400';
+                        w.appendChild(b);bc.appendChild(w);
+                        var l=document.createElement('span');l.className='text-slate-400 text-[10px] font-bold uppercase tracking-tighter flex-1 text-center';l.textContent=d.toLocaleDateString('pt-BR',{month:'short'}).replace('.','');lc.appendChild(l);
+                        var sh=function(){tt.classList.remove('hidden');setTimeout(function(){tt.style.opacity='1';tt.style.transform='translate(-50%, -100%) scale(1)';},10);var r2=w.getBoundingClientRect(),cr=document.querySelector('.group\\/chart2').getBoundingClientRect();tt.style.left=((r2.left+r2.width/2)-cr.left)+'px';tt.style.top=((r2.top+r2.height*(1-hp/100))-cr.top)+'px';var btd=document.getElementById('blog-tooltip-date');if(btd)btd.textContent=d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});var btv=document.getElementById('blog-tooltip-value');if(btv)btv.textContent=c;b.classList.add('brightness-125');};
+                        var hi=function(){tt.style.opacity='0';tt.style.transform='translate(-50%, -100%) scale(0.9)';setTimeout(function(){tt.classList.add('hidden');},300);b.classList.remove('brightness-125');};
+                        w.addEventListener('mouseenter',sh);w.addEventListener('mouseleave',hi);w.addEventListener('click',sh);
                     });
-
-                    // 4. Update growth badge (based on current real month if in 2026, otherwise last month)
-                    const now = new Date();
-                    const currentMonthIdx = (now.getFullYear() === year) ? now.getMonth() : monthsCount - 1;
-                    const currentMonthCount = monthlyCounts[currentMonthIdx];
-                    const lastMonthCount = monthlyCounts[monthsCount - 2] || 0;
-                    const diff = currentMonthCount - lastMonthCount;
-                    const sign = diff >= 0 ? '+' : '';
-                    growthBadge.textContent = `${sign}${diff}`;
-                    growthBadge.className = diff >= 0 ? 
-                        'bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold' : 
-                        'bg-red-500/10 text-red-600 px-3 py-1 rounded-full text-xs font-bold';
-
-                    // 5. Render bars and labels
-                    barsContainer.innerHTML = '';
-                    labelsContainer.innerHTML = '';
-                    const maxCount = Math.max(...monthlyCounts, 5); // Min scale of 5
-
-                    months.forEach((date, i) => {
-                        const count = monthlyCounts[i];
-                        const heightPct = (count / maxCount) * 100;
-
-                        // Create bar
-                        const barWrapper = document.createElement('div');
-                        barWrapper.className = 'flex-1 h-full relative cursor-pointer flex items-end';
-                        
-                        const bar = document.createElement('div');
-                        bar.style.height = `${Math.max(heightPct, 5)}%`;
-                        bar.className = `w-full ${i === currentMonthIdx ? 'bg-cyan-500' : 'bg-cyan-500/20'} rounded-t-sm transition-all duration-300 transform origin-bottom hover:bg-cyan-400`;
-                        
-                        barWrapper.appendChild(bar);
-                        barsContainer.appendChild(barWrapper);
-
-                        // Create label
-                        const label = document.createElement('span');
-                        label.className = 'text-slate-400 text-[10px] font-bold uppercase tracking-tighter flex-1 text-center';
-                        label.textContent = date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
-                        labelsContainer.appendChild(label);
-
-                        // Interactivity
-                        const showTooltip = (e) => {
-                            tooltip.classList.remove('hidden');
-                            setTimeout(() => {
-                                tooltip.style.opacity = '1';
-                                tooltip.style.transform = 'translate(-50%, -100%) scale(1)';
-                            }, 10);
-
-                            const rect = barWrapper.getBoundingClientRect();
-                            const containerRect = document.querySelector('.group\\/chart2').getBoundingClientRect();
-                            
-                            tooltip.style.left = `${((rect.left + rect.width / 2) - containerRect.left)}px`;
-                            tooltip.style.top = `${((rect.top + rect.height * (1 - heightPct/100)) - containerRect.top)}px`;
-
-                            document.getElementById('blog-tooltip-date').textContent = date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-                            document.getElementById('blog-tooltip-value').textContent = count;
-                            
-                            bar.classList.add('brightness-125');
-                        };
-
-                        const hideTooltip = () => {
-                            tooltip.style.opacity = '0';
-                            tooltip.style.transform = 'translate(-50%, -100%) scale(0.9)';
-                            setTimeout(() => tooltip.classList.add('hidden'), 300);
-                            bar.classList.remove('brightness-125');
-                        };
-
-                        barWrapper.addEventListener('mouseenter', showTooltip);
-                        barWrapper.addEventListener('mouseleave', hideTooltip);
-                        barWrapper.addEventListener('click', showTooltip);
-                    });
-
-                } catch (error) {
-                    console.error('Erro ao buscar dados do blog:', error);
-                }
+                } catch(e) { console.error('Erro blog chart:',e); }
             }
-
-            await updateStats();
-            await updateRegistrationChart();
-            await updateBlogChart();
+            var ustate = { motorista: {page:1, itemsPerPage:10, hasMore:true, totalCount:0, data:[], searchQuery:''}, passageiro: {page:1, itemsPerPage:10, hasMore:true, totalCount:0, data:[], searchQuery:''}, currentTab:'motorista', initialized:false };
+            var uels = { tabMotoristas:document.getElementById('tab-motoristas'), tabPassageiros:document.getElementById('tab-passageiros'), listDrivers:document.getElementById('drivers-list'), listPassengers:document.getElementById('passengers-list'), searchInput:document.getElementById('users-search'), loadMoreBtn:document.getElementById('users-load-more'), paginationText:document.getElementById('users-pagination-text'), editModal:document.getElementById('edit-user-modal'), editModalTitle:document.getElementById('edit-modal-title'), editNameInput:document.getElementById('edit-nome'), editEmailInput:document.getElementById('edit-email'), editPhoneInput:document.getElementById('edit-telefone'), saveUserBtn:document.getElementById('btn-save-user'), deleteModal:document.getElementById('delete-user-modal'), deleteUserNameAttr:document.getElementById('delete-user-name'), confirmDeleteBtn:document.getElementById('confirm-delete-btn') };
+            var currentEditingUserId=null, userIdToDelete=null, DEFAULT_AVATAR='https://ui-avatars.com/api/?background=random&color=fff&name=';
+            function switchUserTab(isM) {
+                ustate.currentTab = isM ? 'motorista' : 'passageiro';
+                if (isM) {
+                    uels.tabMotoristas.className = 'flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2 flex-1';
+                    uels.tabPassageiros.className = 'flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 flex-1';
+                    uels.listDrivers.classList.remove('hidden'); uels.listPassengers.classList.add('hidden');
+                    uels.searchInput.placeholder = 'Pesquisar motoristas em Salinas...';
+                } else {
+                    uels.tabPassageiros.className = 'flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2 flex-1';
+                    uels.tabMotoristas.className = 'flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 flex-1';
+                    uels.listPassengers.classList.remove('hidden'); uels.listDrivers.classList.add('hidden');
+                    uels.searchInput.placeholder = 'Pesquisar passageiros em Salinas...';
+                }
+                uels.searchInput.value = ustate[ustate.currentTab].searchQuery;
+                if (ustate[ustate.currentTab].data.length === 0) fetchUsers(ustate.currentTab, true);
+                else renderUserList(ustate.currentTab);
+            }
+            if (uels.tabMotoristas) uels.tabMotoristas.addEventListener('click',function(){switchUserTab(true);});
+            if (uels.tabPassageiros) uels.tabPassageiros.addEventListener('click',function(){switchUserTab(false);});
+            async function fetchUsers(tipo, reset) {
+                if (!window.supabaseClient) return;
+                var ts = ustate[tipo];
+                if (reset) {
+                    ts.page=1; ts.data=[]; ts.hasMore=true;
+                    var c = tipo==='motorista'?uels.listDrivers:uels.listPassengers;
+                    if (c) c.innerHTML = '<div class="text-center py-4"><span class="material-symbols-outlined animate-spin text-primary">sync</span> Carregando...</div>';
+                }
+                if (!ts.hasMore && !reset) return;
+                var from = (ts.page-1)*ts.itemsPerPage, to = from+ts.itemsPerPage-1;
+                try {
+                    if (uels.loadMoreBtn) { uels.loadMoreBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Carregando...'; uels.loadMoreBtn.disabled = true; }
+                    var q = sb.from('usuarios').select('*',{count:'exact'}).eq('tipo_usuario',tipo).order('criado_em',{ascending:false}).range(from,to);
+                    if (ts.searchQuery) q = q.ilike('nome','%'+ts.searchQuery+'%');
+                    var r = await q;
+                    if (r.error) throw r.error;
+                    ts.totalCount = r.count||0;
+                    if (r.data && r.data.length>0) {
+                        ts.data = reset ? r.data : ustate[tipo].data.concat(r.data);
+                        ts.hasMore = ts.data.length < r.count;
+                        ts.page++;
+                    } else { ts.hasMore=false; if (reset) ts.data=[]; }
+                    renderUserList(tipo);
+                } catch(e) { console.error('Erro usuarios:',e); }
+                finally { if (uels.loadMoreBtn) { uels.loadMoreBtn.innerText='Carregar mais'; uels.loadMoreBtn.disabled=false; } }
+            }
+            function renderUserList(tipo) {
+                var ts = ustate[tipo], c = tipo==='motorista'?uels.listDrivers:uels.listPassengers, noun = tipo==='motorista'?'motoristas':'passageiros';
+                if (!c) return;
+                c.innerHTML = '';
+                if (ts.data.length===0) c.innerHTML = '<div class="text-center text-slate-500 py-8">Nenhum '+tipo+' encontrado.</div>';
+                else ts.data.forEach(function(u){c.appendChild(createUserCard(u));});
+                if (uels.paginationText) uels.paginationText.innerText = 'Exibindo '+ts.data.length+' de '+ts.totalCount+' '+noun+' '+(ts.searchQuery?'encontrados':'cadastrados');
+                if (uels.loadMoreBtn) { if (ts.hasMore) uels.loadMoreBtn.classList.remove('hidden'); else uels.loadMoreBtn.classList.add('hidden'); }
+            }
+            function createUserCard(user) {
+                var div = document.createElement('div');
+                div.className = 'flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm';
+                var img = user.foto_perfil_url || (DEFAULT_AVATAR + encodeURIComponent(user.nome||'?'));
+                div.innerHTML = '<div class="relative shrink-0"><div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover bg-center rounded-full h-14 w-14 ring-2 ring-primary/10" style="background-image:url('+"'"+img+"'"+')"></div><div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div></div><div class="flex flex-col flex-1 min-w-0"><p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">'+escapeHTML(user.nome||'Sem Nome')+'</p><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-green-500 text-xs">check_circle</span><p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p></div></div><div class="shrink-0"><div class="flex gap-1"><button class="edit-btn flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'" data-email="'+escapeHTML(user.email||'')+'" data-telefone="'+escapeHTML(user.telefone||'')+'"><span class="material-symbols-outlined pointer-events-none">edit</span></button><button class="delete-btn flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'"><span class="material-symbols-outlined pointer-events-none">delete</span></button></div></div>';
+                div.querySelector('.edit-btn').addEventListener('click',function(e){handleEditClick(e);});
+                div.querySelector('.delete-btn').addEventListener('click',function(e){handleDeleteClick(e);});
+                return div;
+            }
+            function handleEditClick(e) {
+                var btn=e.currentTarget; currentEditingUserId=btn.dataset.id;
+                if (uels.editNameInput) uels.editNameInput.value=btn.dataset.nome;
+                if (uels.editEmailInput) uels.editEmailInput.value=btn.dataset.email;
+                if (uels.editPhoneInput) uels.editPhoneInput.value=btn.dataset.telefone;
+                if (uels.editModalTitle) uels.editModalTitle.innerText='Editar '+(ustate.currentTab==='motorista'?'Motorista':'Passageiro');
+                window.openModal();
+            }
+            window.saveUser = async function() {
+                if (!currentEditingUserId) return;
+                var nn=uels.editNameInput?uels.editNameInput.value.trim():'', ne=uels.editEmailInput?uels.editEmailInput.value.trim():'', nt=uels.editPhoneInput?uels.editPhoneInput.value.trim():'';
+                if (!nn||!ne) {alert('Nome e E-mail sao obrigatorios.');return;}
+                try {
+                    if (uels.saveUserBtn) {uels.saveUserBtn.innerHTML='<span class="material-symbols-outlined animate-spin align-middle mr-2">sync</span> Salvando';uels.saveUserBtn.disabled=true;}
+                    var r=await sb.from('usuarios').update({nome:nn,email:ne,telefone:nt}).eq('id',currentEditingUserId);
+                    if (r.error) throw r.error;
+                    window.closeModal();
+                    var ts=ustate[ustate.currentTab], idx=ts.data.findIndex(function(u){return u.id===currentEditingUserId;});
+                    if (idx>-1) {ts.data[idx]=Object.assign({},ts.data[idx],{nome:nn,email:ne,telefone:nt});renderUserList(ustate.currentTab);}
+                    else fetchUsers(ustate.currentTab,true);
+                } catch(e) {console.error('Erro save:',e);alert('Nao foi possivel salvar: '+e.message);}
+                finally {if (uels.saveUserBtn){uels.saveUserBtn.innerText='Salvar Alteracoes';uels.saveUserBtn.disabled=false;}}
+            };
+            function handleDeleteClick(e) {
+                var btn=e.currentTarget; userIdToDelete=btn.dataset.id;
+                if (uels.deleteUserNameAttr) uels.deleteUserNameAttr.innerText=btn.dataset.nome;
+                window.openDeleteModal();
+            }
+            window.confirmDeleteUser = async function() {
+                if (!userIdToDelete) return;
+                try {
+                    if (uels.confirmDeleteBtn) {uels.confirmDeleteBtn.innerHTML='<span class="material-symbols-outlined animate-spin align-middle mr-2">sync</span> Excluindo...';uels.confirmDeleteBtn.disabled=true;}
+                    var r=await sb.from('usuarios').delete().eq('id',userIdToDelete);
+                    if (r.error) throw r.error;
+                    window.closeDeleteModal(); fetchUsers(ustate.currentTab,true);
+                } catch(e) {
+                    console.error('Erro delete:',e);
+                    if (e.code==='42501'||(e.message&&e.message.includes('RLS'))) alert('Erro de Permissao: sem permissoes para excluir usuarios.');
+                    else alert('Erro ao excluir: '+e.message);
+                } finally {if (uels.confirmDeleteBtn){uels.confirmDeleteBtn.innerHTML='Sim, Excluir Agora';uels.confirmDeleteBtn.disabled=false;}}
+            };
+            window.openModal = function() {
+                var m=uels.editModal; if (!m) return;
+                m.classList.remove('hidden');
+                setTimeout(function(){m.classList.remove('opacity-0');var i=m.querySelector('div');if(i){i.classList.remove('scale-95');i.classList.add('scale-100');}},10);
+            };
+            window.closeModal = function() {
+                var m=uels.editModal; if (!m) return;
+                m.classList.add('opacity-0'); var i=m.querySelector('div'); if(i){i.classList.remove('scale-100');i.classList.add('scale-95');}
+                currentEditingUserId=null; setTimeout(function(){m.classList.add('hidden');},300);
+            };
+            window.openDeleteModal = function() {
+                var m=uels.deleteModal; if (!m) return;
+                m.classList.remove('hidden');
+                setTimeout(function(){m.classList.remove('opacity-0');var i=m.querySelector('div');if(i){i.classList.remove('scale-95');i.classList.add('scale-100');}},10);
+            };
+            window.closeDeleteModal = function() {
+                var m=uels.deleteModal; if (!m) return;
+                m.classList.add('opacity-0'); var i=m.querySelector('div'); if(i){i.classList.remove('scale-100');i.classList.add('scale-95');}
+                userIdToDelete=null; setTimeout(function(){m.classList.add('hidden');},300);
+            };
+            if (uels.editModal) uels.editModal.addEventListener('click',function(e){if(e.target===this)window.closeModal();});
+            if (uels.deleteModal) uels.deleteModal.addEventListener('click',function(e){if(e.target===this)window.closeDeleteModal();});
+            var ust;
+            if (uels.searchInput) uels.searchInput.addEventListener('input',function(e){
+                var q=e.target.value,tab=ustate.currentTab; ustate[tab].searchQuery=q;
+                clearTimeout(ust); ust=setTimeout(function(){fetchUsers(tab,true);},500);
+            });
+            if (uels.loadMoreBtn) uels.loadMoreBtn.addEventListener('click',function(){fetchUsers(ustate.currentTab);});
+            document.querySelectorAll('input[type="tel"]').forEach(function(i){i.addEventListener('input',function(){var v=this.value.replace(/\D/g,'');if(v.length>11)v=v.slice(0,11);v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d)(\d{4})$/,'$1-$2');this.value=v;});});
+            var ac=document.getElementById('admin-avatar-container'), fi=document.getElementById('avatar-input'), an=document.getElementById('admin-name'), ae=document.getElementById('admin-email'), be=document.getElementById('btn-edit-photo'), cai=null;
+            window._loadAdminProfile = async function() {
+                try {
+                    var r=await sb.auth.getUser(), u=r.data.user; if(!u) return;
+                    var r2=await sb.from('usuarios').select('*').eq('id',u.id).single(), ad=r2.data; if(r2.error||!ad) return;
+                    cai=ad.id; if(an)an.innerText=ad.nome||'Administrador'; if(ae)ae.innerText=ad.email||'';
+                    if(ac){if(ad.foto_perfil_url)ac.innerHTML='<img src="'+ad.foto_perfil_url+'" class="w-full h-full object-cover">'; else ac.innerHTML='<span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>';}
+                } catch(e){console.error('Erro perfil:',e);}
+            };
+            if(be)be.addEventListener('click',function(){if(fi)fi.click();});
+            if(fi)fi.addEventListener('change',async function(e){
+                var f=e.target.files[0]; if(!f||!cai) return;
+                try{if(ac)ac.innerHTML='<span class="material-symbols-outlined text-5xl text-primary animate-spin">sync</span>';
+                var fe=f.name.split('.').pop(),fn='admin-'+cai+'-'+Date.now()+'.'+fe,up=await sb.storage.from('avatars').upload('admin_avatars/'+fn,f);
+                if(up.error)throw up.error; var pu=sb.storage.from('avatars').getPublicUrl('admin_avatars/'+fn).data.publicUrl;
+                var ud=await sb.from('usuarios').update({foto_perfil_url:pu}).eq('id',cai); if(ud.error)throw ud.error;
+                if(ac)ac.innerHTML='<img src="'+pu+'" class="w-full h-full object-cover">';
+                }catch(e){console.error('Erro upload:',e);window._loadAdminProfile();}
+            });
+            var blogAllPosts=[], bcl={noticias:'Noticias',dicas:'Dicas',promocoes:'Promocoes',avisos:'Avisos'}, bcc={noticias:'bg-blue-500/10 text-blue-500 border-blue-500/20',dicas:'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',promocoes:'bg-orange-500/10 text-orange-500 border-orange-500/20',avisos:'bg-amber-500/10 text-amber-500 border-amber-500/20'};
+            window._loadBlogPosts = async function(s) { if(s===undefined)s='';
+                var q=sb.from('postagens').select('*').order('criado_em',{ascending:false}); if(s)q=q.ilike('titulo','%'+s+'%');
+                var r=await q; document.querySelectorAll('#blog-post-list .skeleton-card').forEach(function(e){e.remove();});
+                if(r.error){var l=document.getElementById('blog-post-list');if(l)l.innerHTML='<div class="p-6 text-center text-sm text-rose-500">Erro: '+r.error.message+'</div>';return;}
+                blogAllPosts=r.data||[]; blogUpdateStats();
+                var l=document.getElementById('blog-post-list'); if(!l) return; l.innerHTML='';
+                var es=document.getElementById('blog-empty-state');
+                if(blogAllPosts.length===0){if(es){es.classList.remove('hidden');es.classList.add('flex');}return;}
+                if(es){es.classList.add('hidden');es.classList.remove('flex');}
+                blogAllPosts.forEach(function(p,i){
+                    var df=new Date(p.criado_em).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}), ip=p.publicado===true, ct=p.categoria||'', cc=bcc[ct]||'bg-slate-100 text-slate-500 border-slate-300';
+                    var c=document.createElement('div');
+                    c.className='flex gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm animate-slide-up delay-'+Math.min(i+1,5)*100+' '+(ip?'':'opacity-70');
+                    c.innerHTML='<div class="size-20 rounded-xl flex-shrink-0 overflow-hidden bg-slate-100 dark:bg-slate-700 flex items-center justify-center">'+(p.imagem_capa_url?'<img src="'+p.imagem_capa_url+'" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='+"'<span class=\\\\'material-symbols-outlined text-slate-400\\\\'>article</span>'"+'">':'<span class="material-symbols-outlined text-2xl text-slate-400">article</span>')+'</div><div class="flex-1 min-w-0 flex flex-col justify-between"><div><div class="flex items-center gap-2 flex-wrap mb-1"><span class="px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border '+(ip?'bg-emerald-500/10 text-emerald-500 border-emerald-500/20':'bg-amber-500/10 text-amber-500 border-amber-500/20')+'">'+(ip?'Publicado':'Rascunho')+'</span>'+(ct?'<span class="px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border '+cc+'">'+(bcl[ct]||ct)+'</span>':'')+'</div><h3 class="font-semibold text-sm leading-snug line-clamp-2">'+(p.titulo||'(sem titulo)')+'</h3><p class="text-[10px] text-slate-400 mt-1">'+df+'</p></div><div class="flex items-center gap-3 mt-2"><button onclick="blogOpenEditModal('+"'"+p.id+"'"+')" class="active-scale flex items-center gap-1 text-xs font-semibold text-primary hover:underline"><span class="material-symbols-outlined text-base">edit</span>Editar</button><button onclick="blogOpenDeleteModal('+"'"+p.id+"'"+')" class="active-scale flex items-center gap-1 text-xs font-semibold text-rose-500 hover:underline"><span class="material-symbols-outlined text-base">delete</span>Excluir</button></div></div>';
+                    l.appendChild(c);
+                });
+            };
+            function blogUpdateStats(){var t=blogAllPosts.length,p=blogAllPosts.filter(function(x){return x.publicado;}).length;var e1=document.getElementById('blog-stat-total');if(e1)e1.textContent=t;var e2=document.getElementById('blog-stat-pub');if(e2)e2.textContent=p;var e3=document.getElementById('blog-stat-draft');if(e3)e3.textContent=t-p;var e4=document.getElementById('blog-badge-count');if(e4)e4.textContent=t+' post'+(t!==1?'s':'');}
+            var bd; var bs=document.getElementById('blog-search'); if(bs)bs.addEventListener('input',function(e){clearTimeout(bd);bd=setTimeout(function(){window._loadBlogPosts(e.target.value.trim());},300);});
+            window.blogOpenEditModal = function(id){var p=blogAllPosts.find(function(x){return x.id===id;});if(!p)return;document.getElementById('blog-edit-id').value=p.id;document.getElementById('blog-edit-titulo').value=p.titulo||'';document.getElementById('blog-edit-categoria').value=p.categoria||'noticias';document.getElementById('blog-edit-conteudo').value=stripHtml(p.conteudo||'');document.getElementById('blog-edit-publicado').checked=!!p.publicado;document.getElementById('blog-modal-edit').classList.remove('hidden');document.body.style.overflow='hidden';};
+            window.blogCloseEditModal = function(){document.getElementById('blog-modal-edit').classList.add('hidden');document.body.style.overflow='';};
+            window.blogSaveEdit = async function(){var btn=document.getElementById('blog-btn-save-edit'),id=document.getElementById('blog-edit-id').value,ti=document.getElementById('blog-edit-titulo').value.trim(),ca=document.getElementById('blog-edit-categoria').value,co=document.getElementById('blog-edit-conteudo').value.trim(),pu=document.getElementById('blog-edit-publicado').checked;if(!ti){alert('O titulo e obrigatorio.');return;}btn.disabled=true;btn.innerHTML='<span class="material-symbols-outlined text-base animate-spin">sync</span> Salvando...';var r=await sb.from('postagens').update({titulo:ti,categoria:ca,conteudo:co,publicado:pu}).eq('id',id);btn.disabled=false;btn.innerHTML='<span class="material-symbols-outlined text-base">save</span> Salvar Alteracoes';if(r.error){alert('Erro: '+r.error.message);return;}blogCloseEditModal();var sv=document.getElementById('blog-search')?document.getElementById('blog-search').value.trim():'';await window._loadBlogPosts(sv);};
+            window.blogOpenDeleteModal = function(id){document.getElementById('blog-delete-id').value=id;document.getElementById('blog-modal-delete').classList.remove('hidden');document.body.style.overflow='hidden';};
+            window.blogCloseDeleteModal = function(){document.getElementById('blog-modal-delete').classList.add('hidden');document.body.style.overflow='';};
+            window.blogConfirmDelete = async function(){var btn=document.getElementById('blog-btn-confirm-delete'),id=document.getElementById('blog-delete-id').value;btn.disabled=true;btn.textContent='Excluindo...';var r=await sb.from('postagens').delete().eq('id',id);btn.disabled=false;btn.textContent='Sim, excluir';if(r.error){alert('Erro: '+r.error.message);return;}blogCloseDeleteModal();var sv=document.getElementById('blog-search')?document.getElementById('blog-search').value.trim():'';await window._loadBlogPosts(sv);};
+            if(document.getElementById('blog-modal-edit'))document.getElementById('blog-modal-edit').addEventListener('click',function(e){if(e.target===this)blogCloseEditModal();});
+            if(document.getElementById('blog-modal-delete'))document.getElementById('blog-modal-delete').addEventListener('click',function(e){if(e.target===this)blogCloseDeleteModal();});
+            var allAds=[];
+            window._loadAds = async function(s){if(s===undefined)s='';var q=sb.from('anuncios').select('*').order('criado_em',{ascending:false});if(s)q=q.ilike('titulo','%'+s+'%');var r=await q;document.querySelectorAll('#ad-list .skeleton-card').forEach(function(e){e.remove();});if(r.error){var l=document.getElementById('ad-list');if(l)l.innerHTML='<div class="p-6 text-center text-sm text-rose-500">Erro: '+r.error.message+'</div>';return;}allAds=r.data||[];adUpdateStats();var l=document.getElementById('ad-list');if(!l)return;l.innerHTML='';var es=document.getElementById('ad-empty-state');if(allAds.length===0){if(es){es.classList.remove('hidden');es.classList.add('flex');}return;}if(es){es.classList.add('hidden');es.classList.remove('flex');}allAds.forEach(function(a,i){var at=a.ativo!==false,iu=a.imagem_url||'',dc=new Date(a.criado_em).toLocaleDateString('pt-BR');var c=document.createElement('div');c.className='ad-card flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm animate-slide-up delay-'+Math.min(i+1,5)*100+' '+(at?'':'opacity-60');c.innerHTML='<div class="size-16 rounded-xl flex-shrink-0 border border-slate-200 dark:border-slate-700 overflow-hidden bg-slate-100 dark:bg-slate-700 flex items-center justify-center">'+(iu?'<img src="'+iu+'" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='+"'<span class=\\\\'material-symbols-outlined text-slate-400\\\\'>campaign</span>'"+'">':'<span class="material-symbols-outlined text-slate-400 text-2xl">campaign</span>')+'</div><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><h3 class="font-semibold text-sm truncate">'+(a.titulo||'(sem titulo)')+'</h3></div><p class="text-[11px] text-slate-400 truncate">'+(a.descricao||'-')+'</p><p class="text-[10px] text-slate-400 mt-0.5">Criado em '+dc+'</p></div><div class="flex flex-col gap-1 flex-shrink-0"><button onclick="adPrepareEdit('+"'"+a.id+"'"+')" class="active-scale p-2 text-slate-500 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"><span class="material-symbols-outlined text-xl">edit</span></button><button onclick="adOpenDeleteModal('+"'"+a.id+"'"+')" class="active-scale p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div>';l.appendChild(c);});};
+            function adUpdateStats(){var t=allAds.length;var e1=document.getElementById('ad-stat-total');if(e1)e1.textContent=t;var e2=document.getElementById('ad-stat-ativos');if(e2)e2.textContent='0';var e3=document.getElementById('ad-stat-inativos');if(e3)e3.textContent='0';var e4=document.getElementById('ad-badge-count');if(e4)e4.textContent=t+' anuncio'+(t!==1?'s':'');}
+            window.adPrepareEdit = function(id){var a=allAds.find(function(x){return x.id===id;});if(a)adOpenEditModal(a);};
+            function adOpenEditModal(a){document.getElementById('ad-edit-id').value=a.id;document.getElementById('ad-edit-titulo').value=a.titulo||'';document.getElementById('ad-edit-descricao').value=a.descricao||'';document.getElementById('ad-edit-url').value=a.url||a.link_acao||'';document.getElementById('ad-edit-ativo').checked=a.ativo!==false;document.getElementById('ad-modal-edit').classList.remove('hidden');document.body.style.overflow='hidden';}
+            window.adCloseEditModal = function(){document.getElementById('ad-modal-edit').classList.add('hidden');document.body.style.overflow='';};
+            window.adSaveEdit = async function(){var btn=document.getElementById('ad-btn-save-edit'),id=document.getElementById('ad-edit-id').value,ti=document.getElementById('ad-edit-titulo').value.trim(),de=document.getElementById('ad-edit-descricao').value.trim(),ur=document.getElementById('ad-edit-url').value.trim(),at=document.getElementById('ad-edit-ativo').checked;if(!ti){alert('O titulo e obrigatorio.');return;}if(ur&&!ur.startsWith('http://')&&!ur.startsWith('https://')&&!ur.startsWith('tel:')&&!ur.startsWith('mailto:'))ur='https://'+ur;btn.disabled=true;btn.innerHTML='<span class="material-symbols-outlined text-base animate-spin">sync</span> Salvando...';var r=await sb.from('anuncios').update({titulo:ti,descricao:de,url:ur,link_acao:ur,ativo:at}).eq('id',id);btn.disabled=false;btn.innerHTML='<span class="material-symbols-outlined text-base">save</span> Salvar Alteracoes';if(r.error){alert('Erro: '+(r.error.message||'Erro desconhecido'));return;}adCloseEditModal();var sv=document.getElementById('ad-search')?document.getElementById('ad-search').value.trim():'';await window._loadAds(sv);};
+            window.adOpenDeleteModal = function(id){document.getElementById('ad-delete-id').value=id;document.getElementById('ad-modal-delete').classList.remove('hidden');document.body.style.overflow='hidden';};
+            window.adCloseDeleteModal = function(){document.getElementById('ad-modal-delete').classList.add('hidden');document.body.style.overflow='';};
+            window.adConfirmDelete = async function(){var btn=document.getElementById('ad-btn-confirm-delete'),id=document.getElementById('ad-delete-id').value;btn.disabled=true;btn.textContent='Excluindo...';var r=await sb.from('anuncios').delete().eq('id',id);btn.disabled=false;btn.textContent='Sim, excluir';if(r.error){alert('Erro: '+r.error.message);return;}adCloseDeleteModal();var sv=document.getElementById('ad-search')?document.getElementById('ad-search').value.trim():'';await window._loadAds(sv);};
+            if(document.getElementById('ad-modal-edit'))document.getElementById('ad-modal-edit').addEventListener('click',function(e){if(e.target===this)adCloseEditModal();});
+            if(document.getElementById('ad-modal-delete'))document.getElementById('ad-modal-delete').addEventListener('click',function(e){if(e.target===this)adCloseDeleteModal();});
+            var adb;var ads=document.getElementById('ad-search');if(ads)ads.addEventListener('input',function(e){clearTimeout(adb);adb=setTimeout(function(){window._loadAds(e.target.value.trim());},300);});
+            var pdz=document.getElementById('post-drop-zone'),pii=document.getElementById('post-image-input'),pip=document.getElementById('post-image-preview'),pup=document.getElementById('post-upload-placeholder'),pri=document.getElementById('post-remove-image'),psf=null;
+            window.formatDoc=function(cmd,val){if(val===undefined)val=null;document.execCommand(cmd,false,val);var ed=document.getElementById('post-content');if(ed)ed.focus();};
+            if(pdz)pdz.addEventListener('click',function(){if(pii)pii.click();});
+            if(pii)pii.addEventListener('change',function(e){var f=e.target.files[0];if(f){if(!f.type.startsWith('image/')){alert('Por favor, selecione uma imagem.');return;}psf=f;var r=new FileReader();r.onload=function(ev){if(pip){pip.src=ev.target.result;pip.classList.remove('hidden');}if(pup)pup.classList.add('hidden');if(pri)pri.classList.remove('hidden');};r.readAsDataURL(f);}});
+            if(pri)pri.addEventListener('click',function(e){e.stopPropagation();psf=null;if(pii)pii.value='';if(pip){pip.src='';pip.classList.add('hidden');}if(pup)pup.classList.remove('hidden');if(pri)pri.classList.add('hidden');});
+            var pe=document.getElementById('post-content');if(pe){pe.addEventListener('input',function(){if(this.innerHTML.trim()==='')this.innerHTML='';});pe.addEventListener('paste',function(e){e.preventDefault();var t=(e.originalEvent||e).clipboardData.getData('text/plain');document.execCommand('insertText',false,t);});}
+            var ppb=document.getElementById('post-publish-btn'),pbt=document.getElementById('post-btn-text'),pbi=document.getElementById('post-btn-icon');
+            if(ppb)ppb.addEventListener('click',async function(){
+                var ti=document.getElementById('post-title')?document.getElementById('post-title').value:'',ca=document.getElementById('post-category')?document.getElementById('post-category').value:'',co=pe?pe.innerHTML:'';
+                if(!ti||!ca||co.trim()===''){alert('Por favor, preencha todos os campos corretamente.');return;}
+                try{ppb.disabled=true;if(pbt)pbt.textContent='Publicando...';if(pbi){pbi.textContent='sync';pbi.classList.add('animate-spin');}
+                var ru=await sb.auth.getUser(),u=ru.data.user;if(!u)throw new Error('Usuario nao autenticado');var iu=null;
+                if(psf){var fe=psf.name.split('.').pop(),fn=Math.random().toString(36).substring(2)+'_'+Date.now()+'.'+fe,up=await sb.storage.from('blog-images').upload('posts/'+fn,psf);if(up.error)throw up.error;iu=sb.storage.from('blog-images').getPublicUrl('posts/'+fn).data.publicUrl;}
+                var sl=ti.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');var ins=await sb.from('postagens').insert([{titulo:ti,slug:sl+'-'+Date.now().toString().slice(-4),categoria:ca,conteudo:co,imagem_capa_url:iu,autor_id:u.id,publicado:true}]);if(ins.error)throw ins.error;
+                var sm=document.getElementById('success-modal');if(sm){sm.classList.remove('hidden');setTimeout(function(){sm.classList.remove('opacity-0');},10);}
+                }catch(e){console.error('Erro:',e);alert('Erro ao publicar: '+e.message);ppb.disabled=false;if(pbt)pbt.textContent='Publicar Postagem';if(pbi){pbi.textContent='send';pbi.classList.remove('animate-spin');}}
+            });
+            var adz=document.getElementById('ad-drop-zone'),aii=document.getElementById('ad-image-input'),aip=document.getElementById('ad-image-preview'),ani=document.getElementById('ad-no-image'),acp=document.getElementById('ad-preview-img'),ati=document.getElementById('ad-titulo'),adi=document.getElementById('ad-descricao'),aur=document.getElementById('ad-url'),apt=document.getElementById('ad-preview-titulo'),apd=document.getElementById('ad-preview-descricao'),apb=document.getElementById('ad-publish-btn'),abt=document.getElementById('ad-btn-text'),abi=document.getElementById('ad-btn-icon'),acc=document.getElementById('ad-char-count');
+            function adUpload(file){return new Promise(async function(res,rej){try{var fe=file.name.split('.').pop(),fn=Date.now()+'_'+Math.floor(Math.random()*1000)+'.'+fe,r=await sb.storage.from('anuncios').upload(fn,file);if(r.error)throw r.error;res(sb.storage.from('anuncios').getPublicUrl(fn).data.publicUrl);}catch(e){rej(e);}});}
+            if(ati)ati.addEventListener('input',function(e){if(apt)apt.textContent=e.target.value||'Titulo do Anuncio Exemplo';});
+            if(adi)adi.addEventListener('input',function(e){var t=e.target.value;if(apd)apd.textContent=t||'Esta e a descricao curta que aparecera no carrossel da tela inicial.';if(acc)acc.textContent=t.length+'/140';});
+            if(adz)adz.addEventListener('click',function(){if(aii)aii.click();});
+            if(aii)aii.addEventListener('change',function(e){var f=e.target.files[0];if(f){var r=new FileReader();r.onload=function(ev){if(aip){aip.src=ev.target.result;aip.classList.remove('hidden');}if(ani)ani.classList.add('hidden');if(acp){acp.src=ev.target.result;acp.classList.remove('opacity-60');}};r.readAsDataURL(f);}});
+            if(apb)apb.addEventListener('click',async function(){
+                var ru=await sb.auth.getUser(),u=ru.data.user,ti=ati?ati.value.trim():'',de=adi?adi.value.trim():'',ur=aur?aur.value.trim():'',imf=aii?aii.files[0]:null;
+                if(!ti||!imf){alert('Por favor, preencha o titulo e selecione uma imagem.');return;}
+                if(ur&&!ur.startsWith('http://')&&!ur.startsWith('https://')&&!ur.startsWith('tel:')&&!ur.startsWith('mailto:'))ur='https://'+ur;
+                try{if(apb)apb.disabled=true;if(abt)abt.textContent='Publicando...';if(abi){abi.textContent='sync';abi.classList.add('animate-spin');}
+                if(!window.supabaseClient)throw new Error('Erro de conexao.');
+                var iu=await adUpload(imf),id={titulo:ti,descricao:de,url:ur,link_acao:ur,imagem_url:iu,criado_por:(u?u.id:null),ativo:true};
+                var ins=await sb.from('anuncios').insert([id]);if(ins.error){delete id.link_acao;ins=await sb.from('anuncios').insert([id]);}if(ins.error)throw ins.error;
+                fecharAd();alert('Anuncio publicado com sucesso!');
+                }catch(e){console.error('Erro anuncio:',e);alert('Erro: '+(e.message||'Erro desconhecido'));if(apb)apb.disabled=false;if(abt)abt.textContent='Publicar Agora';if(abi){abi.textContent='rocket_launch';abi.classList.remove('animate-spin');}}
+            });
+            window._loadUsersIfNeeded = function(){if(!ustate.initialized){ustate.initialized=true;fetchUsers('motorista',true);}};
+            await updateStats(); await updateRegistrationChart(); await updateBlogChart();
+            window._loadAdminProfile(); window._loadUsersIfNeeded();
         });
     </script>
 </body>
-
 </html>
+
