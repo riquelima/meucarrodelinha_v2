@@ -411,8 +411,26 @@
             } catch (e) { /* fallback silencioso */ }
         }
 
-        // Auto-redirect after splash
-        setTimeout(() => {
+        // Auto-redirect after splash - verifica sessão primeiro
+        setTimeout(async () => {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (session?.user) {
+                    const { data: profile } = await window.supabaseClient
+                        .from('usuarios')
+                        .select('tipo_usuario')
+                        .eq('id', session.user.id)
+                        .single();
+                    const role = profile?.tipo_usuario || 'passageiro';
+                    let destino = role === 'motorista' ? 'motorista.html' :
+                                  role === 'admin' ? 'admin.html' :
+                                  'passageiro.html';
+                    window.location.href = destino;
+                    return;
+                }
+            } catch (e) {
+                console.warn('[Splash] Erro ao verificar sessão:', e);
+            }
             playStartupChime();
             document.body.classList.add('fade-out');
             setTimeout(() => {

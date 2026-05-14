@@ -682,6 +682,26 @@
     <script src="js/data-cache.js"></script>
     <script src="js/homepage.js"></script>
     <script>
+        // Se já estiver logado, redireciona direto para o dashboard
+        (async () => {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (session?.user) {
+                    const { data: profile } = await window.supabaseClient
+                        .from('usuarios')
+                        .select('tipo_usuario')
+                        .eq('id', session.user.id)
+                        .single();
+                    const role = profile?.tipo_usuario || 'passageiro';
+                    const destino = role === 'motorista' ? 'motorista.html' :
+                                    role === 'admin' ? 'admin.html' :
+                                    'passageiro.html';
+                    window.location.href = destino;
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <script>
         // Register Service Worker for PWA (Unified)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {

@@ -1646,14 +1646,11 @@
                         .select('*, usuarios(nome, foto_perfil_url)')
                         .eq('status_aprovacao', 'aprovado');
 
+                    const { data: motoristas, error } = await motoristasPromise;
+                    if (error) throw error;
                     driversContainer.innerHTML = ''; // Remove "Buscando motoristas..."
-                    let motoristas;
-                    if (window.DataCache && DataCache.KEYS) {
-                        motoristas = await DataCache.fetchAndCache(motoristasPromise, DataCache.KEYS.DRIVERS, 30 * 60 * 1000);
-                    } else {
-                        const { data } = await motoristasPromise;
-                        motoristas = data || [];
-                    }
+                    if (window.DataCache && DataCache.KEYS && motoristas) DataCache.set(DataCache.KEYS.DRIVERS, motoristas, 30 * 60 * 1000);
+                    console.log('[Motoristas] Dados recebidos:', motoristas?.length, motoristas?.[0] ? Object.keys(motoristas[0]) : 'vazio');
 
                     if (!motoristas || motoristas.length === 0) {
                         driversContainer.innerHTML = `
@@ -1665,25 +1662,18 @@
                     }
 
                     for (const motorista of motoristas) {
-                        // Access joined user data safely
-                        const usuario = Array.isArray(motorista.usuarios) ? motorista.usuarios[0] : motorista.usuarios;
-
-                        // Extract name and photo with fallbacks
-                        const displayName = usuario?.nome || `Motorista ${motorista.modelo_veiculo || ''}`;
-                        let photoUrl = usuario?.foto_perfil_url;
-
-                        // If no database photo, use UI-avatars as FIRST fallback
+                        const usuario = motorista.usuarios && (Array.isArray(motorista.usuarios) ? motorista.usuarios[0] : motorista.usuarios);
+                        const displayName = usuario?.nome || motorista?.nome || `Motorista ${motorista?.modelo_veiculo || ''}`;
+                        let photoUrl = usuario?.foto_perfil_url || motorista?.foto_perfil_url;
                         if (!photoUrl) {
-                            photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random&size=128`;
+                            photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
                         }
-
-                        const rating = parseFloat(motorista.avaliacao_media || 5.0).toFixed(1);
-                        const timeAway = Math.floor(Math.random() * 10) + 2;
+                        const rating = parseFloat(motorista?.avaliacao_media || 5.0).toFixed(1);
 
                         const cardHtml = `
                             <div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">
-                                <input type="radio" name="driver_selection" class="peer hidden" id="driver-${motorista.usuario_id}" value="${motorista.usuario_id}" 
-                                    data-name="${displayName}" data-phone="${motorista.telefone_whatsapp || ''}">
+                                <input type="radio" name="driver_selection" class="peer hidden" id="driver-${motorista?.usuario_id || ''}" value="${motorista?.usuario_id || ''}" 
+                                    data-name="${displayName}" data-phone="${motorista?.telefone_whatsapp || ''}">
                                 <label for="driver-${motorista.usuario_id}" class="absolute inset-0 z-10 cursor-pointer"></label>
                                 
                                 <div class="flex items-center gap-3">
@@ -1700,7 +1690,7 @@
                                                 <span class="text-[10px] font-bold ml-0.5">${parseFloat(rating).toFixed(1)}</span>
                                             </div>
                                             <span class="text-slate-400 text-[10px]">•</span>
-                                            ${motorista.status_online 
+                                            ${motorista?.status_online 
                                                 ? `<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>`
                                                 : `<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>`
                                             }
@@ -1712,7 +1702,7 @@
                                 </div>
                                 <div class="mt-3 pt-3 border-t border-slate-50 dark:border-slate-700/30 flex items-center justify-between">
                                     <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">
-                                        ${motorista.modelo_veiculo} • ${motorista.cor_veiculo}
+                                        ${motorista?.modelo_veiculo || 'Veículo'} • ${motorista?.cor_veiculo || '---'}
                                     </span>
                                     <span class="text-[10px] font-black text-primary uppercase">Selecionar</span>
                                 </div>
