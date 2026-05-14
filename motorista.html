@@ -733,8 +733,8 @@
                     .order('enviada_em', { ascending: false });
 
                 let messages;
-                if (window.DataCache) {
-                    messages = await DataCache.fetchAndCache(messagesPromise, DataCache.KEYS.MESSAGES, DataCache.TTL.DYNAMIC);
+                if (window.DataCache && DataCache.KEYS) {
+                    messages = await DataCache.fetchAndCache(messagesPromise, DataCache.KEYS.MESSAGES, 2 * 60 * 1000);
                 } else {
                     const { data } = await messagesPromise;
                     messages = data || [];

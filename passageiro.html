@@ -1647,8 +1647,8 @@
                         .eq('status_aprovacao', 'aprovado');
 
                     let motoristas;
-                    if (window.DataCache) {
-                        motoristas = await DataCache.fetchAndCache(motoristasPromise, DataCache.KEYS.DRIVERS, DataCache.TTL.STATIC);
+                    if (window.DataCache && DataCache.KEYS) {
+                        motoristas = await DataCache.fetchAndCache(motoristasPromise, DataCache.KEYS.DRIVERS, 30 * 60 * 1000);
                     } else {
                         const { data } = await motoristasPromise;
                         motoristas = data || [];

@@ -136,8 +136,8 @@ const initHomepage = async () => {
                 .limit(10);
 
             let drivers;
-            if (window.DataCache) {
-                drivers = await DataCache.fetchAndCache(driversPromise, DataCache.KEYS.DRIVERS, DataCache.TTL.STATIC);
+            if (window.DataCache && DataCache.KEYS) {
+                drivers = await DataCache.fetchAndCache(driversPromise, DataCache.KEYS.DRIVERS, 30 * 60 * 1000);
             } else {
                 const { data } = await driversPromise;
                 drivers = data || [];
@@ -239,8 +239,8 @@ const initHomepage = async () => {
                 .order('criado_em', { ascending: false });
 
             let ads;
-            if (window.DataCache) {
-                ads = await DataCache.fetchAndCache(adsPromise, DataCache.KEYS.ADS, DataCache.TTL.STATIC);
+            if (window.DataCache && DataCache.KEYS) {
+                ads = await DataCache.fetchAndCache(adsPromise, DataCache.KEYS.ADS, 30 * 60 * 1000);
             } else {
                 const { data } = await adsPromise;
                 ads = data || [];
@@ -341,8 +341,8 @@ const initHomepage = async () => {
                 .limit(3);
 
             let posts;
-            if (window.DataCache) {
-                posts = await DataCache.fetchAndCache(postsPromise, DataCache.KEYS.BLOG, DataCache.TTL.STATIC);
+            if (window.DataCache && DataCache.KEYS) {
+                posts = await DataCache.fetchAndCache(postsPromise, DataCache.KEYS.BLOG, 30 * 60 * 1000);
             } else {
                 const { data } = await postsPromise;
                 posts = data || [];
