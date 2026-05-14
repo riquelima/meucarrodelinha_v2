@@ -32,13 +32,12 @@
 
     var startX = 0, startY = 0, startTime = 0;
     var isTracking = false, isSwiping = false;
-    var currentOverlay = null;
+    var currentOverlay = null, swipeStartTab = -1;
     var overlayTransform = '';
-    var feedbackEl = null;
 
     var CONFIG = {
-        EDGE_ZONE: 35,
-        THRESHOLD: 60,
+        EDGE_ZONE: 30,
+        THRESHOLD: 70,
         MAX_Y_OFFSET: 100,
         VELOCITY_THRESHOLD: 0.2
     };
@@ -74,8 +73,7 @@
         if (m) return Math.round(Math.abs(parseInt(m[1])) / 100);
         m = transform.match(/matrix\(1,\s*0,\s*0,\s*1,\s*(-?\d+)/);
         if (m) {
-            var offset = parseInt(m[1]);
-            return Math.round(Math.abs(offset) / window.innerWidth);
+            return Math.round(Math.abs(parseInt(m[1])) / window.innerWidth);
         }
         return 0;
     }
@@ -111,28 +109,11 @@
 
     function goBack() {
         window._navStack = JSON.parse(sessionStorage.getItem('mclNavStack') || '[]');
-
-        var overlay = findOpenOverlay();
-        if (overlay) {
-            closeOverlay(overlay);
-            return;
-        }
-
-        var tabs = getTabList();
-        if (tabs.length > 0) {
-            var idx = getCurrentTabIndex();
-            if (idx > 0) {
-                triggerSwitchTab(tabs[idx - 1]);
-                return;
-            }
-        }
-
         var prev = popNav();
         if (prev && prev !== window.location.pathname.split('/').pop()) {
             window.location.href = prev;
             return;
         }
-
         if (window.history.length > 2) {
             window.history.back();
         } else {
@@ -142,13 +123,13 @@
 
     window.goBack = goBack;
 
-    function getFeedbackEl() {
-        if (!feedbackEl) {
-            feedbackEl = document.querySelector('#app-root > .relative') ||
-                         document.querySelector('.page-container') ||
-                         document.querySelector('.flex.h-full');
-        }
-        return feedbackEl;
+    var backlight = null;
+
+    function initBacklight() {
+        if (backlight) return;
+        backlight = document.createElement('div');
+        backlight.style.cssText = 'position:fixed;top:0;left:0;bottom:0;width:4px;background:linear-gradient(to right,rgba(249,115,22,0.6),transparent);z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.2s';
+        document.body.appendChild(backlight);
     }
 
     document.addEventListener('touchstart', function (e) {
@@ -160,6 +141,7 @@
         startY = t.clientY;
         startTime = Date.now();
         currentOverlay = findOpenOverlay();
+        swipeStartTab = getCurrentTabIndex();
         if (currentOverlay) {
             overlayTransform = currentOverlay.style.transform || '';
         }
@@ -181,40 +163,36 @@
         if (!isSwiping) return;
         e.preventDefault();
 
+        // Overlay: arrasta para a direita
         if (currentOverlay && currentOverlay.id !== 'rating-sheet') {
-            var p = Math.min(dX / CONFIG.THRESHOLD, 1);
             currentOverlay.style.transition = 'none';
             currentOverlay.style.transform = 'translateX(' + Math.min(dX, window.innerWidth) + 'px)';
-            currentOverlay.style.opacity = Math.max(0.2, 1 - p * 0.8);
-        } else {
-            var fb = getFeedbackEl();
-            if (fb) {
-                var p = Math.min(dX / window.innerWidth, 0.25);
-                fb.style.transition = 'none';
-                fb.style.transform = 'translateX(' + (dX * 0.2) + 'px)';
-                fb.style.opacity = Math.max(0.5, 1 - p);
-            }
+            currentOverlay.style.opacity = Math.max(0.2, 1 - (dX / window.innerWidth) * 0.8);
+            return;
         }
+
+        // SPA: arrasta o slider do view-slider
+        var tabs = getTabList();
+        if (tabs.length > 0 && swipeStartTab > 0) {
+            var slider = document.getElementById('view-slider');
+            if (slider) {
+                var startPos = -(swipeStartTab * 100);
+                var progress = (dX / window.innerWidth) * 100;
+                var newPos = Math.min(startPos + progress * 0.85, 0);
+                slider.style.transition = 'none';
+                slider.style.transform = 'translate3d(' + newPos + 'vw, 0, 0)';
+            }
+            return;
+        }
+
+        // Página normal: feedback sutil
+        initBacklight();
+        backlight.style.opacity = Math.min(1, dX / CONFIG.THRESHOLD);
     }, { passive: false });
 
     document.addEventListener('touchend', function (e) {
         if (!isTracking) { isSwiping = false; return; }
         isTracking = false;
-
-        if (currentOverlay) {
-            currentOverlay.style.transition = '';
-            currentOverlay.style.transform = overlayTransform;
-            currentOverlay.style.opacity = '';
-            currentOverlay = null;
-        }
-        var fb = feedbackEl || getFeedbackEl();
-        if (fb) {
-            fb.style.transition = '';
-            fb.style.transform = '';
-            fb.style.opacity = '';
-        }
-
-        if (!isSwiping) return;
 
         var t = e.changedTouches[0];
         var dX = t.clientX - startX;
@@ -222,6 +200,50 @@
         var velocity = dX / Math.max(elapsed, 1);
         var shouldGo = dX > CONFIG.THRESHOLD || (dX > 30 && velocity > CONFIG.VELOCITY_THRESHOLD);
 
+        if (!isSwiping) return;
+
+        // Overlay
+        if (currentOverlay) {
+            if (shouldGo) {
+                currentOverlay.style.transition = '';
+                currentOverlay.style.transform = 'translateX(100vw)';
+                currentOverlay.style.opacity = '0';
+                var overlayEl = currentOverlay;
+                setTimeout(function () {
+                    overlayEl.style.transition = '';
+                    overlayEl.style.transform = '';
+                    overlayEl.style.opacity = '';
+                    closeOverlay(overlayEl);
+                }, 400);
+            } else {
+                currentOverlay.style.transition = '';
+                currentOverlay.style.transform = overlayTransform;
+                currentOverlay.style.opacity = '';
+            }
+            currentOverlay = null;
+            isSwiping = false;
+            return;
+        }
+
+        // SPA tab
+        var tabs = getTabList();
+        var slider = document.getElementById('view-slider');
+        if (tabs.length > 0 && swipeStartTab > 0 && slider) {
+            slider.style.transition = '';
+            void slider.offsetHeight;
+            if (shouldGo) {
+                triggerSwitchTab(tabs[swipeStartTab - 1]);
+            } else {
+                slider.style.transform = 'translate3d(' + (-swipeStartTab * 100) + 'vw, 0, 0)';
+            }
+            swipeStartTab = -1;
+            isSwiping = false;
+            return;
+        }
+        swipeStartTab = -1;
+
+        // Página normal
+        if (backlight) backlight.style.opacity = '0';
         if (shouldGo) goBack();
         isSwiping = false;
     }, { passive: true });
