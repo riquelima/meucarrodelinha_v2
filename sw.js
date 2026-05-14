@@ -13,6 +13,7 @@ const ASSETS_TO_CACHE = [
   '/js/location-modal.js',
   '/js/data-cache.js',
   '/js/tailwind-cdn.js',
+  '/js/swipe-back.js',
   '/offline.html',
   '/admin.html',
   '/gerenciarUsuarios.html',
