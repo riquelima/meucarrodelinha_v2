@@ -19,6 +19,10 @@
         return page;
     }
 
+    function getCurrentPage() {
+        return window.location.pathname.split('/').pop() || 'index.html';
+    }
+
     document.addEventListener('click', function (e) {
         var a = e.target.closest('a[href]');
         if (!a) return;
@@ -26,7 +30,7 @@
         if (!href || href.startsWith('http') || href.startsWith('#') ||
             href.startsWith('tel:') || href.startsWith('mailto:') ||
             href === 'javascript:void(0)') return;
-        var current = window.location.pathname.split('/').pop() || 'index.html';
+        var current = getCurrentPage();
         if (current !== href) pushNav(current);
     });
 
@@ -36,7 +40,7 @@
     var overlayTransform = '';
 
     var CONFIG = {
-        EDGE_ZONE: 30,
+        EDGE_ZONE: 35,
         THRESHOLD: 70,
         MAX_Y_OFFSET: 100,
         VELOCITY_THRESHOLD: 0.2
@@ -72,9 +76,7 @@
         m = transform.match(/translateX\((-?\d+)/);
         if (m) return Math.round(Math.abs(parseInt(m[1])) / 100);
         m = transform.match(/matrix\(1,\s*0,\s*0,\s*1,\s*(-?\d+)/);
-        if (m) {
-            return Math.round(Math.abs(parseInt(m[1])) / window.innerWidth);
-        }
+        if (m) return Math.round(Math.abs(parseInt(m[1])) / window.innerWidth);
         return 0;
     }
 
@@ -104,33 +106,28 @@
             var b = icon.closest('button, a');
             if (b) { b.click(); return true; }
         }
+        el.classList.add('translate-x-full');
+        el.classList.remove('translate-x-0');
+        setTimeout(function () { el.classList.add('hidden'); }, 500);
         return false;
     }
 
-    function goBack() {
+    function navigateBackByStack() {
         window._navStack = JSON.parse(sessionStorage.getItem('mclNavStack') || '[]');
         var prev = popNav();
-        if (prev && prev !== window.location.pathname.split('/').pop()) {
+        if (prev && prev !== getCurrentPage()) {
             window.location.href = prev;
-            return;
+            return true;
         }
         if (window.history.length > 2) {
             window.history.back();
-        } else {
-            window.location.href = 'homepage.html';
+            return true;
         }
+        window.location.href = 'homepage.html';
+        return true;
     }
 
-    window.goBack = goBack;
-
-    var backlight = null;
-
-    function initBacklight() {
-        if (backlight) return;
-        backlight = document.createElement('div');
-        backlight.style.cssText = 'position:fixed;top:0;left:0;bottom:0;width:4px;background:linear-gradient(to right,rgba(249,115,22,0.6),transparent);z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.2s';
-        document.body.appendChild(backlight);
-    }
+    window.goBack = navigateBackByStack;
 
     document.addEventListener('touchstart', function (e) {
         var t = e.touches[0];
@@ -163,36 +160,28 @@
         if (!isSwiping) return;
         e.preventDefault();
 
-        // Overlay: arrasta para a direita
         if (currentOverlay && currentOverlay.id !== 'rating-sheet') {
             currentOverlay.style.transition = 'none';
             currentOverlay.style.transform = 'translateX(' + Math.min(dX, window.innerWidth) + 'px)';
-            currentOverlay.style.opacity = Math.max(0.2, 1 - (dX / window.innerWidth) * 0.8);
             return;
         }
 
-        // SPA: arrasta o slider do view-slider
         var tabs = getTabList();
         if (tabs.length > 0 && swipeStartTab > 0) {
             var slider = document.getElementById('view-slider');
             if (slider) {
-                var startPos = -(swipeStartTab * 100);
-                var progress = (dX / window.innerWidth) * 100;
-                var newPos = Math.min(startPos + progress * 0.85, 0);
+                var newPos = Math.min(-(swipeStartTab * 100) + (dX / window.innerWidth) * 100, 0);
                 slider.style.transition = 'none';
                 slider.style.transform = 'translate3d(' + newPos + 'vw, 0, 0)';
             }
             return;
         }
-
-        // Página normal: feedback sutil
-        initBacklight();
-        backlight.style.opacity = Math.min(1, dX / CONFIG.THRESHOLD);
     }, { passive: false });
 
     document.addEventListener('touchend', function (e) {
         if (!isTracking) { isSwiping = false; return; }
         isTracking = false;
+        if (!isSwiping) return;
 
         var t = e.changedTouches[0];
         var dX = t.clientX - startX;
@@ -200,21 +189,20 @@
         var velocity = dX / Math.max(elapsed, 1);
         var shouldGo = dX > CONFIG.THRESHOLD || (dX > 30 && velocity > CONFIG.VELOCITY_THRESHOLD);
 
-        if (!isSwiping) return;
-
-        // Overlay
         if (currentOverlay) {
             if (shouldGo) {
                 currentOverlay.style.transition = '';
                 currentOverlay.style.transform = 'translateX(100vw)';
                 currentOverlay.style.opacity = '0';
                 var overlayEl = currentOverlay;
-                setTimeout(function () {
+                var onEnd = function () {
+                    overlayEl.removeEventListener('transitionend', onEnd);
                     overlayEl.style.transition = '';
                     overlayEl.style.transform = '';
                     overlayEl.style.opacity = '';
                     closeOverlay(overlayEl);
-                }, 400);
+                };
+                overlayEl.addEventListener('transitionend', onEnd);
             } else {
                 currentOverlay.style.transition = '';
                 currentOverlay.style.transform = overlayTransform;
@@ -225,15 +213,15 @@
             return;
         }
 
-        // SPA tab
         var tabs = getTabList();
         var slider = document.getElementById('view-slider');
         if (tabs.length > 0 && swipeStartTab > 0 && slider) {
-            slider.style.transition = '';
-            void slider.offsetHeight;
             if (shouldGo) {
+                slider.style.transition = '';
+                void slider.offsetHeight;
                 triggerSwitchTab(tabs[swipeStartTab - 1]);
             } else {
+                slider.style.transition = '';
                 slider.style.transform = 'translate3d(' + (-swipeStartTab * 100) + 'vw, 0, 0)';
             }
             swipeStartTab = -1;
@@ -242,9 +230,7 @@
         }
         swipeStartTab = -1;
 
-        // Página normal
-        if (backlight) backlight.style.opacity = '0';
-        if (shouldGo) goBack();
+        if (shouldGo) navigateBackByStack();
         isSwiping = false;
     }, { passive: true });
 })();
