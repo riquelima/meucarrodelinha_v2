@@ -894,18 +894,18 @@
         let destinationMarker;
 
         window.initMap = function () {
-        const mapContainer = document.getElementById('homepage-map');
+            try {
+                if (typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.Map !== 'function') {
+                    console.warn('[Map] Google Maps não disponível');
+                    return;
+                }
+            } catch (mapErr) { console.warn('[Map] Erro Maps:', mapErr); return; }
+            const mapContainer = document.getElementById('homepage-map');
             if (!mapContainer) return;
             if (mapContainer.offsetParent === null) {
                 setTimeout(() => window.initMap(), 300);
                 return;
             }
-            try {
-                if (typeof google === 'undefined' || !google.maps || !google.maps.Map) {
-                    console.warn('[Maps] Construtor Map não disponível. Agendando retry...');
-                    setTimeout(() => window.initMap(), 500);
-                    return;
-                }
                 googleMap = new google.maps.Map(mapContainer, {
                     center: { lat: -12.8700, lng: -38.8000 },
                     zoom: 14,
@@ -989,9 +989,7 @@
         };
 
         // Inicialização manual caso o script já tenha carregado
-        if (typeof google !== 'undefined' && typeof google.maps !== 'undefined' && typeof google.maps.Map === 'function') {
-            window.initMap();
-        }
+        try { if (typeof google !== 'undefined' && typeof google.maps !== 'undefined' && typeof google.maps.Map === 'function') { window.initMap(); } } catch(e) { console.warn('[Map] Erro initMap:', e); }
 
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
