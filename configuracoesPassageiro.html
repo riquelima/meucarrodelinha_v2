@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Configurações - Meu Carro de Linha Salinas</title>
+    <script src="/js/tailwind-cdn.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/ui-style.css" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f97316",
+                        "success": "#10b981",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121520",
+                        "surface-dark": "#1c2131",
+                        "accent-blue": "#272e45"
+                    },
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
+        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
+            <a href="perfilPassageiro.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Configurações</h1>
+            <div class="size-10"></div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto pb-8 px-4 pt-6 no-scrollbar">
+            <div class="flex flex-col items-center mb-8">
+                <div class="relative">
+                    <div class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700">
+                        <img id="profile-avatar" src="https://ui-avatars.com/api/?name=U&background=random" alt="Foto" class="w-full h-full object-cover">
+                    </div>
+                    <input type="file" id="photo-input" class="hidden" accept="image/*">
+                    <button id="btn-edit-photo" class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-background-light dark:border-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined text-sm">edit</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium px-1 text-slate-400" for="input-nome">Nome</label>
+                    <input id="input-nome" type="text" class="w-full h-14 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800 px-4 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="Seu nome" />
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium px-1 text-slate-400" for="input-email">E-mail</label>
+                    <input id="input-email" type="email" class="w-full h-14 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800 px-4 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="seu@email.com" />
+                </div>
+
+                <button id="btn-salvar" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2 mt-6">
+                    <span>Salvar Alterações</span>
+                    <span id="save-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
+                </button>
+            </div>
+
+            <p id="status-msg" class="text-center text-sm mt-4 hidden"></p>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sb = window.supabaseClient;
+            if (!sb) return;
+
+            const { data: { session } } = await sb.auth.getSession();
+            let user = session?.user;
+            let migratedUser = null;
+            let isMigrado = false;
+
+            if (!user) {
+                const custom = localStorage.getItem('mcl_custom_session');
+                const mig = localStorage.getItem('mcl_migrado');
+                if (custom || mig) {
+                    const parsed = custom ? JSON.parse(custom) : JSON.parse(mig);
+                    migratedUser = parsed.user || parsed;
+                    user = migratedUser;
+                    isMigrado = true;
+                }
+            }
+
+            if (!user) {
+                window.location.href = 'loginPassageiro.html';
+                return;
+            }
+
+            const avatarImg = document.getElementById('profile-avatar');
+            const inputNome = document.getElementById('input-nome');
+            const inputEmail = document.getElementById('input-email');
+            const btnSalvar = document.getElementById('btn-salvar');
+            const saveLoader = document.getElementById('save-loader');
+            const statusMsg = document.getElementById('status-msg');
+            const photoInput = document.getElementById('photo-input');
+            const btnEditPhoto = document.getElementById('btn-edit-photo');
+
+            // Load current data
+            if (isMigrado) {
+                inputNome.value = migratedUser.nome || '';
+                inputEmail.value = migratedUser.email || '';
+                if (migratedUser.avatar) avatarImg.src = migratedUser.avatar;
+            } else if (user) {
+                try {
+                    const { data: p } = await sb.from('usuarios').select('nome, email, foto_perfil_url').eq('id', user.id).single();
+                    if (p) {
+                        inputNome.value = p.nome || '';
+                        inputEmail.value = p.email || '';
+                        if (p.foto_perfil_url) avatarImg.src = p.foto_perfil_url;
+                    }
+                } catch (e) { console.error('Erro carregar dados:', e); }
+            }
+
+            // Photo upload
+            btnEditPhoto.addEventListener('click', () => photoInput.click());
+
+            photoInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (file.size > 50 * 1024 * 1024) { alert('A imagem deve ter no máximo 50MB.'); return; }
+
+                const reader = new FileReader();
+                reader.onload = (e) => { avatarImg.src = e.target.result; };
+                reader.readAsDataURL(file);
+
+                try {
+                    btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span>';
+                    btnEditPhoto.disabled = true;
+
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+                    const { error: uploadError } = await sb.storage.from('fotos_perfil').upload(fileName, file, { upsert: true });
+                    if (uploadError) throw uploadError;
+
+                    const { data: { publicUrl } } = sb.storage.from('fotos_perfil').getPublicUrl(fileName);
+
+                    if (isMigrado) {
+                        const { error: upErr } = await sb.from('users_migrados').update({ avatar: publicUrl }).eq('_id', user.id);
+                        if (upErr) console.warn('Não foi possível salvar foto no servidor:', upErr);
+                        migratedUser.avatar = publicUrl;
+                        localStorage.setItem('mcl_migrado', JSON.stringify(migratedUser));
+                        const custom = localStorage.getItem('mcl_custom_session');
+                        if (custom) {
+                            const cp = JSON.parse(custom);
+                            cp.user = cp.user || {};
+                            cp.user.avatar = publicUrl;
+                            localStorage.setItem('mcl_custom_session', JSON.stringify(cp));
+                        }
+                    } else {
+                        const { error: upErr } = await sb.from('usuarios').update({ foto_perfil_url: publicUrl }).eq('id', user.id);
+                        if (upErr) throw upErr;
+                    }
+
+                    avatarImg.src = publicUrl;
+                    showStatus('Foto atualizada com sucesso!', 'text-green-400');
+                } catch (error) {
+                    console.error('Erro upload:', error);
+                    alert('Erro ao enviar foto. Tente novamente.');
+                } finally {
+                    btnEditPhoto.innerHTML = '<span class="material-symbols-outlined text-sm">edit</span>';
+                    btnEditPhoto.disabled = false;
+                }
+            });
+
+            // Save data
+            btnSalvar.addEventListener('click', async () => {
+                const nome = inputNome.value.trim();
+                const email = inputEmail.value.trim();
+                if (!nome || !email) { showStatus('Preencha nome e email.', 'text-red-400'); return; }
+
+                btnSalvar.disabled = true;
+                saveLoader.classList.remove('hidden');
+                btnSalvar.querySelector('span').innerText = 'Salvando...';
+
+                try {
+                    if (isMigrado) {
+                        const { error: upErr } = await sb.from('users_migrados').update({ name: nome, email: email }).eq('_id', user.id);
+                        if (upErr) throw upErr;
+
+                        migratedUser.nome = nome;
+                        migratedUser.email = email;
+                        localStorage.setItem('mcl_migrado', JSON.stringify(migratedUser));
+                        const custom = localStorage.getItem('mcl_custom_session');
+                        if (custom) {
+                            const cp = JSON.parse(custom);
+                            cp.user = cp.user || {};
+                            cp.user.nome = nome;
+                            cp.user.email = email;
+                            localStorage.setItem('mcl_custom_session', JSON.stringify(cp));
+                        }
+                    } else {
+                        const { error: upErr } = await sb.from('usuarios').update({ nome, email }).eq('id', user.id);
+                        if (upErr) throw upErr;
+                    }
+
+                    showStatus('Dados atualizados com sucesso!', 'text-green-400');
+                } catch (error) {
+                    console.error('Erro salvar:', error);
+                    showStatus('Erro ao salvar: ' + (error.message || 'desconhecido'), 'text-red-400');
+                } finally {
+                    btnSalvar.disabled = false;
+                    saveLoader.classList.add('hidden');
+                    btnSalvar.querySelector('span').innerText = 'Salvar Alterações';
+                }
+            });
+
+            function showStatus(msg, cls) {
+                statusMsg.className = 'text-center text-sm mt-4 ' + cls;
+                statusMsg.textContent = msg;
+                statusMsg.classList.remove('hidden');
+                setTimeout(() => statusMsg.classList.add('hidden'), 4000);
+            }
+        });
+    </script>
+</body>
+</html>
