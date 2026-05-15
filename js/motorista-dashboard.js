@@ -2,7 +2,20 @@
 // Logic to handle driver data and online status on the dashboard
 document.addEventListener('DOMContentLoaded', async () => {
     const supabaseClient = window.supabaseClient;
-    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    // Check if migrated user (from localStorage)
+    const customSession = localStorage.getItem('mcl_custom_session');
+    const migradoData = localStorage.getItem('mcl_migrado');
+    const isMigrated = !!(customSession || migradoData);
+    let migratedUser = null;
+    if (isMigrated) {
+        const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
+        migratedUser = parsed.user || parsed;
+    }
+
+    // Try Supabase auth first, fall back to migrated user
+    const { data: { user: authUser } } = await supabaseClient.auth.getUser();
+    const user = authUser || migratedUser;
     
     if (!user) return;
 
@@ -71,8 +84,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function toggleStatus() {
         if (!user) return;
         const newStatus = !currentOnlineStatus;
+
+        if (isMigrated) {
+            updateOnlineUI(newStatus);
+            showNotification(newStatus ? 'Você está online' : 'Você está offline', newStatus);
+            return;
+        }
         
-        // Optimistic UI update or wait for DB? Let's wait for DB for consistency.
         const { error } = await supabaseClient
             .from('motoristas')
             .update({ status_online: newStatus })
@@ -90,13 +108,39 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize Dashboard Data
     async function initDashboard() {
-        // Fetch profile and driver stats
+        if (isMigrated && migratedUser) {
+            const nome = migratedUser.nome || 'Motorista';
+            const avatar = migratedUser.avatar || null;
+            const firstName = nome.split(' ')[0];
+
+            const greetingElement = document.getElementById('header-username');
+            if (greetingElement) greetingElement.textContent = firstName;
+
+            if (avatar) {
+                const avatarElement = document.getElementById('header-avatar');
+                if (avatarElement) avatarElement.src = avatar;
+                const profileAvatar = document.getElementById('profile-avatar');
+                if (profileAvatar) profileAvatar.src = avatar;
+            }
+
+            const ratingElement = document.getElementById('header-rating');
+            if (ratingElement) ratingElement.textContent = '5.0';
+
+            updateOnlineUI(migratedUser.status_online === true);
+
+            const profileNameEl = document.getElementById('profile-name');
+            if (profileNameEl) profileNameEl.textContent = nome;
+            const profileEmailEl = document.getElementById('profile-email');
+            if (profileEmailEl && migratedUser.email) profileEmailEl.textContent = migratedUser.email;
+
+            return;
+        }
+
         const [userData, driverStats] = await Promise.all([
             supabaseClient.from('usuarios').select('nome, foto_perfil_url').eq('id', user.id).single(),
             supabaseClient.from('motoristas').select('avaliacao_media, status_online').eq('usuario_id', user.id).single()
         ]);
 
-        // Update User info
         if (userData.data) {
             const firstName = userData.data.nome.split(' ')[0];
             const greetingElement = document.getElementById('header-username');
@@ -109,7 +153,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Update Driver stats and status
         if (driverStats.data) {
             const ratingElement = document.getElementById('header-rating');
             if (ratingElement) ratingElement.textContent = parseFloat(driverStats.data.avaliacao_media || 5.0).toFixed(1);

@@ -332,10 +332,23 @@
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // 1. Check Authentication
-            const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+            // Check migrated user first
+            const customSession = localStorage.getItem('mcl_custom_session');
+            const migradoData = localStorage.getItem('mcl_migrado');
+            let user = null;
+            let migratedUser = null;
+            if (customSession || migradoData) {
+                const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
+                migratedUser = parsed.user || parsed;
+                user = migratedUser;
+            }
 
-            if (authError || !user) {
+            if (!user) {
+                const { data: { user: authUser }, error: authError } = await supabaseClient.auth.getUser();
+                user = authUser;
+            }
+
+            if (!user) {
                 window.location.href = 'loginMotorista.html';
                 return;
             }
@@ -350,6 +363,23 @@
             // 2. Fetch Driver Profile
             let driverData = null;
             async function loadProfile() {
+                if (migratedUser) {
+                    const driverName = migratedUser.nome || 'Nome Sobrenome';
+                    nameEl.innerText = driverName;
+                    driverData = { avaliacao_media: 5.0 };
+
+                    if (migratedUser.avatar) {
+                        avatarEl.src = migratedUser.avatar;
+                        mandatoryOverlay.classList.add('hidden');
+                    } else {
+                        const initials = driverName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                        const parent = avatarEl.parentElement;
+                        parent.innerHTML = `<div id="profile-avatar-initials" class="w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold">${initials}</div>`;
+                        mandatoryOverlay.classList.remove('hidden');
+                    }
+                    return;
+                }
+
                 const { data: driver, error: profileError } = await supabaseClient
                     .from('motoristas')
                     .select(`

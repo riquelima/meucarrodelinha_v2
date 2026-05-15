@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meucarrosalinas-v9';
+const CACHE_NAME = 'meucarrosalinas-v10';
 const API_CACHE = 'meucarrosalinas-api-v1';
 const ASSETS_TO_CACHE = [
   '/',

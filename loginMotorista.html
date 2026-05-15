@@ -220,12 +220,12 @@
                                 <span
                                     class="material-symbols-outlined text-slate-500 group-focus-within:text-primary transition-colors">account_circle</span>
                             </div>
-                            <input id="email" required
+                            <input id="email" required autocomplete="email"
                                 class="block w-full bg-slate-900/50 border border-slate-700 rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
-                                placeholder="seu@email.com" type="email" />
+                                placeholder="seu@email.com" type="email" oninput="checkEmailLogin(this.value)" />
                         </div>
                     </div>
-                    <div class="flex flex-col gap-2">
+                    <div id="senha-container" class="flex flex-col gap-2">
                         <label class="text-slate-300 text-sm font-medium ml-1">Senha de Acesso</label>
                         <div class="relative group">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -281,6 +281,46 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/auth.js"></script>
     <script>
+        const EDGE_AUTH_URL = 'https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado';
+
+        let migratedUserFound = false;
+
+        async function checkEmailLogin(email) {
+            const container = document.getElementById('senha-container');
+            const senhaInput = document.getElementById('senha');
+
+            if (!email || !email.includes('@')) {
+                container.style.display = '';
+                senhaInput.required = true;
+                migratedUserFound = false;
+                return;
+            }
+
+            try {
+                const res = await fetch(EDGE_AUTH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.toLowerCase().trim(), checkOnly: true })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.exists) {
+                        container.style.display = 'none';
+                        senhaInput.required = false;
+                        migratedUserFound = true;
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('Erro ao verificar email:', e);
+            }
+
+            container.style.display = '';
+            senhaInput.required = true;
+            migratedUserFound = false;
+        }
+
         async function handleLoginMotorista(event) {
             event.preventDefault();
             const btn = document.getElementById('btn-login-motorista');
@@ -288,9 +328,36 @@
             btn.innerHTML = 'Aguarde...';
             btn.disabled = true;
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('senha').value;
+            const email = document.getElementById('email').value.trim().toLowerCase();
 
+            if (migratedUserFound) {
+                try {
+                    const res = await fetch(EDGE_AUTH_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const data = await res.json();
+
+                    if (data.success && data.migrado) {
+                        localStorage.setItem('mcl_migrado', JSON.stringify(data.user));
+                        localStorage.setItem('mcl_custom_session', JSON.stringify({ user: data.user }));
+                        document.body.classList.add('fade-out');
+                        var destino = data.user.tipo_usuario === 'admin' ? 'admin.html' :
+                                      data.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
+                        setTimeout(() => { window.location.href = destino; }, 200);
+                        return;
+                    }
+                } catch (e) {
+                    console.warn('Erro no login migrado:', e);
+                }
+
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const password = document.getElementById('senha').value;
             const result = await signIn(email, password);
             if (result.success) {
                 document.body.classList.add('fade-out');
@@ -312,23 +379,6 @@
 
             btn.innerHTML = originalText;
             btn.disabled = false;
-                    return;
-                }
-
-                document.body.classList.add('fade-out');
-                setTimeout(() => {
-                    if (userData.tipo_usuario === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else if (userData.tipo_usuario === 'motorista') {
-                        window.location.href = 'motorista.html';
-                    } else {
-                        window.location.href = 'passageiro.html';
-                    }
-                }, 200);
-            } else {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {

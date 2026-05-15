@@ -200,9 +200,9 @@
                 <div
                     class="relative flex items-center ios-input-focus border border-slate-800 bg-slate-900/50 rounded-xl overflow-hidden transition-all">
                     <span class="material-symbols-outlined absolute left-4 text-slate-500">mail</span>
-                    <input id="email" required
+                    <input id="email" required autocomplete="email"
                         class="w-full bg-transparent border-none py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:ring-0"
-                        placeholder="seu@email.com" type="email" />
+                        placeholder="seu@email.com" type="email" oninput="checkEmailLogin(this.value)" />
                 </div>
             </div>
             <div id="senha-container" class="space-y-1.5">
@@ -239,6 +239,46 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/auth.js"></script>
     <script>
+        const EDGE_AUTH_URL = 'https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado';
+
+        let migratedUserFound = false;
+
+        async function checkEmailLogin(email) {
+            const container = document.getElementById('senha-container');
+            const senhaInput = document.getElementById('senha');
+
+            if (!email || !email.includes('@')) {
+                container.style.display = '';
+                senhaInput.required = true;
+                migratedUserFound = false;
+                return;
+            }
+
+            try {
+                const res = await fetch(EDGE_AUTH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.toLowerCase().trim(), checkOnly: true })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.exists) {
+                        container.style.display = 'none';
+                        senhaInput.required = false;
+                        migratedUserFound = true;
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('Erro ao verificar email:', e);
+            }
+
+            container.style.display = '';
+            senhaInput.required = true;
+            migratedUserFound = false;
+        }
+
         async function handleLogin(event) {
             event.preventDefault();
 
@@ -247,33 +287,42 @@
             btn.textContent = 'Aguarde...';
             btn.disabled = true;
 
-            const emailInput = document.getElementById('email');
-            const email = emailInput.value;
-            const password = document.getElementById('senha').value;
+            const email = document.getElementById('email').value.trim().toLowerCase();
 
-            // 1. Tenta login normal (Supabase Auth -> Edge Function com senha)
+            if (migratedUserFound) {
+                try {
+                    const res = await fetch(EDGE_AUTH_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const data = await res.json();
+
+                    if (data.success && data.migrado) {
+                        localStorage.setItem('mcl_migrado', JSON.stringify(data.user));
+                        localStorage.setItem('mcl_custom_session', JSON.stringify({ user: data.user }));
+                        document.body.classList.add('fade-out');
+                        var destino = data.user.tipo_usuario === 'admin' ? 'admin.html' :
+                                      data.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
+                        setTimeout(() => { window.location.href = destino; }, 200);
+                        return;
+                    }
+                } catch (e) {
+                    console.warn('Erro no login migrado:', e);
+                }
+
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const password = document.getElementById('senha').value;
             const result = await signIn(email, password);
             if (result.success) {
                 document.body.classList.add('fade-out');
                 try {
                     var u = result.data.user;
                     var tipoUsuario = u.tipo_usuario || (u.user_metadata && u.user_metadata.tipo_usuario) || null;
-                    if (!tipoUsuario && u.email) {
-                        var emailLower = u.email.toLowerCase();
-                        // Admin hardcoded para garantir
-                        if (emailLower === 'meucarrodelinha.adm@gmail.com') {
-                            tipoUsuario = 'admin';
-                        } else {
-                            try {
-                                var { data: migradoUser } = await supabaseClient
-                                    .from('users_migrados')
-                                    .select('role')
-                                    .eq('email', emailLower)
-                                    .maybeSingle();
-                                if (migradoUser && migradoUser.role === 'motorista') tipoUsuario = 'motorista';
-                            } catch(e) { console.warn('Erro ao buscar users_migrados:', e); }
-                        }
-                    }
                     if (!tipoUsuario && u.id) {
                         var { data: usuarioData } = await supabaseClient
                             .from('usuarios')
@@ -296,51 +345,6 @@
                 return;
             }
 
-            // 2. Falhou no Auth -> tenta usuário migrado
-            try {
-                const edgeUrl = 'https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado';
-                const res = await fetch(edgeUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-
-                if (data.success && data.migrado) {
-                    localStorage.setItem('mcl_migrado', JSON.stringify(data.user));
-                    localStorage.setItem('mcl_custom_session', JSON.stringify({ user: data.user }));
-                    document.body.classList.add('fade-out');
-                    var destino = data.user.tipo_usuario === 'admin' ? 'admin.html' :
-                                  data.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
-                    setTimeout(() => { window.location.href = destino; }, 200);
-                    return;
-                }
-            } catch (e) {
-                console.warn('Edge function nao disponivel:', e);
-            }
-
-            // 3. Última tentativa: migrado sem senha (usuários que só existem na tabela)
-            if (!password) {
-                try {
-                    const res = await fetch('https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email })
-                    });
-                    const d = await res.json();
-                    if (d.success && d.migrado) {
-                        localStorage.setItem('mcl_migrado', JSON.stringify(d.user));
-                        localStorage.setItem('mcl_custom_session', JSON.stringify({ user: d.user }));
-                        document.body.classList.add('fade-out');
-                        var destino = d.user.tipo_usuario === 'admin' ? 'admin.html' :
-                                      d.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
-                        setTimeout(() => { window.location.href = destino; }, 200);
-                        return;
-                    }
-                } catch(e) { console.warn(e); }
-            }
-
-            // 4. Falhou tudo
             btn.textContent = originalText;
             btn.disabled = false;
         }

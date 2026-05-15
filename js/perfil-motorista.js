@@ -1,14 +1,43 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     const supabaseClient = window.supabaseClient;
-    // 1. Check Authentication
-    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    // Check migrated user first
+    const customSession = localStorage.getItem('mcl_custom_session');
+    const migradoData = localStorage.getItem('mcl_migrado');
+    let user = null;
+    let migratedUser = null;
+    if (customSession || migradoData) {
+        const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
+        migratedUser = parsed.user || parsed;
+        user = migratedUser;
+    }
+
+    if (!user) {
+        const { data: { user: authUser } } = await supabaseClient.auth.getUser();
+        user = authUser;
+    }
+
     if (!user) {
         window.location.href = 'loginMotorista.html';
         return;
     }
 
     // 2. Fetch Driver Data
+    if (migratedUser) {
+        const nome = migratedUser.nome || 'Motorista Parceiro';
+        const avatar = migratedUser.avatar || null;
+
+        document.getElementById('profile-name').textContent = nome;
+
+        if (avatar) {
+            document.getElementById('profile-avatar').src = avatar;
+        } else {
+            initiateMandatoryPhotoUpload();
+        }
+        return;
+    }
+
     const { data: profile, error } = await supabaseClient
         .from('usuarios')
         .select('nome, foto_perfil_url')
@@ -16,14 +45,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         .single();
 
     if (profile) {
-        // Show Full Name
         document.getElementById('profile-name').textContent = profile.nome;
 
-        // Update Avatar
         if (profile.foto_perfil_url) {
             document.getElementById('profile-avatar').src = profile.foto_perfil_url;
         } else {
-            // Check if this is a first-time login (no photo)
             initiateMandatoryPhotoUpload();
         }
     }

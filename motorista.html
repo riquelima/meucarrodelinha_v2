@@ -891,6 +891,36 @@
         (async function carregarPerfilMotorista() {
             const supabase = window.supabaseClient;
             if (!supabase) return;
+
+            // Check migrated user first
+            const customSession = localStorage.getItem('mcl_custom_session');
+            const migradoData = localStorage.getItem('mcl_migrado');
+            let migratedUser = null;
+            if (customSession || migradoData) {
+                const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
+                migratedUser = parsed.user || parsed;
+            }
+
+            if (migratedUser) {
+                const nome = migratedUser.nome || 'Motorista Parceiro';
+                const email = migratedUser.email || '';
+                const avatar = migratedUser.avatar || null;
+
+                const profileNameEl = document.getElementById('profile-name');
+                if (profileNameEl) profileNameEl.textContent = nome;
+
+                const profileEmailEl = document.getElementById('profile-email');
+                if (profileEmailEl) profileEmailEl.textContent = email;
+
+                const profileAvatarEl = document.getElementById('profile-avatar');
+                if (avatar && profileAvatarEl) {
+                    profileAvatarEl.src = avatar;
+                } else if (profileAvatarEl) {
+                    profileAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=f97316&color=fff&size=128`;
+                }
+                return;
+            }
+
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;
 
@@ -928,16 +958,31 @@
             const view = document.getElementById('suporte-view');
             if (!view) return;
             const supabase = window.supabaseClient;
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const { data: profile } = await supabase.from('usuarios').select('nome, email').eq('id', user.id).single();
-                if (profile) {
-                    var nEl = document.getElementById('suporte-nome');
-                    var eEl = document.getElementById('suporte-email');
-                    if (nEl) nEl.value = profile.nome || '';
-                    if (eEl) eEl.value = user.email || '';
+
+            // Check migrated user first
+            const customSession = localStorage.getItem('mcl_custom_session');
+            const migradoData = localStorage.getItem('mcl_migrado');
+            let nome = '', email = '';
+            if (customSession || migradoData) {
+                const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
+                const mu = parsed.user || parsed;
+                nome = mu.nome || '';
+                email = mu.email || '';
+            } else {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data: profile } = await supabase.from('usuarios').select('nome, email').eq('id', user.id).single();
+                    if (profile) {
+                        nome = profile.nome || '';
+                        email = user.email || '';
+                    }
                 }
             }
+
+            var nEl = document.getElementById('suporte-nome');
+            var eEl = document.getElementById('suporte-email');
+            if (nEl) nEl.value = nome;
+            if (eEl) eEl.value = email;
             switchAbaSuporte('novo');
             view.classList.remove('hidden');
             requestAnimationFrame(() => {

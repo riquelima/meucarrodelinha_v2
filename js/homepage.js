@@ -128,7 +128,10 @@ const initHomepage = async () => {
             const backendUrl = window.location.origin.includes('localhost') 
                 ? 'http://localhost:3000/api/users/motoristas/profile-views/top' 
                 : '/api/users/motoristas/profile-views/top';
-            const response = await fetch(backendUrl);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            const response = await fetch(backendUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
             if (response.ok) {
                 drivers = await response.json();
             }

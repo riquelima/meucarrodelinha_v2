@@ -252,19 +252,38 @@
         document.addEventListener('click', initAudio, { once: true, passive: true });
         document.addEventListener('keydown', initAudio, { once: true, passive: true });
 
+        let splashRedirected = false;
+        function goToHomepage() {
+            if (splashRedirected) return;
+            splashRedirected = true;
+            playStartupChime();
+            document.body.classList.add('fade-out');
+            setTimeout(() => { window.location.replace('homepage.html'); }, 300);
+        }
+
+        const splashFallbackTimer = setTimeout(goToHomepage, 4000);
+
         setTimeout(async () => {
             try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                const sessionResult = await Promise.race([
+                    window.supabaseClient.auth.getSession(),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
+                ]);
+                const session = sessionResult?.data?.session;
                 if (session?.user) {
-                    const { data: profile } = await window.supabaseClient.from('usuarios').select('tipo_usuario').eq('id', session.user.id).single();
-                    const role = profile?.tipo_usuario || 'passageiro';
+                    const profileResult = await Promise.race([
+                        window.supabaseClient.from('usuarios').select('tipo_usuario').eq('id', session.user.id).single(),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
+                    ]);
+                    const role = profileResult?.data?.tipo_usuario || 'passageiro';
+                    clearTimeout(splashFallbackTimer);
+                    splashRedirected = true;
                     window.location.replace(role === 'motorista' ? 'motorista.html' : role === 'admin' ? 'admin.html' : 'passageiro.html');
                     return;
                 }
             } catch (e) { console.warn('[Splash] Erro:', e); }
-            playStartupChime();
-            document.body.classList.add('fade-out');
-            setTimeout(() => { window.location.replace('homepage.html'); }, 300);
+            clearTimeout(splashFallbackTimer);
+            goToHomepage();
         }, 2000);
     </script>
     <script src="js/pwa-register.js"></script>
