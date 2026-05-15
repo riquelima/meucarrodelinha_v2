@@ -1,11 +1,6 @@
 (function () {
     'use strict';
 
-    // Impedir zoom por pinça (iOS Safari ignora user-scalable=no)
-    document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
-    document.addEventListener('gesturechange', function(e) { e.preventDefault(); });
-    document.addEventListener('gestureend', function(e) { e.preventDefault(); });
-
     var SHARE_URL = window.location.origin + '/homepage.html';
     var SHARE_TEXT = 'Meu Carro de Linha Salinas - Tradição & Tecnologia. Encontre seu motorista pelo celular!';
     var SHARE_TITLE = 'Meu Carro de Linha Salinas';
@@ -95,31 +90,29 @@
         '.share-toast .material-symbols-outlined{color:#f97316;font-size:20px}' +
         '.share-toast p{color:#fff;font-size:13px;font-weight:600;margin:0}' +
         '</style>' +
-        '<div class="share-fab" id="shareFab" title="Compartilhar">' +
-        '<div class="share-fab-dismiss" id="shareFabDismiss" title="Não ver mais">' +
+        '<div class="share-fab" id="shareFab" title="Compartilhar" onclick="if(!event.target.closest(\'.share-fab-dismiss\'))window.shareApp(\'fab\')">' +
+        '<div class="share-fab-dismiss" id="shareFabDismiss" title="Não ver mais" onclick="event.stopPropagation();window.dismissShareFab()">' +
         '<span class="material-symbols-outlined">close</span></div>' +
         '<span class="material-symbols-outlined">share</span></div>';
 
+    function attachShareHandlers() {
+        var fab = document.getElementById('shareFab');
+        if (fab && !fab._handler) {
+            fab._handler = true;
+            fab.addEventListener('click', function(e) {
+                if (e.target.closest('.share-fab-dismiss')) return;
+                window.shareApp('fab');
+            });
+        }
+    }
+
     if (document.body) {
         document.body.insertAdjacentHTML('beforeend', fabHTML);
-        initShare();
+        attachShareHandlers();
     } else {
         document.addEventListener('DOMContentLoaded', function () {
             document.body.insertAdjacentHTML('beforeend', fabHTML);
-            initShare();
-        });
-    }
-
-    function initShare() {
-        var fab = document.getElementById('shareFab');
-        var dismiss = document.getElementById('shareFabDismiss');
-        if (fab) fab.addEventListener('click', function (e) {
-            if (e.target.closest('.share-fab-dismiss')) return;
-            window.shareApp('fab');
-        });
-        if (dismiss) dismiss.addEventListener('click', function (e) {
-            e.stopPropagation();
-            setDismissed();
+            attachShareHandlers();
         });
     }
 })();
