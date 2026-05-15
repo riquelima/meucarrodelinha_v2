@@ -254,7 +254,6 @@
             // 1. Tenta login normal (Supabase Auth -> Edge Function com senha)
             const result = await signIn(email, password);
             if (result.success) {
-            if (result.success) {
                 document.body.classList.add('fade-out');
                 try {
                     var u = result.data.user;
