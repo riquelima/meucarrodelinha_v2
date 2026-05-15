@@ -100,8 +100,31 @@
         }
     }
 
-    // Registro do Service Worker removido para evitar loops de recarregamento
-    // navigator.serviceWorker.register('/sw.js?v=11') ... (desativado)
+    // ===== SERVICE WORKER: Atualização forçada para evitar cache obsoleto =====
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (var i = 0; i < registrations.length; i++) {
+                var reg = registrations[i];
+                if (reg.active) {
+                    // Verifica se o SW está desatualizado e força atualização
+                    reg.update().catch(function(err) {
+                        console.log('[PWA] SW update check failed:', err);
+                    });
+                    // Escuta por nova versão disponível
+                    reg.addEventListener('updatefound', function() {
+                        var newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', function() {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('[PWA] Nova versão disponível — recarregando');
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                setTimeout(function() { window.location.reload(); }, 500);
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    }
 
     // Verifica se já foi instalado
     if (window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
