@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="dark" lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <title>ConfiguraÃ§Ãµes - Meu Carro de Linha Salinas</title>
+    <title>Configurações - Meu Carro de Linha Salinas</title>
     <script src="/js/tailwind-cdn.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
@@ -47,7 +47,7 @@
             <a href="perfilPassageiro.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
-            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">ConfiguraÃ§Ãµes</h1>
+            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Configurações</h1>
             <div class="size-10"></div>
         </header>
 
@@ -73,7 +73,7 @@
                         </div>
                         <div>
                             <p class="font-bold text-sm">Dados Pessoais</p>
-                            <p class="text-xs text-slate-500">Suas informaÃ§Ãµes de perfil</p>
+                            <p class="text-xs text-slate-500">Suas informações de perfil</p>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@
             </div>
 
             <button id="btn-salvar" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-2xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2 text-base">
-                <span id="save-text">Salvar AlteraÃ§Ãµes</span>
+                <span id="save-text">Salvar Alterações</span>
                 <span id="save-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
             </button>
 
@@ -206,7 +206,7 @@
             photoInput.addEventListener('change', async (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
-                if (file.size > 50 * 1024 * 1024) { showToast('A imagem deve ter no mÃ¡ximo 50MB.', true); return; }
+                if (file.size > 50 * 1024 * 1024) { showToast('A imagem deve ter no máximo 50MB.', true); return; }
 
                 const reader = new FileReader();
                 reader.onload = (e) => { avatarImg.src = e.target.result; };
@@ -288,7 +288,7 @@
                 } finally {
                     btnSalvar.disabled = false;
                     saveLoader.classList.add('hidden');
-                    saveText.innerText = 'Salvar AlteraÃ§Ãµes';
+                    saveText.innerText = 'Salvar Alterações';
                 }
             });
         });
