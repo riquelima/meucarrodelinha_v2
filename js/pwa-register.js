@@ -103,7 +103,7 @@
     // Registro do Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('/sw.js?v=11')
                 .then(function(registration) {
                     console.log('[PWA] Service Worker registrado:', registration.scope);
                     if ('sync' in registration) {
