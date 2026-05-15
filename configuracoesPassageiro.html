@@ -1,12 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="dark" lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <title>Configurações - Meu Carro de Linha Salinas</title>
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/ui-style.css" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -15,99 +16,160 @@
                 extend: {
                     colors: {
                         "primary": "#f97316",
-                        "success": "#10b981",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#121520",
-                        "surface-dark": "#1c2131",
-                        "accent-blue": "#272e45"
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "background-dark": "#0f1320",
                     },
-                    fontFamily: { "display": ["Inter"] },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                    keyframes: {
-                        "slide-up": { "0%": { transform: "translateY(20px)", opacity: "0" }, "100%": { transform: "translateY(0)", opacity: "1" } },
-                        "fade-in": { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
-                        "scale-in": { "0%": { transform: "scale(0.95)", opacity: "0" }, "100%": { transform: "scale(1)", opacity: "1" } }
+                    fontFamily: {
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    animation: { "slide-up": "slide-up 0.4s ease-out", "fade-in": "fade-in 0.3s ease-out", "scale-in": "scale-in 0.2s ease-out" }
                 },
             },
         }
     </script>
     <style>
-        main > * { animation: slide-up 0.4s ease-out both; }
-        main > *:nth-child(1) { animation-delay: 0.05s; }
-        main > *:nth-child(2) { animation-delay: 0.1s; }
-        main > *:nth-child(3) { animation-delay: 0.15s; }
-        .toast { animation: slide-up 0.35s ease-out, fade-in 0.3s ease-out; }
+        body { min-height: 100dvh; -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        input, textarea { user-select: text; -webkit-user-select: text; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-scale { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-scale:active { transform: scale(0.96); }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .input-premium { background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.08); color: #f1f5f9; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .input-premium:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1), 0 0 20px rgba(249, 115, 22, 0.05); outline: none; background: rgba(255, 255, 255, 0.06); }
+        .input-premium::placeholder { color: rgba(148, 163, 184, 0.4); }
+        .glow-cta { animation: pulseGlow 3s ease-in-out infinite; }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 0 40px rgba(249, 115, 22, 0.05); } 50% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.3), 0 0 60px rgba(249, 115, 22, 0.1); } }
+        .divider-gradient { height: 1px; background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent); }
+        .bg-premium-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px; }
+        .gradient-text { background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .toast-premium { background: rgba(15, 19, 32, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .toast-premium.success { border-color: rgba(16, 185, 129, 0.3); }
+        .toast-premium.error { border-color: rgba(239, 68, 68, 0.3); }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
-    <div class="relative flex h-[100dvh] w-full flex-col overflow-hidden">
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-            <a href="perfilPassageiro.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid overflow-hidden">
+    <div class="relative min-h-screen flex flex-col overflow-y-auto">
+
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- ========== HEADER ========== -->
+        <header class="relative z-20 flex items-center justify-between px-4 py-4">
+            <a href="perfilPassageiro.html"
+                class="active-scale flex items-center justify-center size-10 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300">
+                <span class="material-symbols-outlined text-xl">arrow_back</span>
             </a>
-            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Configurações</h1>
+            <span class="text-xs font-medium text-slate-500 uppercase tracking-[0.15em]">Configurações</span>
             <div class="size-10"></div>
         </header>
 
-        <main class="flex-1 overflow-y-auto px-4 pt-6 pb-8 no-scrollbar">
-            <div class="flex flex-col items-center mb-8">
-                <div class="relative">
-                    <div class="size-28 rounded-full border-4 border-primary/20 overflow-hidden bg-slate-200 dark:bg-slate-700 shadow-lg shadow-primary/5">
-                        <img id="profile-avatar" src="https://ui-avatars.com/api/?name=U&background=random" alt="Foto" class="w-full h-full object-cover">
-                    </div>
-                    <input type="file" id="photo-input" class="hidden" accept="image/*">
-                    <button id="btn-edit-photo" class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-background-light dark:border-background-dark flex items-center justify-center shadow-lg active:scale-95 transition-transform hover:bg-primary/90">
-                        <span class="material-symbols-outlined text-sm">edit</span>
-                    </button>
-                    <span id="photo-status" class="text-[10px] text-green-400 text-center block mt-2 hidden">Foto atualizada</span>
-                </div>
-            </div>
+        <!-- ========== HERO ========== -->
+        <div class="px-4 pt-1 pb-4 animate-scale-in">
+            <div class="relative overflow-hidden rounded-[2rem] px-5 py-6">
+                <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+                <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);"></div>
 
-            <div class="space-y-6 mb-8">
-                <div class="bg-white dark:bg-slate-800/80 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/50 shadow-sm space-y-5">
-                    <div class="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-700/30">
-                        <div class="size-9 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
-                            <span class="material-symbols-outlined">person</span>
+                <div class="relative z-10 flex flex-col items-center text-center">
+                    <div class="relative mb-4">
+                        <div class="size-24 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl shadow-primary/10" id="avatar-wrapper">
+                            <img id="profile-avatar" src="https://ui-avatars.com/api/?name=U&background=random" alt="Foto" class="w-full h-full object-cover">
                         </div>
-                        <div>
-                            <p class="font-bold text-sm">Dados Pessoais</p>
-                            <p class="text-xs text-slate-500">Suas informações de perfil</p>
+                        <input type="file" id="photo-input" class="hidden" accept="image/*">
+                        <button id="btn-edit-photo"
+                            class="absolute bottom-0 right-0 size-8 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-background-dark active:scale-90 transition-all duration-200">
+                            <span class="material-symbols-outlined text-sm">edit</span>
+                        </button>
+                    </div>
+                    <h1 class="font-display font-extrabold text-lg text-white">Editar Perfil</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">Mantenha seus dados sempre atualizados</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-gradient mx-4 mb-3"></div>
+
+        <!-- ========== FORM ========== -->
+        <main class="flex-1 px-4 pb-32 space-y-4">
+
+            <div class="animate-slide-up delay-200">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">badge</span>
+                    <h2 class="font-display font-bold text-white text-lg">Dados Pessoais</h2>
+                </div>
+                <div class="space-y-3.5">
+                    <label class="flex flex-col">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">Nome completo</span>
+                        <div class="relative">
+                            <input id="input-nome" type="text"
+                                class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium"
+                                placeholder="Seu nome" />
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">person</span>
                         </div>
-                    </div>
-
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1" for="input-nome">Nome completo</label>
-                        <input id="input-nome" type="text" class="w-full h-12 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-700/50 px-4 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-slate-400" placeholder="Seu nome" />
-                    </div>
-
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1" for="input-email">E-mail</label>
-                        <input id="input-email" type="email" class="w-full h-12 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-700/50 px-4 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-slate-400" placeholder="seu@email.com" />
-                    </div>
-
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1" for="input-phone">Telefone</label>
-                        <input id="input-phone" type="tel" class="w-full h-12 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-700/50 px-4 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-slate-400" placeholder="(99) 99999-9999" maxlength="15" />
-                    </div>
+                    </label>
+                    <label class="flex flex-col">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">E-mail</span>
+                        <div class="relative">
+                            <input id="input-email" type="email"
+                                class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium"
+                                placeholder="seu@email.com" />
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">mail</span>
+                        </div>
+                    </label>
+                    <label class="flex flex-col">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">Telefone</span>
+                        <div class="relative">
+                            <input id="input-phone" type="tel"
+                                class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium"
+                                placeholder="(71) 99908-8651" maxlength="15" />
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">call</span>
+                        </div>
+                    </label>
                 </div>
             </div>
 
-            <button id="btn-salvar" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-2xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2 text-base">
-                <span id="save-text">Salvar Alterações</span>
-                <span id="save-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
-            </button>
-
-            <div id="toast-container" class="fixed bottom-24 left-4 right-4 z-[60] pointer-events-none">
-                <div id="toast-msg" class="toast hidden mx-auto max-w-sm rounded-xl px-5 py-4 shadow-2xl flex items-center gap-3 pointer-events-auto backdrop-blur-md">
-                    <span id="toast-icon" class="material-symbols-outlined text-xl">check_circle</span>
-                    <p id="toast-text" class="text-sm font-medium flex-1"></p>
-                </div>
-            </div>
+            <div class="h-2"></div>
         </main>
+
+        <!-- ========== CTA ========== -->
+        <div class="fixed bottom-0 left-0 right-0 z-30 p-4 pb-6 bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent animate-slide-up delay-500">
+            <button id="btn-salvar"
+                class="active-scale glow-cta relative w-full h-16 rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary font-display font-bold text-white text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden group">
+                <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <span id="save-text">Salvar Alterações</span>
+                <span id="save-loader" class="material-symbols-outlined hidden animate-spin">sync</span>
+            </button>
+        </div>
     </div>
 
+    <!-- Toast -->
+    <div id="toast-container" class="fixed bottom-24 left-4 right-4 z-[60] pointer-events-none">
+        <div id="toast-msg" class="hidden toast-premium mx-auto max-w-sm rounded-2xl px-5 py-4 shadow-2xl flex items-center gap-3 pointer-events-auto">
+            <span id="toast-icon" class="material-symbols-outlined text-xl">check_circle</span>
+            <p id="toast-text" class="text-sm font-medium flex-1 text-slate-200"></p>
+        </div>
+    </div>
+
+    <script defer src="js/navigation-premium.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script>
@@ -145,7 +207,6 @@
             const saveLoader = document.getElementById('save-loader');
             const photoInput = document.getElementById('photo-input');
             const btnEditPhoto = document.getElementById('btn-edit-photo');
-            const photoStatus = document.getElementById('photo-status');
             const toastEl = document.getElementById('toast-msg');
             const toastText = document.getElementById('toast-text');
             const toastIcon = document.getElementById('toast-icon');
@@ -155,12 +216,11 @@
                 if (toastTimer) clearTimeout(toastTimer);
                 toastIcon.textContent = isError ? 'error' : 'check_circle';
                 toastText.textContent = text;
-                toastEl.className = 'toast mx-auto max-w-sm rounded-xl px-5 py-4 shadow-2xl flex items-center gap-3 pointer-events-auto backdrop-blur-md ' + (isError ? 'bg-red-600/90 text-white' : 'bg-green-600/90 text-white');
+                toastEl.className = 'toast-premium mx-auto max-w-sm rounded-2xl px-5 py-4 shadow-2xl flex items-center gap-3 pointer-events-auto ' + (isError ? 'error' : 'success');
                 toastEl.classList.remove('hidden');
                 toastTimer = setTimeout(() => toastEl.classList.add('hidden'), 3500);
             }
 
-            // Phone mask
             inputPhone.addEventListener('input', function () {
                 let v = this.value.replace(/\D/g, '');
                 if (v.length > 11) v = v.slice(0, 11);
@@ -169,7 +229,6 @@
                 this.value = v;
             });
 
-            // Load current data
             if (isMigrado) {
                 inputNome.value = migratedUser.nome || '';
                 inputEmail.value = migratedUser.email || '';
@@ -200,7 +259,6 @@
                 } catch (e) { console.error('Erro carregar dados:', e); }
             }
 
-            // Photo upload
             btnEditPhoto.addEventListener('click', () => photoInput.click());
 
             photoInput.addEventListener('change', async (e) => {
@@ -232,8 +290,7 @@
                     }
 
                     avatarImg.src = publicUrl;
-                    photoStatus.classList.remove('hidden');
-                    setTimeout(() => photoStatus.classList.add('hidden'), 3000);
+                    showToast('Foto atualizada com sucesso!', false);
                 } catch (error) {
                     console.error('Erro upload:', error);
                     showToast('Erro ao enviar foto.', true);
@@ -243,7 +300,6 @@
                 }
             });
 
-            // Save data
             btnSalvar.addEventListener('click', async () => {
                 const nome = inputNome.value.trim();
                 const email = inputEmail.value.trim();

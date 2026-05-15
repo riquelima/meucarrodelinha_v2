@@ -60,6 +60,9 @@
             transform: none !important;
             animation: none !important;
         }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
         .fade-out { opacity: 0; transition: opacity 0.2s ease-out; }
     </style>
 </head>
@@ -119,19 +122,17 @@
                 <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest px-2 mb-3">
                     Conta</p>
 
-                <button onclick="navegarConfiguracoes()"
-                    class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5 text-left">
-                    <div class="flex items-center gap-4">
-                        <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
-                            <span class="material-symbols-outlined">settings</span>
-                        </div>
-                        <div>
-                            <p class="font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-xs">Minhas Configurações</p>
-                            <p class="text-xs text-slate-500 font-medium tracking-tight">Nome, e-mail, telefone e foto</p>
-                        </div>
+                <a href="configuracoesPassageiro.html"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
+                    <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined">settings</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-sm">Minhas Configurações</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Nome, e-mail, telefone e foto</p>
                     </div>
                     <span class="material-symbols-outlined text-slate-400">chevron_right</span>
-                </button>
+                </a>
 
                 <a href="minhasViagens.html"
                     class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm active:scale-[0.99] transition-all">
@@ -224,12 +225,9 @@
     <script src="js/authGuard.js"></script>
     <script src="js/chat-notifications.js"></script>
     <script src="js/ui-transitions.js"></script>
+    <script defer src="js/navigation-premium.js"></script>
     <script src="js/pwa-register.js"></script>
     <script>
-        window.navegarConfiguracoes = function() {
-            document.body.classList.add('fade-out');
-            setTimeout(function() { window.location.href = 'configuracoesPassageiro.html'; }, 200);
-        };
         document.addEventListener('DOMContentLoaded', async () => {
             // 1. Check Authentication
             const { data: { session } } = await supabaseClient.auth.getSession();
