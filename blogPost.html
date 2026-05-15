@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="pt-br">
 
@@ -10,434 +10,314 @@
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1949e6",
-                        "accent-cyan": "#06b6d4",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#111521",
-                        "card-dark": "#1a2032",
-                        "border-dark": "#242c47",
+                        "primary": "#f97316",
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "background-dark": "#0f1320",
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"]
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        body { min-height: 100dvh; -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        input, textarea { user-select: text; -webkit-user-select: text; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-scale { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-scale:active { transform: scale(0.96); }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .glass-card-strong { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .divider-gradient { height: 1px; background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent); }
+        .bg-premium-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px; }
+        .gradient-text { background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .hero-image-wrapper { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; }
+        .hero-image-wrapper::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, #0f1320 0%, #0f1320 5%, rgba(15,19,32,0.4) 40%, rgba(15,19,32,0.1) 70%, transparent 100%);
+            pointer-events: none;
         }
 
-        .prose p {
-            margin-bottom: 1.25rem;
-            line-height: 1.75;
-        }
+        .prose-editorial { max-width: none; }
+        .prose-editorial p { margin-bottom: 1.4rem; line-height: 1.8; font-size: 15px; color: rgba(203, 213, 225, 0.9); }
+        .prose-editorial strong { color: #f1f5f9; font-weight: 700; }
+        .prose-editorial a { color: #f97316; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(249, 115, 22, 0.3); }
+        .prose-editorial a:hover { color: #fb923c; }
+        .prose-editorial h2 { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 20px; color: #f1f5f9; margin-top: 2rem; margin-bottom: 0.75rem; }
+        .prose-editorial h3 { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px; color: #f1f5f9; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .prose-editorial ul, .prose-editorial ol { margin-bottom: 1.25rem; padding-left: 1.5rem; color: rgba(203, 213, 225, 0.9); }
+        .prose-editorial li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .prose-editorial blockquote { border-left: 3px solid rgba(249, 115, 22, 0.3); padding-left: 1rem; margin: 1.5rem 0; color: rgba(203, 213, 225, 0.7); font-style: italic; }
+        .prose-editorial img { border-radius: 1rem; margin: 1.5rem 0; }
 
-        .prose strong {
-            color: #f1f5f9;
-        }
+        .related-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .related-card:hover { border-color: rgba(249, 115, 22, 0.25); }
+        .related-card .rel-img { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .related-card:hover .rel-img { transform: scale(1.06); }
 
-        .prose a {
-            color: #3b82f6;
-            text-decoration: underline;
-        }
-
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .delay-300 {
-            animation-delay: 300ms;
-        }
-
-        .delay-400 {
-            animation-delay: 400ms;
-        }
-
-        .delay-500 {
-            animation-delay: 500ms;
-        }
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
-
-    <!-- Page Transitions Settings -->
-    <meta name="view-transition" content="same-origin" />
-    <style>
-        /* View Transitions API */
-        @view-transition {
-            navigation: auto;
-        }
-
-        ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
-        }
-
-        ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Fallback Fade */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body.fade-out {
-            animation: fadeOut 0.2s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
-    <div
-        class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-[430px] mx-auto bg-background-light dark:bg-background-dark">
-        <main id="post-view" class="hidden">
-            <!-- Header Image & Back Button -->
-            <div class="relative w-full h-80">
-                <div id="post-header-image" class="absolute inset-0 bg-cover bg-center"
-                    style="background-image: url('splashScreen.jpeg')"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent">
-                </div>
-                <div class="absolute top-4 left-4 z-20">
-                    <a href="blog.html"
-                        class="flex items-center justify-center size-10 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/10 active-scale">
-                        <span class="material-symbols-outlined">arrow_back</span>
-                    </a>
-                </div>
-            </div>
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid">
 
-            <!-- Post Content Header -->
-            <div class="px-6 -mt-12 relative z-10">
-                <div id="post-tag"
-                    class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-primary text-[10px] font-bold uppercase tracking-wider mb-4">
-                    Categoria
-                </div>
-                <h1 id="post-title" class="text-3xl font-extrabold leading-tight text-slate-900 dark:text-white mb-6">
-                    Carregando título...
-                </h1>
-                <div class="flex items-center gap-3 pb-8 border-b border-slate-200 dark:border-slate-800">
-                    <div id="author-avatar"
-                        class="size-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-lg overflow-hidden border-2 border-primary">
-                        <span id="author-initials">M</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <p id="post-author-name" class="text-base font-bold text-slate-900 dark:text-slate-100">Meu
-                            carro de Linha Salinas</p>
-                        <p id="post-meta" class="text-xs text-slate-500 dark:text-slate-400">Data • 5 min de leitura</p>
-                    </div>
-                </div>
-            </div>
+    <div class="relative min-h-screen flex flex-col">
 
-            <!-- Main Body Text -->
-            <div id="post-content"
-                class="px-6 py-8 prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 text-lg leading-relaxed">
-                <p>Carregando conteúdo...</p>
-            </div>
+        <!-- Decorative glow -->
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <!-- Share & Interaction -->
-            <div
-                class="px-6 py-6 flex items-center justify-between border-y border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/30">
-                <div class="flex gap-4">
-                    <button id="like-button"
-                        class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors active-scale">
-                        <span class="material-symbols-outlined" id="like-icon">thumb_up</span>
-                        <span class="text-sm font-bold" id="like-count">0</span>
-                    </button>
-                </div>
-                <button id="share-button"
-                    class="flex items-center gap-2 bg-primary px-6 py-3 rounded-xl text-white font-bold text-sm shadow-lg shadow-primary/30 active-scale">
-                    <span class="material-symbols-outlined text-[20px]">share</span>
-                    Compartilhar
-                </button>
-            </div>
-
-            <!-- Related Posts Section -->
-            <div class="px-6 py-10 pb-20">
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Postagens Relacionadas</h3>
-                <div id="related-posts" class="space-y-4">
-                    <!-- Related posts dynamic load -->
-                </div>
-            </div>
-        </main>
-
+        <!-- Loading Overlay -->
         <div id="loading-overlay"
-            class="fixed inset-0 bg-background-light dark:bg-background-dark flex flex-col items-center justify-center z-[100] transition-opacity duration-500">
-            <span class="material-symbols-outlined text-5xl text-primary animate-spin mb-4">sync</span>
-            <p class="text-slate-500 font-medium">Carregando história...</p>
+            class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background-dark transition-all duration-500">
+            <div class="size-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-4xl text-primary animate-spin">sync</span>
+            </div>
+            <p class="text-slate-500 font-medium text-sm">Carregando história...</p>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script src="js/supabaseClient.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const slug = urlParams.get('slug');
-                const id = urlParams.get('id');
+        <!-- ========== POST VIEW ========== -->
+        <main id="post-view" class="hidden animate-fade-in">
 
-                if (!slug && !id) {
-                    window.location.href = 'blog.html';
-                    return;
+            <!-- Hero Image -->
+            <div class="hero-image-wrapper">
+                <div id="post-header-image" class="absolute inset-0 bg-cover bg-center"
+                    style="background-image: url('splashScreen.jpeg')"></div>
+
+                <!-- Back Button -->
+                <a href="blog.html"
+                    class="active-scale absolute top-4 left-4 z-20 flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/20">
+                    <span class="material-symbols-outlined text-xl">arrow_back</span>
+                </a>
+
+                <!-- Category badge on image -->
+                <div class="absolute bottom-4 left-4 z-10">
+                    <span id="post-tag" class="text-[10px] font-bold uppercase tracking-wider bg-primary/20 backdrop-blur-md text-primary border border-primary/20 px-3 py-1.5 rounded-full">
+                        Categoria
+                    </span>
+                </div>
+            </div>
+
+            <!-- ========== CONTENT ========== -->
+            <div class="flex-1 px-5 pb-28">
+
+                <!-- Title -->
+                <div class="-mt-1 animate-slide-up delay-100">
+                    <h1 id="post-title" class="font-display font-extrabold leading-[1.1] tracking-tight text-white text-xl sm:text-2xl mt-3">
+                        Carregando título...
+                    </h1>
+                </div>
+
+                <!-- Author & Meta -->
+                <div class="flex items-center gap-3 mt-4 animate-slide-up delay-150">
+                    <div id="author-avatar"
+                        class="size-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-primary/30 shrink-0">
+                        <span id="author-initials" class="text-primary">M</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <p id="post-author-name" class="text-sm font-bold text-slate-200">Meu carro de Linha Salinas</p>
+                        <p id="post-meta" class="text-xs text-slate-500">Data • 5 min de leitura</p>
+                    </div>
+                </div>
+
+                <div class="divider-gradient my-5 animate-slide-up delay-200"></div>
+
+                <!-- Body -->
+                <div id="post-content"
+                    class="prose-editorial animate-slide-up delay-200">
+                    <p>Carregando conteúdo...</p>
+                </div>
+
+                <!-- Share & Like -->
+                <div class="mt-8 flex items-center justify-between animate-slide-up delay-300 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <button id="like-button"
+                        class="flex items-center gap-2 text-slate-500 hover:text-primary transition-all duration-300 active-scale px-3 py-2 rounded-xl hover:bg-primary/5">
+                        <span class="material-symbols-outlined text-xl" id="like-icon" style="font-variation-settings:'FILL'0">thumb_up</span>
+                        <span class="text-sm font-bold" id="like-count">0</span>
+                    </button>
+                    <button id="share-button"
+                        class="active-scale flex items-center gap-2 bg-gradient-to-br from-primary via-primary-dark to-primary px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-lg">share</span>
+                        Compartilhar
+                    </button>
+                </div>
+
+                <div class="divider-gradient my-8 animate-slide-up delay-300"></div>
+
+                <!-- Related Posts -->
+                <div class="animate-slide-up delay-400">
+                    <div class="flex items-center gap-2 mb-5">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">article</span>
+                        <h3 class="font-display font-bold text-white text-lg">Postagens Relacionadas</h3>
+                    </div>
+                    <div id="related-posts" class="space-y-3">
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script defer src="js/navigation-premium.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+            const id = urlParams.get('id');
+
+            if (!slug && !id) {
+                window.location.href = 'blog.html';
+                return;
+            }
+
+            try {
+                let query = supabaseClient.from('postagens').select('*');
+                if (slug) query = query.eq('slug', slug);
+                else query = query.eq('id', id);
+
+                const { data: post, error } = await query.single();
+                if (error || !post) throw error || new Error('Post não encontrado');
+
+                const { data: admin } = await supabaseClient
+                    .from('usuarios')
+                    .select('foto_perfil_url')
+                    .eq('tipo_usuario', 'admin')
+                    .limit(1)
+                    .single();
+
+                document.title = `${post.titulo} - Blog Salinas`;
+                document.getElementById('post-title').innerText = post.titulo;
+                document.getElementById('post-tag').innerText = post.categoria;
+                document.getElementById('post-content').innerHTML = post.conteudo;
+                document.getElementById('post-header-image').style.backgroundImage = `url("${post.imagem_capa_url || 'splashScreen.jpeg'}")`;
+                document.getElementById('post-author-name').innerText = 'Meu carro de Linha Salinas';
+
+                const likeCountEl = document.getElementById('like-count');
+                likeCountEl.innerText = post.likes || 0;
+
+                const postDate = new Date(post.criado_em).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                document.getElementById('post-meta').innerText = `${postDate} • 5 min de leitura`;
+
+                const avatarContainer = document.getElementById('author-avatar');
+                if (admin?.foto_perfil_url) {
+                    avatarContainer.innerHTML = `<img src="${admin.foto_perfil_url}" class="w-full h-full object-cover">`;
+                } else {
+                    document.getElementById('author-initials').innerText = 'M';
                 }
 
-                try {
-                    // Fetch Current Post
-                    let query = supabaseClient.from('postagens').select('*');
-                    if (slug) query = query.eq('slug', slug);
-                    else query = query.eq('id', id);
+                const likeBtn = document.getElementById('like-button');
+                const shareBtn = document.getElementById('share-button');
 
-                    const { data: post, error } = await query.single();
-                    if (error || !post) throw error || new Error('Post não encontrado');
-
-                    // 1. Fetch Admin Data (for consistent author)
-                    const { data: admin } = await supabaseClient
-                        .from('usuarios')
-                        .select('foto_perfil_url')
-                        .eq('tipo_usuario', 'admin')
-                        .limit(1)
-                        .single();
-
-                    // 2. Render Main Post
-                    document.title = `${post.titulo} - Blog Salinas`;
-                    document.getElementById('post-title').innerText = post.titulo;
-                    document.getElementById('post-tag').innerText = post.categoria;
-                    document.getElementById('post-content').innerHTML = post.conteudo;
-                    document.getElementById('post-header-image').style.backgroundImage = `url("${post.imagem_capa_url || 'splashScreen.jpeg'}")`;
-
-                    // Fixed Author Name
-                    document.getElementById('post-author-name').innerText = 'Meu carro de Linha Salinas';
-
-                    // Like Count
-                    const likeCountEl = document.getElementById('like-count');
-                    likeCountEl.innerText = post.likes || 0;
-
-                    const postDate = new Date(post.criado_em).toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric'
-                    });
-                    document.getElementById('post-meta').innerText = `${postDate} • 5 min de leitura`;
-
-                    // Admin Photo
-                    const avatarContainer = document.getElementById('author-avatar');
-                    if (admin?.foto_perfil_url) {
-                        avatarContainer.innerHTML = `<img src="${admin.foto_perfil_url}" class="w-full h-full object-cover">`;
-                    } else {
-                        document.getElementById('author-initials').innerText = 'M';
-                    }
-
-                    // 3. Interactions logic
-                    const likeBtn = document.getElementById('like-button');
-                    const shareBtn = document.getElementById('share-button');
-
-                    likeBtn.addEventListener('click', async () => {
-                        const newLikes = (post.likes || 0) + 1;
-                        const { error: likeError } = await supabaseClient
-                            .from('postagens')
-                            .update({ likes: newLikes })
-                            .eq('id', post.id);
-
-                        if (!likeError) {
-                            post.likes = newLikes;
-                            likeCountEl.innerText = newLikes;
-                            document.getElementById('like-icon').classList.add('text-primary');
-                            likeBtn.disabled = true;
-                        }
-                    });
-
-                    shareBtn.addEventListener('click', async () => {
-                        try {
-                            await navigator.clipboard.writeText(window.location.href);
-                            const originalText = shareBtn.innerHTML;
-                            shareBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> Copiado!';
-                            setTimeout(() => shareBtn.innerHTML = originalText, 2000);
-                        } catch (err) {
-                            alert('Erro ao copiar link.');
-                        }
-                    });
-
-                    // 4. Load Related Posts
-                    const { data: related } = await supabaseClient
+                likeBtn.addEventListener('click', async () => {
+                    const newLikes = (post.likes || 0) + 1;
+                    const { error: likeError } = await supabaseClient
                         .from('postagens')
-                        .select('titulo, slug, imagem_capa_url, categoria')
-                        .eq('publicado', true)
-                        .neq('id', post.id)
-                        .eq('categoria', post.categoria)
-                        .limit(3);
+                        .update({ likes: newLikes })
+                        .eq('id', post.id);
+                    if (!likeError) {
+                        post.likes = newLikes;
+                        likeCountEl.innerText = newLikes;
+                        document.getElementById('like-icon').classList.add('text-primary');
+                        document.getElementById('like-icon').style.fontVariationSettings = "'FILL' 1";
+                        likeBtn.disabled = true;
+                    }
+                });
 
-                    const relatedContainer = document.getElementById('related-posts');
-                    if (related && related.length > 0) {
-                        relatedContainer.innerHTML = '';
-                        related.forEach(r => {
-                            const relEl = document.createElement('a');
-                            relEl.href = `blogPost.html?slug=${r.slug}`;
-                            relEl.className = 'flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all active-scale group';
-                            relEl.innerHTML = `
-                            <div class="size-20 shrink-0 rounded-lg bg-cover bg-center overflow-hidden transition-transform duration-500 group-hover:scale-110" 
-                                style='background-image: url("${r.imagem_capa_url || 'splashScreen.jpeg'}")'>
+                shareBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        const original = shareBtn.innerHTML;
+                        shareBtn.innerHTML = '<span class="material-symbols-outlined text-lg">check</span> Copiado!';
+                        setTimeout(() => shareBtn.innerHTML = original, 2000);
+                    } catch (err) {
+                        alert('Erro ao copiar link.');
+                    }
+                });
+
+                const { data: related } = await supabaseClient
+                    .from('postagens')
+                    .select('titulo, slug, imagem_capa_url, categoria')
+                    .eq('publicado', true)
+                    .neq('id', post.id)
+                    .eq('categoria', post.categoria)
+                    .limit(3);
+
+                const relatedContainer = document.getElementById('related-posts');
+                if (related && related.length > 0) {
+                    relatedContainer.innerHTML = '';
+                    related.forEach((r, i) => {
+                        const relEl = document.createElement('a');
+                        relEl.href = `blogPost.html?slug=${r.slug}`;
+                        relEl.className = 'related-card flex gap-3 p-3 rounded-2xl border border-white/5 bg-white/[0.02] animate-slide-up';
+                        relEl.style.animationDelay = `${100 + (i * 80)}ms`;
+                        relEl.innerHTML = `
+                            <div class="size-20 shrink-0 rounded-xl overflow-hidden">
+                                <div class="rel-img w-full h-full bg-cover bg-center"
+                                    style="background-image: url('${r.imagem_capa_url || 'splashScreen.jpeg'}');">
+                                </div>
                             </div>
-                            <div class="flex flex-col justify-center">
-                                <p class="text-[10px] font-bold text-primary uppercase mb-1">${r.categoria}</p>
-                                <h4 class="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 group-hover:text-primary transition-colors">${r.titulo}</h4>
+                            <div class="flex flex-col justify-center min-w-0">
+                                <p class="text-[9px] font-bold text-primary uppercase tracking-wider mb-0.5">${r.categoria}</p>
+                                <h4 class="text-sm font-bold text-white leading-snug line-clamp-2 group-hover:text-primary/90 transition-colors">${r.titulo}</h4>
                             </div>
                         `;
-                            relatedContainer.appendChild(relEl);
-                        });
-                    } else {
-                        relatedContainer.innerHTML = '<p class="text-slate-500 text-sm italic">Nenhuma postagem relacionada encontrada.</p>';
-                    }
+                        relatedContainer.appendChild(relEl);
+                    });
+                } else {
+                    relatedContainer.innerHTML = '<p class="text-slate-600 text-sm italic">Nenhuma postagem relacionada encontrada.</p>';
+                }
 
-                    // 5. Reveal Page
-                    setTimeout(() => {
-                        document.getElementById('loading-overlay').classList.add('opacity-0', 'pointer-events-none');
-                        document.getElementById('post-view').classList.remove('hidden');
-                        document.getElementById('post-view').classList.add('animate-fade-in');
-                    }, 300);
+                setTimeout(() => {
+                    document.getElementById('loading-overlay').classList.add('opacity-0', 'pointer-events-none');
+                    document.getElementById('post-view').classList.remove('hidden');
+                }, 300);
 
-                } catch (err) {
-                    console.error('Error:', err);
-                    document.getElementById('loading-overlay').innerHTML = `
+            } catch (err) {
+                console.error('Error:', err);
+                document.getElementById('loading-overlay').innerHTML = `
                     <p class="text-red-500 font-bold">Erro ao carregar postagem.</p>
                     <a href="blog.html" class="mt-4 text-primary font-bold underline">Voltar ao Blog</a>
                 `;
-                }
-
-                // Navigation handling
-                document.addEventListener('click', (e) => {
-                    const link = e.target.closest('a');
-                    if (link && link.href && !link.href.includes('#') && !link.target && !link.href.includes('mailto:')) {
-                        e.preventDefault();
-                        if (document.startViewTransition) {
-                            document.startViewTransition(() => { window.location.href = link.href; });
-                        } else {
-                            window.location.href = link.href;
-                        }
-                    }
-                });
-            });
-        </script>
+            }
+        });
+    </script>
 </body>
 
 </html>

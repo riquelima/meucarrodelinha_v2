@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="pt-br">
 
@@ -10,11 +10,8 @@
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
@@ -24,234 +21,190 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1949e6",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#111521",
+                        "primary": "#f97316",
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "background-dark": "#0f1320",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-    <title>Blog - Galeria de Postagens</title>
     <style>
         body {
-            min-height: max(884px, 100dvh);
-        }
-
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Global Mobile Native Fixes */
-        body {
+            min-height: 100dvh;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
         }
-
-        input,
-        textarea {
+        input, textarea {
             user-select: text;
             -webkit-user-select: text;
         }
-
-        /* Native-like click effect */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .active-scale:active {
             transform: scale(0.96);
         }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .glass-card-strong {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .divider-gradient {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent);
         }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
+        .gradient-text {
+            background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .bg-premium-grid {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .post-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
+        .post-card:hover {
+            border-color: rgba(249, 115, 22, 0.25);
         }
-
-        .delay-200 {
-            animation-delay: 200ms;
+        .post-card .card-img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .delay-300 {
-            animation-delay: 300ms;
+        .post-card:hover .card-img {
+            transform: scale(1.05);
         }
-
-        .delay-400 {
-            animation-delay: 400ms;
+        .tab-active {
+            color: #f97316;
+            border-color: #f97316;
         }
-
-        .delay-500 {
-            animation-delay: 500ms;
-        }
-    </style>
-
-    <!-- Page Transitions Settings -->
-    <meta name="view-transition" content="same-origin" />
-    <style>
-        /* View Transitions API */
-        @view-transition {
-            navigation: auto;
-        }
-
-        ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
-        }
-
-        ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Fallback Fade */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body.fade-out {
-            animation: fadeOut 0.2s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
-    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-        <!-- Header -->
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-            <a href="homepage.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
-            </a>
-            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-                Blog</h1>
-            <div class="size-10"></div>
-        </header>
-        <!-- Category Tabs -->
-        <nav class="bg-background-light dark:bg-background-dark sticky top-[73px] z-40">
-            <div class="flex border-b border-slate-200 dark:border-slate-800 px-4 gap-6 overflow-x-auto no-scrollbar"
-                id="category-tabs">
-                <button
-                    class="category-tab flex flex-col items-center justify-center border-b-2 border-[#f97316] text-[#f97316] pb-3 pt-4 shrink-0 transition-colors"
-                    data-category="all">
-                    <span class="text-sm font-bold">Tudo</span>
-                </button>
-                <button
-                    class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
-                    data-category="noticias">
-                    <span class="text-sm font-bold">Notícias</span>
-                </button>
-                <button
-                    class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
-                    data-category="dicas">
-                    <span class="text-sm font-bold">Dicas</span>
-                </button>
-                <button
-                    class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
-                    data-category="viagens">
-                    <span class="text-sm font-bold">Viagens</span>
-                </button>
-                <button
-                    class="category-tab flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 shrink-0 hover:text-[#f97316] transition-colors"
-                    data-category="seguranca">
-                    <span class="text-sm font-bold">Segurança</span>
-                </button>
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid">
+
+    <div class="relative min-h-screen flex flex-col">
+
+        <!-- Decorative glow -->
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- ========== HERO HEADER ========== -->
+        <div class="relative z-10 px-4 pt-4 pb-4">
+            <div class="relative overflow-hidden rounded-[2rem] px-5 py-7">
+                <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+                <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);"></div>
+
+                <a href="homepage.html"
+                    class="active-scale absolute top-4 left-4 z-20 flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/20">
+                    <span class="material-symbols-outlined text-xl">arrow_back</span>
+                </a>
+
+                <div class="relative z-10 flex flex-col items-center text-center pt-4">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">newspaper</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">Conteúdo</span>
+                    </div>
+
+                    <h1 class="font-display font-extrabold leading-[1.1] tracking-tight text-white"
+                        style="font-size: clamp(26px, 7vw, 40px);">
+                        Fique por dentro<br />
+                        <span class="gradient-text">de tudo</span>
+                    </h1>
+
+                    <p class="mt-2 text-slate-400 font-medium leading-relaxed max-w-xs mx-auto"
+                        style="font-size: clamp(13px, 3vw, 16px);">
+                        Novidades, dicas e histórias sobre transporte e mobilidade em Salinas.
+                    </p>
+                </div>
             </div>
-        </nav>
-        <!-- Main Grid -->
-        <main class="p-4 grid grid-cols-1 gap-6 pb-24" id="blog-grid">
-            <div id="loading-state" class="flex flex-col items-center justify-center py-20 gap-4">
-                <span class="material-symbols-outlined text-4xl text-primary animate-spin">sync</span>
-                <p class="text-slate-500 font-medium">Carregando postagens...</p>
+        </div>
+
+        <!-- ========== CATEGORY TABS ========== -->
+        <div class="sticky top-0 z-20 bg-background-dark/90 backdrop-blur-xl border-b border-white/5">
+            <nav class="flex gap-1 px-4 py-3 overflow-x-auto no-scrollbar" id="category-tabs">
+                <button class="category-tab tab-active flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold shrink-0 transition-all duration-300"
+                    data-category="all">
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL'1">apps</span>
+                    Tudo
+                </button>
+                <button class="category-tab flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.03] border border-white/5 text-slate-400 text-xs font-bold shrink-0 hover:bg-white/[0.06] hover:text-slate-300 transition-all duration-300"
+                    data-category="noticias">
+                    <span class="material-symbols-outlined text-sm">breaking_news</span>
+                    Notícias
+                </button>
+                <button class="category-tab flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.03] border border-white/5 text-slate-400 text-xs font-bold shrink-0 hover:bg-white/[0.06] hover:text-slate-300 transition-all duration-300"
+                    data-category="dicas">
+                    <span class="material-symbols-outlined text-sm">lightbulb</span>
+                    Dicas
+                </button>
+                <button class="category-tab flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.03] border border-white/5 text-slate-400 text-xs font-bold shrink-0 hover:bg-white/[0.06] hover:text-slate-300 transition-all duration-300"
+                    data-category="viagens">
+                    <span class="material-symbols-outlined text-sm">explore</span>
+                    Viagens
+                </button>
+                <button class="category-tab flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.03] border border-white/5 text-slate-400 text-xs font-bold shrink-0 hover:bg-white/[0.06] hover:text-slate-300 transition-all duration-300"
+                    data-category="seguranca">
+                    <span class="material-symbols-outlined text-sm">shield</span>
+                    Segurança
+                </button>
+            </nav>
+        </div>
+
+        <div class="divider-gradient mx-4"></div>
+
+        <!-- ========== POSTS GRID ========== -->
+        <main class="flex-1 px-4 pt-5 pb-28 space-y-4" id="blog-grid">
+            <div id="loading-state" class="flex flex-col items-center justify-center py-24 gap-4">
+                <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-3xl text-primary animate-spin">sync</span>
+                </div>
+                <p class="text-slate-500 font-medium text-sm">Carregando postagens...</p>
             </div>
         </main>
-
     </div>
 
+    <script defer src="js/navigation-premium.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script>
@@ -260,12 +213,31 @@
             const tabs = document.querySelectorAll('.category-tab');
             let currentCategory = 'all';
 
+            function truncateText(text, maxLen) {
+                if (!text) return '';
+                const clean = text.replace(/<[^>]*>/g, '');
+                return clean.length > maxLen ? clean.slice(0, maxLen) + '...' : clean;
+            }
+
+            function formatDate(dateStr) {
+                const d = new Date(dateStr);
+                const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+                return `${d.getDate()} ${meses[d.getMonth()]}, ${d.getFullYear()}`;
+            }
+
+            function getCategoryLabel(cat) {
+                const labels = { noticias: 'Notícia', dicas: 'Dica', viagens: 'Viagem', seguranca: 'Segurança' };
+                return labels[cat] || cat;
+            }
+
             async function loadPosts(category = 'all') {
                 try {
                     blogGrid.innerHTML = `
-                        <div id="loading-state" class="flex flex-col items-center justify-center py-20 gap-4">
-                            <span class="material-symbols-outlined text-4xl text-primary animate-spin">sync</span>
-                            <p class="text-slate-500 font-medium">Carregando postagens...</p>
+                        <div id="loading-state" class="col-span-full flex flex-col items-center justify-center py-24 gap-4">
+                            <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-3xl text-primary animate-spin">sync</span>
+                            </div>
+                            <p class="text-slate-500 font-medium text-sm">Carregando postagens...</p>
                         </div>
                     `;
 
@@ -287,66 +259,84 @@
 
                     if (!posts || posts.length === 0) {
                         blogGrid.innerHTML = `
-                            <div class="flex flex-col items-center justify-center py-20 gap-4 text-center">
-                                <span class="material-symbols-outlined text-5xl text-slate-300">article</span>
-                                <p class="text-slate-500 font-medium">Nenhuma postagem encontrada nesta categoria.</p>
+                            <div class="flex flex-col items-center justify-center py-24 gap-4 text-center">
+                                <div class="size-16 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5">
+                                    <span class="material-symbols-outlined text-4xl text-slate-500">article</span>
+                                </div>
+                                <p class="text-slate-500 font-medium">Nenhuma postagem encontrada.</p>
                             </div>
                         `;
                         return;
                     }
 
                     posts.forEach((post, index) => {
-                        const postDate = new Date(post.criado_em).toLocaleDateString('pt-BR', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric'
-                        });
+                        const postDate = formatDate(post.criado_em);
+                        const isFeatured = index === 0 && category === 'all';
+                        const delay = Math.min(100 + (index * 50), 500);
 
                         const postElement = document.createElement('a');
                         postElement.href = `blogPost.html?slug=${post.slug}`;
-
-                        const isFeatured = index === 0 && category === 'all';
+                        postElement.className = `post-card block animate-slide-up`;
+                        postElement.style.animationDelay = `${delay}ms`;
 
                         if (isFeatured) {
-                            // Featured Card Style
-                            postElement.className = "blog-card flex flex-col overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block animate-slide-up";
                             postElement.innerHTML = `
-                                <div class="w-full aspect-video bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
-                                    style='background-image: url("${post.imagem_capa_url || "/splashScreen.jpeg"}");'>
-                                </div>
-                                <div class="p-4 flex flex-col gap-2">
-                                    <span class="text-[#f97316] text-xs font-bold uppercase tracking-wider">Destaque</span>
-                                    <h2 class="text-xl font-bold leading-tight group-hover:text-[#f97316] transition-colors">${post.titulo}</h2>
-                                    <div class="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">${post.conteudo}</div>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <span class="text-slate-500 text-xs italic">${postDate}</span>
-                                        <div class="bg-[#f97316] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors group-hover:bg-[#f97316]/90">
-                                            Ler post
+                                <div class="relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] post-card">
+                                    <div class="relative w-full aspect-[16/9] overflow-hidden">
+                                        <div class="card-img w-full h-full bg-cover bg-center"
+                                            style="background-image: url('${post.imagem_capa_url || "/splashScreen.jpeg"}');">
+                                        </div>
+                                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent"></div>
+                                        <div class="absolute top-3 left-3 flex gap-2">
+                                            <span class="text-[9px] font-bold uppercase tracking-wider bg-primary/20 backdrop-blur-md text-primary border border-primary/20 px-2.5 py-1 rounded-full">
+                                                Destaque
+                                            </span>
+                                            <span class="text-[9px] font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md text-slate-300 border border-white/10 px-2.5 py-1 rounded-full">
+                                                ${getCategoryLabel(post.categoria)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="p-5 -mt-2 relative z-10">
+                                        <h2 class="font-display font-bold text-white leading-tight text-lg">${post.titulo}</h2>
+                                        <p class="mt-1.5 text-sm text-slate-400 line-clamp-2 leading-relaxed">${truncateText(post.conteudo, 120)}</p>
+                                        <div class="flex items-center justify-between mt-4">
+                                            <span class="text-[11px] text-slate-500 font-medium">${postDate}</span>
+                                            <span class="inline-flex items-center gap-1 text-xs font-bold text-primary group-hover:text-primary/80 transition-colors">
+                                                Ler matéria
+                                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             `;
                         } else {
-                            // Standard Card Style
-                            postElement.className = "blog-card flex gap-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 cursor-pointer transition-all hover:border-[#f97316]/50 group block animate-slide-up";
+                            const imgUrl = post.imagem_capa_url || "/splashScreen.jpeg";
                             postElement.innerHTML = `
-                                <div class="w-24 h-24 shrink-0 rounded-lg bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                                    style='background-image: url("${post.imagem_capa_url || "/splashScreen.jpeg"}");'>
-                                </div>
-                                <div class="flex flex-col justify-between py-1 relative w-full overflow-hidden">
-                                    <div>
-                                        <span class="text-[#f97316] text-[10px] font-bold uppercase">${post.categoria}</span>
-                                        <h3 class="font-bold text-sm leading-tight mt-1 line-clamp-2 group-hover:text-[#f97316] transition-colors">
+                                <div class="flex gap-4 p-3 rounded-2xl border border-white/5 bg-white/[0.02] post-card">
+                                    <div class="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden">
+                                        <div class="card-img w-full h-full bg-cover bg-center"
+                                            style="background-image: url('${imgUrl}');">
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 min-w-0 flex flex-col justify-center py-0.5">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-[9px] font-bold uppercase tracking-wider text-primary/80">${getCategoryLabel(post.categoria)}</span>
+                                            <span class="text-[9px] text-slate-600">·</span>
+                                            <span class="text-[9px] text-slate-600 font-medium">${postDate}</span>
+                                        </div>
+                                        <h3 class="font-bold text-sm leading-snug text-white line-clamp-2 group-hover:text-primary/90 transition-colors">
                                             ${post.titulo}
                                         </h3>
-                                    </div>
-                                    <span class="text-slate-500 text-[10px] mt-2">${postDate}</span>
-                                    <div class="absolute right-0 bottom-1 bg-[#f97316]/10 text-[#f97316] text-[10px] font-bold px-2 py-1 rounded transition-colors group-hover:bg-[#f97316] group-hover:text-white">
-                                        Ler post
+                                        <p class="text-xs text-slate-500 line-clamp-1 mt-1">${truncateText(post.conteudo, 80)}</p>
+                                        <div class="flex items-center gap-1 mt-1.5 text-primary/70">
+                                            <span class="text-[10px] font-bold uppercase tracking-wider">Ler</span>
+                                            <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                                        </div>
                                     </div>
                                 </div>
                             `;
                         }
+
                         blogGrid.appendChild(postElement);
                     });
 
@@ -356,30 +346,25 @@
                 }
             }
 
-            // Initial load
             loadPosts();
 
-            // Tab Switch Logic
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const category = tab.getAttribute('data-category');
                     if (category === currentCategory) return;
-
                     currentCategory = category;
 
-                    // Update UI
                     tabs.forEach(t => {
-                        t.classList.remove('border-[#f97316]', 'text-[#f97316]');
-                        t.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                        t.classList.remove('tab-active', 'bg-primary/10', 'border-primary/20', 'text-primary');
+                        t.classList.add('bg-white/[0.03]', 'border-white/5', 'text-slate-400');
                     });
-                    tab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
-                    tab.classList.add('border-[#f97316]', 'text-[#f97316]');
+                    tab.classList.remove('bg-white/[0.03]', 'border-white/5', 'text-slate-400');
+                    tab.classList.add('tab-active', 'bg-primary/10', 'border-primary/20', 'text-primary');
 
                     loadPosts(category);
                 });
             });
 
-            // Navigation cleanup
             document.addEventListener('click', (e) => {
                 const link = e.target.closest('a');
                 if (link && link.href && !link.href.includes('#') && !link.target) {

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="dark" lang="pt-BR">
 
 <head>
@@ -9,11 +9,9 @@
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -21,174 +19,110 @@
                 extend: {
                     colors: {
                         "primary": "#f97316",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#121520",
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "background-dark": "#0f1320",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
                 },
             },
         }
     </script>
-    <title>Listagem de Todos os Anúncios - Meu Carro de Linha Salinas</title>
-    <style type="text/tailwindcss">
-        body {
-            height: 100dvh;
-            overflow: hidden;
-        }
-        .fill-1 {
-            font-variation-settings: 'FILL' 1;
-        }
-        .ad-card {
-            height: 130px;}.no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }.no-scrollbar {
-            -ms-overflow-style: none;scrollbar-width: none;}
-    
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-        input, textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+    <style>
+        body { min-height: 100dvh; -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        input, textarea { user-select: text; -webkit-user-select: text; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-scale { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-scale:active { transform: scale(0.96); }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseSkeleton { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
         .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
-
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
-
-    <!-- Page Transitions Settings -->
-    <meta name="view-transition" content="same-origin" />
-    <style>
-        /* View Transitions API */
-        @view-transition {
-            navigation: auto;
-        }
-
-        ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
-        }
-
-        ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Fallback Fade */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body.fade-out {
-            animation: fadeOut 0.2s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .divider-gradient { height: 1px; background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent); }
+        .gradient-text { background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .bg-premium-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px; }
+        .ad-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .ad-card:hover { border-color: rgba(249, 115, 22, 0.25); }
+        .ad-card .ad-img { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .ad-card:hover .ad-img { transform: scale(1.06); }
+        .skeleton-pulse { animation: pulseSkeleton 1.5s ease-in-out infinite; background: rgba(255, 255, 255, 0.04); border-radius: 1rem; }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid overflow-hidden">
     <div class="flex flex-col h-screen w-full">
-        <!-- Header -->
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-            <a href="homepage.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
-            </a>
-            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-                Classificados</h1>
-            <div class="size-10"></div>
-        </header>
+
+        <!-- Decorative glow -->
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- ========== HERO HEADER ========== -->
+        <div class="relative z-10 px-4 pt-4 pb-3 shrink-0">
+            <div class="relative overflow-hidden rounded-[2rem] px-5 py-6">
+                <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+                <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);"></div>
+
+                <a href="homepage.html"
+                    class="active-scale absolute top-4 left-4 z-20 flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/20">
+                    <span class="material-symbols-outlined text-xl">arrow_back</span>
+                </a>
+
+                <div class="relative z-10 flex flex-col items-center text-center pt-3">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">campaign</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">Classificados</span>
+                    </div>
+
+                    <h1 class="font-display font-extrabold leading-[1.1] tracking-tight text-white"
+                        style="font-size: clamp(26px, 7vw, 40px);">
+                        Descubra o que<br />
+                        <span class="gradient-text">Salinas tem para você</span>
+                    </h1>
+
+                    <p class="mt-2 text-slate-400 font-medium leading-relaxed max-w-xs mx-auto"
+                        style="font-size: clamp(13px, 3vw, 16px);">
+                        Ofertas, serviços e negócios locais perto de você.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-gradient mx-4 mb-1 shrink-0"></div>
+
+        <!-- ========== ADS LIST ========== -->
         <main id="ads-list-container" class="flex-1 overflow-y-auto no-scrollbar px-4 py-4 space-y-3">
+
             <!-- Loading State -->
-            <div id="loading-state" class="flex flex-col gap-3">
-                <div class="h-32 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse"></div>
-                <div class="h-32 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse"></div>
+            <div id="loading-state" class="space-y-3">
+                <div class="skeleton-pulse h-44 w-full"></div>
+                <div class="skeleton-pulse h-28 w-full"></div>
+                <div class="skeleton-pulse h-28 w-full"></div>
             </div>
         </main>
     </div>
 
+    <script defer src="js/navigation-premium.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script>
@@ -209,9 +143,11 @@
 
                 if (!ads || ads.length === 0) {
                     adsListContainer.innerHTML = `
-                        <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
-                            <span class="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-700 mb-4">campaign</span>
-                            <h3 class="text-slate-900 dark:text-slate-100 font-bold">Nenhum anúncio ativo</h3>
+                        <div class="flex flex-col items-center justify-center py-16 px-6 text-center">
+                            <div class="size-16 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5 mb-4">
+                                <span class="material-symbols-outlined text-4xl text-slate-500">campaign</span>
+                            </div>
+                            <h3 class="font-display font-bold text-white text-lg">Nenhum anúncio ativo</h3>
                             <p class="text-slate-500 text-sm mt-2">Fique atento para novidades e promoções em breve!</p>
                         </div>
                     `;
@@ -219,7 +155,10 @@
                 }
 
                 adsListContainer.innerHTML = '';
-                ads.forEach(ad => {
+                ads.forEach((ad, index) => {
+                    const isFirst = index === 0;
+                    const delay = Math.min(100 + (index * 60), 500);
+
                     const adCard = document.createElement('a');
                     let targetUrl = ad.link_acao || ad.url;
                     if (targetUrl && !targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
@@ -228,29 +167,56 @@
                     adCard.href = targetUrl || '#';
                     adCard.target = targetUrl ? '_blank' : '_self';
                     adCard.rel = 'noopener noreferrer';
-                    adCard.className = 'ad-card flex w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm shrink-0 cursor-pointer hover:border-primary/50 transition-colors group active-scale';
+                    adCard.style.animationDelay = `${delay}ms`;
 
-                    adCard.innerHTML = `
-                        <div class="w-1/3 overflow-hidden bg-slate-200 dark:bg-slate-700 shrink-0">
-                            <img alt="${ad.titulo}" class="w-full h-full object-cover" src="${ad.imagem_url}" />
-                        </div>
-                        <div class="p-3 w-2/3 flex flex-col justify-between relative">
-                            <div class="absolute bottom-3 right-3 text-slate-400 group-hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-                            </div>
-                            <div>
-                                <div class="flex justify-between items-start mb-1 pr-5">
-                                    <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1">${ad.titulo}</h4>
-                                    <span class="bg-blue-100 dark:bg-primary/20 text-primary dark:text-blue-400 text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase shrink-0">Ativo</span>
+                    if (isFirst) {
+                        adCard.className = `ad-card block animate-slide-up rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden`;
+
+                        adCard.innerHTML = `
+                            <div class="relative w-full aspect-[16/9] overflow-hidden">
+                                <div class="ad-img w-full h-full bg-cover bg-center"
+                                    style="background-image: url('${ad.imagem_url}');">
                                 </div>
-                                <p class="text-[10px] text-primary font-bold uppercase tracking-wider">${ad.descricao || 'Destaque'}</p>
+                                <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/30 to-transparent"></div>
+                                <div class="absolute top-3 left-3">
+                                    <span class="text-[9px] font-bold uppercase tracking-wider bg-primary/20 backdrop-blur-md text-primary border border-primary/20 px-2.5 py-1 rounded-full">
+                                        Em destaque
+                                    </span>
+                                </div>
+                                <div class="absolute bottom-0 left-0 right-0 p-4">
+                                    <h2 class="font-display font-bold text-white text-lg leading-tight">${ad.titulo}</h2>
+                                    ${ad.descricao ? `<p class="text-sm text-slate-300 mt-1 line-clamp-1">${ad.descricao}</p>` : ''}
+                                    <div class="flex items-center gap-1 mt-2 text-primary">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider">Abrir anúncio</span>
+                                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    } else {
+                        const imgUrl = ad.imagem_url;
+                        adCard.className = `ad-card flex gap-3 p-2.5 rounded-2xl border border-white/5 bg-white/[0.02] animate-slide-up`;
+
+                        adCard.innerHTML = `
+                            <div class="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden">
+                                <div class="ad-img w-full h-full bg-cover bg-center"
+                                    style="background-image: url('${imgUrl}');">
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0 flex flex-col justify-center py-0.5 pr-1">
+                                <h3 class="font-bold text-sm leading-snug text-white line-clamp-1">${ad.titulo}</h3>
+                                ${ad.descricao ? `<p class="text-xs text-slate-500 line-clamp-1 mt-1">${ad.descricao}</p>` : ''}
+                                <div class="flex items-center gap-1 mt-1.5 text-primary/70">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider">Abrir</span>
+                                    <span class="material-symbols-outlined text-xs">open_in_new</span>
+                                </div>
+                            </div>
+                        `;
+                    }
 
                     adCard.addEventListener('click', (e) => {
                         if (targetUrl) {
-                            e.stopPropagation(); // Prevent global navigation scripts from interfering
+                            e.stopPropagation();
                         }
                     });
 
@@ -262,7 +228,6 @@
                 if (loadingState) loadingState.innerHTML = '<p class="text-center text-red-500 text-sm p-4">Erro ao carregar anúncios.</p>';
             }
 
-            // General Navigation Fade Effect
             document.querySelectorAll('a[href]').forEach(link => {
                 link.addEventListener('click', e => {
                     const href = link.getAttribute('href');

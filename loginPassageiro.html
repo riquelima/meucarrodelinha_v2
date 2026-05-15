@@ -17,6 +17,7 @@
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <title>Login - Meu Carro de Linha Salinas</title>
+    <script>if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0);</script>
     <script src="/js/tailwind-cdn.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -136,17 +137,15 @@
         <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-        <!-- ========== HEADER ========== -->
-        <div class="relative z-20 px-4 pt-4">
-            <a href="homepage.html"
-                class="active-scale flex items-center justify-center size-10 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300">
-                <span class="material-symbols-outlined text-xl">arrow_back</span>
-            </a>
-        </div>
-
         <!-- ========== HERO ========== -->
-        <div class="relative z-10 px-4 pt-4 pb-2 animate-scale-in">
+        <div class="relative z-10 px-4 pt-2 pb-2 animate-scale-in">
             <div class="relative overflow-hidden rounded-[2rem] px-5 py-7">
+
+                <!-- Back Button -->
+                <a href="homepage.html"
+                    class="active-scale absolute top-4 left-4 z-20 flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/20">
+                    <span class="material-symbols-outlined text-xl">arrow_back</span>
+                </a>
                 <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
                 <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);"></div>
 
@@ -361,7 +360,14 @@
             });
         });
     </script>
+    <script defer src="js/navigation-premium.js"></script>
     <script src="js/pwa-register.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+            setTimeout(function() { if (document.activeElement && document.activeElement.tagName.match(/^(INPUT|TEXTAREA|SELECT)$/)) document.activeElement.blur(); }, 100);
+        });
+    </script>
 </body>
 
 </html>
