@@ -1935,211 +1935,125 @@
 
             // 4. Carregar lista de motoristas
             if (driversContainer && window.supabaseClient) {
+                const renderDriverCard = (motorista) => {
+                    const displayName = motorista.usuarios?.nome || motorista.name || `Motorista ${motorista.modelo_veiculo || motorista.vehicle || ''}`;
+                    let photoUrl = motorista.usuarios?.foto_perfil_url || motorista.avatar;
+                    if (!photoUrl) photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
+                    const isOnline = motorista.status === 'online' || motorista.status_online === true;
+                    const usuarioId = motorista.usuario_id || motorista._id;
+                    const phone = motorista.telefone_whatsapp || motorista.number || '';
+                    const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'Veículo';
+                    const color = motorista.cor_veiculo || motorista.carColor || '---';
+                    return '<div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">' +
+                        '<input type="radio" name="driver_selection" class="peer hidden" id="driver-' + usuarioId + '" value="' + usuarioId + '" data-name="' + displayName.replace(/"/g,'&quot;') + '" data-phone="' + phone + '">' +
+                        '<label for="driver-' + usuarioId + '" class="absolute inset-0 z-10 cursor-pointer"></label>' +
+                        '<div class="flex items-center gap-3">' +
+                            '<div class="size-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-primary/10 shrink-0 group-has-[:checked]:ring-primary">' +
+                                '<img alt="' + displayName.replace(/"/g,'&quot;') + '" class="w-full h-full object-cover" src="' + photoUrl + '" onerror="this.src=\'https://ui-avatars.com/api/?name=Motorista&background=random\'"/>' +
+                            '</div>' +
+                            '<div class="flex-1 min-w-0">' +
+                                '<p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">' + displayName + '</p>' +
+                                '<div class="flex items-center gap-1.5 mt-0.5">' +
+                                    '<div class="flex items-center text-yellow-500"><span class="material-symbols-outlined text-[12px] font-fill">star</span><span class="text-[10px] font-bold ml-0.5">5.0</span></div>' +
+                                    '<span class="text-slate-400 text-[10px]">•</span>' +
+                                    (isOnline ? '<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>' : '<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>') +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="size-6 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-has-[:checked]:bg-primary group-has-[:checked]:border-primary"><span class="material-symbols-outlined text-white text-sm scale-0 group-has-[:checked]:scale-100 transition-transform">check</span></div>' +
+                        '</div>' +
+                        '<div class="mt-3 pt-3 border-t border-slate-50 dark:border-slate-700/30 flex items-center justify-between">' +
+                            '<span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">' + vehicle + ' • ' + color + '</span>' +
+                            '<span class="text-[10px] font-black text-primary uppercase">Selecionar</span>' +
+                        '</div>' +
+                    '</div>';
+                };
+
+                let motoristasData = null;
+
                 try {
-                    // Busca motoristas aprovados e seus dados de usuário
-                    // Nota: Assume que existe relação ou que os dados estão na tabela motoristas
-                    // Se não houver join direto, pode ser necessário buscar em duas etapas ou ajustar a query
-                    // Aqui buscaremos da tabela 'motoristas' e faremos join com 'auth.users' se possível ou usaremos metadados se replicados
-                    // Para simplificar, vamos assumir que a tabela 'motoristas' tem os dados necessários ou faremos uma query simples
-
-                    // Ajuste: A tabela motoristas tem os pegar o nome da tabela de usuarios ou meta.
-                    // Como o Supabase não faz join fácil com auth.users via client-side sem view,
-                    // vamos supor que exista uma view ou que vamos buscar os dados básicos da tabela 'motoristas' 
-                    // e talvez tenhamos que pegar o nome de outra forma.
-                    // POR ENQUANTO: Vamos listar da tabela 'motoristas'. Se faltar nome, usaremos um placeholder ou buscaremos.
-
                     const backendUrl = window.location.origin.includes('localhost') 
                         ? 'http://localhost:3000/api/users/motoristas' 
                         : '/api/users/motoristas';
-
                     const response = await fetch(backendUrl);
                     if (!response.ok) throw new Error('Falha ao buscar motoristas no backend');
-                    
-                    const motoristas = await response.json();
-                    driversContainer.innerHTML = ''; // Remove "Buscando motoristas..."
-                    if (window.DataCache && DataCache.KEYS && motoristas) DataCache.set(DataCache.KEYS.DRIVERS, motoristas, 30 * 60 * 1000);
-                    console.log('[Motoristas] Dados recebidos:', motoristas?.length);
-
-                    if (!motoristas || motoristas.length === 0) {
-                        driversContainer.innerHTML = `
-                            <div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
-                                <p>Nenhum motorista disponível no momento.</p>
-                            </div>
-                        `;
-                        return;
-                    }
-
-                    function renderDriverCard(motorista) {
-                        const displayName = motorista.usuarios?.nome || motorista.name || `Motorista ${motorista.modelo_veiculo || motorista.vehicle || ''}`;
-                        let photoUrl = motorista.usuarios?.foto_perfil_url || motorista.avatar;
-                        if (!photoUrl) {
-                            photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
-                        }
-                        const isOnline = motorista.status === 'online' || motorista.status_online === true;
-                        const usuarioId = motorista.usuario_id || motorista._id;
-                        const phone = motorista.telefone_whatsapp || motorista.number || '';
-                        const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'Veículo';
-                        const color = motorista.cor_veiculo || motorista.carColor || '---';
-
-                        return `
-                            <div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">
-                                <input type="radio" name="driver_selection" class="peer hidden" id="driver-${usuarioId}" value="${usuarioId}" 
-                                    data-name="${displayName}" data-phone="${phone}">
-                                <label for="driver-${usuarioId}" class="absolute inset-0 z-10 cursor-pointer"></label>
-                                
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-primary/10 shrink-0 group-has-[:checked]:ring-primary">
-                                        <img alt="${displayName}" class="w-full h-full object-cover"
-                                            src="${photoUrl}" 
-                                            onerror="this.src='https://ui-avatars.com/api/?name=Motorista&background=random'"/>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${displayName}</p>
-                                        <div class="flex items-center gap-1.5 mt-0.5">
-                                            <div class="flex items-center text-yellow-500">
-                                                <span class="material-symbols-outlined text-[12px] font-fill">star</span>
-                                                <span class="text-[10px] font-bold ml-0.5">5.0</span>
-                                            </div>
-                                            <span class="text-slate-400 text-[10px]">•</span>
-                                            ${isOnline 
-                                                ? `<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>`
-                                                : `<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>`
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="size-6 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-has-[:checked]:bg-primary group-has-[:checked]:border-primary">
-                                        <span class="material-symbols-outlined text-white text-sm scale-0 group-has-[:checked]:scale-100 transition-transform">check</span>
-                                    </div>
-                                </div>
-                                <div class="mt-3 pt-3 border-t border-slate-50 dark:border-slate-700/30 flex items-center justify-between">
-                                    <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">
-                                        ${vehicle} • ${color}
-                                    </span>
-                                    <span class="text-[10px] font-black text-primary uppercase">Selecionar</span>
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    function attachDriverSelectionListeners() {
-                        const driverInputs = document.querySelectorAll('input[name="driver_selection"]');
-                        driverInputs.forEach(input => {
-                            input.removeEventListener('click', handleDriverClick);
-                            input.removeEventListener('change', handleDriverChange);
-                            input.addEventListener('click', handleDriverClick);
-                            input.addEventListener('change', handleDriverChange);
-                        });
-                    }
-
-                    let handleDriverClick = (e) => {
-                        const input = e.currentTarget;
-                        if (input.getAttribute('data-was-checked') === 'true') {
-                            input.checked = false;
-                            input.setAttribute('data-was-checked', 'false');
-                            input.dispatchEvent(new Event('change'));
-                        } else {
-                            document.querySelectorAll('input[name="driver_selection"]').forEach(r => {
-                                r.setAttribute('data-was-checked', 'false');
-                            });
-                            input.setAttribute('data-was-checked', 'true');
-                        }
-                    };
-
-                    let handleDriverChange = (e) => {
-                        const input = e.currentTarget;
-                        const actionContainer = document.getElementById('action-buttons-container');
-                        if (input.checked) {
-                            if (actionContainer) {
-                                actionContainer.classList.remove('hidden');
-                                setTimeout(() => actionContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
-                            }
-                        } else {
-                            if (actionContainer) actionContainer.classList.add('hidden');
-                        }
-                    };
-
-                    let motoristasData = null;
-
+                    motoristasData = await response.json();
+                    if (window.DataCache && DataCache.KEYS && motoristasData) DataCache.set(DataCache.KEYS.DRIVERS, motoristasData, 30 * 60 * 1000);
+                    console.log('[Motoristas] Dados recebidos do backend:', motoristasData?.length);
+                } catch (error) {
+                    console.warn('Backend falhou, fallback users_migrados:', error);
                     try {
-                        const backendUrl = window.location.origin.includes('localhost') 
-                            ? 'http://localhost:3000/api/users/motoristas' 
-                            : '/api/users/motoristas';
-                        const response = await fetch(backendUrl);
-                        if (!response.ok) throw new Error('Falha ao buscar motoristas no backend');
-                        motoristasData = await response.json();
-                        if (window.DataCache && DataCache.KEYS && motoristasData) DataCache.set(DataCache.KEYS.DRIVERS, motoristasData, 30 * 60 * 1000);
-                    } catch (error) {
-                        console.warn('Erro no backend, fallback users_migrados:', error);
-                        try {
-                            var { data: migrados } = await supabaseClient.from('users_migrados').select('*').eq('role', 'motorista').order('profileViews', { ascending: false });
-                            motoristasData = migrados;
-                        } catch(e2) { console.warn('Fallback users_migrados falhou:', e2); }
+                        const { data: migrados } = await supabaseClient.from('users_migrados').select('*').eq('role', 'motorista').order('profileViews', { ascending: false });
+                        motoristasData = migrados;
+                        console.log('[Motoristas] Fallback users_migrados:', motoristasData?.length);
+                    } catch(e2) { console.warn('Fallback users_migrados falhou:', e2); }
+                }
+
+                if (!motoristasData || motoristasData.length === 0) {
+                    driversContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700"><p>Nenhum motorista disponível no momento.</p></div>';
+                } else {
+                    driversContainer.innerHTML = '';
+                    for (const motorista of motoristasData) {
+                        driversContainer.innerHTML += renderDriverCard(motorista);
                     }
+                    // Attach listeners
+                    const driverInputs = document.querySelectorAll('input[name="driver_selection"]');
+                    driverInputs.forEach(input => {
+                        input.addEventListener('click', (e) => {
+                            if (input.getAttribute('data-was-checked') === 'true') {
+                                input.checked = false;
+                                input.setAttribute('data-was-checked', 'false');
+                                input.dispatchEvent(new Event('change'));
+                            } else {
+                                document.querySelectorAll('input[name="driver_selection"]').forEach(r => r.setAttribute('data-was-checked', 'false'));
+                                input.setAttribute('data-was-checked', 'true');
+                            }
+                        });
+                        input.addEventListener('change', () => {
+                            const actionContainer = document.getElementById('action-buttons-container');
+                            if (input.checked) {
+                                if (actionContainer) { actionContainer.classList.remove('hidden'); setTimeout(() => actionContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300); }
+                            } else {
+                                if (actionContainer) actionContainer.classList.add('hidden');
+                            }
+                        });
+                    });
+                }
 
-                    if (!motoristasData || motoristasData.length === 0) {
-                        driversContainer.innerHTML = `
-                            <div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
-                                <p>Nenhum motorista disponível no momento.</p>
-                            </div>
-                        `;
-                    } else {
-                        driversContainer.innerHTML = '';
-                        for (const motorista of motoristasData) {
-                            driversContainer.innerHTML += renderDriverCard(motorista);
-                        }
-                        attachDriverSelectionListeners();
+                const btnChat = document.getElementById('btn-chat-driver');
+                const btnWhatsApp = document.getElementById('btn-whatsapp-driver');
+
+                const getSelectedDriverData = () => {
+                    const selected = document.querySelector('input[name="driver_selection"]:checked');
+                    if (!selected) return null;
+                    return { id: selected.value, name: selected.dataset.name, phone: selected.dataset.phone };
+                };
+
+                const getRouteMessage = (driverName) => {
+                    const origem = document.getElementById('origem-input')?.value || 'Localização atual';
+                    const destino = document.getElementById('destino-input')?.value || 'Destino não informado';
+                    return 'Olá ' + driverName + ', vi seu perfil no app Meu Carro de Linha, informando que quer realizar uma viagem de ' + origem + ' para ' + destino + '.';
+                };
+
+                btnWhatsApp?.addEventListener('click', () => {
+                    const driver = getSelectedDriverData();
+                    if (!driver) return;
+                    window.open('https://wa.me/' + driver.phone.replace(/\D/g, '') + '?text=' + encodeURIComponent(getRouteMessage(driver.name)), '_blank');
+                });
+
+                btnChat?.addEventListener('click', async () => {
+                    const driver = getSelectedDriverData();
+                    if (!driver) return;
+                    switchTab('chats');
+                    if (typeof window.openActiveChat === 'function') {
+                        await window.openActiveChat(driver);
+                    } else { console.error('Chat logic not yet initialized'); return; }
+                    const message = getRouteMessage(driver.name);
+                    const chatInput = document.getElementById('active-chat-input');
+                    if (chatInput) {
+                        chatInput.value = message;
+                        setTimeout(() => { document.getElementById('active-chat-send')?.click(); }, 800);
                     }
-
-                    const btnChat = document.getElementById('btn-chat-driver');
-                    const btnWhatsApp = document.getElementById('btn-whatsapp-driver');
-
-                    const getSelectedDriverData = () => {
-                        const selected = document.querySelector('input[name="driver_selection"]:checked');
-                        if (!selected) return null;
-                        return {
-                            id: selected.value,
-                            name: selected.dataset.name,
-                            phone: selected.dataset.phone,
-                            photo: document.querySelector(`#driver-${selected.value}`)?.closest('.flex-none')?.querySelector('img')?.src
-                        };
-                    };
-
-                    const getRouteMessage = (driverName) => {
-                        const origem = document.getElementById('origem-input')?.value || 'Localização atual';
-                        const destino = document.getElementById('destino-input')?.value || 'Destino não informado';
-                        return `Olá ${driverName}, vi seu perfil no app Meu Carro de Linha, informando que quer realizar uma viagem de ${origem} para ${destino}.`;
-                    };
-
-                    btnWhatsApp?.addEventListener('click', () => {
-                        const driver = getSelectedDriverData();
-                        if (!driver) return;
-                        const message = getRouteMessage(driver.name);
-                        const cleanPhone = driver.phone.replace(/\D/g, '');
-                        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
-                    });
-
-                    btnChat?.addEventListener('click', async () => {
-                        const driver = getSelectedDriverData();
-                        if (!driver) return;
-                        
-                        switchTab('chats');
-                        
-                        if (typeof window.openActiveChat === 'function') {
-                            await window.openActiveChat(driver);
-                        } else {
-                            console.error('Chat logic not yet initialized');
-                            return;
-                        }
-
-                        const message = getRouteMessage(driver.name);
-                        const chatInput = document.getElementById('active-chat-input');
-                        if (chatInput) {
-                            chatInput.value = message;
-                            setTimeout(() => {
-                                document.getElementById('active-chat-send')?.click();
-                            }, 800);
-                        }
-                    });
+                });
             }
 
             // --- Lógica de Avaliação ---
