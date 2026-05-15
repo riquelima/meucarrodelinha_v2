@@ -14,29 +14,28 @@
                 if (!link) return;
                 var href = link.getAttribute('href');
                 if (!href || href === '#' || href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:') || link.target === '_blank') return;
-
-                var isBack = link.closest('.nav-back') !== null || href === 'homepage.html' || href.includes('homepage');
                 e.preventDefault();
-                self.navigate(href, isBack);
+                self.navigate(href);
             });
         },
 
-        navigate: function (url, isBack) {
-            if (document.startViewTransition) {
-                document.body.style.viewTransitionName = 'root';
-                var t = document.startViewTransition(function () {
-                    window.location.href = url;
-                });
-                t.finished.then(function () {});
-            } else {
-                document.body.classList.add('fade-out');
-                var self = this;
-                setTimeout(function () { window.location.href = url; }, 200);
+        navigate: function (url) {
+            try {
+                if (document.startViewTransition) {
+                    document.startViewTransition(function () {
+                        window.location.href = url;
+                    });
+                } else {
+                    document.body.classList.add('fade-out');
+                    setTimeout(function () { window.location.href = url; }, 200);
+                }
+            } catch (err) {
+                window.location.href = url;
             }
         },
 
         setupMicroInteractions: function () {
-            var selectors = '.card-click, .blog-card, .post-card, .ad-card, .driver-card, .action-card, .menu-item, [class*="card"]:not(.no-effect), button:not(.no-effect):not([disabled])';
+            var selectors = 'a, button, .active-scale, [class*="card"]:not(.no-effect)';
 
             function addTap(el) {
                 if (el._hasTap) return;
