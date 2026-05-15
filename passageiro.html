@@ -4,7 +4,6 @@
 
 <head>
     <meta charset="utf-8" />
-    <script src="js/force-clean.js"></script>
 
     <!-- Social Share & PWA Icons -->
     <meta property="og:title" content="Meu Carro de Linha Salinas - Passageiro">
@@ -289,7 +288,7 @@
             animation-delay: 500ms;
         }
 
-        /* Proteção do Navbar */
+        /* ProteÃ§Ã£o do Navbar */
         nav {
             transform: none !important;
             animation: none !important;
@@ -310,7 +309,7 @@
 <body
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
     <!-- Use h-[100dvh] for the main container to ensure it fits the dynamic viewport -->
-    <!-- [SPA_HORIZONTAL_MANDATE]: Contêiner Raiz do SPA -->
+    <!-- [SPA_HORIZONTAL_MANDATE]: ContÃªiner Raiz do SPA -->
     <div id="app-root" class="relative flex h-[100vh] h-[100dvh] w-full flex-col overflow-hidden">
         
         <!-- Header Universal (Persistente) -->
@@ -321,7 +320,7 @@
         <!-- [SPA_HORIZONTAL_MANDATE]: O Carrossel de Views -->
         <div id="view-slider" class="flex h-full w-[300vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
             
-            <!-- ABA 1: INÍCIO (MAPA) -->
+            <!-- ABA 1: INÃCIO (MAPA) -->
             <section id="view-home" class="view-section shrink-0 w-[100vw] h-full relative overflow-hidden flex flex-col">
                 <main class="relative flex-1 w-full bg-slate-200 dark:bg-slate-800 pt-14">
                     <div id="passageiro-map" class="absolute inset-0 z-0 h-full w-full"></div>
@@ -337,11 +336,11 @@
                         <div class="flex-1 overflow-y-auto px-6 pb-20 no-scrollbar">
                             <div id="sheet-header-content" class="space-y-6 pb-6 pt-2">
                                 <div>
-                                    <p id="user-greeting" class="text-sm text-slate-500 dark:text-slate-400">Olá, Passageiro</p>
+                                    <p id="user-greeting" class="text-sm text-slate-500 dark:text-slate-400">OlÃ¡, Passageiro</p>
                                     <h2 class="text-xl font-bold dark:text-white">Onde vamos hoje?</h2>
                                 </div>
                                 <div id="drivers-section" class="space-y-3 flex flex-col pb-2 rounded-xl">
-                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Motoristas Disponíveis</p>
+                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Motoristas DisponÃ­veis</p>
                                     <div class="relative w-full overflow-hidden mask-gradient-x">
                                         <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing">
                                             <div id="drivers-list-container" class="flex gap-4 px-4 pb-4 min-h-[160px]" style="width: max-content;">
@@ -359,13 +358,13 @@
                                         <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                                             <span class="material-symbols-outlined text-green-500 text-xl">my_location</span>
                                         </div>
-                                        <input id="origem-input" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl py-3.5 pl-12 pr-4 text-sm text-slate-600 dark:text-slate-300" placeholder="Sua localização atual" type="text" />
+                                        <input id="origem-input" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl py-3.5 pl-12 pr-4 text-sm text-slate-600 dark:text-slate-300" placeholder="Sua localizaÃ§Ã£o atual" type="text" />
                                     </div>
                                     <div class="relative w-full">
                                         <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                                             <span class="material-symbols-outlined text-primary text-xl">location_on</span>
                                         </div>
-                                        <input id="destino-input" autocomplete="off" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-12 pr-4 text-base font-bold dark:text-white" placeholder="Para onde você vai?" type="text" />
+                                        <input id="destino-input" autocomplete="off" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-12 pr-4 text-base font-bold dark:text-white" placeholder="Para onde vocÃª vai?" type="text" />
                                         <ul id="destino-suggestions" class="absolute left-0 right-0 top-[60px] z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-60 overflow-y-auto"></ul>
                                     </div>
                                 </div>
@@ -464,7 +463,7 @@
                             </div>
                         </div>
                         <div>
-                            <h3 id="profile-name" class="font-black text-lg">Nome Usuário</h3>
+                            <h3 id="profile-name" class="font-black text-lg">Nome UsuÃ¡rio</h3>
                             <p id="profile-email" class="text-sm opacity-60">email@exemplo.com</p>
                         </div>
                     </div>
@@ -473,7 +472,7 @@
                         <button class="w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl active-scale">
                             <div class="flex items-center gap-3">
                                 <span class="material-symbols-outlined text-primary">settings</span>
-                                <span class="font-bold">Minhas Configurações</span>
+                                <span class="font-bold">Minhas ConfiguraÃ§Ãµes</span>
                             </div>
                             <span class="material-symbols-outlined">chevron_right</span>
                         </button>
@@ -527,7 +526,7 @@
                             <button onclick="switchAbaSuporte('meus')" id="aba-meus" class="flex-1 py-3 text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b-2 border-transparent transition-all">Meus Chamados</button>
                         </div>
                         <div id="tab-novo">
-                            <p class="text-slate-500 dark:text-slate-400 mb-6 -mt-2">Preencha o formulário abaixo ou utilize nossos canais diretos.</p>
+                            <p class="text-slate-500 dark:text-slate-400 mb-6 -mt-2">Preencha o formulÃ¡rio abaixo ou utilize nossos canais diretos.</p>
                             <form id="form-suporte" class="space-y-5">
                                 <div class="flex flex-col gap-1.5">
                                     <label class="text-sm font-medium px-1" for="suporte-nome">Nome</label>
@@ -545,9 +544,9 @@
                                     <label class="text-sm font-medium px-1" for="suporte-assunto">Assunto</label>
                                     <select class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-auto" id="suporte-assunto">
                                         <option disabled selected value="">Selecione um assunto</option>
-                                        <option value="duvida">Dúvidas sobre viagens</option>
-                                        <option value="reclamacao">Reclamações</option>
-                                        <option value="sugestao">Sugestões</option>
+                                        <option value="duvida">DÃºvidas sobre viagens</option>
+                                        <option value="reclamacao">ReclamaÃ§Ãµes</option>
+                                        <option value="sugestao">SugestÃµes</option>
                                         <option value="financeiro">Financeiro / Pagamentos</option>
                                     </select>
                                 </div>
@@ -596,7 +595,7 @@
         <nav class="fixed-navbar !z-[200]" id="main-nav">
             <button onclick="switchTab('home')" class="nav-item nav-active" id="nav-home">
                 <span class="material-symbols-outlined">home</span>
-                <span>Início</span>
+                <span>InÃ­cio</span>
             </button>
             <button onclick="switchTab('chats')" class="nav-item" id="nav-chats">
                 <span class="material-symbols-outlined">chat</span>
@@ -618,7 +617,7 @@
                 
                 if (index === -1) return;
 
-                // Transição via Hardware Acceleration
+                // TransiÃ§Ã£o via Hardware Acceleration
                 var sectionW = slider.parentElement.clientWidth || window.innerWidth;
                 slider.style.transform = `translate3d(${-index * sectionW}px, 0, 0)`;
 
@@ -628,7 +627,7 @@
                     if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
                 });
 
-                // Otimização: Forçar visibilidade das seções vizinhas
+                // OtimizaÃ§Ã£o: ForÃ§ar visibilidade das seÃ§Ãµes vizinhas
                 document.querySelectorAll('.view-section').forEach((sec, i) => {
                     sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
                 });
@@ -668,7 +667,7 @@
                 </div>
 
                 <div class="space-y-4 w-full">
-                    <p class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Sua experiência</p>
+                    <p class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Sua experiÃªncia</p>
                     <div class="flex justify-center gap-3" id="star-rating">
                         <button data-index="1" class="star-btn transition-all duration-300 hover:scale-125 focus:outline-none ring-primary/20 rounded-lg">
                             <span class="material-symbols-outlined text-5xl text-slate-200 dark:text-slate-800">star</span>
@@ -692,7 +691,7 @@
                     <textarea id="rating-comment" placeholder="Conte-nos o que achou... (opcional)" class="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-2xl p-5 text-base focus:border-primary/50 focus:ring-0 transition-all resize-none h-28 placeholder:text-slate-400 dark:text-white"></textarea>
                     
                     <button id="submit-rating" disabled class="w-full bg-primary hover:bg-primary/90 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600 disabled:shadow-none text-white font-black py-5 rounded-2xl shadow-2xl shadow-primary/40 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
-                        <span>Enviar Avaliação</span>
+                        <span>Enviar AvaliaÃ§Ã£o</span>
                         <span class="material-symbols-outlined">send</span>
                     </button>
                 </div>
@@ -707,7 +706,7 @@
             </div>
             <div class="space-y-2">
                 <h4 class="text-2xl font-black text-slate-900 dark:text-white">Obrigado!</h4>
-                <p class="text-slate-500 dark:text-slate-400 font-medium">Sua avaliação ajuda a manter<br>nossa comunidade segura e confiável.</p>
+                <p class="text-slate-500 dark:text-slate-400 font-medium">Sua avaliaÃ§Ã£o ajuda a manter<br>nossa comunidade segura e confiÃ¡vel.</p>
             </div>
         </div>
     </div>
@@ -775,7 +774,7 @@
         let destinationMarker;
         let currentCoords = null;
         let destCoords = null; // Store selected destination coordinates
-        let currentAddress = "Localização Atual (Salinas)";
+        let currentAddress = "LocalizaÃ§Ã£o Atual (Salinas)";
         let isFirstLocationUpdate = true;
 
         async function reverseGeocode(lat, lng) {
@@ -784,10 +783,10 @@
                 const response = await geocoder.geocode({ location: { lat, lng } });
                 if (response.results[0]) {
                     currentAddress = response.results[0].formatted_address;
-                    console.log("Endereço atualizado:", currentAddress);
+                    console.log("EndereÃ§o atualizado:", currentAddress);
                 }
             } catch (e) {
-                console.error("Erro na geocodificação reversa:", e);
+                console.error("Erro na geocodificaÃ§Ã£o reversa:", e);
             }
         }
 
@@ -850,7 +849,7 @@
                 }
 
                 function updateUserMarker(lat, lng) {
-                    // Só mostra marcador se estiver dentro de Salinas
+                    // SÃ³ mostra marcador se estiver dentro de Salinas
                     if (!isWithinSalinas(lat, lng)) {
                         currentCoords = defaultLocation;
                         if (userMarker) { userMarker.setMap(null); userMarker = null; }
@@ -874,7 +873,7 @@
                                 strokeColor: "#ffffff",
                                 strokeWeight: 2,
                             },
-                            title: 'Sua localização atual'
+                            title: 'Sua localizaÃ§Ã£o atual'
                         });
                     }
 
@@ -902,7 +901,7 @@
                 // Sempre inicia centralizado em Salinas
                 setSalinasAsDefault();
 
-                // Só tenta geolocalização se estiver em dispositivo que suporte
+                // SÃ³ tenta geolocalizaÃ§Ã£o se estiver em dispositivo que suporte
                 if (navigator.geolocation) {
                     if (window.requestLocationPermission) {
                         window.requestLocationPermission().then(() => {
@@ -927,7 +926,7 @@
 
 <script src="js/location-modal.js"></script>
     <script>
-        // Estado global do chat — acessível antes do DOMContentLoaded
+        // Estado global do chat â€” acessÃ­vel antes do DOMContentLoaded
         window._chatState = { targetId: null, user: null, targetPhone: null };
 
         window.sendActiveChatMessage = async function() {
@@ -939,7 +938,7 @@
                 return;
             }
             if (!window._chatState.user) {
-                alert('Usuário não autenticado.');
+                alert('UsuÃ¡rio nÃ£o autenticado.');
                 return;
             }
 
@@ -999,12 +998,12 @@
             const phone = window._chatState?.targetPhone;
             console.log('[Call] Telefone:', phone);
             if (!phone) {
-                alert('Telefone do motorista não disponível.');
+                alert('Telefone do motorista nÃ£o disponÃ­vel.');
                 return;
             }
             const cleanPhone = phone.replace(/\D/g, '');
             if (cleanPhone.length < 8) {
-                alert('Número de telefone inválido.');
+                alert('NÃºmero de telefone invÃ¡lido.');
                 return;
             }
             window.location.href = `tel:${cleanPhone}`;
@@ -1069,7 +1068,7 @@
             try {
                 const supabase = window.supabaseClient;
                 const { data: { user } } = await supabase.auth.getUser();
-                if (!user) { container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">Faça login para ver seus chamados.</div>'; return; }
+                if (!user) { container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">FaÃ§a login para ver seus chamados.</div>'; return; }
                 
                 const { data: tickets, error } = await supabase
                     .from('suporte')
@@ -1089,7 +1088,7 @@
                 tickets.forEach(function(t, i) { window._ticketNums[t.id] = String(i + 1).padStart(2, '0'); });
                 const statusLabels = { aberto: 'Aberto', fechado: 'Fechado', andamento: 'Em Andamento' };
                 const statusColors = { aberto: 'bg-green-500/10 text-green-500', fechado: 'bg-slate-500/10 text-slate-400', andamento: 'bg-primary/10 text-primary' };
-                const assuntoLabels = { duvida: 'Dúvida', reclamacao: 'Reclamação', sugestao: 'Sugestão', financeiro: 'Financeiro' };
+                const assuntoLabels = { duvida: 'DÃºvida', reclamacao: 'ReclamaÃ§Ã£o', sugestao: 'SugestÃ£o', financeiro: 'Financeiro' };
                 
                 tickets.forEach(t => {
                     var readData = JSON.parse(localStorage.getItem('mcl_suporte_read_' + t.id) || '{}');
@@ -1142,9 +1141,9 @@
                         </div>
                         <div class="flex gap-2 text-[11px] text-slate-500">
                             <span>${ticket.nome}</span>
-                            <span>•</span>
+                            <span>â€¢</span>
                             <span>${ticket.email}</span>
-                            ${ticket.telefone ? `<span>•</span><span>${ticket.telefone}</span>` : ''}
+                            ${ticket.telefone ? `<span>â€¢</span><span>${ticket.telefone}</span>` : ''}
                         </div>
                         <p class="text-sm font-medium text-slate-700 dark:text-slate-300 pt-2 border-t border-slate-100 dark:border-slate-700">${ticket.mensagem}</p>
                         <p class="text-[10px] text-slate-400">${new Date(ticket.criado_em).toLocaleString('pt-BR')}</p>
@@ -1154,7 +1153,7 @@
                 if (conversa && conversa.length > 0) {
                     conversa.forEach(r => {
                         var isAdmin = r.de === 'admin';
-                        var autorLabel = isAdmin ? 'Suporte' : 'Você';
+                        var autorLabel = isAdmin ? 'Suporte' : 'VocÃª';
                         html += `
                             <div class="p-4 rounded-2xl ${isAdmin ? 'bg-primary/5 dark:bg-primary/10 border border-primary/20' : 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700'} space-y-1">
                                 <div class="flex items-center justify-between">
@@ -1268,7 +1267,7 @@
 
                 window._chatState.user = user;
             } catch (err) {
-                console.error("Erro ao autenticar usuário:", err);
+                console.error("Erro ao autenticar usuÃ¡rio:", err);
             }
 
             // --- Global Chat Helpers ---
@@ -1340,7 +1339,7 @@
             const handle = document.getElementById('sheet-handle-area');
             const headerArea = document.getElementById('sheet-header-content');
             
-            let isMinimized = true; // Começa minimizado por padrão
+            let isMinimized = true; // ComeÃ§a minimizado por padrÃ£o
             let isDragging = false;
             let startY = 0;
             function getHeaderHeight() {
@@ -1372,7 +1371,7 @@
                 const rect = sheet.getBoundingClientRect();
                 const sheetHeight = rect.height || sheet.offsetHeight || (windowHeight * 0.9);
                 
-                // Posição alvo para o TOPO do painel: 48% da viewport (exibe cards dos motoristas com foco na parte inferior acima da navbar)
+                // PosiÃ§Ã£o alvo para o TOPO do painel: 48% da viewport (exibe cards dos motoristas com foco na parte inferior acima da navbar)
                 const targetTop = windowHeight * 0.48;
                 
                 const parent = sheet.parentElement;
@@ -1406,7 +1405,7 @@
                 sheet.style.transition = 'none';
                 setTranslateY(offset);
 
-                // Garante que a opacidade seja removida e a transição restaurada
+                // Garante que a opacidade seja removida e a transiÃ§Ã£o restaurada
                 requestAnimationFrame(() => {
                     sheet.style.opacity = '1';
                     sheet.classList.remove('opacity-0');
@@ -1446,7 +1445,7 @@
                 let base = isMinimized ? minOffset : maxOffset;
                 let newY = base + dy;
 
-                // Resistência elástica nos extremos
+                // ResistÃªncia elÃ¡stica nos extremos
                 if (newY < maxOffset - 20) {
                     newY = maxOffset - 20 + (newY - (maxOffset - 20)) * 0.1; 
                 } else if (newY > minOffset + 80) {
@@ -1469,14 +1468,14 @@
 
                 sheet.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
 
-                // Lógica de Snapping (Mais sensível para expansão)
+                // LÃ³gica de Snapping (Mais sensÃ­vel para expansÃ£o)
                 const threshold = (minOffset - maxOffset) * 0.1; // Apenas 10% de movimento
                 
                 if (velocity < -0.2 || dy < -threshold) {
                     // Expandir (Subir)
                     setExpansion(true);
                 } else if (velocity > 0.5 || dy > threshold * 2) {
-                    // Minimizar (Descer) - Mantém um pouco mais de resistência para não descer sem querer
+                    // Minimizar (Descer) - MantÃ©m um pouco mais de resistÃªncia para nÃ£o descer sem querer
                     setExpansion(false);
                 } else {
                     // Snap back para o estado original
@@ -1484,7 +1483,7 @@
                 }
             }
 
-            // Permitir arrastar apenas pela alça (ícone ----)
+            // Permitir arrastar apenas pela alÃ§a (Ã­cone ----)
             const dragTargets = [handle];
 
             // Attach events to all drag targets
@@ -1521,11 +1520,11 @@
                 }
             });
 
-            // Clique para alternar expansão (apenas se não foi arrastado)
+            // Clique para alternar expansÃ£o (apenas se nÃ£o foi arrastado)
             dragTargets.forEach(target => {
                 if (!target) return;
                 target.addEventListener('click', (e) => {
-                    // Se clicar em um input ou botão dentro da área, não fecha o painel
+                    // Se clicar em um input ou botÃ£o dentro da Ã¡rea, nÃ£o fecha o painel
                     if (e.target.closest('input') || e.target.closest('button') || e.target.closest('select')) return;
                     
                     // Se estiver minimizado, expande. Se estiver expandido e clicar no topo, minimiza.
@@ -1644,14 +1643,14 @@
                 }, 500);
 
                 function showLoading() {
-                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locais…</li>';
+                    list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 dark:text-slate-500 flex items-center gap-2"><span class="material-symbols-outlined text-base animate-spin">sync</span>Buscando locaisâ€¦</li>';
                     list.classList.remove('hidden');
                 }
 
                 function showResults(predictions) {
                     list.innerHTML = '';
                     if (!predictions || !predictions.length) {
-                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic font-medium">Nenhum endereço encontrado</li>';
+                        list.innerHTML = '<li class="px-4 py-3 text-sm text-slate-400 italic font-medium">Nenhum endereÃ§o encontrado</li>';
                         list.classList.remove('hidden');
                         return;
                     }
@@ -1768,14 +1767,14 @@
                         if (status !== google.maps.places.PlacesServiceStatus.OK && status !== google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
                             console.error('Erro Autocomplete Google:', status);
                             
-                            let errorMsg = 'Erro ao buscar endereços.';
+                            let errorMsg = 'Erro ao buscar endereÃ§os.';
                             if (status === 'OVER_QUERY_LIMIT') {
                                 errorMsg = 'Limite de buscas excedido.';
                             } else if (status === 'REQUEST_DENIED') {
-                                errorMsg = 'Acesso à API negado. Verifique a chave.';
-                                console.warn('Dica: Verifique se o Billing está ativo e se a Places API (New) está habilitada no Console do Google Cloud.');
+                                errorMsg = 'Acesso Ã  API negado. Verifique a chave.';
+                                console.warn('Dica: Verifique se o Billing estÃ¡ ativo e se a Places API (New) estÃ¡ habilitada no Console do Google Cloud.');
                             } else if (status === 'INVALID_REQUEST') {
-                                errorMsg = 'Requisição inválida.';
+                                errorMsg = 'RequisiÃ§Ã£o invÃ¡lida.';
                             }
 
                             list.innerHTML = `<li class="px-4 py-3 text-sm text-red-400 flex items-center gap-2"><span class="material-symbols-outlined text-base">error</span>${errorMsg}</li>`;
@@ -1806,15 +1805,15 @@
             const greetingElement = document.getElementById('user-greeting');
             const driversContainer = document.getElementById('drivers-list-container');
 
-            // 1. Carregar nome do usuário
+            // 1. Carregar nome do usuÃ¡rio
             if (greetingElement && supabaseClient) {
                 try {
                     if (user && user.user_metadata && user.user_metadata.nome) {
                         const firstName = user.user_metadata.nome.split(' ')[0];
-                        greetingElement.textContent = `Olá, ${firstName}`;
+                        greetingElement.textContent = `OlÃ¡, ${firstName}`;
                     }
                 } catch (error) {
-                    console.error('Erro ao carregar nome do usuário:', error);
+                    console.error('Erro ao carregar nome do usuÃ¡rio:', error);
                 }
             }
 
@@ -1845,7 +1844,7 @@
 
                         if (greetingElement && nome) {
                             const firstName = nome.split(' ')[0];
-                            greetingElement.textContent = `Olá, ${firstName}`;
+                            greetingElement.textContent = `OlÃ¡, ${firstName}`;
                         }
 
                         if (avatar && profileAvatarEl) {
@@ -1870,7 +1869,7 @@
 
                             if (greetingElement && profile.nome) {
                                 const firstName = profile.nome.split(' ')[0];
-                                greetingElement.textContent = `Olá, ${firstName}`;
+                                greetingElement.textContent = `OlÃ¡, ${firstName}`;
                             }
 
                             if (profile.foto_perfil_url && profileAvatarEl) {
@@ -1894,7 +1893,7 @@
                 if (!file) return;
 
                 if (file.size > 50 * 1024 * 1024) {
-                    alert('A imagem deve ter no máximo 50MB.');
+                    alert('A imagem deve ter no mÃ¡ximo 50MB.');
                     return;
                 }
 
@@ -1941,7 +1940,7 @@
                     const isOnline = motorista.status === 'online' || motorista.status_online === true;
                     const usuarioId = motorista.usuario_id || motorista._id;
                     const phone = motorista.telefone_whatsapp || motorista.number || '';
-                    const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'Veículo';
+                    const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'VeÃ­culo';
                     const color = motorista.cor_veiculo || motorista.carColor || '---';
                     return '<div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">' +
                         '<input type="radio" name="driver_selection" class="peer hidden" id="driver-' + usuarioId + '" value="' + usuarioId + '" data-name="' + displayName.replace(/"/g,'&quot;') + '" data-phone="' + phone + '">' +
@@ -1954,14 +1953,14 @@
                                 '<p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">' + displayName + '</p>' +
                                 '<div class="flex items-center gap-1.5 mt-0.5">' +
                                     '<div class="flex items-center text-yellow-500"><span class="material-symbols-outlined text-[12px] font-fill">star</span><span class="text-[10px] font-bold ml-0.5">5.0</span></div>' +
-                                    '<span class="text-slate-400 text-[10px]">•</span>' +
+                                    '<span class="text-slate-400 text-[10px]">â€¢</span>' +
                                     (isOnline ? '<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>' : '<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>') +
                                 '</div>' +
                             '</div>' +
                             '<div class="size-6 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-has-[:checked]:bg-primary group-has-[:checked]:border-primary"><span class="material-symbols-outlined text-white text-sm scale-0 group-has-[:checked]:scale-100 transition-transform">check</span></div>' +
                         '</div>' +
                         '<div class="mt-3 pt-3 border-t border-slate-50 dark:border-slate-700/30 flex items-center justify-between">' +
-                            '<span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">' + vehicle + ' • ' + color + '</span>' +
+                            '<span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">' + vehicle + ' â€¢ ' + color + '</span>' +
                             '<span class="text-[10px] font-black text-primary uppercase">Selecionar</span>' +
                         '</div>' +
                     '</div>';
@@ -1988,7 +1987,7 @@
                 }
 
                 if (!motoristasData || motoristasData.length === 0) {
-                    driversContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700"><p>Nenhum motorista disponível no momento.</p></div>';
+                    driversContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700"><p>Nenhum motorista disponÃ­vel no momento.</p></div>';
                 } else {
                     driversContainer.innerHTML = '';
                     for (const motorista of motoristasData) {
@@ -2028,9 +2027,9 @@
                 };
 
                 const getRouteMessage = (driverName) => {
-                    const origem = document.getElementById('origem-input')?.value || 'Localização atual';
-                    const destino = document.getElementById('destino-input')?.value || 'Destino não informado';
-                    return 'Olá ' + driverName + ', vi seu perfil no app Meu Carro de Linha, informando que quer realizar uma viagem de ' + origem + ' para ' + destino + '.';
+                    const origem = document.getElementById('origem-input')?.value || 'LocalizaÃ§Ã£o atual';
+                    const destino = document.getElementById('destino-input')?.value || 'Destino nÃ£o informado';
+                    return 'OlÃ¡ ' + driverName + ', vi seu perfil no app Meu Carro de Linha, informando que quer realizar uma viagem de ' + origem + ' para ' + destino + '.';
                 };
 
                 btnWhatsApp?.addEventListener('click', () => {
@@ -2055,7 +2054,7 @@
                 });
             }
 
-            // --- Lógica de Avaliação ---
+            // --- LÃ³gica de AvaliaÃ§Ã£o ---
             const ratingSheet = document.getElementById('rating-sheet');
             const ratingExpandHandle = document.getElementById('rating-expand-handle');
             const ratingFormContent = document.getElementById('rating-form-content');
@@ -2067,7 +2066,7 @@
             let currentFinishedTripId = null;
             let isExpanded = false;
 
-            // Função para controlar expansão da avaliação
+            // FunÃ§Ã£o para controlar expansÃ£o da avaliaÃ§Ã£o
             const setRatingExpansion = (expand) => {
                 isExpanded = expand;
                 if (isExpanded) {
@@ -2077,14 +2076,14 @@
                 }
             };
 
-            // Expansão do Painel no Handle
+            // ExpansÃ£o do Painel no Handle
             ratingExpandHandle.addEventListener('click', () => {
                 setRatingExpansion(!isExpanded);
             });
 
-            // Função para exibir o painel de avaliação
+            // FunÃ§Ã£o para exibir o painel de avaliaÃ§Ã£o
             window.showRatingPanel = async (trip) => {
-                // Verificar se já fechou ou avaliou esta viagem no localStorage
+                // Verificar se jÃ¡ fechou ou avaliou esta viagem no localStorage
                 if (localStorage.getItem(`rated_${trip.id}`)) return;
 
                 currentFinishedTripId = trip.id;
@@ -2098,7 +2097,7 @@
                 ratingSuccessContent.classList.remove('flex');
                 selectedRating = 0;
                 submitRatingBtn.disabled = true;
-                submitRatingBtn.innerHTML = '<span>Enviar Avaliação</span><span class="material-symbols-outlined">send</span>';
+                submitRatingBtn.innerHTML = '<span>Enviar AvaliaÃ§Ã£o</span><span class="material-symbols-outlined">send</span>';
                 document.getElementById('rating-comment').value = '';
                 
                 // Limpar estrelas
@@ -2125,7 +2124,7 @@
                 ratingSheet.classList.remove('hidden');
                 ratingSheet.classList.add('flex');
                 
-                // Garantir que o bottom sheet pai esteja visível (caso fosse embutido)
+                // Garantir que o bottom sheet pai esteja visÃ­vel (caso fosse embutido)
                 const bottomSheet = document.getElementById('bottom-sheet');
                 if (bottomSheet && bottomSheet.style.transform.includes('100%')) {
                      bottomSheet.style.transform = 'translateY(0)';
@@ -2167,7 +2166,7 @@
                 isExpanded = false;
             });
 
-            // Enviar Avaliação
+            // Enviar AvaliaÃ§Ã£o
             submitRatingBtn.addEventListener('click', async () => {
                 if (!currentFinishedTripId || selectedRating === 0) return;
 
@@ -2188,7 +2187,7 @@
 
                     localStorage.setItem(`rated_${currentFinishedTripId}`, 'done');
                     
-                    // Animação de Sucesso Elegante
+                    // AnimaÃ§Ã£o de Sucesso Elegante
                     ratingFormContent.classList.add('hidden');
                     ratingFormContent.classList.remove('flex');
                     ratingSuccessContent.classList.remove('hidden');
@@ -2203,16 +2202,16 @@
                     }, 3000);
 
                 } catch (err) {
-                    console.error("Erro ao enviar avaliação:", err);
-                    alert("Erro ao enviar avaliação.");
-                    submitRatingBtn.innerHTML = '<span>Enviar Avaliação</span><span class="material-symbols-outlined">send</span>';
+                    console.error("Erro ao enviar avaliaÃ§Ã£o:", err);
+                    alert("Erro ao enviar avaliaÃ§Ã£o.");
+                    submitRatingBtn.innerHTML = '<span>Enviar AvaliaÃ§Ã£o</span><span class="material-symbols-outlined">send</span>';
                     submitRatingBtn.disabled = false;
                 }
             });
 
             // Realtime listener para viagens finalizadas
             if (user) {
-                // Verificar se existe alguma viagem finalizada recente não avaliada
+                // Verificar se existe alguma viagem finalizada recente nÃ£o avaliada
                 const { data: lastTrips } = await window.supabaseClient
                     .from('viagens')
                     .select('*')
@@ -2226,7 +2225,7 @@
                     setTimeout(() => showRatingPanel(lastTrips[0]), 2000);
                 }
 
-                // Inscrever em mudanças de status
+                // Inscrever em mudanÃ§as de status
                 window.supabaseClient.channel('trip-updates')
                     .on('postgres_changes', {
                         event: 'UPDATE',
@@ -2271,7 +2270,7 @@
                         console.log('[ChatList] Processando msg:', msg.id, 'remetente:', msg.remetente, 'destinatario:', msg.destinatario);
                         const target = msg.remetente_id === user.id ? msg.destinatario : msg.remetente;
                         if (!target) {
-                            console.log('[ChatList] target é null para msg:', msg.id);
+                            console.log('[ChatList] target Ã© null para msg:', msg.id);
                             return;
                         }
                         console.log('[ChatList] target:', target);
@@ -2287,7 +2286,7 @@
                     });
 
                     const conversations = Array.from(conversationsMap.values());
-                    console.log('[ChatList] Conversões montadas:', conversations.length);
+                    console.log('[ChatList] ConversÃµes montadas:', conversations.length);
                     if (conversations.length === 0) {
                         container.innerHTML = '<div class="p-8 text-center text-slate-500 text-sm">Nenhuma conversa iniciada.</div>';
                         return;
@@ -2420,7 +2419,7 @@
                     const mensagem = document.getElementById('suporte-mensagem').value;
                     
                     if (!nome || !email || !mensagem || !assunto) {
-                        alert('Por favor, preencha todos os campos obrigatórios.');
+                        alert('Por favor, preencha todos os campos obrigatÃ³rios.');
                         return;
                     }
                     
@@ -2456,7 +2455,7 @@
                 });
             }
 
-            // Máscara de telefone
+            // MÃ¡scara de telefone
             const telInputs = document.querySelectorAll('input[type="tel"]');
             telInputs.forEach(input => {
                 input.addEventListener('input', function () {
