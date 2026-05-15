@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Ajuste para lidar com os dois formatos (MongoDB e Supabase)
             const nome = driver.usuarios?.nome || driver.name || 'Motorista';
             const foto = driver.usuarios?.foto_perfil_url || driver.avatar;
-            const avaliacao = driver.avaliacao_media || driver.avgRating || 5.0;
+            const avaliacao = 5.0;
             const modelo = driver.modelo_veiculo || driver.vehicle || 'Veículo';
             const cor = driver.cor_veiculo || driver.carColor || 'Cor não inf.';
             const isOnline = driver.status === 'online' || driver.status_online === true;

@@ -247,16 +247,27 @@
             btn.textContent = 'Aguarde...';
             btn.disabled = true;
 
-            const email = document.getElementById('email').value;
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
             const password = document.getElementById('senha').value;
 
             // 1. Tenta login normal (Supabase Auth -> Edge Function com senha)
             const result = await signIn(email, password);
             if (result.success) {
+            if (result.success) {
                 document.body.classList.add('fade-out');
                 try {
                     var u = result.data.user;
                     var tipoUsuario = u.tipo_usuario || (u.user_metadata && u.user_metadata.tipo_usuario) || null;
+                    if (!tipoUsuario && u.email) {
+                        var { data: migradoUser } = await supabaseClient
+                            .from('users_migrados')
+                            .select('role')
+                            .eq('email', u.email.toLowerCase())
+                            .maybeSingle();
+                        if (migradoUser && migradoUser.role === 'admin') tipoUsuario = 'admin';
+                        else if (migradoUser && migradoUser.role === 'motorista') tipoUsuario = 'motorista';
+                    }
                     if (!tipoUsuario && u.id) {
                         var { data: usuarioData } = await supabaseClient
                             .from('usuarios')
@@ -302,7 +313,28 @@
                 console.warn('Edge function nao disponivel:', e);
             }
 
-            // 3. Falhou tudo
+            // 3. Última tentativa: migrado sem senha (usuários que só existem na tabela)
+            if (!password) {
+                try {
+                    const res = await fetch('https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const d = await res.json();
+                    if (d.success && d.migrado) {
+                        localStorage.setItem('mcl_migrado', JSON.stringify(d.user));
+                        localStorage.setItem('mcl_custom_session', JSON.stringify({ user: d.user }));
+                        document.body.classList.add('fade-out');
+                        var destino = d.user.tipo_usuario === 'admin' ? 'admin.html' :
+                                      d.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
+                        setTimeout(() => { window.location.href = destino; }, 200);
+                        return;
+                    }
+                } catch(e) { console.warn(e); }
+            }
+
+            // 4. Falhou tudo
             btn.textContent = originalText;
             btn.disabled = false;
         }
