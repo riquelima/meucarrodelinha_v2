@@ -8,39 +8,72 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Tenta pegar a sessão atual
     if (!window.supabaseClient) return;
 
-    const { data: { session }, error } = await window.supabaseClient.auth.getSession();
+    let session = null;
+    let user = null;
+    let customSession = false;
 
-    if (error || !session) {
+    // 1. Tenta Supabase
+    const { data: { session: sbSession }, error } = await window.supabaseClient.auth.getSession();
+    if (sbSession) {
+        session = sbSession;
+        user = session.user;
+    } else {
+        // 2. Tenta Custom Session
+        const custom = localStorage.getItem('mcl_custom_session');
+        if (custom) {
+            const parsed = JSON.parse(custom);
+            session = parsed;
+            user = parsed.user;
+            customSession = true;
+        } else {
+            // 3. Tenta sessão migrada
+            const migrado = localStorage.getItem('mcl_migrado');
+            if (migrado) {
+                const parsed = JSON.parse(migrado);
+                session = { user: parsed };
+                user = parsed;
+                customSession = true;
+            }
+        }
+    }
+
+    if (!session || !user) {
         window.location.replace('homepage.html');
         return;
     }
 
-    const { user } = session;
     const currentPath = window.location.pathname;
+    let userData = null;
 
-    // Busca o tipo_usuario real no banco para garantir consistência
-    const { data: userData, error: fetchError } = await window.supabaseClient
-        .from('usuarios')
-        .select('tipo_usuario, foto_perfil_url')
-        .eq('id', user.id)
-        .single();
-
-    if (fetchError || !userData) {
-        console.error('Erro ao verificar perfil do usuário:', fetchError);
-        // Em caso de erro crítico no banco, podemos decidir se deslogamos ou permitimos
-        return;
+    if (!customSession) {
+        // Busca o tipo_usuario real no banco (usuários novos/Supabase)
+        const { data, error: fetchError } = await window.supabaseClient
+            .from('usuarios')
+            .select('tipo_usuario, foto_perfil_url')
+            .eq('id', user.id)
+            .single();
+        userData = data;
+    } else {
+        // Usuários migrados já têm os dados na sessão
+        userData = user;
     }
 
-    const tipoUsuario = userData.tipo_usuario;
+    if (!userData) {
+        console.warn('Dados de usuário não encontrados.');
+        // Se for uma sessão customizada, os dados já devem estar lá. 
+        // Se for Supabase e não achar no banco 'usuarios', talvez o cadastro esteja incompleto.
+        if (!customSession) {
+            // Pode decidir redirecionar ou não.
+        }
+    }
 
-    // Motorista: perfil integrado no navbar do motorista.html
+    const tipoUsuario = userData?.tipo_usuario || userData?.role || 'passageiro';
 
     // Proteção de rotas do Motorista
     const motoristaPages = ['motorista.html', 'historicoViagens.html', 'meusganhos.html', 'perfilMotorista.html', 'mensagensMotorista.html', 'chatMotorista.html'];
     const isMotoristaPage = motoristaPages.some(page => currentPath.includes(page));
 
     if (isMotoristaPage && tipoUsuario !== 'motorista' && tipoUsuario !== 'admin') {
-        console.warn("Acesso negado: área de motorista tentada por", tipoUsuario);
         window.location.replace('passageiro.html');
         return;
     }
@@ -50,18 +83,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isPassageiroPage = passageiroPages.some(page => currentPath.includes(page));
 
     if (isPassageiroPage && tipoUsuario !== 'passageiro' && tipoUsuario !== 'admin') {
-        console.warn("Acesso negado: área de passageiro tentada por", tipoUsuario);
         window.location.replace('motorista.html');
         return;
     }
 
     if ((currentPath.includes('admin.html') || currentPath.includes('gerenciar') || currentPath.includes('perfilAdministrador.html')) && tipoUsuario !== 'admin') {
-        alert("Acesso restrito ao administrador.");
         window.location.replace('passageiro.html');
         return;
     }
 
-    // Exibe ou oculta elementos baseados no login (opcional)
     document.body.classList.remove('hidden-until-auth');
 });
 
@@ -69,7 +99,7 @@ window.handleLogout = async function() {
     if (window.supabaseClient) {
         await window.supabaseClient.auth.signOut();
     }
-    window._navStack = [];
-    sessionStorage.removeItem('mclNavStack');
+    localStorage.removeItem('mcl_custom_session');
+    localStorage.removeItem('mcl_migrado');
     window.location.replace('index.html');
 };

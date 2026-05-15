@@ -9,22 +9,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const fetchDrivers = async () => {
         try {
-            const { data: drivers, error } = await supabaseClient
-                .from('motoristas')
-                .select(`
-                    modelo_veiculo,
-                    cor_veiculo,
-                    avaliacao_media,
-                    status_online,
-                    usuarios (
-                        nome,
-                        foto_perfil_url
-                    )
-                `)
-                .order('status_online', { ascending: false })
-                .order('avaliacao_media', { ascending: false });
+            // Busca do Backend (que agora combina MongoDB e Supabase users_migrados)
+            const backendUrl = window.location.origin.includes('localhost') 
+                ? 'http://localhost:3000/api/users/motoristas' 
+                : '/api/users/motoristas';
 
-            if (error) throw error;
+            const response = await fetch(backendUrl);
+            if (!response.ok) throw new Error('Falha ao buscar motoristas no backend');
+            
+            const drivers = await response.json();
             return drivers || [];
         } catch (err) {
             console.error('Erro ao buscar motoristas:', err);
@@ -45,22 +38,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         driversList.innerHTML = '';
         drivers.forEach(driver => {
-            const user = driver.usuarios;
-            const initials = user.nome
-                ? user.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+            // Ajuste para lidar com os dois formatos (MongoDB e Supabase)
+            const nome = driver.usuarios?.nome || driver.name || 'Motorista';
+            const foto = driver.usuarios?.foto_perfil_url || driver.avatar;
+            const avaliacao = driver.avaliacao_media || driver.avgRating || 5.0;
+            const modelo = driver.modelo_veiculo || driver.vehicle || 'Veículo';
+            const cor = driver.cor_veiculo || driver.carColor || 'Cor não inf.';
+            const isOnline = driver.status === 'online' || driver.status_online === true;
+
+            const initials = nome
+                ? nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
                 : '??';
 
-            const statusClass = driver.status_online
+            const statusClass = isOnline
                 ? 'bg-green-500/10 text-green-500 border-green-500/20'
                 : 'bg-slate-500/10 text-slate-500 border-slate-500/20';
-            const statusText = driver.status_online ? 'Disponível' : 'Ocupado';
+            const statusText = isOnline ? 'Disponível' : 'Ocupado';
 
             const card = document.createElement('div');
-            card.className = `p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-opacity ${!driver.status_online ? 'opacity-80' : ''}`;
+            card.className = `p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-opacity ${!isOnline ? 'opacity-80' : ''}`;
 
             let avatarHtml;
-            if (user.foto_perfil_url) {
-                avatarHtml = `<img alt="${user.nome}" class="w-full h-full object-cover" src="${user.foto_perfil_url}" onerror="this.parentElement.innerHTML='<span class=\'text-xl font-bold\'>${initials}</span>'" />`;
+            if (foto) {
+                avatarHtml = `<img alt="${nome}" class="w-full h-full object-cover" src="${foto}" onerror="this.parentElement.innerHTML='<span class=\'text-xl font-bold\'>${initials}</span>'" />`;
             } else {
                 avatarHtml = `<span class="text-xl font-bold">${initials}</span>`;
             }
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                     <div class="flex-1">
                         <div class="flex justify-between items-start">
-                            <p class="font-bold text-lg">${user.nome || 'Motorista'}</p>
+                            <p class="font-bold text-lg">${nome}</p>
                             <span class="px-2 py-1 rounded-md ${statusClass} text-[10px] font-bold uppercase tracking-wider border">
                                 ${statusText}
                             </span>
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="flex items-center gap-2 mt-1">
                             <div class="flex items-center gap-1 text-yellow-500">
                                 <span class="material-symbols-outlined text-sm fill-1">star</span>
-                                <span class="text-xs font-bold">${parseFloat(driver.avaliacao_media || 5.0).toFixed(1)}</span>
+                                <span class="text-xs font-bold">${parseFloat(avaliacao).toFixed(1)}</span>
                             </div>
                             <span class="text-slate-400 text-[10px]">•</span>
                             <span class="text-slate-500 dark:text-slate-400 text-xs font-medium">Motorista Verificado</span>
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50">
                     <span class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                         <span class="material-symbols-outlined text-lg text-[#f97316]">local_taxi</span>
-                        ${driver.modelo_veiculo || 'Veículo'} • ${driver.cor_veiculo || 'Cor não inf.'}
+                        ${modelo} • ${cor}
                     </span>
                     <a href="loginPassageiro.html" class="text-[#f97316] text-sm font-bold flex items-center active-scale">
                         Chamar
@@ -110,9 +110,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const filtered = allDrivers.filter(driver =>
-                driver.usuarios.nome.toLowerCase().includes(searchTerm)
-            );
+            const filtered = allDrivers.filter(driver => {
+                const nome = driver.usuarios?.nome || driver.name || '';
+                return nome.toLowerCase().includes(searchTerm);
+            });
             renderDrivers(filtered);
         });
     }

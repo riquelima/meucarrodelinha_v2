@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meucarrosalinas-v8';
+const CACHE_NAME = 'meucarrosalinas-v9';
 const API_CACHE = 'meucarrosalinas-api-v1';
 const ASSETS_TO_CACHE = [
   '/',
@@ -57,6 +57,11 @@ self.addEventListener('message', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+
+  // BYPASS for Edge Functions (login migrado)
+  if (url.pathname.includes('/functions/v1/')) {
+    return;
+  }
 
   // BYPASS for Analytics
   if (url.hostname.includes('google-analytics.com') ||

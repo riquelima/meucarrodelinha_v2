@@ -253,42 +253,61 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('senha').value;
 
+            // 1. Tenta login normal pelo Supabase Auth
             const result = await signIn(email, password);
             if (result.success) {
                 document.body.classList.add('fade-out');
-
-                // Consulta o tipo_usuario na tabela do banco (não nos user_metadata)
                 try {
-                    const userId = result.data.user.id;
-                    const { data: usuarioData } = await supabaseClient
-                        .from('usuarios')
-                        .select('tipo_usuario')
-                        .eq('id', userId)
-                        .single();
-
-                    const tipoUsuario = usuarioData?.tipo_usuario;
-
-                    // Verifica se existe um parâmetro de redirecionamento
+                    var u = result.data.user;
+                    var tipoUsuario = u.tipo_usuario || (u.user_metadata && u.user_metadata.tipo_usuario) || null;
+                    if (!tipoUsuario && u.id) {
+                        var { data: usuarioData } = await supabaseClient
+                            .from('usuarios')
+                            .select('tipo_usuario')
+                            .eq('id', u.id)
+                            .single();
+                        tipoUsuario = usuarioData?.tipo_usuario;
+                    }
                     const urlParams = new URLSearchParams(window.location.search);
                     const redirect = urlParams.get('redirect');
-
-                    let destino = 'passageiro.html';
-                    if (redirect) {
-                        destino = redirect;
-                    } else if (tipoUsuario === 'admin') {
-                        destino = 'admin.html';
-                    } else if (tipoUsuario === 'motorista') {
-                        destino = 'motorista.html';
-                    }
-                    setTimeout(() => { window.location.href = destino; }, 200);
-                } catch (err) {
-                    console.error('Erro ao verificar tipo de usuário:', err);
-                    setTimeout(() => { window.location.href = 'passageiro.html'; }, 200);
+                    var destino = 'passageiro.html';
+                    if (redirect) { destino = redirect; }
+                    else if (tipoUsuario === 'admin') { destino = 'admin.html'; }
+                    else if (tipoUsuario === 'motorista') { destino = 'motorista.html'; }
+                    setTimeout(function() { window.location.href = destino; }, 200);
+                } catch (e) {
+                    console.error('Erro ao definir destino:', e);
+                    setTimeout(function() { window.location.href = 'passageiro.html'; }, 200);
                 }
-            } else {
-                btn.textContent = originalText;
-                btn.disabled = false;
+                return;
             }
+
+            // 2. Falhou no Auth -> tenta usuário migrado
+            try {
+                const edgeUrl = 'https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado';
+                const res = await fetch(edgeUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (data.success && data.migrado) {
+                    localStorage.setItem('mcl_migrado', JSON.stringify(data.user));
+                    localStorage.setItem('mcl_custom_session', JSON.stringify({ user: data.user }));
+                    document.body.classList.add('fade-out');
+                    var destino = data.user.tipo_usuario === 'admin' ? 'admin.html' :
+                                  data.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
+                    setTimeout(() => { window.location.href = destino; }, 200);
+                    return;
+                }
+            } catch (e) {
+                console.warn('Edge function nao disponivel:', e);
+            }
+
+            // 3. Falhou tudo
+            btn.textContent = originalText;
+            btn.disabled = false;
         }
 
         document.addEventListener('DOMContentLoaded', () => {

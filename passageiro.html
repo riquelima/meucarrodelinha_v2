@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="pt-BR">
 
@@ -1896,15 +1896,17 @@
                     // e talvez tenhamos que pegar o nome de outra forma.
                     // POR ENQUANTO: Vamos listar da tabela 'motoristas'. Se faltar nome, usaremos um placeholder ou buscaremos.
 
-                    const motoristasPromise = supabaseClient.from('motoristas')
-                        .select('*, usuarios(nome, foto_perfil_url)')
-                        .eq('status_aprovacao', 'aprovado');
+                    const backendUrl = window.location.origin.includes('localhost') 
+                        ? 'http://localhost:3000/api/users/motoristas' 
+                        : '/api/users/motoristas';
 
-                    const { data: motoristas, error } = await motoristasPromise;
-                    if (error) throw error;
+                    const response = await fetch(backendUrl);
+                    if (!response.ok) throw new Error('Falha ao buscar motoristas no backend');
+                    
+                    const motoristas = await response.json();
                     driversContainer.innerHTML = ''; // Remove "Buscando motoristas..."
                     if (window.DataCache && DataCache.KEYS && motoristas) DataCache.set(DataCache.KEYS.DRIVERS, motoristas, 30 * 60 * 1000);
-                    console.log('[Motoristas] Dados recebidos:', motoristas?.length, motoristas?.[0] ? Object.keys(motoristas[0]) : 'vazio');
+                    console.log('[Motoristas] Dados recebidos:', motoristas?.length);
 
                     if (!motoristas || motoristas.length === 0) {
                         driversContainer.innerHTML = `
@@ -1916,19 +1918,20 @@
                     }
 
                     for (const motorista of motoristas) {
-                        const usuario = motorista.usuarios && (Array.isArray(motorista.usuarios) ? motorista.usuarios[0] : motorista.usuarios);
-                        const displayName = usuario?.nome || motorista?.nome || `Motorista ${motorista?.modelo_veiculo || ''}`;
-                        let photoUrl = usuario?.foto_perfil_url || motorista?.foto_perfil_url;
+                        const displayName = motorista.usuarios?.nome || motorista.name || `Motorista ${motorista.modelo_veiculo || motorista.vehicle || ''}`;
+                        let photoUrl = motorista.usuarios?.foto_perfil_url || motorista.avatar;
                         if (!photoUrl) {
                             photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
                         }
-                        const rating = parseFloat(motorista?.avaliacao_media || 5.0).toFixed(1);
+                        const rating = parseFloat(motorista.avaliacao_media || motorista.avgRating || 5.0).toFixed(1);
+                        const isOnline = motorista.status === 'online' || motorista.status_online === true;
+                        const usuarioId = motorista.usuario_id || motorista._id;
 
                         const cardHtml = `
                             <div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">
-                                <input type="radio" name="driver_selection" class="peer hidden" id="driver-${motorista?.usuario_id || ''}" value="${motorista?.usuario_id || ''}" 
-                                    data-name="${displayName}" data-phone="${motorista?.telefone_whatsapp || ''}">
-                                <label for="driver-${motorista.usuario_id}" class="absolute inset-0 z-10 cursor-pointer"></label>
+                                <input type="radio" name="driver_selection" class="peer hidden" id="driver-${usuarioId}" value="${usuarioId}" 
+                                    data-name="${displayName}" data-phone="${motorista.telefone_whatsapp || motorista.number || ''}">
+                                <label for="driver-${usuarioId}" class="absolute inset-0 z-10 cursor-pointer"></label>
                                 
                                 <div class="flex items-center gap-3">
                                     <div class="size-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-primary/10 shrink-0 group-has-[:checked]:ring-primary">
@@ -1944,7 +1947,7 @@
                                                 <span class="text-[10px] font-bold ml-0.5">${parseFloat(rating).toFixed(1)}</span>
                                             </div>
                                             <span class="text-slate-400 text-[10px]">•</span>
-                                            ${motorista?.status_online 
+                                            ${isOnline 
                                                 ? `<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>`
                                                 : `<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>`
                                             }
@@ -2062,11 +2065,22 @@
 
                 } catch (error) {
                     console.error('Erro ao buscar motoristas:', error);
-                    driversContainer.innerHTML = `
-                        <div class="p-4 text-center text-red-400 text-sm">
-                            <p>Erro ao carregar motoristas. Tente novamente.</p>
-                        </div>
-                    `;
+                    // Fallback: users_migrados
+                    try {
+                        var { data: migrados } = await supabaseClient.from('users_migrados').select('*').eq('role', 'motorista').order('profileViews', { ascending: false });
+                        if (migrados && migrados.length > 0) {
+                            driversContainer.innerHTML = '';
+                            migrados.forEach(function(m) {
+                                var dn = m.name || 'Motorista';
+                                var pf = m.avatar || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(dn) + '&background=f97316&color=fff&size=128');
+                                var rt = parseFloat(m.avgRating || 5).toFixed(1);
+                                var on = m.status === 'online';
+                                driversContainer.innerHTML += '<div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm cursor-pointer"><div class="flex items-center gap-3 mb-3"><div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700"><img src="' + pf + '" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display=\'none\'"/></div><div><p class="font-bold truncate w-32">' + dn + '</p><div class="flex items-center gap-1 text-yellow-500"><span class="material-symbols-outlined text-sm">star</span><span class="text-xs font-bold">' + rt + '</span></div></div></div><div class="flex justify-between items-center text-xs text-slate-500"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_taxi</span>' + (m.vehicle || 'Carro') + '</span><span class="px-2 py-1 rounded-full font-bold text-[10px] ' + (on ? 'bg-green-500/10 text-green-500' : 'bg-amber-500/10 text-amber-500') + '">' + (on ? 'Online' : 'Agendar') + '</span></div></div>';
+                            });
+                            return;
+                        }
+                    } catch(e2) { console.warn('Fallback users_migrados falhou:', e2); }
+                    driversContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm">Nenhum motorista disponível no momento.</div>';
                 }
             }
 

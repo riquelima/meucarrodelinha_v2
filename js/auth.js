@@ -1,6 +1,6 @@
 /**
  * js/auth.js
- * Centraliza as funções de autenticação do Supabase
+ * Centraliza as funções de autenticação do Supabase e do Backend Customizado
  */
 
 // Função para exibir alertas ou status (pode ser customizada depois para modais mais bonitos)
@@ -47,7 +47,6 @@ async function signUpMotorista(nomeCompleto, email, password, cpf, telefone, mod
                     nome: nomeCompleto,
                     telefone: telefone,
                     tipo_usuario: 'motorista'
-                    // Você pode adicionar mais dados no meta se quiser, ou deixar pro DB
                 }
             }
         });
@@ -59,7 +58,6 @@ async function signUpMotorista(nomeCompleto, email, password, cpf, telefone, mod
             let urlCnh = null;
             let urlDoc = null;
 
-            // Faz o upload dos arquivos para o storage, se fornecidos
             if (fileCnh) {
                 const fileExt = fileCnh.name.split('.').pop();
                 const filePath = `${userId}/cnh.${fileExt}`;
@@ -76,8 +74,6 @@ async function signUpMotorista(nomeCompleto, email, password, cpf, telefone, mod
                 else urlDoc = supabaseClient.storage.from('documentos_motoristas').getPublicUrl(filePath).data.publicUrl;
             }
 
-            // Insere os detalhes adicionais na tabela de motoristas
-            // Importante: RLS deve permitir isso para usar nesse contexto
             const { error: dbError } = await supabaseClient
                 .from('motoristas')
                 .insert([
@@ -106,20 +102,50 @@ async function signUpMotorista(nomeCompleto, email, password, cpf, telefone, mod
 }
 
 /**
- * Login Genérico (usado tanto por passageiro quanto motorista)
+ * Login Genérico (Supabase + Backend Migrados)
  */
 async function signIn(email, password) {
     try {
+        // 1. Tenta login direto no Supabase Auth (para novos usuários)
         const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password,
         });
 
-        if (error) throw error;
-        return { success: true, data };
+        if (!error) {
+            localStorage.removeItem('mcl_custom_session'); // Limpa sessão customizada se logou via Supabase
+            return { success: true, data };
+        }
+
+        // 2. Se falhar, tenta a Edge Function (para usuários migrados com BCrypt)
+        console.log('Tentando login via Edge Function para:', email);
+        const edgeUrl = 'https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado';
+        try {
+            const res = await fetch(edgeUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.success && data.migrado) {
+                    localStorage.setItem('mcl_migrado', JSON.stringify(data.user));
+                    localStorage.setItem('mcl_custom_session', JSON.stringify({ user: data.user }));
+                    return { success: true, data: { user: data.user, session: { user: data.user } } };
+                }
+            } else {
+                const text = await res.text();
+                console.warn('Edge function retornou', res.status, text.substring(0, 100));
+            }
+        } catch (e) {
+            console.warn('Edge function nao disponivel:', e.message || e);
+        }
+
+        throw new Error('Email ou senha incorretos.');
+
     } catch (error) {
         console.error('Erro no login:', error.message);
-        showMessage('Credenciais inválidas: ' + error.message, 'error');
+        showMessage(error.message, 'error');
         return { success: false, error };
     }
 }
@@ -129,18 +155,30 @@ async function signIn(email, password) {
  */
 async function signOut() {
     try {
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) throw error;
-        window.location.href = 'index.html'; // Volta pra tela inicial ou splash
+        if (window.supabaseClient) {
+            await supabaseClient.auth.signOut();
+        }
+        localStorage.removeItem('mcl_custom_session');
+        window.location.href = 'index.html';
     } catch (error) {
         console.error('Erro ao deslogar:', error.message);
     }
 }
 
 /**
- * Pega a sessão atual síncrona se disponível ou chama pra pegar
+ * Pega o usuário atual (Supabase ou Custom)
  */
 async function getCurrentUser() {
+    // 1. Tenta Supabase
     const { data: { session } } = await supabaseClient.auth.getSession();
-    return session ? session.user : null;
+    if (session) return session.user;
+
+    // 2. Tenta Custom Session
+    const custom = localStorage.getItem('mcl_custom_session');
+    if (custom) {
+        const parsed = JSON.parse(custom);
+        return parsed.user;
+    }
+
+    return null;
 }

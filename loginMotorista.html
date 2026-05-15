@@ -293,23 +293,25 @@
 
             const result = await signIn(email, password);
             if (result.success) {
-                // Busca perfil completo para verificar tipo e foto
-                const { data: userData, error: userError } = await supabaseClient
-                    .from('usuarios')
-                    .select('tipo_usuario, foto_perfil_url')
-                    .eq('id', result.data.user.id)
-                    .single();
-
-                if (userError) {
-                    console.error('Erro ao buscar dados do usuário:', userError);
-                    // Fallback para comportamento anterior caso falhe
-                    if (result.data.user.user_metadata?.tipo_usuario === 'motorista') {
-                        window.location.href = 'motorista.html';
-                    } else if (result.data.user.user_metadata?.tipo_usuario === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'passageiro.html';
+                document.body.classList.add('fade-out');
+                try {
+                    var u = result.data.user;
+                    var tipoUsuario = u.tipo_usuario || (u.user_metadata && u.user_metadata.tipo_usuario) || null;
+                    if (!tipoUsuario && u.id) {
+                        var { data: ud } = await supabaseClient.from('usuarios').select('tipo_usuario').eq('id', u.id).single();
+                        tipoUsuario = ud?.tipo_usuario;
                     }
+                    var destino = tipoUsuario === 'admin' ? 'admin.html' :
+                                  tipoUsuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
+                    setTimeout(function() { window.location.href = destino; }, 200);
+                } catch(e) {
+                    setTimeout(function() { window.location.href = 'passageiro.html'; }, 200);
+                }
+                return;
+            }
+
+            btn.innerHTML = originalText;
+            btn.disabled = false;
                     return;
                 }
 

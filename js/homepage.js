@@ -122,60 +122,87 @@ const initHomepage = async () => {
         const driversContainer = document.getElementById('drivers-container');
         if (!driversContainer) return;
 
+        let drivers = [];
+
         try {
-            const driversPromise = supabaseClient
-                .from('motoristas')
-                .select(`
-                    modelo_veiculo,
-                    avaliacao_media,
-                    status_online,
-                    usuarios ( nome, foto_perfil_url )
-                `)
-                .order('status_online', { ascending: false })
-                .order('avaliacao_media', { ascending: false })
-                .limit(10);
-
-            let drivers;
-            if (window.DataCache && DataCache.KEYS) {
-                drivers = await DataCache.fetchAndCache(driversPromise, DataCache.KEYS.DRIVERS, 30 * 60 * 1000);
-            } else {
-                const { data } = await driversPromise;
-                drivers = data || [];
+            const backendUrl = window.location.origin.includes('localhost') 
+                ? 'http://localhost:3000/api/users/motoristas/profile-views/top' 
+                : '/api/users/motoristas/profile-views/top';
+            const response = await fetch(backendUrl);
+            if (response.ok) {
+                drivers = await response.json();
             }
-
-            if (!drivers || drivers.length === 0) {
-                driversContainer.innerHTML = '<p class="text-slate-500 text-sm p-4">Nenhum motorista disponível no momento.</p>';
-                return;
-            }
-
-            renderDrivers(drivers);
         } catch (err) {
-            console.error('Error loading drivers:', err);
-            driversContainer.innerHTML = '<p class="text-slate-500 text-sm p-4">Não foi possível carregar os motoristas.</p>';
+            console.warn('Backend não disponível, usando Supabase:', err);
         }
+
+        // Fallback: busca motoristas do users_migrados direto do Supabase
+        if (!drivers || drivers.length === 0) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('users_migrados')
+                    .select('*')
+                    .eq('role', 'motorista')
+                    .order('profileViews', { ascending: false });
+                if (!error && data) {
+                    drivers = data;
+                }
+            } catch (err) {
+                console.warn('Erro ao buscar users_migrados:', err);
+            }
+        }
+
+        // Fallback: tabela motoristas antiga
+        if (!drivers || drivers.length === 0) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('motoristas')
+                    .select('modelo_veiculo,avaliacao_media,status_online,usuarios(nome,foto_perfil_url)')
+                    .order('status_online', { ascending: false })
+                    .order('avaliacao_media', { ascending: false })
+                    .limit(10);
+                if (!error && data) {
+                    drivers = data;
+                }
+            } catch (err) {
+                console.warn('Erro ao buscar motoristas antigos:', err);
+            }
+        }
+
+        if (!drivers || drivers.length === 0) {
+            driversContainer.innerHTML = '<p class="text-slate-500 text-sm p-4">Nenhum motorista disponível no momento.</p>';
+            return;
+        }
+
+        renderDrivers(drivers);
 
         function renderDrivers(drivers) {
             driversContainer.innerHTML = '';
 
             const createDriverCard = (driver) => {
-                const user = driver.usuarios || {};
-                const initials = user.nome
-                    ? user.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+                // Ajuste para lidar com os dois formatos (MongoDB e Supabase)
+                const nome = driver.usuarios?.nome || driver.name || 'Motorista';
+                const foto = driver.usuarios?.foto_perfil_url || driver.avatar;
+                const avaliacao = driver.avaliacao_media || driver.avgRating || 5.0;
+                const modelo = driver.modelo_veiculo || driver.vehicle || 'Veículo não inf.';
+                
+                const initials = nome
+                    ? nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
                     : '??';
 
                 const card = document.createElement('div');
                 card.className = 'flex-none w-64 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:shadow-md transition-shadow';
 
                 let avatarHtml;
-                if (user.foto_perfil_url) {
-                    avatarHtml = `<img alt="${user.nome}" class="w-full h-full object-cover" src="${user.foto_perfil_url}" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='${initials}'" />`;
+                if (foto) {
+                    avatarHtml = `<img alt="${nome}" class="w-full h-full object-cover" src="${foto}" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='${initials}'" />`;
                 } else {
                     const colors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500', 'bg-pink-500', 'bg-indigo-500', 'bg-teal-500'];
                     const randomColor = colors[Math.floor(Math.random() * colors.length)];
                     avatarHtml = `<div class="w-full h-full flex items-center justify-center text-white font-bold ${randomColor}">${initials}</div>`;
                 }
 
-                const isOnline = driver.status_online === true;
+                const isOnline = driver.status === 'online' || driver.status_online === true;
                 const statusClass = isOnline ? 'bg-green-500/10 text-green-500' : 'bg-amber-500/10 text-amber-500';
                 const statusText = isOnline ? 'Online' : 'Agendar';
 
@@ -185,17 +212,17 @@ const initHomepage = async () => {
                             ${avatarHtml}
                         </div>
                         <div>
-                            <p class="font-bold truncate w-32">${user.nome || 'Motorista'}</p>
+                            <p class="font-bold truncate w-32">${nome}</p>
                             <div class="flex items-center gap-1 text-yellow-500">
                                 <span class="material-symbols-outlined text-sm fill-1">star</span>
-                                <span class="text-xs font-bold">${parseFloat(driver.avaliacao_media || 5.0).toFixed(1)}</span>
+                                <span class="text-xs font-bold">${parseFloat(avaliacao).toFixed(1)}</span>
                             </div>
                         </div>
                     </div>
                     <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
                         <span class="flex items-center gap-1">
                             <span class="material-symbols-outlined text-sm">local_taxi</span> 
-                            ${driver.modelo_veiculo || 'Veículo não inf.'}
+                            ${modelo}
                         </span>
                         <span class="px-2 py-1 rounded-full font-bold uppercase tracking-tight ${statusClass}">
                             ${statusText}
@@ -439,5 +466,3 @@ if (document.readyState === 'loading') {
 } else {
     initHomepage();
 }
-
-
