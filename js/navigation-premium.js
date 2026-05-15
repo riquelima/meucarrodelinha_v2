@@ -8,30 +8,14 @@
         },
 
         setupNavigation: function () {
-            var self = this;
             document.addEventListener('click', function (e) {
                 var link = e.target.closest('a[href]');
                 if (!link) return;
                 var href = link.getAttribute('href');
                 if (!href || href === '#' || href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:') || link.target === '_blank') return;
                 e.preventDefault();
-                self.navigate(href);
+                window.location.href = href;
             });
-        },
-
-        navigate: function (url) {
-            try {
-                if (document.startViewTransition) {
-                    document.startViewTransition(function () {
-                        window.location.href = url;
-                    });
-                } else {
-                    document.body.classList.add('fade-out');
-                    setTimeout(function () { window.location.href = url; }, 200);
-                }
-            } catch (err) {
-                window.location.href = url;
-            }
         },
 
         setupMicroInteractions: function () {
