@@ -214,7 +214,19 @@
         document.addEventListener('DOMContentLoaded', async () => {
             // 1. Check Authentication
             const { data: { session } } = await supabaseClient.auth.getSession();
-            const user = session?.user;
+            let user = session?.user;
+
+            // Check migrated user
+            let migratedUser = null;
+            if (!user) {
+                const customSession = localStorage.getItem('mcl_custom_session');
+                const migradoData = localStorage.getItem('mcl_migrado');
+                if (customSession || migradoData) {
+                    const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
+                    migratedUser = parsed.user || parsed;
+                    user = migratedUser;
+                }
+            }
 
             if (!user) {
                 window.location.href = 'loginPassageiro.html';
@@ -222,6 +234,29 @@
             }
 
             // 2. Fetch User Profile
+            const avatarEl = document.getElementById('user-avatar');
+            const nameEl = document.getElementById('user-name');
+            const memberSinceEl = document.getElementById('user-member-since');
+
+            if (migratedUser) {
+                const nome = migratedUser.nome || 'Usuário';
+                if (nameEl) nameEl.innerText = nome;
+
+                if (migratedUser.avatar) {
+                    avatarEl.src = migratedUser.avatar;
+                } else {
+                    const initials = nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const parent = avatarEl.parentElement;
+                    parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold">${initials}</div>`;
+                }
+
+                if (memberSinceEl) memberSinceEl.innerText = 'Migrado';
+                document.getElementById('user-trips-count').innerText = '0';
+                const levelEl = document.getElementById('user-level');
+                if (levelEl) levelEl.innerText = 'Passageiro Iniciante';
+                return;
+            }
+
             const { data: profile, error: profileError } = await supabaseClient
                 .from('usuarios')
                 .select('*')
@@ -234,32 +269,25 @@
             }
 
             // 3. Update Profile UI
-            document.getElementById('user-name').innerText = profile.nome || 'Usuário';
+            if (nameEl) nameEl.innerText = profile.nome || 'Usuário';
 
-            // Format "Member Since" date
             if (profile.criado_em) {
                 const date = new Date(profile.criado_em);
                 const month = date.toLocaleString('pt-BR', { month: 'short' });
                 const year = date.getFullYear().toString().slice(-2);
-                // Capitalize first letter of month
                 const formattedMonth = month.charAt(0).toUpperCase() + month.slice(1);
-                document.getElementById('user-member-since').innerText = `${formattedMonth} '${year}`;
+                if (memberSinceEl) memberSinceEl.innerText = `${formattedMonth} '${year}`;
             }
 
-            // Avatar logic
-            const avatarEl = document.getElementById('user-avatar');
             if (profile.foto_perfil_url) {
                 avatarEl.src = profile.foto_perfil_url;
             } else {
-                // Generate initials avatar if no image
                 const initials = (profile.nome || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                // Replace img with div for initials
                 const parent = avatarEl.parentElement;
                 parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold">${initials}</div>`;
             }
 
             // 4. Fetch Trips Count
-            // Assuming 'passageiro_id' is the column in 'viagens' table
             const { count, error: tripsError } = await supabaseClient
                 .from('viagens')
                 .select('*', { count: 'exact', head: true })
@@ -268,10 +296,8 @@
             if (tripsError) {
                 console.error('Error fetching trips count:', tripsError);
             } else {
-                // Default to 0 is handled by 'count' being 0 if no rows match
                 document.getElementById('user-trips-count').innerText = count || 0;
 
-                // Update level based on trips (Simple gamification logic)
                 const levelEl = document.getElementById('user-level');
                 if (count >= 50) levelEl.innerText = 'Passageiro Nível Ouro';
                 else if (count >= 20) levelEl.innerText = 'Passageiro Nível Prata';

@@ -915,25 +915,31 @@
                         e.textContent = (p>=0?'+':'')+p.toFixed(1)+'%';
                         e.className = p>=0?'text-emerald-500 text-xs font-bold leading-normal':'text-red-500 text-xs font-bold leading-normal';
                     }
-                    var r1 = await sb.from('usuarios').select('*',{count:'exact',head:true});
-                    var r1p = await sb.from('usuarios').select('*',{count:'exact',head:true}).lt('criado_em',iso);
+                    var [r1, r1p, r1m, r2, r2p, r2m, r3, r3p, r3m] = await Promise.all([
+                        sb.from('usuarios').select('*',{count:'exact',head:true}),
+                        sb.from('usuarios').select('*',{count:'exact',head:true}).lt('criado_em',iso),
+                        sb.from('users_migrados').select('*',{count:'exact',head:true}),
+                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro'),
+                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro').lt('criado_em',iso),
+                        sb.from('users_migrados').select('*',{count:'exact',head:true}).eq('role','passageiro'),
+                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista'),
+                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista').lt('criado_em',iso),
+                        sb.from('users_migrados').select('*',{count:'exact',head:true}).eq('role','motorista')
+                    ]);
                     if (!r1.error) {
-                        var cc = Math.max(0,r1.count-1);
-                        var pc = Math.max(0,(r1p.count||0)-1);
+                        var totalUsuarios = Math.max(0,r1.count-1) + (r1m.count||0);
                         var el = document.getElementById('stat-clientes');
-                        if (el) el.textContent = cc.toLocaleString();
-                        up('pct-clientes',cc,pc);
+                        if (el) el.textContent = totalUsuarios.toLocaleString();
+                        up('pct-clientes',totalUsuarios,Math.max(0,(r1p.count||0)-1)+(r1m.count||0));
                     }
-                    var r2 = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro');
-                    var r2p = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro').lt('criado_em',iso);
+                    var totalPassageiros = (r2.count||0) + (r2m.count||0);
                     var el2 = document.getElementById('stat-passageiros');
-                    if (el2) el2.textContent = (r2.count||0).toLocaleString();
-                    up('pct-passageiros',r2.count||0,r2p.count||0);
-                    var r3 = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista');
-                    var r3p = await sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista').lt('criado_em',iso);
+                    if (el2) el2.textContent = totalPassageiros.toLocaleString();
+                    up('pct-passageiros',totalPassageiros,(r2p.count||0)+(r2m.count||0));
+                    var totalMotoristas = (r3.count||0) + (r3m.count||0);
                     var el3 = document.getElementById('stat-motoristas');
-                    if (el3) el3.textContent = (r3.count||0).toLocaleString();
-                    up('pct-motoristas',r3.count||0,r3p.count||0);
+                    if (el3) el3.textContent = totalMotoristas.toLocaleString();
+                    up('pct-motoristas',totalMotoristas,(r3p.count||0)+(r3m.count||0));
                     var el4 = document.getElementById('stat-viagens');
                     if (el4) el4.textContent = '0';
                 } catch(e) { console.error('Erro stats:',e); }
@@ -1036,14 +1042,50 @@
                 var from = (ts.page-1)*ts.itemsPerPage, to = from+ts.itemsPerPage-1;
                 try {
                     if (uels.loadMoreBtn) { uels.loadMoreBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Carregando...'; uels.loadMoreBtn.disabled = true; }
-                    var q = sb.from('usuarios').select('*',{count:'exact'}).eq('tipo_usuario',tipo).order('criado_em',{ascending:false}).range(from,to);
-                    if (ts.searchQuery) q = q.ilike('nome','%'+ts.searchQuery+'%');
-                    var r = await q;
-                    if (r.error) throw r.error;
-                    ts.totalCount = r.count||0;
-                    if (r.data && r.data.length>0) {
-                        ts.data = reset ? r.data : ustate[tipo].data.concat(r.data);
-                        ts.hasMore = ts.data.length < r.count;
+
+                    var roleMap = {motorista:'motorista',passageiro:'passageiro',admin:'admin'};
+                    var migradoRole = roleMap[tipo]||'passageiro';
+
+                    var [usuariosRes, migradosRes] = await Promise.all([
+                        sb.from('usuarios').select('*',{count:'exact'}).eq('tipo_usuario',tipo).order('criado_em',{ascending:false}),
+                        sb.from('users_migrados').select('*').eq('role',migradoRole).order('createdAt',{ascending:false})
+                    ]);
+
+                    if (usuariosRes.error) throw usuariosRes.error;
+
+                    var usuariosData = usuariosRes.data||[];
+                    var migradosData = migradosRes.data||[];
+
+                    var mappedMigrados = migradosData.map(function(u){return {
+                        id: u._id, _isMigrado: true,
+                        nome: u.name||'Sem Nome',
+                        email: u.email||'',
+                        telefone: u.number||'',
+                        foto_perfil_url: u.avatar||null,
+                        tipo_usuario: u.role||tipo,
+                        criado_em: u.createdAt||u.createAt||null,
+                        status: u.status||'online'
+                    };});
+
+                    var allUsers = usuariosData.concat(mappedMigrados);
+
+                    if (ts.searchQuery) {
+                        var q = ts.searchQuery.toLowerCase();
+                        allUsers = allUsers.filter(function(u){return (u.nome||'').toLowerCase().indexOf(q)!==-1||(u.email||'').toLowerCase().indexOf(q)!==-1;});
+                    }
+
+                    allUsers.sort(function(a,b){
+                        var da = a.criado_em ? new Date(a.criado_em).getTime() : 0;
+                        var db = b.criado_em ? new Date(b.criado_em).getTime() : 0;
+                        return db - da;
+                    });
+
+                    ts.totalCount = allUsers.length;
+                    var paginated = allUsers.slice(from, to+1);
+
+                    if (paginated.length>0) {
+                        ts.data = reset ? paginated : ts.data.concat(paginated);
+                        ts.hasMore = ts.data.length < allUsers.length;
                         ts.page++;
                     } else { ts.hasMore=false; if (reset) ts.data=[]; }
                     renderUserList(tipo);
@@ -1063,9 +1105,20 @@
                 var div = document.createElement('div');
                 div.className = 'flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm';
                 var img = user.foto_perfil_url || (DEFAULT_AVATAR + encodeURIComponent(user.nome||'?'));
-                div.innerHTML = '<div class="relative shrink-0"><div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover bg-center rounded-full h-14 w-14 ring-2 ring-primary/10" style="background-image:url('+"'"+img+"'"+')"></div><div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div></div><div class="flex flex-col flex-1 min-w-0"><p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">'+escapeHTML(user.nome||'Sem Nome')+'</p><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-green-500 text-xs">check_circle</span><p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p></div></div><div class="shrink-0"><div class="flex gap-1"><button class="edit-btn flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'" data-email="'+escapeHTML(user.email||'')+'" data-telefone="'+escapeHTML(user.telefone||'')+'"><span class="material-symbols-outlined pointer-events-none">edit</span></button><button class="delete-btn flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'"><span class="material-symbols-outlined pointer-events-none">delete</span></button></div></div>';
-                div.querySelector('.edit-btn').addEventListener('click',function(e){handleEditClick(e);});
-                div.querySelector('.delete-btn').addEventListener('click',function(e){handleDeleteClick(e);});
+                var isMigrado = user._isMigrado === true;
+                var isOnline = user.status === 'online';
+                var onlineDot = isOnline
+                    ? '<div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>'
+                    : '<div class="absolute bottom-0 right-0 h-4 w-4 bg-slate-400 border-2 border-white dark:border-slate-900 rounded-full"></div>';
+                var actions = isMigrado
+                    ? '<span class="text-[10px] text-slate-500 italic px-2">importado</span>'
+                    : '<div class="flex gap-1"><button class="edit-btn flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'" data-email="'+escapeHTML(user.email||'')+'" data-telefone="'+escapeHTML(user.telefone||'')+'"><span class="material-symbols-outlined pointer-events-none">edit</span></button><button class="delete-btn flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'"><span class="material-symbols-outlined pointer-events-none">delete</span></button></div>';
+                var migradoBadge = isMigrado ? '<span class="px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[9px] font-bold uppercase rounded-md tracking-wider ml-1">Migrado</span>' : '';
+                div.innerHTML = '<div class="relative shrink-0"><div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover bg-center rounded-full h-14 w-14 ring-2 ring-primary/10" style="background-image:url('+"'"+img+"'"+')"></div>'+onlineDot+'</div><div class="flex flex-col flex-1 min-w-0"><p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">'+escapeHTML(user.nome||'Sem Nome')+'</p><div class="flex items-center gap-1.5 flex-wrap"><span class="material-symbols-outlined text-green-500 text-xs">check_circle</span><p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>'+migradoBadge+'</div></div><div class="shrink-0">'+actions+'</div>';
+                if (!isMigrado) {
+                    var eb = div.querySelector('.edit-btn'); if(eb) eb.addEventListener('click',function(e){handleEditClick(e);});
+                    var db = div.querySelector('.delete-btn'); if(db) db.addEventListener('click',function(e){handleDeleteClick(e);});
+                }
                 return div;
             }
             function handleEditClick(e) {

@@ -113,35 +113,74 @@ document.addEventListener('DOMContentLoaded', () => {
         const toIndex = fromIndex + tabState.itemsPerPage - 1;
 
         try {
-            // Loading state for button
             const originalBtnText = elements.loadMoreBtn.innerText;
             elements.loadMoreBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Carregando...';
             elements.loadMoreBtn.disabled = true;
 
-            let query = sb
-                .from('usuarios')
-                .select('*', { count: 'exact' })
-                .eq('tipo_usuario', tipoUsuario)
-                .order('criado_em', { ascending: false })
-                .range(fromIndex, toIndex);
+            const roleMap = { motorista: 'motorista', passageiro: 'passageiro', admin: 'admin' };
+            const migradoRole = roleMap[tipoUsuario] || 'passageiro';
 
+            // Fetch from both tables in parallel
+            const [usuariosRes, migradosRes] = await Promise.all([
+                sb.from('usuarios')
+                    .select('*', { count: 'exact' })
+                    .eq('tipo_usuario', tipoUsuario)
+                    .order('criado_em', { ascending: false }),
+                sb.from('users_migrados')
+                    .select('*')
+                    .eq('role', migradoRole)
+                    .order('createdAt', { ascending: false })
+            ]);
+
+            if (usuariosRes.error) throw usuariosRes.error;
+
+            const usuariosData = usuariosRes.data || [];
+            const migradosData = migradosRes.data || [];
+
+            // Map users_migrados fields to match usuarios structure
+            const mappedMigrados = migradosData.map(u => ({
+                id: u._id,
+                _isMigrado: true,
+                nome: u.name || 'Sem Nome',
+                email: u.email || '',
+                telefone: u.number || '',
+                foto_perfil_url: u.avatar || null,
+                tipo_usuario: u.role || tipoUsuario,
+                criado_em: u.createdAt || u.createAt || null,
+                status: u.status || 'online'
+            }));
+
+            // Filter by search query if present
+            let allUsers = [...usuariosData, ...mappedMigrados];
             if (tabState.searchQuery) {
-                query = query.ilike('nome', `%${tabState.searchQuery}%`);
+                const q = tabState.searchQuery.toLowerCase();
+                allUsers = allUsers.filter(u =>
+                    (u.nome || '').toLowerCase().includes(q) ||
+                    (u.email || '').toLowerCase().includes(q)
+                );
             }
 
-            const { data, error, count } = await query;
+            // Sort by criado_em descending
+            allUsers.sort((a, b) => {
+                const da = a.criado_em ? new Date(a.criado_em).getTime() : 0;
+                const db = b.criado_em ? new Date(b.criado_em).getTime() : 0;
+                return db - da;
+            });
 
-            if (error) throw error;
+            const totalCount = allUsers.length;
 
-            tabState.totalCount = count || 0;
+            // Paginate
+            const paginatedData = allUsers.slice(fromIndex, toIndex + 1);
 
-            if (data && data.length > 0) {
-                tabState.data = resetPage ? data : [...tabState.data, ...data];
-                tabState.hasMore = tabState.data.length < count;
+            tabState.totalCount = totalCount;
+
+            if (paginatedData.length > 0) {
+                tabState.data = resetPage ? paginatedData : [...tabState.data, ...paginatedData];
+                tabState.hasMore = tabState.data.length < totalCount;
                 tabState.page++;
             } else {
                 tabState.hasMore = false;
-                if (resetPage) tabState.data = []; // ensure empty
+                if (resetPage) tabState.data = [];
             }
 
             renderList(tipoUsuario);
@@ -150,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Erro ao buscar usuários:', error);
             alert('Erro ao carregar a lista de usuários.');
         } finally {
-            // Reset button state
             elements.loadMoreBtn.innerText = 'Carregar mais';
             elements.loadMoreBtn.disabled = false;
         }
@@ -190,26 +228,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = "flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm";
 
-        // Use user's profile image or a default one
         const userImg = user.foto_perfil_url || (DEFAULT_AVATAR + encodeURIComponent(user.nome || '?'));
-        // Basic active status (customize if there is an active/blocked flag in your DB)
-        const isActive = true; // Placeholder: all active for now
+        const isMigrado = user._isMigrado === true;
+        const isOnline = user.status === 'online';
 
         div.innerHTML = `
             <div class="relative shrink-0">
                 <div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover bg-center rounded-full h-14 w-14 ring-2 ring-primary/10" style="background-image: url('${userImg}');"></div>
-                ${isActive ? '<div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>' : ''}
+                ${isOnline ? '<div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>' : '<div class="absolute bottom-0 right-0 h-4 w-4 bg-slate-400 border-2 border-white dark:border-slate-900 rounded-full"></div>'}
             </div>
             <div class="flex flex-col flex-1 min-w-0">
                 <p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">${escapeHTML(user.nome || 'Sem Nome')}</p>
-                <div class="flex items-center gap-1.5">
-                    ${isActive ?
-                '<span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span><p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>' :
-                '<span class="material-symbols-outlined text-red-500 text-xs fill-1">block</span><p class="text-red-500 text-xs font-bold uppercase tracking-wider">Bloqueado</p>'}
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="material-symbols-outlined text-green-500 text-xs fill-1">check_circle</span>
+                    <p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>
+                    ${isMigrado ? '<span class="px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[9px] font-bold uppercase rounded-md tracking-wider">Migrado</span>' : ''}
                 </div>
             </div>
             <div class="shrink-0">
                 <div class="flex gap-1">
+                    ${!isMigrado ? `
                     <button class="edit-btn flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95" 
                         data-id="${user.id}" data-nome="${escapeHTML(user.nome || '')}" data-email="${escapeHTML(user.email || '')}" data-telefone="${escapeHTML(user.telefone || '')}">
                         <span class="material-symbols-outlined pointer-events-none">edit</span>
@@ -218,16 +256,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         data-id="${user.id}" data-nome="${escapeHTML(user.nome || '')}">
                         <span class="material-symbols-outlined pointer-events-none">delete</span>
                     </button>
+                    ` : `<span class="text-[10px] text-slate-500 italic px-2">importado</span>`}
                 </div>
             </div>
         `;
 
-        // Attach event listeners to the new buttons
-        const editBtn = div.querySelector('.edit-btn');
-        editBtn.addEventListener('click', handleEditClick);
-
-        const deleteBtn = div.querySelector('.delete-btn');
-        deleteBtn.addEventListener('click', handleDeleteClick);
+        if (!isMigrado) {
+            const editBtn = div.querySelector('.edit-btn');
+            editBtn?.addEventListener('click', handleEditClick);
+            const deleteBtn = div.querySelector('.delete-btn');
+            deleteBtn?.addEventListener('click', handleDeleteClick);
+        }
 
         return div;
     }
