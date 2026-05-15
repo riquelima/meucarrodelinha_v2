@@ -3,19 +3,7 @@
 
     var PN = {
         init: function () {
-            this.setupNavigation();
             this.setupMicroInteractions();
-        },
-
-        setupNavigation: function () {
-            document.addEventListener('click', function (e) {
-                var link = e.target.closest('a[href]');
-                if (!link) return;
-                var href = link.getAttribute('href');
-                if (!href || href === '#' || href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:') || link.target === '_blank') return;
-                e.preventDefault();
-                window.location.href = href;
-            });
         },
 
         setupMicroInteractions: function () {
