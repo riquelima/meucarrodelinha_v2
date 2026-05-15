@@ -70,7 +70,7 @@
                     animation: {
                         'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
                         'float': 'float 3s ease-in-out infinite',
-                        'scroll': 'scroll 45s linear infinite',
+                        'scroll': 'scroll 120s linear infinite',
                     },
                 },
             },
@@ -507,7 +507,7 @@
             <div class="flex overflow-hidden w-full group mask-gradient-x">
                 <div class="flex animate-scroll group-hover:[animation-play-state:paused] w-max"
                     id="drivers-scroll-wrapper">
-                    <div id="drivers-container" class="flex gap-4 px-4 sm:px-6 pb-4 no-scrollbar snap-x snap-mandatory">
+                    <div id="drivers-container" class="flex gap-4 px-4 sm:px-6 pb-4 no-scrollbar">
                     </div>
                 </div>
             </div>
@@ -1049,26 +1049,15 @@
     <script src="js/ui-transitions.js"></script>
 
     <script>
-        // Pausa o scroll automático dos motoristas quando o usuário interage
-        var scrollWrappers = document.querySelectorAll('#drivers-scroll-wrapper');
-        scrollWrappers.forEach(function(w) {
-            w.addEventListener('touchstart', function() {
-                w.style.animationPlayState = 'paused';
-            }, { passive: true });
-            w.addEventListener('touchend', function() {
-                clearTimeout(w._resumeTimer);
-                w._resumeTimer = setTimeout(function() {
-                    w.style.animationPlayState = '';
-                }, 4000);
-            }, { passive: true });
-            w.addEventListener('scroll', function() {
-                w.style.animationPlayState = 'paused';
-                clearTimeout(w._resumeTimer);
-                w._resumeTimer = setTimeout(function() {
-                    w.style.animationPlayState = '';
-                }, 4000);
-            }, { passive: true });
-        });
+        var sw = document.getElementById('drivers-scroll-wrapper');
+        if (sw) {
+            sw.addEventListener('touchstart', function() { sw.style.animationPlayState = 'paused'; }, { passive: true });
+            sw.addEventListener('touchend', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
+            sw.addEventListener('touchcancel', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
+            sw.addEventListener('mouseenter', function() { sw.style.animationPlayState = 'paused'; });
+            sw.addEventListener('mouseleave', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); });
+            sw.addEventListener('wheel', function() { sw.style.animationPlayState = 'paused'; clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
+        }
     </script>
 
     <script src="js/share.js"></script>

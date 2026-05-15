@@ -205,11 +205,20 @@
                         placeholder="seu@email.com" type="email" />
                 </div>
             </div>
-            <div class="space-y-1.5">
-                <div class="flex justify-between items-center px-1">
-                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Senha</label>
-                    <a class="text-xs font-bold text-primary" href="#">Esqueci minha senha</a>
+            <div id="senha-container" class="space-y-1.5">
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Senha</label>
+                <div
+                    class="relative flex items-center ios-input-focus border border-slate-800 bg-slate-900/50 rounded-xl overflow-hidden transition-all">
+                    <span class="material-symbols-outlined absolute left-4 text-slate-500">lock</span>
+                    <input id="senha"
+                        class="w-full bg-transparent border-none py-4 pl-12 pr-12 text-white placeholder:text-slate-600 focus:ring-0"
+                        placeholder="••••••••" type="password" />
+                    <button class="absolute right-4 text-slate-500" type="button"
+                        onclick="const p = document.getElementById('senha'); p.type = p.type === 'password' ? 'text' : 'password';">
+                        <span class="material-symbols-outlined text-xl">visibility</span>
+                    </button>
                 </div>
+            </div>
                 <div
                     class="relative flex items-center ios-input-focus border border-slate-800 bg-slate-900/50 rounded-xl overflow-hidden transition-all">
                     <span class="material-symbols-outlined absolute left-4 text-slate-500">lock</span>
@@ -242,6 +251,36 @@
     <script src="js/supabaseClient.js"></script>
     <script src="js/auth.js"></script>
     <script>
+        var _migradoNoPass = false;
+
+        document.getElementById('email').addEventListener('blur', async function() {
+            var email = this.value.trim();
+            if (!email || !email.includes('@')) return;
+            var sc = document.getElementById('senha-container');
+            var btn = document.getElementById('btn-login');
+            try {
+                var r = await fetch('https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, checkOnly: true })
+                });
+                var d = await r.json();
+                if (d.exists) {
+                    _migradoNoPass = true;
+                    if (sc) { sc.style.display = 'none'; }
+                    if (btn) { btn.textContent = 'Entrar sem senha'; }
+                } else {
+                    _migradoNoPass = false;
+                    if (sc) { sc.style.display = ''; }
+                    if (btn) { btn.textContent = 'Entrar'; }
+                }
+            } catch(e) {
+                _migradoNoPass = false;
+                if (sc) sc.style.display = '';
+                if (btn) btn.textContent = 'Entrar';
+            }
+        });
+
         async function handleLogin(event) {
             event.preventDefault();
 
@@ -252,6 +291,29 @@
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('senha').value;
+
+            // Se for migrado sem senha, loga sem password
+            if (_migradoNoPass) {
+                try {
+                    var r = await fetch('https://gnhsfrwixhhcdsbyyqhg.supabase.co/functions/v1/auth-migrado', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email })
+                    });
+                    var d = await r.json();
+                    if (d.success) {
+                        localStorage.setItem('mcl_migrado', JSON.stringify(d.user));
+                        localStorage.setItem('mcl_custom_session', JSON.stringify({ user: d.user }));
+                        document.body.classList.add('fade-out');
+                        var dest = d.user.tipo_usuario === 'admin' ? 'admin.html' : d.user.tipo_usuario === 'motorista' ? 'motorista.html' : 'passageiro.html';
+                        setTimeout(function() { window.location.href = dest; }, 200);
+                        return;
+                    }
+                } catch(e) { console.warn(e); }
+                btn.textContent = 'Erro ao entrar';
+                btn.disabled = false;
+                return;
+            }
 
             // 1. Tenta login normal pelo Supabase Auth
             const result = await signIn(email, password);

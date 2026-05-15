@@ -9,20 +9,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const fetchDrivers = async () => {
         try {
-            // Busca do Backend (que agora combina MongoDB e Supabase users_migrados)
             const backendUrl = window.location.origin.includes('localhost') 
                 ? 'http://localhost:3000/api/users/motoristas' 
                 : '/api/users/motoristas';
-
             const response = await fetch(backendUrl);
-            if (!response.ok) throw new Error('Falha ao buscar motoristas no backend');
-            
-            const drivers = await response.json();
-            return drivers || [];
+            if (response.ok) return (await response.json()) || [];
         } catch (err) {
-            console.error('Erro ao buscar motoristas:', err);
-            return null;
+            console.warn('Backend indisponivel:', err);
         }
+        try {
+            if (window.supabaseClient) {
+                var { data } = await window.supabaseClient.from('users_migrados').select('*').eq('role', 'motorista').order('profileViews', { ascending: false });
+                if (data && data.length > 0) return data;
+            }
+        } catch(e) { console.warn('users_migrados falhou:', e); }
+        return null;
     };
 
     const renderDrivers = (drivers) => {

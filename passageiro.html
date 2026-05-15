@@ -79,7 +79,7 @@
             100% { transform: translateX(-50%); }
         }
         .animate-scroll {
-            animation: pasScroll 45s linear infinite;
+            animation: pasScroll 120s linear infinite;
         }
 
     </style>
@@ -345,7 +345,7 @@
                                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Motoristas Disponíveis</p>
                                     <div class="flex overflow-hidden w-full mask-gradient-x">
                                         <div id="drivers-scroll-wrapper" class="flex animate-scroll hover:[animation-play-state:paused] w-max">
-                                            <div id="drivers-list-container" class="flex gap-4 px-4 pb-4 no-scrollbar snap-x snap-mandatory min-h-[160px]">
+                                            <div id="drivers-list-container" class="flex gap-4 px-4 pb-4 no-scrollbar min-h-[160px]">
                                                 <div class="p-4 text-center text-slate-400 text-sm w-[280px] flex flex-col items-center shrink-0">
                                                     <span class="material-symbols-outlined animate-spin mb-2">sync</span>
                                                     <p>Buscando motoristas...</p>
@@ -2516,7 +2516,11 @@
         var sw = document.getElementById('drivers-scroll-wrapper');
         if (sw) {
             sw.addEventListener('touchstart', function() { sw.style.animationPlayState = 'paused'; }, { passive: true });
-            sw.addEventListener('touchend', function() { clearTimeout(sw._t); sw._t = setTimeout(function() { sw.style.animationPlayState = ''; }, 4000); }, { passive: true });
+            sw.addEventListener('touchend', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
+            sw.addEventListener('touchcancel', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
+            sw.addEventListener('mouseenter', function() { sw.style.animationPlayState = 'paused'; });
+            sw.addEventListener('mouseleave', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); });
+            sw.addEventListener('wheel', function() { sw.style.animationPlayState = 'paused'; clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
         }
     </script>
     <script src="js/pwa-register.js"></script>
