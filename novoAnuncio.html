@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <title>Criar Anúncio: Meu Carro de Linha Salinas</title>
+    <title>Criar Anúncio - Meu Carro de Linha Salinas</title>
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
@@ -18,33 +18,25 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0f38bd",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#101422",
+                        "primary": "#f97316",
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "accent-dark": "#00b8e6",
+                        "background-dark": "#0f1320",
+                        "surface-dark": "#161b2e",
+                        "card-dark": "#1a2038",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-    <style type="text/tailwindcss">
+    <style>
         body {
-            font-family: 'Inter', sans-serif;
             min-height: 100dvh;
-        }
-        .ios-blur {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        .ad-preview-shadow {
-            box-shadow: 0 10px 30px -10px rgba(15, 56, 189, 0.3);
-        }
-    
-        /* Global Mobile Native Fixes */
-        body {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overscroll-behavior-y: none;
@@ -53,349 +45,540 @@
             user-select: text;
             -webkit-user-select: text;
         }
-        /* Native-like click effect */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
         .active-scale {
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .active-scale:active {
             transform: scale(0.96);
         }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 0 40px rgba(249, 115, 22, 0.05); }
+            50% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.3), 0 0 60px rgba(249, 115, 22, 0.1); }
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
         .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
+        .delay-600 { animation-delay: 600ms; }
+        .delay-700 { animation-delay: 700ms; }
 
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
+        .glass-card-strong {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .input-premium {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            color: #f1f5f9;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .input-premium:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1), 0 0 20px rgba(249, 115, 22, 0.05);
+            outline: none;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .input-premium::placeholder {
+            color: rgba(148, 163, 184, 0.4);
+        }
+        .input-premium.textarea-premium {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .glow-primary {
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .glow-cta {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .benefit-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .benefit-badge:hover {
+            border-color: rgba(249, 115, 22, 0.2);
+            background: rgba(249, 115, 22, 0.05);
+        }
+
+        .hero-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.06) 0%, transparent 50%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bg-premium-grid {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .divider-gradient {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent);
+        }
+
+        .drop-zone {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .drop-zone:hover {
+            border-color: rgba(249, 115, 22, 0.3);
+            background: rgba(249, 115, 22, 0.03);
+        }
+        .drop-zone.has-image {
+            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .preview-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            aspect-ratio: 16/9;
+        }
+        .preview-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .char-counter {
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(148, 163, 184, 0.6);
+            transition: color 0.3s ease;
+        }
+        .char-counter.warning {
+            color: #f97316;
+        }
+        .char-counter.danger {
+            color: #ef4444;
+        }
+
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-        <!-- Header -->
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-            <a href="#" onclick="goBack(); return false;" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid">
+
+    <div class="relative min-h-screen flex flex-col">
+
+        <!-- Decorative glow -->
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- ========== HEADER ========== -->
+        <header class="relative z-20 flex items-center justify-between px-4 py-4">
+            <a href="#" onclick="goBack(); return false;"
+                class="active-scale flex items-center justify-center size-10 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300">
+                <span class="material-symbols-outlined text-xl">arrow_back</span>
             </a>
-            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-                Criar Anúncio</h1>
+            <span class="text-xs font-medium text-slate-500 uppercase tracking-[0.15em]">Publicidade</span>
             <div class="size-10"></div>
         </header>
-        <main class="flex flex-col gap-6 p-4 pb-24">
-            <section class="flex flex-col gap-4">
-                <div class="flex flex-col gap-2">
-                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Título do
-                        Anúncio</label>
-                    <input id="titulo-anuncio"
-                        class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                        placeholder="Ex: Promoção Restaurante Central" type="text" />
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="flex justify-between items-center px-1">
-                        <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Descrição
-                            Curta</label>
-                        <span id="char-count" class="text-[10px] font-bold text-slate-400">0/140</span>
-                    </div>
-                    <textarea id="descricao-anuncio"
-                        class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
-                        placeholder="Ex: 20% de desconto para passageiros Meu Carro Salinas" rows="2"
-                        maxlength="140"></textarea>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">URL de
-                        Destino</label>
-                    <input id="url-anuncio"
-                        class="w-full rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                        placeholder="Ex: https://meusite.com.br ou WhatsApp" type="url" />
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 px-1">Upload da
-                        Imagem</label>
-                    <div id="drop-zone"
-                        class="w-full aspect-video rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30 flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-primary transition-colors relative overflow-hidden">
-                        <input type="file" id="imagem-input" accept="image/*" class="hidden" />
-                        <div id="no-image-state" class="flex flex-col items-center gap-2">
-                            <span
-                                class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary transition-colors">add_photo_alternate</span>
-                            <p class="text-sm text-slate-500 font-medium">Toque para selecionar imagem</p>
-                            <p class="text-[10px] text-slate-400">Recomendado: 1200x600px</p>
-                        </div>
-                        <img id="image-preview-overlay" class="absolute inset-0 w-full h-full object-cover hidden" />
-                    </div>
-                </div>
-            </section>
 
-            <section class="flex flex-col gap-4 mt-2">
-                <div class="flex items-center justify-between px-1">
-                    <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Preview do Card</h2>
-                    <span
-                        class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full font-bold">Visualização
-                        na Home</span>
+        <!-- ========== HERO SECTION ========== -->
+        <section class="relative px-4 pt-2 pb-6 overflow-hidden">
+            <div class="relative overflow-hidden rounded-[2rem] px-5 py-8 sm:p-10 hero-card-glow animate-scale-in">
+                <div class="hero-glow"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none"></div>
+
+                <div class="relative z-10 text-center">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-5">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">campaign</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">Anuncie Agora</span>
+                    </div>
+
+                    <h1 class="font-display font-extrabold leading-[1.05] tracking-tight text-white"
+                        style="font-size: clamp(26px, 7vw, 42px);">
+                        Coloque seu negócio na<br />
+                        <span class="gradient-text">rota de milhares de pessoas</span>
+                    </h1>
+
+                    <p class="mt-4 text-slate-400 font-medium leading-relaxed max-w-md mx-auto"
+                        style="font-size: clamp(14px, 3.5vw, 17px);">
+                        Sua marca vista por quem está em Salinas. Crie seu anúncio em segundos e alcance passageiros todos os dias.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-2 mt-6">
+                        <div class="benefit-badge inline-flex items-center gap-1.5 px-3 py-2 rounded-xl">
+                            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">visibility</span>
+                            <span class="text-xs font-semibold text-slate-300">Alcance local</span>
+                        </div>
+                        <div class="benefit-badge inline-flex items-center gap-1.5 px-3 py-2 rounded-xl">
+                            <span class="material-symbols-outlined text-accent text-sm" style="font-variation-settings:'FILL'1">rocket_launch</span>
+                            <span class="text-xs font-semibold text-slate-300">Criação rápida</span>
+                        </div>
+                        <div class="benefit-badge inline-flex items-center gap-1.5 px-3 py-2 rounded-xl">
+                            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">trending_up</span>
+                            <span class="text-xs font-semibold text-slate-300">Resultado real</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-full bg-slate-800 rounded-2xl overflow-hidden ad-preview-shadow relative aspect-[16/9]">
-                    <img id="card-preview-img" alt="Preview Ad" class="w-full h-full object-cover opacity-60"
+            </div>
+        </section>
+
+        <div class="divider-gradient mx-4 mb-2"></div>
+
+        <!-- ========== FORM ========== -->
+        <main class="flex-1 px-4 pb-36 space-y-6">
+
+            <!-- Dados do Anúncio -->
+            <div class="animate-slide-up delay-200">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">description</span>
+                    <h2 class="font-display font-bold text-white text-lg">Informações do Anúncio</h2>
+                </div>
+
+                <div class="space-y-3.5">
+                    <label class="flex flex-col">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">Título do Anúncio</span>
+                        <div class="relative">
+                            <input id="titulo-anuncio"
+                                class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium"
+                                placeholder="Ex: Promoção Restaurante Central" type="text" />
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 text-xl pointer-events-none">title</span>
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">badge</span>
+                        </div>
+                    </label>
+
+                    <label class="flex flex-col">
+                        <div class="flex items-center justify-between mb-1.5 px-1">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em]">Descrição</span>
+                            <span id="char-count" class="char-counter">0/140</span>
+                        </div>
+                        <div class="relative">
+                            <textarea id="descricao-anuncio"
+                                class="input-premium w-full rounded-2xl px-4 py-4 pl-11 text-sm font-medium resize-none"
+                                placeholder="Ex: 20% de desconto para passageiros Meu Carro Salinas" rows="3" maxlength="140"></textarea>
+                            <span class="material-symbols-outlined absolute left-4 top-4 text-primary/50 pointer-events-none">edit_note</span>
+                        </div>
+                    </label>
+
+                    <label class="flex flex-col">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">URL de Destino</span>
+                        <div class="relative">
+                            <input id="url-anuncio"
+                                class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium"
+                                placeholder="Ex: https://meusite.com.br ou WhatsApp" type="url" />
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">link</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Upload da Imagem -->
+            <div class="animate-slide-up delay-300">
+                <div class="divider-gradient mb-4"></div>
+                <div class="flex items-center gap-2 mb-4 mt-1">
+                    <span class="material-symbols-outlined text-accent text-sm" style="font-variation-settings:'FILL'1">image</span>
+                    <h2 class="font-display font-bold text-white text-lg">Imagem do Anúncio</h2>
+                </div>
+
+                <div id="drop-zone"
+                    class="drop-zone relative w-full aspect-video rounded-2xl border-2 border-dashed border-white/10 bg-white/[0.02] flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 overflow-hidden">
+                    <input type="file" id="imagem-input" accept="image/*" class="hidden" />
+                    <div id="no-image-state" class="flex flex-col items-center gap-2 z-10">
+                        <div class="size-14 rounded-full bg-primary/10 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-3xl text-primary">add_photo_alternate</span>
+                        </div>
+                        <p class="text-sm text-slate-400 font-medium">Toque para selecionar imagem</p>
+                        <p class="text-[10px] text-slate-600">Recomendado: 1200x600px · Máx: 5MB</p>
+                    </div>
+                    <img id="image-preview-overlay" class="absolute inset-0 w-full h-full object-cover hidden z-0" />
+                </div>
+            </div>
+
+            <!-- Preview do Card -->
+            <div class="animate-slide-up delay-400">
+                <div class="divider-gradient mb-4"></div>
+                <div class="flex items-center justify-between mb-3 mt-1">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">visibility</span>
+                        <h2 class="font-display font-bold text-white text-lg">Preview</h2>
+                    </div>
+                    <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                        Na Home
+                    </span>
+                </div>
+
+                <div class="preview-card glass-card-strong">
+                    <img id="card-preview-img" alt="Preview do anúncio"
+                        class="w-full h-full object-cover"
                         src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                    <div class="absolute bottom-0 left-0 right-0 z-10 p-4">
                         <div class="flex flex-col gap-1">
-                            <span
-                                class="text-[10px] font-bold uppercase tracking-widest text-primary bg-white/90 px-2 py-0.5 rounded-sm w-fit">PATROCINADO</span>
-                            <h3 id="preview-titulo" class="text-lg font-bold text-white leading-tight">Título do Anúncio
-                                Exemplo</h3>
-                            <p id="preview-descricao" class="text-xs text-slate-200 line-clamp-1">Esta é a descrição
-                                curta que aparecerá no carrossel da tela inicial.</p>
+                            <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-primary bg-white/10 backdrop-blur-md px-2 py-1 rounded-md w-fit border border-primary/20">
+                                PATROCINADO
+                            </span>
+                            <h3 id="preview-titulo" class="text-lg font-bold text-white leading-tight mt-1">Título do Anúncio Exemplo</h3>
+                            <p id="preview-descricao" class="text-xs text-slate-300 line-clamp-1">Esta é a descrição curta que aparecerá no carrossel da tela inicial.</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="flex flex-col gap-3 pt-4 mb-8">
-                <button id="btn-publicar"
-                    class="flex items-center justify-center gap-2 w-full p-4 rounded-xl bg-primary text-white font-bold transition-all active:scale-[0.98] shadow-lg shadow-primary/30">
-                    <span id="btn-icon" class="material-symbols-outlined">rocket_launch</span>
-                    <span id="btn-text">Publicar Agora</span>
-                </button>
-            </section>
+            <div class="h-2"></div>
         </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script src="js/supabaseClient.js"></script>
-        <!-- <script src="js/authGuard.js"></script> --> <!-- Removed to allow curious users to see the form -->
-        <script src="js/ui-transitions.js"></script>
-        <script src="js/chat-notifications.js"></script>
-        <script src="js/navigation.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-                let isAdmin = false;
+        <!-- ========== CTA FIXED BOTTOM ========== -->
+        <div class="fixed bottom-0 left-0 right-0 z-30 p-4 pb-6 bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent animate-slide-up delay-500">
+            <button id="btn-publicar"
+                class="active-scale glow-cta relative w-full h-16 rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary font-display font-bold text-white text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden group">
+                <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <span id="btn-icon" class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL'1">campaign</span>
+                <span id="btn-text">Publicar Anúncio</span>
+                <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </button>
+            <p class="text-center text-[11px] text-slate-600 mt-3 font-medium tracking-wide">
+                Seu anúncio aparece para centenas de passageiros em Salinas da Margarida
+            </p>
+        </div>
+    </div>
 
-                // Admin check
-                async function checkUserType() {
-                    const { data: { user } } = await window.supabaseClient.auth.getUser();
-                    if (!user) {
-                        // Don't redirect immediately to allow seeing the page
-                        console.log('User not logged in, will prompt on publish');
-                        return;
-                    }
+    <!-- ========== BOTTOM NAV (admin only) ========== -->
+    <nav id="bottom-nav"
+        class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-4 pb-6 pt-2 z-20 hidden">
+        <div class="flex gap-2 max-w-lg mx-auto">
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="homepage.html">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined">home</span>
+                </div>
+                <p class="text-[10px] font-medium leading-normal tracking-tight">Início</p>
+            </a>
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="gerenciarUsuarios.html">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined">group</span>
+                </div>
+                <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
+            </a>
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="historicoGeral.html">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined">route</span>
+                </div>
+                <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
+            </a>
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="perfilAdministrador.html">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined">settings</span>
+                </div>
+                <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
+            </a>
+        </div>
+    </nav>
 
-                    const { data: usuario, error } = await window.supabaseClient
-                        .from('usuarios')
-                        .select('tipo_usuario')
-                        .eq('id', user.id)
-                        .single();
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/ui-transitions.js"></script>
+    <script src="js/chat-notifications.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            let isAdmin = false;
 
-                    if (!error && usuario?.tipo_usuario === 'admin') {
-                        isAdmin = true;
-                        // Se for admin, exibe a navbar inferior
-                        const bottomNav = document.getElementById('bottom-nav');
-                        if (bottomNav) bottomNav.classList.remove('hidden');
-                    } else {
-                        // Se não for admin, mantém oculto (já está com classe hidden no HTML)
-                    }
+            async function checkUserType() {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) {
+                    console.log('User not logged in, will prompt on publish');
+                    return;
                 }
-                checkUserType();
+                const { data: usuario, error } = await window.supabaseClient
+                    .from('usuarios')
+                    .select('tipo_usuario')
+                    .eq('id', user.id)
+                    .single();
+                if (!error && usuario?.tipo_usuario === 'admin') {
+                    isAdmin = true;
+                    const bottomNav = document.getElementById('bottom-nav');
+                    if (bottomNav) bottomNav.classList.remove('hidden');
+                }
+            }
+            checkUserType();
 
-                const dropZone = document.getElementById('drop-zone');
-                const imageInput = document.getElementById('imagem-input');
-                const imagePreview = document.getElementById('image-preview-overlay');
-                const noImageState = document.getElementById('no-image-state');
-                const cardPreviewImg = document.getElementById('card-preview-img');
+            const dropZone = document.getElementById('drop-zone');
+            const imageInput = document.getElementById('imagem-input');
+            const imagePreview = document.getElementById('image-preview-overlay');
+            const noImageState = document.getElementById('no-image-state');
+            const cardPreviewImg = document.getElementById('card-preview-img');
 
-                const tituloInput = document.getElementById('titulo-anuncio');
-                const descricaoInput = document.getElementById('descricao-anuncio');
-                const urlInput = document.getElementById('url-anuncio');
+            const tituloInput = document.getElementById('titulo-anuncio');
+            const descricaoInput = document.getElementById('descricao-anuncio');
+            const urlInput = document.getElementById('url-anuncio');
 
-                const previewTitulo = document.getElementById('preview-titulo');
-                const previewDescricao = document.getElementById('preview-descricao');
+            const previewTitulo = document.getElementById('preview-titulo');
+            const previewDescricao = document.getElementById('preview-descricao');
 
-                const btnPublicar = document.getElementById('btn-publicar');
-                const btnText = document.getElementById('btn-text');
-                const btnIcon = document.getElementById('btn-icon');
+            const btnPublicar = document.getElementById('btn-publicar');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
 
-                const charCount = document.getElementById('char-count');
+            const charCount = document.getElementById('char-count');
 
-                // Preview Sync
-                tituloInput.addEventListener('input', (e) => previewTitulo.textContent = e.target.value || 'Título do Anúncio Exemplo');
-                descricaoInput.addEventListener('input', (e) => {
-                    const text = e.target.value;
-                    previewDescricao.textContent = text || 'Esta é a descrição curta que aparecerá no carrossel da tela inicial.';
-                    charCount.textContent = `${text.length}/140`;
+            tituloInput.addEventListener('input', (e) => {
+                previewTitulo.textContent = e.target.value || 'Título do Anúncio Exemplo';
+            });
 
-                    // Color change when approaching limit
-                    if (text.length >= 130) {
-                        charCount.classList.remove('text-slate-400');
-                        charCount.classList.add('text-primary');
-                    } else {
-                        charCount.classList.add('text-slate-400');
-                        charCount.classList.remove('text-primary');
-                    }
-                });
+            descricaoInput.addEventListener('input', (e) => {
+                const text = e.target.value;
+                previewDescricao.textContent = text || 'Esta é a descrição curta que aparecerá no carrossel da tela inicial.';
+                charCount.textContent = `${text.length}/140`;
+                charCount.classList.remove('warning', 'danger');
+                if (text.length >= 130) {
+                    charCount.classList.add('warning');
+                }
+                if (text.length >= 140) {
+                    charCount.classList.add('danger');
+                }
+            });
 
-                // Image Selection
-                dropZone.addEventListener('click', () => imageInput.click());
+            dropZone.addEventListener('click', () => imageInput.click());
 
-                imageInput.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            imagePreview.src = event.target.result;
-                            imagePreview.classList.remove('hidden');
-                            noImageState.classList.add('hidden');
-                            cardPreviewImg.src = event.target.result;
-                            cardPreviewImg.classList.remove('opacity-60');
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+            imageInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        imagePreview.src = event.target.result;
+                        imagePreview.classList.remove('hidden');
+                        noImageState.classList.add('hidden');
+                        cardPreviewImg.src = event.target.result;
+                        dropZone.classList.add('has-image');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
 
-                async function uploadImage(file) {
-                    const fileExt = file.name.split('.').pop();
-                    const fileName = `${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExt}`;
-                    const filePath = fileName;
+            async function uploadImage(file) {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExt}`;
+                const filePath = fileName;
 
-                    const { data, error } = await window.supabaseClient.storage
-                        .from('anuncios')
-                        .upload(filePath, file);
+                const { data, error } = await window.supabaseClient.storage
+                    .from('anuncios')
+                    .upload(filePath, file);
 
-                    if (error) throw error;
+                if (error) throw error;
 
-                    const { data: { publicUrl } } = window.supabaseClient.storage
-                        .from('anuncios')
-                        .getPublicUrl(filePath);
+                const { data: { publicUrl } } = window.supabaseClient.storage
+                    .from('anuncios')
+                    .getPublicUrl(filePath);
 
-                    return publicUrl;
+                return publicUrl;
+            }
+
+            btnPublicar.addEventListener('click', async () => {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+
+                const titulo = tituloInput.value.trim();
+                const descricao = descricaoInput.value.trim();
+                let urlDestino = urlInput.value.trim();
+                const imageFile = imageInput.files[0];
+
+                if (!titulo || !imageFile) {
+                    alert('Por favor, preencha o título e selecione uma imagem.');
+                    return;
                 }
 
-                btnPublicar.addEventListener('click', async () => {
-                    // Removida exigência de login conforme solicitado pelo usuário
-                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (urlDestino && !urlDestino.startsWith('http://') && !urlDestino.startsWith('https://') && !urlDestino.startsWith('tel:') && !urlDestino.startsWith('mailto:')) {
+                    urlDestino = 'https://' + urlDestino;
+                }
 
-                    const titulo = tituloInput.value.trim();
-                    const descricao = descricaoInput.value.trim();
-                    let urlDestino = urlInput.value.trim();
-                    const imageFile = imageInput.files[0];
+                try {
+                    btnPublicar.disabled = true;
+                    btnText.textContent = 'Publicando...';
+                    btnIcon.textContent = 'sync';
+                    btnIcon.classList.add('animate-spin');
 
-                    if (!titulo || !imageFile) {
-                        alert('Por favor, preencha o título e selecione uma imagem.');
-                        return;
+                    if (!window.supabaseClient) {
+                        throw new Error('Erro de conexão com o servidor. Recarregue a página.');
                     }
 
-                    // URL Sanitization
-                    if (urlDestino && !urlDestino.startsWith('http://') && !urlDestino.startsWith('https://') && !urlDestino.startsWith('tel:') && !urlDestino.startsWith('mailto:')) {
-                        urlDestino = 'https://' + urlDestino;
-                    }
+                    const imageUrl = await uploadImage(imageFile);
 
-                    try {
-                        btnPublicar.disabled = true;
-                        btnText.textContent = 'Publicando...';
-                        btnIcon.textContent = 'sync';
-                        btnIcon.classList.add('animate-spin');
+                    const insertData = {
+                        titulo,
+                        descricao,
+                        url: urlDestino,
+                        link_acao: urlDestino,
+                        imagem_url: imageUrl,
+                        criado_por: user?.id || null,
+                        ativo: true
+                    };
 
-                        if (!window.supabaseClient) {
-                            throw new Error('Erro de conexão com o servidor. Recarregue a página.');
-                        }
+                    const { error: insertError } = await window.supabaseClient
+                        .from('anuncios')
+                        .insert([insertData]);
 
-                        // Realiza o upload da imagem
-                        const imageUrl = await uploadImage(imageFile);
-
-                        // Inserção direta para todos os usuários
-                        const insertData = {
-                            titulo,
-                            descricao,
-                            url: urlDestino,
-                            link_acao: urlDestino,
-                            imagem_url: imageUrl,
-                            criado_por: user?.id || null,
-                            ativo: true
-                        };
-
-                        const { error: insertError } = await window.supabaseClient
+                    if (insertError) {
+                        console.warn('Erro na inserção, tentando sem link_acao:', insertError);
+                        delete insertData.link_acao;
+                        const { error: insertError2 } = await window.supabaseClient
                             .from('anuncios')
                             .insert([insertData]);
-
-                        if (insertError) {
-                            console.warn('Erro na inserção, tentando sem link_acao:', insertError);
-                            // Tenta sem link_acao se falhar (pode ser problema de esquema)
-                            delete insertData.link_acao;
-                            const { error: insertError2 } = await window.supabaseClient
-                                .from('anuncios')
-                                .insert([insertData]);
-
-                            if (insertError2) throw insertError2;
-                        }
-                        window.location.href = 'anuncioCriado.html';
-
-                    } catch (error) {
-                        console.error('Erro ao processar anúncio:', error);
-                        // Mostra a mensagem de erro detalhada se disponível
-                        const errorMsg = error.message || (error.error_description) || 'Erro desconhecido';
-                        alert(`Erro ao processar o anúncio: ${errorMsg}`);
-
-                        btnPublicar.disabled = false;
-                        btnText.textContent = 'Publicar Agora';
-                        btnIcon.textContent = 'rocket_launch';
-                        btnIcon.classList.remove('animate-spin');
+                        if (insertError2) throw insertError2;
                     }
-                });
+                    window.location.href = 'anuncioCriado.html';
+
+                } catch (error) {
+                    console.error('Erro ao processar anúncio:', error);
+                    const errorMsg = error.message || (error.error_description) || 'Erro desconhecido';
+                    alert(`Erro ao processar o anúncio: ${errorMsg}`);
+
+                    btnPublicar.disabled = false;
+                    btnText.textContent = 'Publicar Anúncio';
+                    btnIcon.textContent = 'campaign';
+                    btnIcon.classList.remove('animate-spin');
+                }
             });
-        </script>
-        <!-- Bottom Navigation Bar (Hidden by default, visible only for Admin via JS) -->
-        <nav id="bottom-nav"
-            class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pb-6 pt-2 z-50 hidden">
-            <div class="flex gap-2 max-w-lg mx-auto">
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400" href="homepage.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">home</span>
-                    </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Início</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="gerenciarUsuarios.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">group</span>
-                    </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="historicoGeral.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">route</span>
-                    </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="perfilAdministrador.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">settings</span>
-                    </div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
-                </a>
-            </div>
-        </nav>
-    </div>
+        });
+    </script>
     <script src="js/pwa-register.js"></script>
 </body>
 
