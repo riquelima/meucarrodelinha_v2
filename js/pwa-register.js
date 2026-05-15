@@ -100,48 +100,8 @@
         }
     }
 
-    // Registro do Service Worker
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js?v=11')
-                .then(function(registration) {
-                    console.log('[PWA] Service Worker registrado:', registration.scope);
-                    if ('sync' in registration) {
-                        registration.sync.register('sync-messages')
-                            .catch(function(err) { console.log('[PWA] Erro sync:', err); });
-                    }
-                    if ('periodicSync' in registration) {
-                        try {
-                            var ps = localStorage.getItem('pwa-install-dismissed');
-                            if (!ps) {
-                                registration.periodicSync.register('update-cache', { minInterval: 24 * 60 * 60 * 1000 })
-                                    .then(function() { localStorage.setItem('periodic-sync-status', 'registered'); })
-                                    .catch(function(err) { console.log('[PWA] Erro periodic sync:', err); });
-                            }
-                        } catch(e) {}
-                    }
-                    registration.addEventListener('updatefound', function() {
-                        var newWorker = registration.installing;
-                        newWorker.addEventListener('statechange', function() {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                            }
-                        });
-                    });
-                })
-                .catch(function(error) {
-                    console.error('[PWA] Erro ao registrar Service Worker:', error);
-                });
-        });
-
-        var refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', function() {
-            if (!refreshing) {
-                window.location.reload();
-                refreshing = true;
-            }
-        });
-    }
+    // Registro do Service Worker removido para evitar loops de recarregamento
+    // navigator.serviceWorker.register('/sw.js?v=11') ... (desativado)
 
     // Verifica se já foi instalado
     if (window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {

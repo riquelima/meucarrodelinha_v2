@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="dark" lang="pt-br">
 <head>
     <meta charset="utf-8" />
@@ -142,32 +142,17 @@
     <script src="js/data-cache.js"></script>
 
     <script>
+        // REMOÇÃO TOTAL DE SERVICE WORKER PARA PARAR LOOP
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(registrations => {
-                registrations.forEach(reg => reg.update());
-            });
-        }
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                        registration.addEventListener('updatefound', () => {
-                            const newSW = registration.installing;
-                            if (newSW) newSW.addEventListener('statechange', () => {
-                                if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-                                    newSW.postMessage({ type: 'SKIP_WAITING' });
-                                    window.location.reload();
-                                }
-                            });
-                        });
-                        setTimeout(preloadAssets, 500);
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
+                for(let registration of registrations) {
+                    registration.unregister().then(() => {
+                        console.log('[SW] Service Worker desregistrado com sucesso para parar o loop.');
                     });
+                }
             });
         }
+    </script>
 
         async function preloadAssets() {
             try {
