@@ -70,7 +70,7 @@
                     animation: {
                         'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
                         'float': 'float 3s ease-in-out infinite',
-                        'scroll': 'scroll 10s linear infinite',
+                        'scroll': 'scroll 30s linear infinite',
                     },
                 },
             },
@@ -1047,6 +1047,29 @@
         });
     </script>
     <script src="js/ui-transitions.js"></script>
+
+    <script>
+        // Pausa o scroll automático dos motoristas quando o usuário interage
+        var scrollWrappers = document.querySelectorAll('#drivers-scroll-wrapper');
+        scrollWrappers.forEach(function(w) {
+            w.addEventListener('touchstart', function() {
+                w.style.animationPlayState = 'paused';
+            }, { passive: true });
+            w.addEventListener('touchend', function() {
+                clearTimeout(w._resumeTimer);
+                w._resumeTimer = setTimeout(function() {
+                    w.style.animationPlayState = '';
+                }, 4000);
+            }, { passive: true });
+            w.addEventListener('scroll', function() {
+                w.style.animationPlayState = 'paused';
+                clearTimeout(w._resumeTimer);
+                w._resumeTimer = setTimeout(function() {
+                    w.style.animationPlayState = '';
+                }, 4000);
+            }, { passive: true });
+        });
+    </script>
 
     <script src="js/share.js"></script>
     <script src="js/pwa-register.js"></script>
