@@ -80,8 +80,8 @@
         '.share-fab:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(249,115,22,0.5)}' +
         '.share-fab:active{transform:scale(0.88);box-shadow:0 4px 16px rgba(249,115,22,0.2)}' +
         '.share-fab .material-symbols-outlined{color:#fff;font-size:24px;font-variation-settings:"FILL"1}' +
-        '.share-fab-dismiss{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#1e293b;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .2s;z-index:1}' +
-        '.share-fab:hover .share-fab-dismiss{opacity:1}' +
+        '.share-fab-dismiss{position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:#0f172a;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1;box-shadow:0 2px 6px rgba(0,0,0,0.4)}' +
+        '.share-fab-dismiss .material-symbols-outlined{font-size:10px!important;color:rgba(255,255,255,0.4)}' +
         '.share-fab-dismiss .material-symbols-outlined{font-size:12px;color:rgba(255,255,255,0.5)}' +
         '@keyframes toastIn{0%{opacity:0;transform:translateY(20px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}' +
         '@keyframes toastOut{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(10px) scale(.95)}}' +
@@ -90,18 +90,26 @@
         '.share-toast .material-symbols-outlined{color:#f97316;font-size:20px}' +
         '.share-toast p{color:#fff;font-size:13px;font-weight:600;margin:0}' +
         '</style>' +
-        '<div class="share-fab" id="shareFab" title="Compartilhar" onclick="if(!event.target.closest(\'.share-fab-dismiss\'))window.shareApp(\'fab\')">' +
-        '<div class="share-fab-dismiss" id="shareFabDismiss" title="Não ver mais" onclick="event.stopPropagation();window.dismissShareFab()">' +
+        '<div class="share-fab" id="shareFab" title="Compartilhar">' +
+        '<div class="share-fab-dismiss" id="shareFabDismiss" title="Não ver mais">' +
         '<span class="material-symbols-outlined">close</span></div>' +
         '<span class="material-symbols-outlined">share</span></div>';
 
     function attachShareHandlers() {
         var fab = document.getElementById('shareFab');
-        if (fab && !fab._handler) {
-            fab._handler = true;
+        var dismiss = document.getElementById('shareFabDismiss');
+        if (fab && !fab.dataset.handler) {
+            fab.dataset.handler = '1';
             fab.addEventListener('click', function(e) {
                 if (e.target.closest('.share-fab-dismiss')) return;
                 window.shareApp('fab');
+            });
+        }
+        if (dismiss && !dismiss.dataset.handler) {
+            dismiss.dataset.handler = '1';
+            dismiss.addEventListener('click', function(e) {
+                e.stopPropagation();
+                window.dismissShareFab();
             });
         }
     }
