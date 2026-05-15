@@ -20,17 +20,22 @@ const ASSETS_TO_CACHE = [
   '/gerenciarBlog.html',
   '/gerenciarAnuncios.html',
   '/perfilAdministrador.html',
-  '/configuracoesPassageiro.html',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap'
+  '/configuracoesPassageiro.html'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Caching assets');
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).catch(err => console.error('[SW] Cache installation error:', err))
+    caches.open(CACHE_NAME).then(async (cache) => {
+      console.log('[SW] Caching critical assets individually');
+      // Usamos um loop para que se um arquivo falhar (ex: 404), os outros continuem sendo cacheados
+      for (const asset of ASSETS_TO_CACHE) {
+        try {
+          await cache.add(asset);
+        } catch (err) {
+          console.warn(`[SW] Failed to cache critical asset: ${asset}`, err);
+        }
+      }
+    }).catch(err => console.error('[SW] Cache installation setup error:', err))
   );
   self.skipWaiting();
 });

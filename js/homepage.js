@@ -136,7 +136,7 @@ const initHomepage = async () => {
                 drivers = await response.json();
             }
         } catch (err) {
-            console.warn('Backend não disponível, usando Supabase:', err);
+            // Silenciado para evitar ruído no console (404 esperado se a rota não estiver ativa no Vercel)
         }
 
         // Fallback: busca motoristas do users_migrados direto do Supabase
