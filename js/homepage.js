@@ -183,7 +183,7 @@ const initHomepage = async () => {
                 // Ajuste para lidar com os dois formatos (MongoDB e Supabase)
                 const nome = driver.usuarios?.nome || driver.name || 'Motorista';
                 const foto = driver.usuarios?.foto_perfil_url || driver.avatar;
-                const avaliacao = driver.avaliacao_media || driver.avgRating || 5.0;
+                const avaliacao = 5.0;
                 const modelo = driver.modelo_veiculo || driver.vehicle || 'Veículo não inf.';
                 
                 const initials = nome

@@ -79,7 +79,7 @@
             100% { transform: translateX(-50%); }
         }
         .animate-scroll {
-            animation: pasScroll 30s linear infinite;
+            animation: pasScroll 45s linear infinite;
         }
 
     </style>
@@ -1934,7 +1934,7 @@
                         if (!photoUrl) {
                             photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
                         }
-                        const rating = parseFloat(motorista.avaliacao_media || motorista.avgRating || 5.0).toFixed(1);
+                        const rating = '5.0';
                         const isOnline = motorista.status === 'online' || motorista.status_online === true;
                         const usuarioId = motorista.usuario_id || motorista._id;
 
@@ -2084,7 +2084,7 @@
                             migrados.forEach(function(m) {
                                 var dn = m.name || 'Motorista';
                                 var pf = m.avatar || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(dn) + '&background=f97316&color=fff&size=128');
-                                var rt = parseFloat(m.avgRating || 5).toFixed(1);
+                                var rt = '5.0';
                                 var on = m.status === 'online';
                                 driversContainer.innerHTML += '<div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm cursor-pointer"><div class="flex items-center gap-3 mb-3"><div class="size-12 rounded-full overflow-hidden bg-slate-300 dark:bg-slate-700"><img src="' + pf + '" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display=\'none\'"/></div><div><p class="font-bold truncate w-32">' + dn + '</p><div class="flex items-center gap-1 text-yellow-500"><span class="material-symbols-outlined text-sm">star</span><span class="text-xs font-bold">' + rt + '</span></div></div></div><div class="flex justify-between items-center text-xs text-slate-500"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_taxi</span>' + (m.vehicle || 'Carro') + '</span><span class="px-2 py-1 rounded-full font-bold text-[10px] ' + (on ? 'bg-green-500/10 text-green-500' : 'bg-amber-500/10 text-amber-500') + '">' + (on ? 'Online' : 'Agendar') + '</span></div></div>';
                             });
