@@ -504,10 +504,9 @@
                     <span class="material-symbols-outlined text-base">chevron_right</span>
                 </a>
             </div>
-            <div class="flex overflow-hidden w-full group mask-gradient-x">
-                <div class="flex animate-scroll group-hover:[animation-play-state:paused] w-max"
-                    id="drivers-scroll-wrapper">
-                    <div id="drivers-container" class="flex gap-4 px-4 sm:px-6 pb-4 no-scrollbar">
+            <div class="relative w-full overflow-hidden mask-gradient-x">
+                <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing">
+                    <div id="drivers-container" class="flex gap-4 px-4 sm:px-6 pb-4" style="width: max-content;">
                     </div>
                 </div>
             </div>
@@ -1049,15 +1048,38 @@
     <script src="js/ui-transitions.js"></script>
 
     <script>
-        var sw = document.getElementById('drivers-scroll-wrapper');
-        if (sw) {
-            sw.addEventListener('touchstart', function() { sw.style.animationPlayState = 'paused'; }, { passive: true });
-            sw.addEventListener('touchend', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
-            sw.addEventListener('touchcancel', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
-            sw.addEventListener('mouseenter', function() { sw.style.animationPlayState = 'paused'; });
-            sw.addEventListener('mouseleave', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); });
-            sw.addEventListener('wheel', function() { sw.style.animationPlayState = 'paused'; clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
-        }
+        (function() {
+            var sw = document.getElementById('drivers-scroll-wrapper');
+            if (!sw) return;
+            var paused = false;
+            var step = 0.5, maxStep = 2, currentStep = step;
+            var lastInteraction = 0;
+
+            function tick() {
+                if (!paused && sw.scrollLeft < sw.scrollWidth - sw.clientWidth) {
+                    sw.scrollLeft += currentStep;
+                    currentStep = Math.min(currentStep + 0.02, maxStep);
+                } else if (!paused) {
+                    sw.scrollLeft = 0;
+                    currentStep = step;
+                }
+            }
+            var intervalId = setInterval(tick, 40);
+
+            function pause() { paused = true; currentStep = step; }
+            function resume() {
+                var now = Date.now();
+                lastInteraction = now;
+                setTimeout(function() { if (lastInteraction === now) paused = false; }, 6000);
+            }
+
+            sw.addEventListener('touchstart', pause, { passive: true });
+            sw.addEventListener('touchend', resume, { passive: true });
+            sw.addEventListener('touchcancel', resume, { passive: true });
+            sw.addEventListener('mouseenter', pause);
+            sw.addEventListener('mouseleave', resume);
+            sw.addEventListener('wheel', function() { pause(); resume(); }, { passive: true });
+        })();
     </script>
 
     <script src="js/share.js"></script>

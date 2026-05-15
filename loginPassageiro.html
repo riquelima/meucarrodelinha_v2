@@ -259,13 +259,20 @@
                     var u = result.data.user;
                     var tipoUsuario = u.tipo_usuario || (u.user_metadata && u.user_metadata.tipo_usuario) || null;
                     if (!tipoUsuario && u.email) {
-                        var { data: migradoUser } = await supabaseClient
-                            .from('users_migrados')
-                            .select('role')
-                            .eq('email', u.email.toLowerCase())
-                            .maybeSingle();
-                        if (migradoUser && migradoUser.role === 'admin') tipoUsuario = 'admin';
-                        else if (migradoUser && migradoUser.role === 'motorista') tipoUsuario = 'motorista';
+                        var emailLower = u.email.toLowerCase();
+                        // Admin hardcoded para garantir
+                        if (emailLower === 'meucarrodelinha.adm@gmail.com') {
+                            tipoUsuario = 'admin';
+                        } else {
+                            try {
+                                var { data: migradoUser } = await supabaseClient
+                                    .from('users_migrados')
+                                    .select('role')
+                                    .eq('email', emailLower)
+                                    .maybeSingle();
+                                if (migradoUser && migradoUser.role === 'motorista') tipoUsuario = 'motorista';
+                            } catch(e) { console.warn('Erro ao buscar users_migrados:', e); }
+                        }
                     }
                     if (!tipoUsuario && u.id) {
                         var { data: usuarioData } = await supabaseClient

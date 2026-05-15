@@ -343,9 +343,9 @@
                                 </div>
                                 <div id="drivers-section" class="space-y-3 flex flex-col pb-2 rounded-xl">
                                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Motoristas Disponíveis</p>
-                                    <div class="flex overflow-hidden w-full mask-gradient-x">
-                                        <div id="drivers-scroll-wrapper" class="flex animate-scroll hover:[animation-play-state:paused] w-max">
-                                            <div id="drivers-list-container" class="flex gap-4 px-4 pb-4 no-scrollbar min-h-[160px]">
+                                    <div class="relative w-full overflow-hidden mask-gradient-x">
+                                        <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing">
+                                            <div id="drivers-list-container" class="flex gap-4 px-4 pb-4 min-h-[160px]" style="width: max-content;">
                                                 <div class="p-4 text-center text-slate-400 text-sm w-[280px] flex flex-col items-center shrink-0">
                                                     <span class="material-symbols-outlined animate-spin mb-2">sync</span>
                                                     <p>Buscando motoristas...</p>
@@ -2513,15 +2513,33 @@
     <script src="js/chat-notifications.js"></script>
     <script src="js/share.js"></script>
     <script>
-        var sw = document.getElementById('drivers-scroll-wrapper');
-        if (sw) {
-            sw.addEventListener('touchstart', function() { sw.style.animationPlayState = 'paused'; }, { passive: true });
-            sw.addEventListener('touchend', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
-            sw.addEventListener('touchcancel', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
-            sw.addEventListener('mouseenter', function() { sw.style.animationPlayState = 'paused'; });
-            sw.addEventListener('mouseleave', function() { clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); });
-            sw.addEventListener('wheel', function() { sw.style.animationPlayState = 'paused'; clearTimeout(sw._rt); sw._rt = setTimeout(function() { sw.style.animationPlayState = ''; }, 6000); }, { passive: true });
-        }
+        (function() {
+            var sw = document.getElementById('drivers-scroll-wrapper');
+            if (!sw) return;
+            var paused = false, step = 0.5, currentStep = step, lastInteraction = 0;
+            function tick() {
+                if (!paused && sw.scrollLeft < sw.scrollWidth - sw.clientWidth) {
+                    sw.scrollLeft += currentStep;
+                    currentStep = Math.min(currentStep + 0.02, 2);
+                } else if (!paused) {
+                    sw.scrollLeft = 0;
+                    currentStep = step;
+                }
+            }
+            var intervalId = setInterval(tick, 40);
+            function pause() { paused = true; currentStep = step; }
+            function resume() {
+                var now = Date.now();
+                lastInteraction = now;
+                setTimeout(function() { if (lastInteraction === now) paused = false; }, 6000);
+            }
+            sw.addEventListener('touchstart', pause, { passive: true });
+            sw.addEventListener('touchend', resume, { passive: true });
+            sw.addEventListener('touchcancel', resume, { passive: true });
+            sw.addEventListener('mouseenter', pause);
+            sw.addEventListener('mouseleave', resume);
+            sw.addEventListener('wheel', function() { pause(); resume(); }, { passive: true });
+        })();
     </script>
     <script src="js/pwa-register.js"></script>
     <!-- Scripts already loaded above -->
