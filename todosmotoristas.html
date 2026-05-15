@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="dark" lang="pt-BR">
 
 <head>
@@ -9,11 +9,9 @@
     <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -21,198 +19,254 @@
                 extend: {
                     colors: {
                         "primary": "#f97316",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#121520",
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "background-dark": "#0f1320",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
                 },
             },
         }
     </script>
-    <title>Todos os Motoristas - Meu Carro de Linha Salinas</title>
-    <style type="text/tailwindcss">
-        body {
-            min-height: 100dvh;
-        }
-        .fill-1 {
-            font-variation-settings: 'FILL' 1;
-        }
-    
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-        input, textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+    <style>
+        body { min-height: 100dvh; -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        input, textarea { user-select: text; -webkit-user-select: text; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-scale { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-scale:active { transform: scale(0.96); }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-        /* Stagger Delays */
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
         .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
-
-    </style>
-    <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
-
-    <!-- Page Transitions Settings -->
-    <meta name="view-transition" content="same-origin" />
-    <style>
-        /* View Transitions API */
-        @view-transition {
-            navigation: auto;
-        }
-
-        ::view-transition-old(root) {
-            animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
-        }
-
-        ::view-transition-new(root) {
-            animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Fallback Fade */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body.fade-out {
-            animation: fadeOut 0.2s ease-in-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .input-premium { background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.08); color: #f1f5f9; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .input-premium:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1), 0 0 20px rgba(249, 115, 22, 0.05); outline: none; background: rgba(255, 255, 255, 0.06); }
+        .input-premium::placeholder { color: rgba(148, 163, 184, 0.4); }
+        .divider-gradient { height: 1px; background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent); }
+        .bg-premium-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px; }
+        .gradient-text { background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .driver-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .driver-card:hover { border-color: rgba(249, 115, 22, 0.2); }
+        .driver-card .driver-img { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .driver-card:hover .driver-img { transform: scale(1.05); }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
-    <div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden">
-        <!-- Header -->
-        <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-            <a href="javascript:void(0)" onclick="goBack()" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
-            </a>
-            <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-                Motoristas Disponíveis</h1>
-            <div class="size-10"></div>
-        </header>
-        <section class="px-4 pt-6 pb-4">
-            <div class="flex flex-col gap-3">
-                <label class="flex flex-col w-full">
-                    <div
-                        class="flex w-full items-stretch rounded-xl h-12 bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                        <div class="flex items-center justify-center pl-4 text-slate-400">
-                            <span class="material-symbols-outlined">search</span>
-                        </div>
-                        <input
-                            class="form-input flex w-full border-none bg-transparent focus:ring-0 px-4 text-sm font-medium placeholder:text-slate-400"
-                            placeholder="Buscar motorista pelo nome..." />
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid">
+
+    <div class="relative min-h-screen flex flex-col">
+
+        <!-- Decorative glow -->
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- ========== HERO HEADER ========== -->
+        <div class="relative z-10 px-4 pt-4 pb-3">
+            <div class="relative overflow-hidden rounded-[2rem] px-5 py-6">
+                <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+                <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);"></div>
+
+                <a href="homepage.html"
+                    class="active-scale absolute top-4 left-4 z-20 flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/20">
+                    <span class="material-symbols-outlined text-xl">arrow_back</span>
+                </a>
+
+                <div class="relative z-10 flex flex-col items-center text-center pt-3">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">groups</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">Motoristas</span>
                     </div>
-                </label>
+
+                    <h1 class="font-display font-extrabold leading-[1.1] tracking-tight text-white"
+                        style="font-size: clamp(26px, 7vw, 40px);">
+                        Motoristas<br />
+                        <span class="gradient-text">disponíveis agora</span>
+                    </h1>
+
+                    <p class="mt-2 text-slate-400 font-medium leading-relaxed max-w-xs mx-auto"
+                        style="font-size: clamp(13px, 3vw, 16px);">
+                        Encontre o motorista ideal perto de você em Salinas.
+                    </p>
+                </div>
             </div>
-        </section>
-        <main id="drivers-list" class="flex-1 px-4 py-2 space-y-4 pb-10">
-            <!-- Os motoristas serão carregados dinamicamente aqui -->
-            <div class="flex flex-col items-center justify-center py-10 opacity-50">
-                <span class="material-symbols-outlined text-4xl animate-spin">sync</span>
-                <p class="text-sm mt-2">Carregando motoristas...</p>
+        </div>
+
+        <div class="divider-gradient mx-4 mb-3"></div>
+
+        <!-- Search -->
+        <div class="px-4 mb-4 animate-slide-up delay-100">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50">search</span>
+                <input id="search-driver" placeholder="Buscar motorista pelo nome..."
+                    class="input-premium w-full rounded-2xl h-12 pl-11 pr-4 text-sm font-medium" />
+            </div>
+        </div>
+
+        <!-- Drivers List -->
+        <main id="drivers-list" class="flex-1 px-4 space-y-3 pb-28">
+            <div id="loading-state" class="flex flex-col items-center justify-center py-24 gap-3">
+                <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-3xl text-primary animate-spin">sync</span>
+                </div>
+                <p class="text-sm text-slate-500 font-medium">Carregando motoristas...</p>
             </div>
         </main>
     </div>
 
+    <script defer src="js/navigation-premium.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabaseClient.js"></script>
     <script src="js/navigation.js"></script>
-    <script src="js/todosmotoristas.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('a[href]').forEach(link => {
-                link.addEventListener('click', e => {
-                    const href = link.getAttribute('href');
-                    if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
-                        e.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(() => { window.location.href = href; }, 200);
+        document.addEventListener('DOMContentLoaded', async () => {
+            const driversList = document.getElementById('drivers-list');
+            const searchInput = document.getElementById('search-driver');
+
+            if (!driversList) return;
+
+            let allDrivers = [];
+            let renderTimer = null;
+
+            const fetchDrivers = async () => {
+                try {
+                    const backendUrl = window.location.origin.includes('localhost')
+                        ? 'http://localhost:3000/api/users/motoristas'
+                        : '/api/users/motoristas';
+                    const response = await fetch(backendUrl);
+                    if (response.ok) return (await response.json()) || [];
+                } catch (err) {
+                    console.warn('Backend indisponivel:', err);
+                }
+                try {
+                    if (window.supabaseClient) {
+                        var { data } = await window.supabaseClient.from('users_migrados').select('*').eq('role', 'motorista').order('profileViews', { ascending: false });
+                        if (data && data.length > 0) return data;
                     }
+                } catch(e) { console.warn('users_migrados falhou:', e); }
+                return null;
+            };
+
+            const renderDrivers = (drivers) => {
+                if (!drivers || drivers.length === 0) {
+                    driversList.innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-20 gap-3">
+                            <div class="size-16 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5">
+                                <span class="material-symbols-outlined text-4xl text-slate-500">person_search</span>
+                            </div>
+                            <p class="text-sm text-slate-500 font-medium">Nenhum motorista encontrado.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                driversList.innerHTML = '';
+                drivers.forEach((driver, index) => {
+                    const nome = driver.usuarios?.nome || driver.name || 'Motorista';
+                    const foto = driver.usuarios?.foto_perfil_url || driver.avatar;
+                    const avaliacao = 5.0;
+                    const modelo = driver.modelo_veiculo || driver.vehicle || 'Veículo';
+                    const cor = driver.cor_veiculo || driver.carColor || '—';
+                    const isOnline = driver.status === 'online' || driver.status_online === true;
+                    const initials = nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const delay = Math.min(100 + (index * 60), 500);
+
+                    const card = document.createElement('div');
+                    card.className = `driver-card animate-slide-up rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden`;
+                    card.style.animationDelay = `${delay}ms`;
+
+                    let avatarHtml;
+                    if (foto) {
+                        avatarHtml = `<img alt="${nome}" class="w-full h-full object-cover driver-img" src="${foto}" onerror="this.parentElement.innerHTML='<span class=\'text-lg font-bold text-white\'>${initials}</span>'" />`;
+                    } else {
+                        avatarHtml = `<span class="text-lg font-bold text-white">${initials}</span>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="flex items-center gap-4 p-4">
+                            <div class="size-14 shrink-0 rounded-full overflow-hidden bg-primary/10 ring-2 ring-primary/10 flex items-center justify-center">
+                                ${avatarHtml}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <p class="font-bold text-sm text-white truncate">${nome}</p>
+                                    <span class="shrink-0 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider border ${isOnline ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-slate-500/10 text-slate-500 border-slate-500/20'}">
+                                        ${isOnline ? 'Online' : 'Ocupado'}
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex items-center gap-0.5 text-yellow-500">
+                                        <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">star</span>
+                                        <span class="text-xs font-bold">${parseFloat(avaliacao).toFixed(1)}</span>
+                                    </div>
+                                    <span class="text-slate-600">·</span>
+                                    <span class="text-xs text-slate-500 font-medium">Verificado</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between px-4 pb-4 pt-0">
+                            <span class="flex items-center gap-1.5 text-xs text-slate-400">
+                                <span class="material-symbols-outlined text-sm text-primary/70">local_taxi</span>
+                                ${modelo} · ${cor}
+                            </span>
+                            <a href="loginPassageiro.html"
+                                class="active-scale inline-flex items-center gap-0.5 text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 hover:bg-primary/20 transition-all duration-300">
+                                Chamar
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </div>
+                    `;
+                    driversList.appendChild(card);
                 });
-            });
+
+                document.querySelectorAll('a[href]').forEach(link => {
+                    link.addEventListener('click', e => {
+                        const href = link.getAttribute('href');
+                        if (href && href !== '#' && !href.startsWith('http') && link.target !== '_blank') {
+                            e.preventDefault();
+                            document.body.classList.add('fade-out');
+                            setTimeout(() => { window.location.href = href; }, 200);
+                        }
+                    });
+                });
+            };
+
+            // Initial load
+            const loadingState = document.getElementById('loading-state');
+            allDrivers = await fetchDrivers();
+            if (loadingState) loadingState.remove();
+            renderDrivers(allDrivers);
+
+            // Search with debounce
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    if (renderTimer) clearTimeout(renderTimer);
+                    renderTimer = setTimeout(() => {
+                        const searchTerm = e.target.value.toLowerCase();
+                        const filtered = allDrivers.filter(driver => {
+                            const nome = driver.usuarios?.nome || driver.name || '';
+                            return nome.toLowerCase().includes(searchTerm);
+                        });
+                        renderDrivers(filtered);
+                    }, 150);
+                });
+            }
         });
     </script>
     <script src="js/pwa-register.js"></script>
