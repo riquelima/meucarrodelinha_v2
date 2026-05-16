@@ -50,13 +50,24 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
-        .chart-gradient { background: linear-gradient(180deg, rgba(15, 56, 189, 0.2) 0%, rgba(15, 56, 189, 0) 100%); }
+        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); background-color: #0a0e1a; }
+        :root {
+            --premium-orange: #f97316;
+            --premium-orange-glow: rgba(249, 115, 22, 0.25);
+            --premium-bg: #0a0e1a;
+            --premium-card: rgba(18, 22, 35, 0.6);
+            --premium-border: rgba(255, 255, 255, 0.08);
+        }
+        .glass-card { background: var(--premium-card); backdrop-filter: blur(20px); border: 1px solid var(--premium-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .premium-glow { box-shadow: 0 0 20px var(--premium-orange-glow); }
+        .text-gradient { background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .orange-gradient { background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); }
+        .chart-gradient { background: linear-gradient(180deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0) 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
         main { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
         .active-scale:active { transform: scale(0.95); transition: transform 0.1s; }
@@ -67,21 +78,42 @@
         .animate-fade-in { opacity: 0; animation: fadeIn 0.4s ease-out forwards; }
         .animate-slide-up { opacity: 0; transform: translateY(20px); animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-slide-in-right { opacity: 0; transform: translateX(20px); animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .fixed-navbar { position: fixed; bottom: 24px; left: 20px; right: 20px; height: 72px; background: rgba(18, 21, 32, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2.5rem; display: flex; align-items: center; justify-content: space-around; padding: 0 10px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1); z-index: 1000; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: rgba(255, 255, 255, 0.4); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; height: 100%; background: transparent; border: none; cursor: pointer; }
-        .nav-item span:first-child { font-size: 24px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .nav-item span:last-child { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; }
-        .nav-active { color: #FF9100 !important; }
-        .nav-active span:first-child { transform: translateY(-4px) scale(1.1); color: #FF9100; }
-        .nav-active::after { content: ''; position: absolute; bottom: 10px; width: 4px; height: 4px; background: #FF9100; border-radius: 50%; box-shadow: 0 0 10px #FF9100; }
-        .view-section { padding-bottom: 120px !important; }
+        .fixed-navbar { position: fixed; bottom: 24px; left: 20px; right: 20px; height: 76px; background: rgba(10, 14, 26, 0.8); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2.2rem; display: flex; align-items: center; justify-content: space-around; padding: 0 10px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05); z-index: 1000; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: rgba(255, 255, 255, 0.3); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; height: 100%; background: transparent; border: none; cursor: pointer; }
+        .nav-item span:first-child { font-size: 26px; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-item span:last-child { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5; }
+        .nav-active { color: #f97316 !important; }
+        .nav-active span:first-child { transform: translateY(-6px) scale(1.15); color: #f97316; filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.5)); }
+        .nav-active span:last-child { opacity: 1; transform: translateY(-2px); }
+        .nav-active::after { content: ''; position: absolute; bottom: 12px; width: 5px; height: 5px; background: #f97316; border-radius: 50%; box-shadow: 0 0 12px #f97316; animation: navIndicator 0.4s ease-out; }
+        @keyframes navIndicator { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .view-section { padding-bottom: 140px !important; }
         .delay-100 { animation-delay: 100ms; } .delay-200 { animation-delay: 200ms; } .delay-300 { animation-delay: 300ms; } .delay-400 { animation-delay: 400ms; } .delay-500 { animation-delay: 500ms; }
         @keyframes modalEnter { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes checkRotate { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 70% { transform: scale(1.2) rotate(10deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
         .animate-modal-enter { animation: modalEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-check { animation: checkRotate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards; opacity: 0; }
         .slide-in-view { will-change: transform; }
-        .ad-preview-shadow { box-shadow: 0 10px 30px -10px rgba(15, 56, 189, 0.3); }
+        .ad-preview-shadow { box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.3); }
+        .kpi-card { position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 20px var(--premium-orange-glow); }
+        .kpi-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(249, 115, 22, 0.08) 0%, transparent 70%); pointer-events: none; }
+        .mini-chart { height: 30px; width: 60px; }
+        .sparkline { fill: none; stroke: var(--premium-orange); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .insight-badge { background: linear-gradient(90deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.02) 100%); border-left: 3px solid var(--premium-orange); }
+        
+        /* New User Management Styles */
+        .glass-search { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .user-card-premium { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .user-card-premium:hover { border-color: rgba(249, 115, 22, 0.3); transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .tab-pill { position: relative; z-index: 1; transition: all 0.3s ease; }
+        .tab-pill-active { background: var(--premium-orange); color: white !important; box-shadow: 0 4px 15px var(--premium-orange-glow); }
+        .status-badge { padding: 2px 8px; border-radius: 99px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+        .status-online { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-offline { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+        .avatar-ring { position: relative; padding: 3px; border-radius: 50%; background: conic-gradient(from 0deg, var(--premium-orange), transparent 60%); }
+        .avatar-ring-offline { background: rgba(255, 255, 255, 0.1); }
+
     </style>
 </head>
 
@@ -99,139 +131,320 @@
         <div id="view-slider" class="flex h-full w-[300vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
 
             <!-- DASHBOARD -->
-            <section id="view-dashboard" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24">
-                <main class="flex flex-col gap-6 p-4">
-                    <div>
-                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Estatísticas Gerais</h2>
-                        <div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
-                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="material-symbols-outlined text-primary bg-primary/10 rounded-xl p-3">group</span>
-                                    <span id="pct-clientes" class="text-[10px] font-black">+5%</span>
-                                </div>
-                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Clientes</p>
-                                <p id="stat-clientes" class="text-3xl font-black tracking-tighter">0</p>
-                            </div>
-                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="material-symbols-outlined text-purple-500 bg-purple-500/10 rounded-xl p-3">person</span>
-                                    <span id="pct-passageiros" class="text-[10px] font-black">0%</span>
-                                </div>
-                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Passageiros</p>
-                                <p id="stat-passageiros" class="text-3xl font-black tracking-tighter">0</p>
-                            </div>
-                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-xl p-3">badge</span>
-                                    <span id="pct-motoristas" class="text-[10px] font-black">0%</span>
-                                </div>
-                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Motoristas</p>
-                                <p id="stat-motoristas" class="text-3xl font-black tracking-tighter">0</p>
-                            </div>
-                            <div class="flex-none w-44 rounded-3xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl snap-start">
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="material-symbols-outlined text-cyan-500 bg-cyan-500/10 rounded-xl p-3">directions_car</span>
-                                    <span class="text-emerald-500 text-[10px] font-black">+12%</span>
-                                </div>
-                                <p class="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Viagens</p>
-                                <p id="stat-viagens" class="text-3xl font-black tracking-tighter">0</p>
-                            </div>
+            <section id="view-dashboard" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-32">
+                <main class="flex flex-col gap-8 p-6">
+                    <!-- Welcome Header -->
+                    <div class="flex items-center justify-between animate-fade-in">
+                        <div>
+                            <h2 class="text-2xl font-black tracking-tight text-white">Dashboard <span class="text-primary">Premium</span></h2>
+
+                        </div>
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-full glass-card shrink-0 flex-nowrap min-w-fit">
+                            <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest whitespace-nowrap">Sistema Online</span>
                         </div>
                     </div>
-                    <div>
-                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Cadastros (7 dias)</h2>
-                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 shadow-xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <span class="flex items-center gap-1.5 text-[10px] font-bold"><span class="size-2.5 rounded-full bg-purple-500"></span> Passageiros</span>
-                                    <span class="flex items-center gap-1.5 text-[10px] font-bold"><span class="size-2.5 rounded-full bg-blue-500"></span> Motoristas</span>
+
+                    <!-- KPI Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Total Usuarios -->
+                        <div class="glass-card kpi-card p-5 rounded-[2rem] flex flex-col justify-between min-h-[160px] animate-slide-up">
+                            <div class="flex justify-between items-start">
+                                <div class="p-3 rounded-2xl bg-primary/10 text-primary">
+                                    <span class="material-symbols-outlined text-2xl">analytics</span>
+                                </div>
+                                <div id="pct-clientes" class="text-[10px] font-black text-emerald-500">+0%</div>
+                            </div>
+                            <div>
+                                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Alcance Total</p>
+                                <div class="flex items-end justify-between">
+                                    <h3 id="stat-clientes" class="text-3xl font-black tracking-tighter text-white">0</h3>
+                                    <div class="mini-chart" id="spark-usuarios"></div>
+                                </div>
+                                <p class="text-[9px] text-slate-400 mt-2">Usuários ativos na rede</p>
+                            </div>
+                        </div>
+
+                        <!-- Motoristas Online -->
+                        <div class="glass-card kpi-card p-5 rounded-[2rem] flex flex-col justify-between min-h-[160px] animate-slide-up delay-100">
+                            <div class="flex justify-between items-start">
+                                <div class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-500">
+                                    <span class="material-symbols-outlined text-2xl">sensors</span>
+                                </div>
+                                <div class="text-[10px] font-black text-emerald-500">LIVE</div>
+                            </div>
+                            <div>
+                                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Frota Ativa</p>
+                                <div class="flex items-end justify-between">
+                                    <h3 id="stat-motoristas-online" class="text-3xl font-black tracking-tighter text-white">0</h3>
+                                    <div class="mini-chart" id="spark-online"></div>
+                                </div>
+                                <p class="text-[9px] text-slate-400 mt-2">Motoristas online agora</p>
+                            </div>
+                        </div>
+
+                        <!-- Chat Activity -->
+                        <div class="glass-card kpi-card p-5 rounded-[2rem] flex flex-col justify-between min-h-[160px] animate-slide-up delay-200">
+                            <div class="flex justify-between items-start">
+                                <div class="p-3 rounded-2xl bg-blue-500/10 text-blue-500">
+                                    <span class="material-symbols-outlined text-2xl">forum</span>
+                                </div>
+                                <div id="stat-chat-new" class="text-[10px] font-black text-blue-400">0 NOVAS</div>
+                            </div>
+                            <div>
+                                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Engajamento</p>
+                                <h3 id="stat-chat-total" class="text-3xl font-black tracking-tighter text-white">0</h3>
+                                <p class="text-[9px] text-slate-400 mt-2">Mensagens trocadas</p>
+                            </div>
+                        </div>
+
+                        <!-- Support Tickets -->
+                        <div onclick="abrirSuporteAdmin()" class="glass-card kpi-card p-5 rounded-[2rem] flex flex-col justify-between min-h-[160px] animate-slide-up delay-300 cursor-pointer active-scale">
+                            <div class="flex justify-between items-start">
+                                <div class="p-3 rounded-2xl bg-amber-500/10 text-amber-500">
+                                    <span class="material-symbols-outlined text-2xl">support_agent</span>
+                                </div>
+                                <div id="stat-suporte-abertos" class="text-[10px] font-black text-amber-400">0 ABERTOS</div>
+                            </div>
+                            <div>
+                                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Chamados</p>
+                                <h3 id="stat-suporte-total" class="text-3xl font-black tracking-tighter text-white">0</h3>
+                                <p class="text-[9px] text-slate-400 mt-2">Pedidos & Suporte</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Main Charts Area -->
+                    <div class="space-y-6">
+                        <!-- Growth Chart -->
+                        <div class="glass-card p-6 rounded-[2.5rem] animate-slide-up delay-400">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h4 class="text-sm font-black text-white uppercase tracking-widest">Crescimento da Rede</h4>
+                                    <p class="text-[10px] text-slate-500 font-bold mt-1">Últimos 7 dias de atividade</p>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex items-center gap-1.5"><span class="size-2 rounded-full bg-primary"></span><span class="text-[9px] font-bold text-slate-400">PAS</span></div>
+                                    <div class="flex items-center gap-1.5"><span class="size-2 rounded-full bg-blue-500"></span><span class="text-[9px] font-bold text-slate-400">MOT</span></div>
                                 </div>
                             </div>
-                            <div class="relative">
-                                <svg viewBox="0 0 472 150" class="w-full h-auto" preserveAspectRatio="none">
-                                    <path id="area-passageiros" fill="url(#gradPas)"/>
-                                    <path id="path-passageiros" fill="none" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path id="path-motoristas" fill="none" stroke="#0f38bd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <g id="chart-dots"></g>
+                            <div class="relative h-48 w-full">
+                                <svg viewBox="0 0 472 150" class="w-full h-full" preserveAspectRatio="none">
                                     <defs>
-                                        <linearGradient id="gradPas" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a855f7" stop-opacity="0.2"/><stop offset="100%" stop-color="#a855f7" stop-opacity="0"/></linearGradient>
-                                        <linearGradient id="gradMot" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f38bd" stop-opacity="0.2"/><stop offset="100%" stop-color="#0f38bd" stop-opacity="0"/></linearGradient>
+                                        <linearGradient id="gradPasPremium" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f97316" stop-opacity="0.3"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></linearGradient>
+                                        <linearGradient id="gradMotPremium" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></linearGradient>
+                                        <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                                     </defs>
+                                    <path id="area-passageiros" fill="url(#gradPasPremium)"/>
+                                    <path id="path-passageiros" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+                                    <path id="path-motoristas" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+                                    <g id="chart-dots"></g>
                                 </svg>
-                                <div id="chart-tooltip" class="hidden absolute z-10 bg-slate-900 text-white px-3 py-2 rounded-lg shadow-xl text-xs font-bold transition-all duration-300 pointer-events-none" style="opacity:0; transform: translate(-50%, -100%) scale(0.9);">
-                                    <p id="tooltip-date" class="text-slate-300 text-[10px] font-medium mb-1"></p>
-                                    <div class="flex gap-3"><span><span class="text-purple-400">Passageiros:</span> <span id="tooltip-pas">0</span></span><span><span class="text-blue-400">Motoristas:</span> <span id="tooltip-mot">0</span></span></div>
+                                <div id="chart-tooltip" class="hidden absolute z-[100] glass-card px-3 py-2 rounded-xl text-[10px] text-white font-bold pointer-events-none transition-all duration-300" style="transform: translate(-50%, -120%);">
+                                    <p id="tooltip-date" class="text-primary mb-1"></p>
+                                    <div class="flex gap-3">
+                                        <span>PAS: <span id="tooltip-pas">0</span></span>
+                                        <span>MOT: <span id="tooltip-mot">0</span></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div id="chart-labels" class="flex justify-between mt-2 px-1">
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
-                                <span class="text-slate-400 text-[10px] font-bold">--</span>
+                            <div id="chart-labels" class="flex justify-between mt-4 px-2">
+                                <!-- Labels via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Secondary Metrics (Ads & Blog) -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="glass-card p-5 rounded-[2rem] animate-slide-up delay-500">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="material-symbols-outlined text-orange-400 text-lg">campaign</span>
+                                    <h5 class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Anúncios</h5>
+                                </div>
+                                <div class="flex items-end justify-between">
+                                    <h3 id="stat-ads-total" class="text-2xl font-black text-white">0</h3>
+                                    <span class="text-[9px] font-bold text-emerald-500">ATIVOS</span>
+                                </div>
+                            </div>
+                            <div class="glass-card p-5 rounded-[2rem] animate-slide-up delay-500">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="material-symbols-outlined text-emerald-400 text-lg">article</span>
+                                    <h5 class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Blog Postagens</h5>
+                                </div>
+                                <div class="flex items-end justify-between">
+                                    <h3 id="stat-blog-total" class="text-2xl font-black text-white">0</h3>
+                                    <span class="text-[9px] font-bold text-slate-400">TOTAL</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Postagens do Blog (2026)</h2>
-                        <div class="group/chart2 bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 shadow-xl relative">
-                            <div class="flex items-center justify-between mb-4">
-                                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Publicações por mês</p>
-                                <span id="blog-growth" class="bg-cyan-500/10 text-cyan-600 px-3 py-1 rounded-full text-xs font-bold">0</span>
-                            </div>
-                            <div id="blog-bars-container" class="flex items-end h-24 gap-1"></div>
-                            <div id="blog-labels" class="flex mt-2"></div>
-                            <div id="blog-tooltip" class="hidden absolute z-10 bg-slate-900 text-white px-3 py-2 rounded-lg shadow-xl text-xs font-bold transition-all duration-300 pointer-events-none" style="opacity:0; transform: translate(-50%, -100%) scale(0.9);">
-                                <p id="blog-tooltip-date" class="text-slate-300 text-[10px] font-medium mb-1"></p>
-                                <p><span id="blog-tooltip-value">0</span> postagens</p>
+
+                    <!-- Smart Insights Section -->
+                    <div class="space-y-4 animate-fade-in delay-500">
+                        <div class="flex items-center gap-2 px-1">
+                            <span class="material-symbols-outlined text-primary">auto_awesome</span>
+                            <h4 class="text-xs font-black text-white uppercase tracking-widest">Insights do Sistema</h4>
+                        </div>
+                        <div id="insights-container" class="space-y-3">
+                            <div class="glass-card p-4 rounded-2xl insight-badge flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary mt-0.5">trending_up</span>
+                                <div>
+                                    <p class="text-xs font-bold text-white leading-relaxed">O volume de cadastros aumentou 15% nos últimos 7 dias. A rede está em expansão acelerada.</p>
+                                    <p class="text-[9px] text-slate-500 mt-1 uppercase font-black">Análise de Crescimento</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="space-y-3">
-                        <h2 class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-1">Gestão de Conteúdo</h2>
-                        <button onclick="window.abrirPost()" class="w-full p-6 rounded-3xl bg-primary text-white flex items-center gap-4 active-scale shadow-2xl shadow-primary/20">
-                            <span class="material-symbols-outlined bg-white/20 p-3 rounded-2xl">edit_document</span>
-                            <div class="text-left"><p class="font-black text-sm uppercase tracking-widest">Novo Post</p><p class="text-[10px] opacity-70">Publicar novidades no blog</p></div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-4 mt-2">
+                        <button onclick="window.abrirPost()" class="glass-card p-6 rounded-[2rem] flex flex-col items-center gap-2 active-scale group">
+                            <div class="size-12 rounded-2xl orange-gradient flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-2xl">edit_document</span>
+                            </div>
+                            <span class="text-[10px] font-black text-white uppercase tracking-widest mt-1">Novo Post</span>
                         </button>
-                        <button onclick="window.abrirAd()" class="w-full p-6 rounded-3xl bg-slate-800 text-white flex items-center gap-4 active-scale">
-                            <span class="material-symbols-outlined bg-white/10 p-3 rounded-2xl">campaign</span>
-                            <div class="text-left"><p class="font-black text-sm uppercase tracking-widest">Criar Anúncio</p><p class="text-[10px] opacity-70">Gerenciar parceiros locais</p></div>
+                        <button onclick="window.abrirAd()" class="glass-card p-6 rounded-[2rem] flex flex-col items-center gap-2 active-scale group">
+                            <div class="size-12 rounded-2xl bg-white/10 flex items-center justify-center text-white group-hover:bg-white/20 transition-all">
+                                <span class="material-symbols-outlined text-2xl">campaign</span>
+                            </div>
+                            <span class="text-[10px] font-black text-white uppercase tracking-widest mt-1">Criar Anúncio</span>
                         </button>
                     </div>
                 </main>
             </section>
-            <!-- USUARIOS -->
-            <section id="view-users" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-20 pb-24 bg-background-light dark:bg-background-dark">
-                <div class="p-4">
-                    <h2 class="text-3xl font-black tracking-tighter mb-6">Gerenciar Usuarios</h2>
-                    <div class="flex border-b border-slate-200 dark:border-slate-800 mb-4">
-                        <button id="tab-motoristas" class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2 flex-1">
-                            <span class="text-sm font-bold tracking-wide">Motoristas</span>
-                        </button>
-                        <button id="tab-passageiros" class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 flex-1">
-                            <span class="text-sm font-bold tracking-wide">Passageiros</span>
-                        </button>
+
+            <!-- USUARIOS (Premium Redesign) -->
+            <section id="view-users" class="view-section shrink-0 w-[100vw] h-full relative overflow-y-auto no-scrollbar pt-24 pb-32 bg-background-dark premium-header-gradient">
+                <div class="px-6 space-y-8 max-w-2xl mx-auto">
+                    <!-- Header Sophisticated -->
+                    <div class="flex flex-col gap-2 animate-fade-in">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-md bg-primary/20 text-primary text-[9px] font-black uppercase tracking-widest">Admin Hub</span>
+                            <div class="h-[1px] flex-1 bg-gradient-to-r from-primary/30 to-transparent"></div>
+                        </div>
+                        <h2 class="text-4xl font-black tracking-tighter text-white">Comunidade <span class="text-primary">Ativa</span></h2>
+                        <p class="text-slate-400 text-sm font-medium leading-relaxed max-w-[90%]">Gestão inteligente e analítica de motoristas e passageiros.</p>
                     </div>
-                    <div class="relative mb-4">
-                        <label class="flex flex-col w-full group">
-                            <div class="flex w-full items-stretch rounded-xl h-12 bg-slate-200 dark:bg-slate-800 focus-within:ring-2 ring-primary/50 transition-all">
-                                <div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4">
-                                    <span class="material-symbols-outlined">search</span>
+
+                    <!-- User Header KPIs (Premium SaaS Style) -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-card p-6 rounded-[2.5rem] flex flex-col justify-between animate-slide-up relative overflow-hidden group min-h-[160px]">
+                            <div class="absolute -right-6 -top-6 size-24 bg-primary/20 blur-3xl rounded-full group-hover:bg-primary/30 transition-all duration-700"></div>
+                            <div class="flex justify-between items-start relative z-10">
+                                <div class="size-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner">
+                                    <span class="material-symbols-outlined text-2xl">group</span>
                                 </div>
-                                <input id="users-search" class="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 px-3 text-base" placeholder="Pesquisar motoristas em Salinas..." value="" />
-                                <div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pr-4">
-                                    <span class="material-symbols-outlined text-xl">tune</span>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-[10px] font-black text-primary uppercase tracking-widest">Global</span>
+                                    <div class="h-1 w-8 bg-primary rounded-full mt-1"></div>
                                 </div>
                             </div>
-                        </label>
+                            <div class="mt-6 relative z-10">
+                                <h4 id="user-kpi-total" class="text-4xl font-black text-white tracking-tighter leading-none">0</h4>
+                                <p class="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-widest flex items-center gap-1.5">
+                                    <span class="size-1 rounded-full bg-primary animate-pulse"></span>
+                                    Total Cadastrados
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card p-6 rounded-[2.5rem] flex flex-col justify-between animate-slide-up delay-100 relative overflow-hidden group min-h-[160px]">
+                            <div class="absolute -right-6 -top-6 size-24 bg-emerald-500/20 blur-3xl rounded-full group-hover:bg-emerald-500/30 transition-all duration-700"></div>
+                            <div class="flex justify-between items-start relative z-10">
+                                <div class="size-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shadow-inner">
+                                    <span class="material-symbols-outlined text-2xl">sensors</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Realtime</span>
+                                    <div class="h-1 w-8 bg-emerald-500 rounded-full mt-1"></div>
+                                </div>
+                            </div>
+                            <div class="mt-6 relative z-10">
+                                <h4 id="user-kpi-online" class="text-4xl font-black text-white tracking-tighter leading-none">0</h4>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="relative flex h-2 w-2">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                    </span>
+                                    <p class="text-[10px] text-emerald-400 font-black uppercase tracking-widest">Online Agora</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="drivers-list" class="space-y-3"></div>
-                    <div id="passengers-list" class="space-y-3 hidden"></div>
-                    <div class="py-6 text-center pb-24">
-                        <p id="users-pagination-text" class="text-slate-500 dark:text-slate-400 text-xs">Carregando...</p>
-                        <button id="users-load-more" class="mt-4 text-primary font-bold text-sm px-6 py-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors hidden">Carregar mais</button>
+
+                    <!-- Secondary KPIs (Compact) -->
+                    <div class="grid grid-cols-2 gap-4 animate-fade-in delay-200">
+                        <div class="bg-white/5 border border-white/5 p-4 rounded-3xl flex items-center gap-4">
+                            <div class="size-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+                                <span class="material-symbols-outlined text-xl">person_add</span>
+                            </div>
+                            <div>
+                                <p id="user-kpi-new" class="text-lg font-black text-white">0</p>
+                                <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Novos (7d)</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 border border-white/5 p-4 rounded-3xl flex items-center gap-4">
+                            <div class="size-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-500">
+                                <span class="material-symbols-outlined text-xl">gavel</span>
+                            </div>
+                            <div>
+                                <p id="user-kpi-banned" class="text-lg font-black text-white">0</p>
+                                <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Irregularidades</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter Area -->
+                    <div class="space-y-6 pt-4">
+                        <!-- Premium Tabs Switch -->
+                        <div class="bg-slate-900/80 p-1.5 rounded-[2rem] border border-white/5 flex gap-1 relative animate-fade-in delay-300 shadow-2xl">
+                            <button id="tab-motoristas" class="tab-pill-active tab-pill flex-1 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500">
+                                Motoristas
+                            </button>
+                            <button id="tab-passageiros" class="tab-pill flex-1 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-slate-300 transition-all duration-500">
+                                Passageiros
+                            </button>
+                        </div>
+
+                        <!-- Advanced Search -->
+                        <div class="relative group animate-fade-in delay-400">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-6 text-slate-500 group-focus-within:text-primary transition-colors duration-500">
+                                <span class="material-symbols-outlined text-2xl">search</span>
+                            </div>
+                            <input id="users-search" class="w-full h-16 bg-white/5 border border-white/5 rounded-[1.5rem] pl-16 pr-6 text-sm font-medium text-white placeholder:text-slate-600 focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all duration-500 outline-none backdrop-blur-sm" placeholder="ID, Nome ou E-mail da conta...">
+                            <div class="absolute inset-y-0 right-4 flex items-center">
+                                <button class="size-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-500 hover:bg-white/10 transition-all">
+                                    <span class="material-symbols-outlined text-xl">tune</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Filters v2 -->
+                        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2 animate-fade-in delay-500">
+                            <button onclick="ustate.filter='todos'; applyPremiumFilter(this)" class="premium-filter-pill active px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest active-scale">Todos</button>
+                            <button onclick="ustate.filter='novos'; applyPremiumFilter(this)" class="premium-filter-pill px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest active-scale">Recentes</button>
+                            <button onclick="ustate.filter='rejeitados'; applyPremiumFilter(this)" class="premium-filter-pill px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest active-scale">Aprovação</button>
+                            <button onclick="ustate.filter='banidos'; applyPremiumFilter(this)" class="premium-filter-pill px-6 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest active-scale">Restritos</button>
+                        </div>
+                    </div>
+
+                    <!-- User Lists (v2 Premium) -->
+                    <div class="space-y-4 pt-4">
+                        <div id="drivers-list" class="premium-user-list animate-fade-in"></div>
+                        <div id="passengers-list" class="premium-user-list hidden animate-fade-in"></div>
+                        
+                        <!-- Premium Loader / Pagination -->
+                        <div class="py-16 text-center space-y-6">
+                            <div id="users-pagination-text" class="text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4">
+                                <div class="h-px w-8 bg-slate-800"></div>
+                                <span>Fim da Transmissão</span>
+                                <div class="h-px w-8 bg-slate-800"></div>
+                            </div>
+                            <button id="users-load-more" class="hidden mx-auto px-12 py-4 rounded-full bg-white/5 border border-white/5 text-white text-[10px] font-black uppercase tracking-[0.2em] active-scale hover:bg-white/10 transition-all shadow-xl">
+                                Carregar mais registros
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -733,37 +946,70 @@
             openSlideIn('chamado-view');
             var sb = window.supabaseClient;
             try {
-                var ticketRes = await sb.from('suporte').select('*').eq('id', ticketId).single();
+                // Busca o ticket e as respostas da tabela suporte_respostas em paralelo
+                var [ticketRes, repliesRes] = await Promise.all([
+                    sb.from('suporte').select('*').eq('id', ticketId).single(),
+                    sb.from('suporte_respostas').select('*').eq('ticket_id', ticketId).order('criado_em', { ascending: true })
+                ]);
+
                 if (ticketRes.error) throw ticketRes.error;
                 var ticket = ticketRes.data;
+                var replies = repliesRes.data || [];
+                
                 var badge = document.getElementById('chamado-status-badge');
                 var resolveBtn = document.getElementById('chamado-resolve-btn');
-                if (ticket.status === 'resolvido') {
+                
+                const s = (ticket.status || 'aberto').toLowerCase();
+                if (s === 'resolvido') {
                     badge.className = 'px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400';
                     badge.textContent = 'Resolvido';
                     if (resolveBtn) resolveBtn.style.display = 'none';
                 } else {
                     badge.className = 'px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400';
-                    badge.textContent = 'Aberto';
+                    badge.textContent = s === 'em_analise' ? 'Em Análise' : 'Aberto';
                     if (resolveBtn) resolveBtn.style.display = '';
                 }
-                var conversa = ticket.conversa || [];
+
                 var container = document.getElementById('chamado-messages');
                 container.innerHTML = '';
+                
+                // Mensagem Inicial
                 var userDiv = document.createElement('div');
-                userDiv.className = 'flex flex-col items-start';
-                userDiv.innerHTML = '<div class="max-w-[85%] rounded-2xl rounded-bl-sm bg-slate-100 dark:bg-slate-800 p-3"><p class="text-xs font-bold text-slate-500 mb-1">' + escapeHTML(ticket.nome || 'Usuário') + '</p><p class="text-sm text-slate-900 dark:text-slate-100">' + escapeHTML(ticket.mensagem || '') + '</p><p class="text-[10px] text-slate-400 mt-1 text-right">' + (ticket.criado_em ? new Date(ticket.criado_em).toLocaleString() : '') + '</p></div>';
+                userDiv.className = 'flex flex-col items-start mb-4';
+                userDiv.innerHTML = `
+                    <div class="max-w-[85%] rounded-2xl rounded-tl-none bg-slate-100 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700">
+                        <p class="text-[10px] font-black text-primary uppercase tracking-widest mb-1">${escapeHTML(ticket.nome || 'Usuário')}</p>
+                        <p class="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">${escapeHTML(ticket.mensagem || '')}</p>
+                        <p class="text-[9px] text-slate-400 mt-2 text-right font-medium">${ticket.criado_em ? new Date(ticket.criado_em).toLocaleString() : ''}</p>
+                    </div>`;
                 container.appendChild(userDiv);
-                conversa.forEach(function(r) {
-                    var div = document.createElement('div');
-                    var isAdmin = r.de === 'admin';
-                    div.className = 'flex flex-col ' + (isAdmin ? 'items-end' : 'items-start');
-                    div.innerHTML = '<div class="max-w-[85%] rounded-2xl ' + (isAdmin ? 'rounded-br-sm bg-primary text-white' : 'rounded-bl-sm bg-slate-100 dark:bg-slate-800') + ' p-3"><p class="text-sm">' + escapeHTML(r.mensagem || '') + '</p><p class="text-[10px] ' + (isAdmin ? 'text-white/70' : 'text-slate-400') + ' mt-1 text-right">' + (r.criado_em ? new Date(r.criado_em).toLocaleString() : '') + '</p></div>';
-                    container.appendChild(div);
+
+                // Respostas da conversa (JSON Legado)
+                var legacyConversa = ticket.conversa || [];
+                legacyConversa.forEach(function(r) {
+                    renderMessage(r.mensagem, r.de === 'admin', r.criado_em);
                 });
+
+                // Respostas da tabela suporte_respostas (Novo)
+                replies.forEach(function(r) {
+                    renderMessage(r.mensagem, r.remetente_id === 'admin' || r.remetente_id === 'Suporte', r.criado_em);
+                });
+
+                function renderMessage(text, isAdmin, time) {
+                    var div = document.createElement('div');
+                    div.className = 'flex flex-col mb-4 ' + (isAdmin ? 'items-end' : 'items-start');
+                    div.innerHTML = `
+                        <div class="max-w-[85%] rounded-2xl ${isAdmin ? 'rounded-tr-none bg-primary text-white shadow-lg shadow-primary/20' : 'rounded-tl-none bg-slate-100 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700'} p-4">
+                            <p class="text-sm leading-relaxed">${escapeHTML(text || '')}</p>
+                            <p class="text-[9px] ${isAdmin ? 'text-white/70' : 'text-slate-400'} mt-2 text-right font-medium">${time ? new Date(time).toLocaleString() : ''}</p>
+                        </div>`;
+                    container.appendChild(div);
+                }
+
                 container.scrollTop = container.scrollHeight;
             } catch (err) {
                 console.error('Erro ao abrir chamado:', err);
+                alert('Erro ao carregar detalhes do chamado.');
             }
         };
 
@@ -775,18 +1021,28 @@
             input.value = '';
             try {
                 var sb = window.supabaseClient;
-                var ticketRes = await sb.from('suporte').select('conversa').eq('id', currentChamadoId).single();
-                if (ticketRes.error) throw ticketRes.error;
-                var conversa = ticketRes.data.conversa || [];
-                conversa.push({ de: 'admin', mensagem: mensagem, criado_em: new Date().toISOString() });
-                var upd = await sb.from('suporte').update({ conversa: conversa }).eq('id', currentChamadoId);
-                if (upd.error) throw upd.error;
+                // Insere na nova tabela suporte_respostas
+                var ins = await sb.from('suporte_respostas').insert({
+                    ticket_id: currentChamadoId,
+                    remetente_id: 'admin',
+                    mensagem: mensagem
+                });
+                if (ins.error) throw ins.error;
+                
+                // Opcional: Atualiza o status para em_analise se for a primeira resposta admin
+                await sb.from('suporte').update({ status: 'em_analise' }).eq('id', currentChamadoId).eq('status', 'aberto');
+
                 if (typeof window.carregarTicketsSuporte === 'function') window.carregarTicketsSuporte();
+                
                 var container = document.getElementById('chamado-messages');
                 if (container) {
                     var div = document.createElement('div');
-                    div.className = 'flex flex-col items-end animate-slide-up';
-                    div.innerHTML = '<div class="max-w-[85%] rounded-2xl rounded-br-sm bg-primary text-white p-3"><p class="text-sm">' + escapeHTML(mensagem) + '</p><p class="text-[10px] text-white/70 mt-1 text-right">Agora</p></div>';
+                    div.className = 'flex flex-col items-end animate-slide-up mb-4';
+                    div.innerHTML = `
+                        <div class="max-w-[85%] rounded-2xl rounded-tr-none bg-primary text-white p-4 shadow-lg shadow-primary/20">
+                            <p class="text-sm leading-relaxed">${escapeHTML(mensagem)}</p>
+                            <p class="text-[9px] text-white/70 mt-2 text-right font-medium">Agora</p>
+                        </div>`;
                     container.appendChild(div);
                     container.scrollTop = container.scrollHeight;
                 }
@@ -830,50 +1086,122 @@
             const container = document.getElementById('suporte-tickets-list');
             if (!container) return;
             const sb = window.supabaseClient;
-            container.innerHTML = '<div class="p-4 text-center text-slate-500"><span class="material-symbols-outlined animate-spin mb-2 inline-block">sync</span><p class="text-sm">Carregando...</p></div>';
+            container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined animate-spin text-4xl mb-2 text-primary">sync</span><p class="text-sm font-bold uppercase tracking-widest">Sincronizando Chamados...</p></div>';
+            
             try {
-                const [messagesRes, usersRes] = await Promise.all([
-                    sb.from('suporte').select('*').order('criado_em', { ascending: false }).limit(50),
-                    sb.from('usuarios').select('id, nome, email, foto_perfil_url, tipo_usuario')
-                ]);
-                var allMessages = messagesRes.data || [];
-                const users = usersRes.data || [];
-                const userMap = {};
-                users.forEach(u => { userMap[u.email] = u; userMap[u.email.toLowerCase()] = u; });
+                const fetchSafe = async (query, label) => {
+                    try {
+                        const res = await query;
+                        if (res.error) { 
+                            console.error(`[Suporte] Erro no fetch (${label}):`, res.error); 
+                            return { data: [], error: res.error }; 
+                        }
+                        return res;
+                    } catch (err) { 
+                        console.error(`[Suporte] Exceção no fetch (${label}):`, err); 
+                        return { data: [], error: err }; 
+                    }
+                };
 
-                var messages = allMessages;
+                console.log('[Suporte] Iniciando carregamento de chamados...');
+                const [supportRes, usersRes, tripsRes] = await Promise.all([
+                    fetchSafe(sb.from('suporte').select('*').order('criado_em', { ascending: false }), 'suporte'),
+                    fetchSafe(sb.from('usuarios').select('id, nome, email, foto_perfil_url'), 'usuarios'),
+                    fetchSafe(sb.from('viagens').select('id, origem_endereco, destino_endereco, criado_em, status, passageiro_id, usuarios(nome, email, foto_perfil_url)').order('criado_em', { ascending: false }).limit(100), 'viagens')
+                ]);
+
+                const allSupport = supportRes.data || [];
+                const users = usersRes.data || [];
+                const openTrips = tripsRes.data || [];
+                
+                console.log(`[Suporte List] Chamados: ${allSupport.length}, Viagens: ${openTrips.length}, Usuarios: ${users.length}`);
+                if (supportRes.error) console.error('[Suporte] Erro específico na consulta de suporte:', supportRes.error);
+                if (allSupport.length === 0) console.warn('[Suporte] Nenhum chamado retornado da tabela suporte.');
+
+                const userMap = {};
+                users.forEach(u => { if (u.email) userMap[u.email.toLowerCase()] = u; });
+
+                var filteredSupport = allSupport;
                 if (_suporteFilter !== 'todos') {
-                    messages = allMessages.filter(function(m) { return (m.status || 'aberto') === _suporteFilter; });
+                    filteredSupport = allSupport.filter(m => { 
+                        var s = (m.status || 'aberto').toLowerCase();
+                        var f = _suporteFilter.toLowerCase();
+                        if (f === 'aberto') return s === 'aberto' || s === 'em_analise' || s === 'pendente';
+                        return s === f;
+                    });
                 }
 
-                if (messages.length === 0) {
-                    container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">support_agent</span><p class="text-sm font-bold">' + (_suporteFilter === 'todos' ? 'Nenhuma mensagem de suporte' : 'Nenhum chamado ' + (_suporteFilter === 'aberto' ? 'aberto' : 'resolvido')) + '</p></div>';
+                var unifiedList = [];
+                filteredSupport.forEach(s => {
+                    unifiedList.push({
+                        id: s.id, tipo: 'suporte',
+                        nome: s.nome || 'Usuário',
+                        email: s.email || '',
+                        assunto: s.assunto || 'Suporte',
+                        mensagem: s.mensagem || '',
+                        status: (s.status || 'aberto').toLowerCase(),
+                        criado_em: s.criado_em,
+                        user: userMap[s.email?.toLowerCase()]
+                    });
+                });
+
+                if (_suporteFilter === 'todos' || _suporteFilter === 'aberto') {
+                    openTrips.forEach(v => {
+                        const s = (v.status || '').toLowerCase();
+                        if (['em aberto', 'agendada', 'pendente', 'aguardando', 'solicitado'].includes(s)) {
+                            unifiedList.push({
+                                id: v.id, tipo: 'viagem',
+                                nome: v.usuarios?.nome || 'Passageiro',
+                                email: v.usuarios?.email || '',
+                                assunto: 'Solicitação de Viagem',
+                                mensagem: `De: ${v.origem_endereco || '...'} Para: ${v.destino_endereco || '...'}`,
+                                status: 'aberto',
+                                criado_em: v.criado_em,
+                                user: v.usuarios
+                            });
+                        }
+                    });
+                }
+
+                unifiedList.sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em));
+
+                if (unifiedList.length === 0) {
+                    container.innerHTML = `<div class="p-12 text-center text-slate-500 animate-fade-in">
+                        <span class="material-symbols-outlined text-5xl mb-4 opacity-20">support_agent</span>
+                        <p class="text-sm font-black uppercase tracking-widest">${_suporteFilter === 'todos' ? 'Nenhum chamado ativo' : 'Filtro sem resultados'}</p>
+                    </div>`;
                     return;
                 }
+
                 container.innerHTML = '';
-                messages.forEach(msg => {
-                    const user = userMap[msg.email] || userMap[msg.email?.toLowerCase()];
+                unifiedList.forEach(msg => {
+                    const user = msg.user;
                     const photoUrl = user?.foto_perfil_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(msg.nome || 'U')}&background=f97316&color=fff&size=64`;
                     const time = msg.criado_em ? new Date(msg.criado_em).toLocaleDateString([], { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '--';
-                    const status = msg.status || 'aberto';
-                    const statusColor = status === 'resolvido' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400';
-                    const statusLabel = status === 'resolvido' ? 'Resolvido' : 'Aberto';
+                    const isViagem = msg.tipo === 'viagem';
+                    const statusColor = isViagem ? 'bg-primary/10 text-primary' : (msg.status === 'resolvido' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400');
+                    const statusLabel = isViagem ? 'VIAGEM' : (msg.status === 'resolvido' ? 'Resolvido' : 'Suporte');
+                    
                     const card = document.createElement('div');
-                    card.className = 'p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer active-scale';
-                    card.addEventListener('click', function() { window.abrirChamadoAdmin(msg.id); });
+                    card.className = 'p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-pointer active-scale mb-3';
+                    card.addEventListener('click', function() { 
+                        if (isViagem) alert('Viagem: ' + msg.mensagem);
+                        else window.abrirChamadoAdmin(msg.id); 
+                    });
+                    
                     card.innerHTML = `
                         <div class="flex items-start gap-3">
                             <img src="${photoUrl}" class="size-10 rounded-full object-cover bg-slate-600 shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=U&background=f97316&color=fff&size=64'">
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between gap-2">
-                                    <p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${msg.nome || 'Anônimo'}</p>
+                                    <p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${msg.nome}</p>
                                     <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider shrink-0 ${statusColor}">${statusLabel}</span>
                                 </div>
-                                <p class="text-xs text-slate-500 mt-1">${msg.assunto || 'Sem assunto'}</p>
-                                <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">${msg.mensagem || ''}</p>
+                                <p class="text-xs text-slate-500 mt-1">${msg.assunto}</p>
+                                <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">${msg.mensagem}</p>
                                 <div class="flex items-center justify-between mt-2">
                                     <p class="text-[9px] text-slate-500 font-medium">${time}</p>
-                                    <span class="text-[10px] text-slate-400">${msg.email || ''}</span>
+                                    <span class="text-[10px] text-slate-400">${msg.email}</span>
                                 </div>
                             </div>
                         </div>`;
@@ -881,7 +1209,7 @@
                 });
             } catch (err) {
                 console.error('Erro ao carregar suporte:', err);
-                container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">error</span><p class="text-sm">Erro ao carregar mensagens.</p></div>';
+                container.innerHTML = '<div class="p-8 text-center text-slate-500"><span class="material-symbols-outlined text-4xl mb-2 inline-block">error</span><p class="text-sm">Erro crítico ao carregar chamados.</p></div>';
             }
         };
         window.openLogoffModal = function() { document.getElementById('logoff-modal').classList.remove('hidden'); };
@@ -902,83 +1230,236 @@
             if (!sb) return;
             async function updateStats() {
                 try {
-                    var startOfToday = new Date();
+                    const startOfToday = new Date();
                     startOfToday.setHours(0, 0, 0, 0);
-                    var iso = startOfToday.toISOString();
+                    const iso = startOfToday.toISOString();
+
                     function up(el, cur, past) {
-                        var e = document.getElementById(el);
+                        const e = document.getElementById(el);
                         if (!e) return;
-                        if (past === 0) { e.textContent = cur > 0 ? '+100%' : '0%'; e.className = 'text-emerald-500 text-xs font-bold leading-normal'; return; }
-                        var p = ((cur - past)/past)*100;
-                        e.textContent = (p>=0?'+':'')+p.toFixed(1)+'%';
-                        e.className = p>=0?'text-emerald-500 text-xs font-bold leading-normal':'text-red-500 text-xs font-bold leading-normal';
+                        if (past === 0) { e.textContent = cur > 0 ? '+100%' : '0%'; return; }
+                        const p = ((cur - past) / past) * 100;
+                        e.textContent = (p >= 0 ? '+' : '') + p.toFixed(1) + '%';
+                        e.className = p >= 0 ? 'text-[10px] font-black text-emerald-500' : 'text-[10px] font-black text-red-500';
                     }
-                    var [r1, r1p, r1m, r2, r2p, r2m, r3, r3p, r3m] = await Promise.all([
-                        sb.from('usuarios').select('*',{count:'exact',head:true}),
-                        sb.from('usuarios').select('*',{count:'exact',head:true}).lt('criado_em',iso),
-                        sb.from('users_migrados').select('*',{count:'exact',head:true}),
-                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro'),
-                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','passageiro').lt('criado_em',iso),
-                        sb.from('users_migrados').select('*',{count:'exact',head:true}).eq('role','passageiro'),
-                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista'),
-                        sb.from('usuarios').select('*',{count:'exact',head:true}).eq('tipo_usuario','motorista').lt('criado_em',iso),
-                        sb.from('users_migrados').select('*',{count:'exact',head:true}).eq('role','motorista')
+
+                    const fetchSafe = async (query, label) => {
+                        try {
+                            const res = await query;
+                            if (res.error) { 
+                                console.warn(`[Stats] Erro no fetch (${label}):`, res.error); 
+                                return { data: [], count: 0, error: res.error }; 
+                            }
+                            return res;
+                        } catch (err) { 
+                            console.warn(`[Stats] Exceção no fetch (${label}):`, err); 
+                            return { data: [], count: 0, error: err }; 
+                        }
+                    };
+
+                    console.log('[Dashboard Stats] Atualizando indicadores...');
+                    const [rUsers, rUsersPast, rMigrados, rDriversOnline, rMessages, rSupport, rAds, rPosts, rViagens] = await Promise.all([
+                        fetchSafe(sb.from('usuarios').select('tipo_usuario, criado_em, email'), 'usuarios'),
+                        fetchSafe(sb.from('usuarios').select('tipo_usuario, criado_em').lt('criado_em', iso), 'usuarios_antigos'),
+                        fetchSafe(sb.from('users_migrados').select('role, createAt, createdAt, email'), 'users_migrados'),
+                        fetchSafe(sb.from('motoristas').select('*', { count: 'exact', head: true }).eq('status_online', true), 'motoristas_online'),
+                        fetchSafe(sb.from('mensagens').select('*', { count: 'exact', head: true }), 'mensagens'),
+                        fetchSafe(sb.from('suporte').select('*'), 'suporte'),
+                        fetchSafe(sb.from('anuncios').select('*', { count: 'exact', head: true }).eq('ativo', true), 'anuncios'),
+                        fetchSafe(sb.from('postagens').select('*', { count: 'exact', head: true }), 'postagens'),
+                        fetchSafe(sb.from('viagens').select('status'), 'viagens')
                     ]);
-                    if (!r1.error) {
-                        var totalUsuarios = Math.max(0,r1.count-1) + (r1m.count||0);
-                        var el = document.getElementById('stat-clientes');
-                        if (el) el.textContent = totalUsuarios.toLocaleString();
-                        up('pct-clientes',totalUsuarios,Math.max(0,(r1p.count||0)-1)+(r1m.count||0));
-                    }
-                    var totalPassageiros = (r2.count||0) + (r2m.count||0);
-                    var el2 = document.getElementById('stat-passageiros');
-                    if (el2) el2.textContent = totalPassageiros.toLocaleString();
-                    up('pct-passageiros',totalPassageiros,(r2p.count||0)+(r2m.count||0));
-                    var totalMotoristas = (r3.count||0) + (r3m.count||0);
-                    var el3 = document.getElementById('stat-motoristas');
-                    if (el3) el3.textContent = totalMotoristas.toLocaleString();
-                    up('pct-motoristas',totalMotoristas,(r3p.count||0)+(r3m.count||0));
-                    var el4 = document.getElementById('stat-viagens');
-                    if (el4) el4.textContent = '0';
-                } catch(e) { console.error('Erro stats:',e); }
+
+                    const migData = rMigrados.data || [];
+                    const userData = rUsers.data || [];
+                    
+                    // Unificar e deduplicar por e-mail
+                    const uniqueEmails = new Set();
+                    let totalCount = 0;
+
+                    userData.forEach(u => {
+                        if (u.email) {
+                            const email = u.email.toLowerCase().trim();
+                            if (!uniqueEmails.has(email)) { uniqueEmails.add(email); totalCount++; }
+                        } else { totalCount++; }
+                    });
+
+                    migData.forEach(u => {
+                        if (u.email) {
+                            const email = u.email.toLowerCase().trim();
+                            if (!uniqueEmails.has(email)) { uniqueEmails.add(email); totalCount++; }
+                        } else { totalCount++; }
+                    });
+
+                    const elU = document.getElementById('stat-clientes');
+                    if (elU) elU.textContent = totalCount.toLocaleString();
+                    up('pct-clientes', totalCount, (rUsersPast.data || []).length + migData.length);
+
+                    // Motoristas Online
+                    const elMO = document.getElementById('stat-motoristas-online');
+                    if (elMO) elMO.textContent = (rDriversOnline.count || 0).toLocaleString();
+
+                    // Chat
+                    const elCT = document.getElementById('stat-chat-total');
+                    if (elCT) elCT.textContent = (rMessages.count || 0).toLocaleString();
+                    
+                    // Chamados (Viagens + Suporte)
+                    const supportData = rSupport.data || [];
+                    const tripsData = rViagens.data || [];
+                    
+                    // Contagem robusta de suporte
+                    const openSupport = supportData.filter(t => {
+                        const s = (t.status || '').toLowerCase().trim();
+                        return ['aberto', 'em_analise', 'pendente', 'aguardando', 'em aberto', 'solicitado'].includes(s);
+                    }).length || (supportData.length > 0 ? supportData.length : 0);
+                    
+                    const openTrips = tripsData.filter(v => {
+                        const s = (v.status || '').toLowerCase().trim();
+                        return ['em aberto', 'agendada', 'pendente', 'aguardando', 'solicitado', 'aceita'].includes(s);
+                    }).length;
+                    
+                    const totalChamados = openSupport + openTrips;
+                    console.log(`[Dashboard Stats] Suporte Ativos: ${openSupport}, Viagens Pendentes: ${openTrips}, Total: ${totalChamados}`);
+                    
+                    if (rSupport.error) console.error('[Stats] Erro ao buscar suporte:', rSupport.error);
+                    if (rViagens.error) console.error('[Stats] Erro ao buscar viagens:', rViagens.error);
+
+                    const elST = document.getElementById('stat-suporte-total');
+                    if (elST) elST.textContent = totalChamados.toLocaleString(); 
+                    const elSA = document.getElementById('stat-suporte-abertos');
+                    if (elSA) elSA.textContent = totalChamados + ' ATIVOS';
+
+                    // Ads & Blog
+                    const elAds = document.getElementById('stat-ads-total');
+                    if (elAds) elAds.textContent = (rAds.count || 0).toLocaleString();
+                    const elBlog = document.getElementById('stat-blog-total');
+                    if (elBlog) elBlog.textContent = (rPosts.count || 0).toLocaleString();
+
+                    // Sparklines
+                    generateSparkline('spark-usuarios', [40, 50, 45, 60, 75, 70, 90]);
+                    generateSparkline('spark-online', [10, 15, 12, 18, 25, 20, 22], '#10b981');
+
+                    updateSmartInsights(totalCount, (rDriversOnline.count || 0), totalChamados);
+
+                } catch (e) { console.error('[Stats] Erro fatal no processamento premium:', e); }
             }
+
+            function generateSparkline(id, data, color = '#f97316') {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const width = 60, height = 30, pad = 4;
+                const max = Math.max(...data);
+                const points = data.map((v, i) => {
+                    const x = (i / (data.length - 1)) * width;
+                    const y = height - pad - (v / max) * (height - pad * 2);
+                    return `${x},${y}`;
+                }).join(' ');
+                el.innerHTML = `<svg viewBox="0 0 ${width} ${height}"><polyline points="${points}" class="sparkline" style="stroke: ${color}"/></svg>`;
+            }
+
+            function updateSmartInsights(users, online, support) {
+                const container = document.getElementById('insights-container');
+                if (!container) return;
+                let html = '';
+                
+                // Insight 1: Crescimento
+                html += `<div class="glass-card p-4 rounded-2xl insight-badge flex items-start gap-3 animate-fade-in">
+                    <span class="material-symbols-outlined text-primary mt-0.5">trending_up</span>
+                    <div>
+                        <p class="text-xs font-bold text-white leading-relaxed">Sua base de usuários atingiu ${users} cadastros. O crescimento orgânico está saudável.</p>
+                        <p class="text-[9px] text-slate-500 mt-1 uppercase font-black">Performance de Rede</p>
+                    </div>
+                </div>`;
+
+                // Insight 2: Suporte
+                if (support > 0) {
+                    html += `<div class="glass-card p-4 rounded-2xl insight-badge flex items-start gap-3 animate-fade-in delay-100" style="border-left-color: #f59e0b">
+                        <span class="material-symbols-outlined text-amber-500 mt-0.5">priority_high</span>
+                        <div>
+                            <p class="text-xs font-bold text-white leading-relaxed">Existem ${support} chamados de suporte aguardando resposta. Atenção ao tempo de resposta.</p>
+                            <p class="text-[9px] text-slate-500 mt-1 uppercase font-black">Atenção Necessária</p>
+                        </div>
+                    </div>`;
+                }
+
+                // Insight 3: Live
+                html += `<div class="glass-card p-4 rounded-2xl insight-badge flex items-start gap-3 animate-fade-in delay-200" style="border-left-color: #10b981">
+                    <span class="material-symbols-outlined text-emerald-500 mt-0.5">bolt</span>
+                    <div>
+                        <p class="text-xs font-bold text-white leading-relaxed">Atualmente ${online} motoristas estão prontos para atender. Frota operacional.</p>
+                        <p class="text-[9px] text-slate-500 mt-1 uppercase font-black">Status Operacional</p>
+                    </div>
+                </div>`;
+
+                container.innerHTML = html;
+            }
+
             async function updateRegistrationChart() {
                 try {
-                    var days=7, lc=document.getElementById('chart-labels'), pp=document.getElementById('path-passageiros'), pm=document.getElementById('path-motoristas');
-                    if (!lc||!pp||!pm) return;
-                    var dates=[];
-                    for(var i=days-1;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);dates.push(d);}
-                    var ls=lc.querySelectorAll('span');
-                    dates.forEach(function(d,i){if(ls[i])ls[i].textContent=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});});
-                    var ru=await sb.from('usuarios').select('tipo_usuario, criado_em');
-                    if(!ru.data) return;
-                    var pas=Array(days).fill(0),mot=Array(days).fill(0);
-                    dates.forEach(function(d,i){
-                        var eod=new Date(d);eod.setHours(23,59,59,999);
-                        pas[i]=ru.data.filter(function(u){return u.tipo_usuario==='passageiro'&&new Date(u.criado_em)<=eod;}).length;
-                        mot[i]=ru.data.filter(function(u){return u.tipo_usuario==='motorista'&&new Date(u.criado_em)<=eod;}).length;
+                    const days = 7, lc = document.getElementById('chart-labels'), pp = document.getElementById('path-passageiros'), pm = document.getElementById('path-motoristas'), ap = document.getElementById('area-passageiros');
+                    if (!lc || !pp || !pm) return;
+                    const dates = [];
+                    for (let i = days - 1; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); dates.push(d); }
+                    lc.innerHTML = dates.map(d => `<span class="text-slate-500 text-[9px] font-black uppercase tracking-tighter">${d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '')}</span>`).join('');
+
+                    const [ru, rm] = await Promise.all([
+                        sb.from('usuarios').select('tipo_usuario, criado_em'),
+                        sb.from('users_migrados').select('role, createAt, createdAt')
+                    ]);
+                    
+                    const userData = ru.data || [];
+                    const migData = rm.data || [];
+                    
+                    const pas = Array(days).fill(0), mot = Array(days).fill(0);
+                    dates.forEach((d, i) => {
+                        const eod = new Date(d); eod.setHours(23, 59, 59, 999);
+                        
+                        // Usuarios Novos
+                        const newPas = userData.filter(u => u.tipo_usuario === 'passageiro' && new Date(u.criado_em) <= eod).length;
+                        const newMot = userData.filter(u => u.tipo_usuario === 'motorista' && new Date(u.criado_em) <= eod).length;
+                        
+                        // Usuarios Migrados
+                        const oldPas = migData.filter(m => m.role === 'passageiro' && new Date(m.createAt || m.createdAt || 0) <= eod).length;
+                        const oldMot = migData.filter(m => m.role === 'motorista' && new Date(m.createAt || m.createdAt || 0) <= eod).length;
+                        
+                        pas[i] = newPas + oldPas;
+                        mot[i] = newMot + oldMot;
                     });
-                    var mx=Math.max.apply(null,pas.concat(mot).concat([10])),w=472,h=150,pad=20,av=h-pad*2;
-                    function gp(c){return c.map(function(v,i){var x=(i/(days-1))*w,y=h-pad-(v/mx)*av;return(i===0?'M':'L')+' '+x.toFixed(1)+' '+y.toFixed(1);}).join(' ');}
-                    pp.setAttribute('d',gp(pas));pm.setAttribute('d',gp(mot));
-                    var dc=document.getElementById('chart-dots'),tt=document.getElementById('chart-tooltip');
-                    if(!dc||!tt) return;
-                    dc.innerHTML='';
-                    dates.forEach(function(d,i){
-                        var x=(i/(days-1))*w,yPas=h-pad-(pas[i]/mx)*av,yMot=h-pad-(mot[i]/mx)*av;
-                        var r=document.createElementNS('http://www.w3.org/2000/svg','rect');
-                        r.setAttribute('x',x-20);r.setAttribute('y',0);r.setAttribute('width',40);r.setAttribute('height',h);r.setAttribute('fill','transparent');r.setAttribute('class','cursor-pointer');
-                        var sh=function(){tt.classList.remove('hidden');setTimeout(function(){tt.style.opacity='1';tt.style.transform='translate(-50%, -100%) scale(1)';},10);tt.style.left=(x/w)*100+'%';tt.style.top=Math.min(yPas,yMot)+'px';var td=document.getElementById('tooltip-date');if(td)td.textContent=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});var tm=document.getElementById('tooltip-mot');if(tm)tm.textContent=mot[i];var tp=document.getElementById('tooltip-pas');if(tp)tp.textContent=pas[i];document.querySelectorAll('.chart-dot-'+i).forEach(function(dd){dd.setAttribute('r','6');dd.setAttribute('stroke-width','4');});};
-                        var hi=function(){tt.style.opacity='0';tt.style.transform='translate(-50%, -100%) scale(0.9)';setTimeout(function(){tt.classList.add('hidden');},300);document.querySelectorAll('.chart-dot-'+i).forEach(function(dd){dd.setAttribute('r','4');dd.setAttribute('stroke-width','2');});};
-                        r.addEventListener('mouseenter',sh);r.addEventListener('mouseleave',hi);r.addEventListener('click',sh);
-                        var dp=document.createElementNS('http://www.w3.org/2000/svg','circle');
-                        dp.setAttribute('cx',x);dp.setAttribute('cy',yPas);dp.setAttribute('r','4');dp.setAttribute('fill','#a855f7');dp.setAttribute('stroke','white');dp.setAttribute('stroke-width','2');dp.setAttribute('class','chart-dot-'+i+' transition-all duration-300');
-                        var dm=document.createElementNS('http://www.w3.org/2000/svg','circle');
-                        dm.setAttribute('cx',x);dm.setAttribute('cy',yMot);dm.setAttribute('r','4');dm.setAttribute('fill','#0f38bd');dm.setAttribute('stroke','white');dm.setAttribute('stroke-width','2');dm.setAttribute('class','chart-dot-'+i+' transition-all duration-300');
-                        dc.appendChild(dp);dc.appendChild(dm);dc.appendChild(r);
+
+                    const mx = Math.max(...pas, ...mot, 10), w = 472, h = 150, pad = 20, av = h - pad * 2;
+                    function gp(c) { return c.map((v, i) => { const x = (i / (days - 1)) * w, y = h - pad - (v / mx) * av; return (i === 0 ? 'M' : 'L') + ' ' + x.toFixed(1) + ' ' + y.toFixed(1); }).join(' '); }
+                    
+                    const pathPas = gp(pas);
+                    pp.setAttribute('d', pathPas);
+                    pm.setAttribute('d', gp(mot));
+                    if (ap) ap.setAttribute('d', `${pathPas} L ${w} ${h} L 0 ${h} Z`);
+
+                    const dc = document.getElementById('chart-dots'), tt = document.getElementById('chart-tooltip');
+                    if (!dc || !tt) return;
+                    dc.innerHTML = '';
+                    dates.forEach((d, i) => {
+                        const x = (i / (days - 1)) * w, yPas = h - pad - (pas[i] / mx) * av, yMot = h - pad - (mot[i] / mx) * av;
+                        const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        r.setAttribute('x', x - 20); r.setAttribute('y', 0); r.setAttribute('width', 40); r.setAttribute('height', h); r.setAttribute('fill', 'transparent'); r.setAttribute('class', 'cursor-pointer');
+                        
+                        const sh = () => {
+                            tt.classList.remove('hidden'); tt.style.opacity = '1'; tt.style.left = (x / w) * 100 + '%'; tt.style.top = Math.min(yPas, yMot) + 'px';
+                            document.getElementById('tooltip-date').textContent = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
+                            document.getElementById('tooltip-mot').textContent = mot[i];
+                            document.getElementById('tooltip-pas').textContent = pas[i];
+                        };
+                        const hi = () => { tt.classList.add('hidden'); tt.style.opacity = '0'; };
+                        r.addEventListener('mouseenter', sh); r.addEventListener('mouseleave', hi);
+
+                        const dp = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        dp.setAttribute('cx', x); dp.setAttribute('cy', yPas); dp.setAttribute('r', '4'); dp.setAttribute('fill', '#f97316'); dp.setAttribute('stroke', '#0a0e1a'); dp.setAttribute('stroke-width', '2');
+                        const dm = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        dm.setAttribute('cx', x); dm.setAttribute('cy', yMot); dm.setAttribute('r', '4'); dm.setAttribute('fill', '#3b82f6'); dm.setAttribute('stroke', '#0a0e1a'); dm.setAttribute('stroke-width', '2');
+                        dc.appendChild(dp); dc.appendChild(dm); dc.appendChild(r);
                     });
-                } catch(e) { console.error('Erro chart:',e); }
+                } catch (e) { console.error('Erro chart premium:', e); }
             }
+
             async function updateBlogChart() {
                 try {
                     var bc=document.getElementById('blog-bars-container'),lc=document.getElementById('blog-labels'),gb=document.getElementById('blog-growth'),tt=document.getElementById('blog-tooltip');
@@ -1011,21 +1492,31 @@
             var currentEditingUserId=null, userIdToDelete=null, DEFAULT_AVATAR='https://ui-avatars.com/api/?background=random&color=fff&name=';
             function switchUserTab(isM) {
                 ustate.currentTab = isM ? 'motorista' : 'passageiro';
+                
+                const mPill = 'tab-pill-active tab-pill flex-1 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500';
+                const iPill = 'tab-pill flex-1 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-slate-300 transition-all duration-500';
+
                 if (isM) {
-                    uels.tabMotoristas.className = 'flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2 flex-1';
-                    uels.tabPassageiros.className = 'flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 flex-1';
+                    uels.tabMotoristas.className = mPill;
+                    uels.tabPassageiros.className = iPill;
                     uels.listDrivers.classList.remove('hidden'); uels.listPassengers.classList.add('hidden');
-                    uels.searchInput.placeholder = 'Pesquisar motoristas em Salinas...';
+                    uels.searchInput.placeholder = 'Buscar motoristas...';
                 } else {
-                    uels.tabPassageiros.className = 'flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2 flex-1';
-                    uels.tabMotoristas.className = 'flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 flex-1';
+                    uels.tabPassageiros.className = mPill;
+                    uels.tabMotoristas.className = iPill;
                     uels.listPassengers.classList.remove('hidden'); uels.listDrivers.classList.add('hidden');
-                    uels.searchInput.placeholder = 'Pesquisar passageiros em Salinas...';
+                    uels.searchInput.placeholder = 'Buscar passageiros...';
                 }
-                uels.searchInput.value = ustate[ustate.currentTab].searchQuery;
-                if (ustate[ustate.currentTab].data.length === 0) fetchUsers(ustate.currentTab, true);
-                else renderUserList(ustate.currentTab);
+                fetchUsers(ustate.currentTab, true);
             }
+
+            window.applyPremiumFilter = function(btn) {
+                // Remover active de todos os botões do grupo
+                btn.parentElement.querySelectorAll('.premium-filter-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                fetchUsers(ustate.currentTab, true);
+            };
+
             if (uels.tabMotoristas) uels.tabMotoristas.addEventListener('click',function(){switchUserTab(true);});
             if (uels.tabPassageiros) uels.tabPassageiros.addEventListener('click',function(){switchUserTab(false);});
             async function fetchUsers(tipo, reset) {
@@ -1034,85 +1525,181 @@
                 if (reset) {
                     ts.page=1; ts.data=[]; ts.hasMore=true;
                     var c = tipo==='motorista'?uels.listDrivers:uels.listPassengers;
-                    if (c) c.innerHTML = '<div class="text-center py-4"><span class="material-symbols-outlined animate-spin text-primary">sync</span> Carregando...</div>';
+                    if (c) c.innerHTML = '<div class="text-center py-12"><span class="material-symbols-outlined animate-spin text-primary text-3xl">sync</span></div>';
                 }
                 if (!ts.hasMore && !reset) return;
                 var from = (ts.page-1)*ts.itemsPerPage, to = from+ts.itemsPerPage-1;
                 try {
-                    if (uels.loadMoreBtn) { uels.loadMoreBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Carregando...'; uels.loadMoreBtn.disabled = true; }
+                    if (uels.loadMoreBtn) { 
+                        uels.loadMoreBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Carregando...'; 
+                        uels.loadMoreBtn.disabled = true; 
+                    }
 
-                    var roleMap = {motorista:'motorista',passageiro:'passageiro',admin:'admin'};
-                    var migradoRole = roleMap[tipo]||'passageiro';
-
-                    var [usuariosRes, migradosRes] = await Promise.all([
-                        sb.from('usuarios').select('*',{count:'exact'}).eq('tipo_usuario',tipo).order('criado_em',{ascending:false}),
-                        sb.from('users_migrados').select('*').eq('role',migradoRole).order('createdAt',{ascending:false})
+                    const [usuariosRes, migradosRes] = await Promise.all([
+                        sb.from('usuarios').select('*',{count:'exact'}).order('criado_em',{ascending:false}),
+                        sb.from('users_migrados').select('*').order('createdAt',{ascending:false})
                     ]);
 
                     if (usuariosRes.error) throw usuariosRes.error;
 
-                    var usuariosData = usuariosRes.data||[];
-                    var migradosData = migradosRes.data||[];
-
-                    var mappedMigrados = migradosData.map(function(u){return {
+                    const rawUsers = usuariosRes.data || [];
+                    const rawMigrados = migradosRes.data || [];
+                    
+                    // Mapear migrados
+                    const mappedMigrados = rawMigrados.map(u => ({
                         id: u._id, _isMigrado: true,
-                        nome: u.name||'Sem Nome',
-                        email: u.email||'',
-                        telefone: u.number||'',
-                        foto_perfil_url: u.avatar||null,
-                        tipo_usuario: u.role||tipo,
-                        criado_em: u.createdAt||u.createAt||null,
-                        status: u.status||'online'
-                    };});
+                        nome: u.name||'Legado', email: u.email||'', telefone: u.number||'',
+                        foto_perfil_url: u.avatar||null, tipo_usuario: u.role||'passageiro',
+                        criado_em: u.createdAt||u.createAt||null, status: u.status||'offline'
+                    }));
 
-                    var allUsers = usuariosData.concat(mappedMigrados);
+                    const allPeople = rawUsers.concat(mappedMigrados);
+                    
+                    // Calcular KPIs Globais de Usuarios
+                    const now = new Date();
+                    const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
+                    
+                    const kpiTotal = allPeople.length;
+                    const kpiOnline = allPeople.filter(u => u.status === 'online').length;
+                    const kpiNew = allPeople.filter(u => new Date(u.criado_em) > sevenDaysAgo).length;
+                    const kpiBanned = allPeople.filter(u => u.status === 'banido' || u.status === 'bloqueado' || u.status === 'pendente').length;
 
+                    // Atualizar UI dos KPIs
+                    const updateKPI = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val.toLocaleString(); };
+                    updateKPI('user-kpi-total', kpiTotal);
+                    updateKPI('user-kpi-online', kpiOnline);
+                    updateKPI('user-kpi-new', kpiNew);
+                    updateKPI('user-kpi-banned', kpiBanned);
+
+                    // Filtrar pela tab atual (motorista/passageiro)
+                    let filtered = allPeople.filter(u => u.tipo_usuario === tipo);
+
+                    // Filtro de Busca
                     if (ts.searchQuery) {
-                        var q = ts.searchQuery.toLowerCase();
-                        allUsers = allUsers.filter(function(u){return (u.nome||'').toLowerCase().indexOf(q)!==-1||(u.email||'').toLowerCase().indexOf(q)!==-1;});
+                        const q = ts.searchQuery.toLowerCase();
+                        filtered = filtered.filter(u => (u.nome||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q));
                     }
 
-                    allUsers.sort(function(a,b){
-                        var da = a.criado_em ? new Date(a.criado_em).getTime() : 0;
-                        var db = b.criado_em ? new Date(b.criado_em).getTime() : 0;
-                        return db - da;
-                    });
+                    // Filtros Rápidos do ustate.filter
+                    if (ustate.filter === 'novos') {
+                        filtered = filtered.filter(u => new Date(u.criado_em) > sevenDaysAgo);
+                    } else if (ustate.filter === 'banidos') {
+                        filtered = filtered.filter(u => u.status === 'banido' || u.status === 'bloqueado');
+                    } else if (ustate.filter === 'rejeitados') {
+                        filtered = filtered.filter(u => u.status === 'pendente' || u.status === 'rejeitado');
+                    }
 
-                    ts.totalCount = allUsers.length;
-                    var paginated = allUsers.slice(from, to+1);
+                    ts.totalCount = filtered.length;
+                    const paginated = filtered.slice(from, to+1);
 
-                    if (paginated.length>0) {
+                    if (paginated.length > 0) {
                         ts.data = reset ? paginated : ts.data.concat(paginated);
-                        ts.hasMore = ts.data.length < allUsers.length;
+                        ts.hasMore = ts.data.length < filtered.length;
                         ts.page++;
-                    } else { ts.hasMore=false; if (reset) ts.data=[]; }
+                    } else { 
+                        ts.hasMore = false; 
+                        if (reset) ts.data = []; 
+                    }
+                    
                     renderUserList(tipo);
-                } catch(e) { console.error('Erro usuarios:',e); }
-                finally { if (uels.loadMoreBtn) { uels.loadMoreBtn.innerText='Carregar mais'; uels.loadMoreBtn.disabled=false; } }
+                } catch(e) { console.error('Erro ao buscar usuários:', e); }
+                finally { 
+                    if (uels.loadMoreBtn) { 
+                        uels.loadMoreBtn.innerText = 'Carregar mais'; 
+                        uels.loadMoreBtn.disabled = false; 
+                    } 
+                }
             }
             function renderUserList(tipo) {
                 var ts = ustate[tipo], c = tipo==='motorista'?uels.listDrivers:uels.listPassengers, noun = tipo==='motorista'?'motoristas':'passageiros';
                 if (!c) return;
                 c.innerHTML = '';
-                if (ts.data.length===0) c.innerHTML = '<div class="text-center text-slate-500 py-8">Nenhum '+tipo+' encontrado.</div>';
-                else ts.data.forEach(function(u){c.appendChild(createUserCard(u));});
-                if (uels.paginationText) uels.paginationText.innerText = 'Exibindo '+ts.data.length+' de '+ts.totalCount+' '+noun+' '+(ts.searchQuery?'encontrados':'cadastrados');
-                if (uels.loadMoreBtn) { if (ts.hasMore) uels.loadMoreBtn.classList.remove('hidden'); else uels.loadMoreBtn.classList.add('hidden'); }
+                if (ts.data.length===0) {
+                    c.innerHTML = `<div class="text-center py-24 animate-fade-in flex flex-col items-center">
+                        <div class="size-20 rounded-[2.5rem] bg-white/5 flex items-center justify-center text-slate-700 mb-6 border border-white/5">
+                            <span class="material-symbols-outlined text-4xl">search_off</span>
+                        </div>
+                        <h3 class="text-white font-black text-lg tracking-tighter">Nenhum Registro Encontrado</h3>
+                        <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Ajuste seus filtros ou termo de busca</p>
+                    </div>`;
+                } else {
+                    ts.data.forEach(function(u, i){
+                        var card = createUserCard(u);
+                        card.style.animationDelay = (i * 100) + 'ms';
+                        c.appendChild(card);
+                    });
+                }
+                
+                if (uels.paginationText) {
+                    const statusDot = `<span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-40"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>`;
+                    uels.paginationText.innerHTML = `${statusDot} <span class="font-black text-white/40 tracking-widest uppercase text-[9px]">Sincronizados ${ts.data.length} de ${ts.totalCount} ${noun}</span>`;
+                }
+                if (uels.loadMoreBtn) { 
+                    if (ts.hasMore) uels.loadMoreBtn.classList.remove('hidden'); 
+                    else uels.loadMoreBtn.classList.add('hidden'); 
+                }
             }
             function createUserCard(user) {
                 var div = document.createElement('div');
-                div.className = 'flex items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm';
+                div.className = 'user-card-premium p-6 rounded-[2.5rem] flex items-center gap-6 animate-slide-up relative overflow-hidden group';
+                
                 var img = user.foto_perfil_url || (DEFAULT_AVATAR + encodeURIComponent(user.nome||'?'));
                 var isMigrado = user._isMigrado === true;
                 var isOnline = user.status === 'online';
-                var onlineDot = isOnline
-                    ? '<div class="absolute bottom-0 right-0 h-4 w-4 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>'
-                    : '<div class="absolute bottom-0 right-0 h-4 w-4 bg-slate-400 border-2 border-white dark:border-slate-900 rounded-full"></div>';
+                
+                var statusLabel = isOnline ? 'Online' : 'Offline';
+                var statusClass = isOnline ? 'status-online' : 'status-offline';
+
                 var actions = isMigrado
-                    ? '<span class="text-[10px] text-slate-500 italic px-2">importado</span>'
-                    : '<div class="flex gap-1"><button class="edit-btn flex items-center justify-center rounded-full size-10 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'" data-email="'+escapeHTML(user.email||'')+'" data-telefone="'+escapeHTML(user.telefone||'')+'"><span class="material-symbols-outlined pointer-events-none">edit</span></button><button class="delete-btn flex items-center justify-center rounded-full size-10 text-red-500 hover:bg-red-500/10 transition-colors active:scale-95" data-id="'+user.id+'" data-nome="'+escapeHTML(user.nome||'')+'"><span class="material-symbols-outlined pointer-events-none">delete</span></button></div>';
-                var migradoBadge = isMigrado ? '<span class="px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[9px] font-bold uppercase rounded-md tracking-wider ml-1">Migrado</span>' : '';
-                div.innerHTML = '<div class="relative shrink-0"><div class="bg-slate-300 dark:bg-slate-700 aspect-square bg-cover bg-center rounded-full h-14 w-14 ring-2 ring-primary/10" style="background-image:url('+"'"+img+"'"+')"></div>'+onlineDot+'</div><div class="flex flex-col flex-1 min-w-0"><p class="text-slate-900 dark:text-slate-100 text-base font-bold leading-none mb-1 truncate">'+escapeHTML(user.nome||'Sem Nome')+'</p><div class="flex items-center gap-1.5 flex-wrap"><span class="material-symbols-outlined text-green-500 text-xs">check_circle</span><p class="text-green-500 text-xs font-bold uppercase tracking-wider">Ativo</p>'+migradoBadge+'</div></div><div class="shrink-0">'+actions+'</div>';
+                    ? `<div class="flex flex-col items-end opacity-50">
+                        <span class="px-2.5 py-1 bg-white/5 border border-white/5 rounded-lg text-[9px] text-slate-500 font-black uppercase tracking-widest">Legado</span>
+                       </div>`
+                    : `<div class="flex gap-2">
+                        <button class="edit-btn size-11 rounded-2xl bg-white/5 text-slate-300 flex items-center justify-center hover:bg-primary hover:text-white transition-all active-scale border border-white/5" data-id="${user.id}" data-nome="${escapeHTML(user.nome||'')}" data-email="${escapeHTML(user.email||'')}" data-telefone="${escapeHTML(user.telefone||'')}">
+                            <span class="material-symbols-outlined text-xl">settings</span>
+                        </button>
+                        <button class="delete-btn size-11 rounded-2xl bg-white/5 text-slate-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all active-scale border border-white/5" data-id="${user.id}" data-nome="${escapeHTML(user.nome||'')}">
+                            <span class="material-symbols-outlined text-xl">delete_sweep</span>
+                        </button>
+                       </div>`;
+
+                var migradoIcon = isMigrado ? `<span class="material-symbols-outlined text-[12px] text-amber-500/50" title="Usuário Migrado">history</span>` : '';
+                
+                div.innerHTML = `
+                    <div class="relative shrink-0">
+                        <div class="avatar-ring ${isOnline ? '' : 'avatar-ring-offline'} p-[3px]">
+                            <div class="size-16 rounded-full bg-slate-800 bg-cover bg-center border-2 border-slate-900 overflow-hidden shadow-2xl" style="background-image:url('${img}')"></div>
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 size-6 rounded-full border-[3px] border-slate-900 ${isOnline ? 'bg-emerald-500' : 'bg-slate-700'} flex items-center justify-center">
+                           <span class="size-2 rounded-full bg-white opacity-50"></span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0 gap-1">
+                        <div class="flex items-center gap-2">
+                            <h4 class="text-white font-black text-base tracking-tight truncate">${user.nome || 'Sem Nome'}</h4>
+                            ${migradoIcon}
+                        </div>
+                        <p class="text-[11px] text-slate-500 font-medium truncate">${user.email || 'sem@email.com'}</p>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="status-badge ${statusClass}">${statusLabel}</span>
+                            <div class="flex items-center gap-1.5 text-[10px] text-slate-600 font-bold">
+                                <span class="material-symbols-outlined text-sm">event</span>
+                                <span>${user.criado_em ? new Date(user.criado_em).toLocaleDateString('pt-BR') : '--/--/--'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shrink-0">
+                        ${actions}
+                    </div>
+                    
+                    <!-- Decorative Glow -->
+                    <div class="absolute -right-12 -bottom-12 size-32 bg-primary/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                `;
+
+                // Add event listeners after a short delay or in renderUserList
                 if (!isMigrado) {
                     var eb = div.querySelector('.edit-btn'); if(eb) eb.addEventListener('click',function(e){handleEditClick(e);});
                     var db = div.querySelector('.delete-btn'); if(db) db.addEventListener('click',function(e){handleDeleteClick(e);});
@@ -1192,11 +1779,69 @@
             var ac=document.getElementById('admin-avatar-container'), fi=document.getElementById('avatar-input'), an=document.getElementById('admin-name'), ae=document.getElementById('admin-email'), be=document.getElementById('btn-edit-photo'), cai=null;
             window._loadAdminProfile = async function() {
                 try {
-                    var r=await sb.auth.getUser(), u=r.data.user; if(!u) return;
-                    var r2=await sb.from('usuarios').select('*').eq('id',u.id).single(), ad=r2.data; if(r2.error||!ad) return;
-                    cai=ad.id; if(an)an.innerText=ad.nome||'Administrador'; if(ae)ae.innerText=ad.email||'';
-                    if(ac){if(ad.foto_perfil_url)ac.innerHTML='<img src="'+ad.foto_perfil_url+'" class="w-full h-full object-cover">'; else ac.innerHTML='<span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600">account_circle</span>';}
-                } catch(e){console.error('Erro perfil:',e);}
+                    const sb = window.supabaseClient;
+                    if (!sb) return false;
+                    const an = document.getElementById('admin-nome'), ae = document.getElementById('admin-email'), ac = document.getElementById('admin-avatar');
+                    if (an) an.innerText = 'Autenticando...';
+                    
+                    let user = null;
+                    // Tentar recuperar sessão atual (Magic Link / Persistencia)
+                    for (let i = 0; i < 15; i++) {
+                        const { data: { session } } = await sb.auth.getSession();
+                        user = session?.user;
+                        if (user) break;
+                        await new Promise(r => setTimeout(r, 300));
+                    }
+                    
+                    if (!user) {
+                        const { data: { user: u } } = await sb.auth.getUser();
+                        user = u;
+                    }
+
+                    if (!user) {
+                        console.warn('[Admin] Não autenticado após retentativas.');
+                        if (an) an.innerText = 'Não Autenticado';
+                        if (ae) ae.innerText = 'Realize o login';
+                        window.location.replace('index.html');
+                        return false;
+                    }
+
+                    console.log('[Admin] Usuário detectado:', user.email);
+
+                    // Verificar se o usuário existe na tabela 'usuarios' e se é 'admin'
+                    const { data: dbUser, error: dbError } = await sb.from('usuarios').select('*').eq('id', user.id).single();
+                    
+                    if (dbError || !dbUser) {
+                        console.error('[Admin] Erro ao buscar perfil ou registro inexistente:', dbError);
+                        window.location.replace('index.html');
+                        return false;
+                    }
+
+                    if (dbUser.tipo_usuario !== 'admin') {
+                        console.error('[Admin] Acesso negado: tipo_usuario =', dbUser.tipo_usuario);
+                        alert('Área restrita a administradores.');
+                        window.location.replace('index.html');
+                        return false;
+                    }
+
+                    const profileData = dbUser;
+                    if (an) an.innerText = profileData.nome || 'Administrador';
+                    if (ae) ae.innerText = profileData.email || '';
+                    
+                    if (profileData.foto_perfil_url) {
+                        if (ac) ac.innerHTML = `<img src="${profileData.foto_perfil_url}" class="w-full h-full object-cover">`;
+                    } else {
+                        if (ac) ac.innerHTML = '<span class="material-symbols-outlined text-5xl text-slate-400">account_circle</span>';
+                    }
+                    
+                    cai = dbUser.id;
+                    console.log('[Admin] Perfil validado com sucesso.');
+                    return true;
+                } catch (e) { 
+                    console.error('[Admin] Erro crítico no carregamento:', e); 
+                    if (an) an.innerText = 'Erro de Conexão';
+                    return false;
+                }
             };
             if(be)be.addEventListener('click',function(){if(fi)fi.click();});
             if(fi)fi.addEventListener('change',async function(e){
@@ -1284,8 +1929,49 @@
                 }catch(e){console.error('Erro anuncio:',e);alert('Erro: '+(e.message||'Erro desconhecido'));if(apb)apb.disabled=false;if(abt)abt.textContent='Publicar Agora';if(abi){abi.textContent='rocket_launch';abi.classList.remove('animate-spin');}}
             });
             window._loadUsersIfNeeded = function(){if(!ustate.initialized){ustate.initialized=true;fetchUsers('motorista',true);}};
-            await updateStats(); await updateRegistrationChart(); await updateBlogChart();
-            window._loadAdminProfile(); window._loadUsersIfNeeded();
+
+            // Inicialização Sincronizada
+            async function initAdmin() {
+                console.log('[Init] Iniciando validação do administrador...');
+                const isAuthorized = await window._loadAdminProfile();
+                
+                if (isAuthorized) {
+                    console.log('[Init] Autorizado. Carregando dados do dashboard...');
+                    updateStats();
+                    updateRegistrationChart();
+                    window._loadUsersIfNeeded();
+                    
+                    // Tab param handling
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const targetTab = urlParams.get('tab');
+                    if (targetTab) {
+                        switchTab(targetTab);
+                        if (targetTab === 'usuarios') window._loadUsersIfNeeded();
+                        if (targetTab === 'suporte') window.abrirSuporteAdmin();
+                    }
+                } else {
+                    console.warn('[Init] Validação falhou. Redirecionando ou aguardando auth event.');
+                }
+            }
+
+            // Escuta mudanças de auth para garantir que o perfil carregue após Magic Link
+            if (window.supabaseClient) {
+                window.supabaseClient.auth.onAuthStateChange((event, session) => {
+                    console.log('[Auth] Evento:', event);
+                    if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+                        initAdmin();
+                    }
+                });
+            }
+
+            // Execução inicial
+            initAdmin();
+            
+            // Loop de atualização
+            setInterval(() => {
+                if (cai) updateStats();
+            }, 30000);
+
         });
     </script>
 </body>
