@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="pt-BR">
 
@@ -1012,21 +1012,33 @@
 
                 // Garantir que ambos existam na tabela usuarios antes do insert
                 try {
-                    var sb = window.supabaseClient;
-                    for (var uu = 0; uu < 2; uu++) {
-                        var uid = uu === 0 ? remetenteUUID : destinatarioUUID;
-                        if (!uid) continue;
-                        var { data: ex } = await sb.from('usuarios').select('id').eq('id', uid).maybeSingle();
-                        if (!ex) {
-                            var uname = uu === 0 ? (window._chatState.user?.nome || window._chatState.user?.name || 'Usuário') : 'Motorista';
-                            var uemail = uid + '@app.com';
-                            var utipo = uu === 0 ? 'passageiro' : 'motorista';
-                            console.log('[Chat] Criando usuario faltante:', uid);
-                            await sb.from('usuarios').insert({ id: uid, nome: uname, email: uemail, tipo_usuario: utipo });
+                    const sb = window.supabaseClient;
+                    if (!sb) throw new Error('Supabase não inicializado');
+
+                    const usersToCheck = [
+                        { id: remetenteUUID, role: 'passageiro', nome: window._chatState.user?.nome || 'Passageiro' },
+                        { id: destinatarioUUID, role: 'motorista', nome: window._chatState.targetName || 'Motorista' }
+                    ];
+
+                    for (const u of usersToCheck) {
+                        if (!u.id) continue;
+                        const { data: existing } = await sb.from('usuarios').select('id').eq('id', u.id).maybeSingle();
+                        
+                        if (!existing) {
+                            console.log('[Chat] Criando perfil para usuário migrado/novo:', u.id);
+                            const { error: insErr } = await sb.from('usuarios').insert({
+                                id: u.id,
+                                nome: u.nome,
+                                email: u.id + '@migrado.app',
+                                tipo_usuario: u.role
+                            });
+                            if (insErr) {
+                                console.warn('[Chat] Falha ao criar perfil (provavelmente RLS), tentando prosseguir:', insErr.message);
+                            }
                         }
                     }
                 } catch (e) {
-                    console.warn('[Chat] Erro ao verificar/criar usuarios:', e);
+                    console.warn('[Chat] Erro na pré-verificação de usuários:', e);
                 }
 
                 const { data, error } = await window.supabaseClient
@@ -1432,6 +1444,7 @@
                 }
 
                 window._chatState.targetId = driverUUID;
+                window._chatState.targetName = driver.name;
                 activeChatTargetId = driverUUID;
                 if (chatName) chatName.textContent = driver.name;
                 if (driver.photo && chatPhoto) chatPhoto.src = driver.photo;
