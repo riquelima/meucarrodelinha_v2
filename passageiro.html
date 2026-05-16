@@ -352,9 +352,9 @@
                                         <span class="text-[9px] text-primary font-bold" id="driver-count"></span>
                                     </div>
                                     <div class="relative w-full overflow-hidden">
-                                        <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing -mx-5 px-5">
-                                            <div id="drivers-list-container" class="flex gap-3 pb-2 min-h-[160px]" style="width: max-content;">
-                                                <div class="p-4 text-center text-slate-500 text-sm w-[260px] flex flex-col items-center shrink-0 gap-2">
+                                        <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing -mx-5 px-5 snap-x snap-proximity scroll-smooth" style="-webkit-overflow-scrolling: touch; scroll-padding: 20px;">
+                                            <div id="drivers-list-container" class="flex gap-3 pb-2 min-h-[160px] items-stretch" style="width: max-content;">
+                                                <div class="p-4 text-center text-slate-500 text-sm w-[260px] flex flex-col items-center shrink-0 gap-2 snap-start">
                                                     <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center">
                                                         <span class="material-symbols-outlined text-2xl text-primary animate-spin">sync</span>
                                                     </div>
@@ -362,6 +362,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background-dark to-transparent z-10"></div>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background-dark to-transparent z-10"></div>
                                     </div>
                                 </div>
                                 <div class="space-y-2.5">
@@ -1581,6 +1583,60 @@
             setTimeout(initPosition, 500);
 
             // Auto-expand ao digitar destino
+            // --- Enhanced carousel scroll handling ---
+            (function() {
+                var wrapper = document.getElementById('drivers-scroll-wrapper');
+                if (!wrapper) return;
+                var isDown = false, startX = 0, scrollLeft = 0, vel = 0, amt = null;
+                wrapper.addEventListener('touchstart', function(e) {
+                    isDown = true;
+                    startX = e.touches[0].pageX - wrapper.offsetLeft;
+                    scrollLeft = wrapper.scrollLeft;
+                    if (amt) { cancelAnimationFrame(amt); amt = null; }
+                }, { passive: true });
+                wrapper.addEventListener('touchmove', function(e) {
+                    if (!isDown) return;
+                    var x = e.touches[0].pageX - wrapper.offsetLeft;
+                    var walk = (x - startX) * 1.2;
+                    wrapper.scrollLeft = scrollLeft - walk;
+                    vel = walk;
+                }, { passive: true });
+                wrapper.addEventListener('touchend', function() {
+                    isDown = false;
+                    if (Math.abs(vel) > 8) {
+                        var momentum = vel * 3;
+                        (function step() {
+                            wrapper.scrollLeft -= momentum * 0.85;
+                            momentum *= 0.85;
+                            if (Math.abs(momentum) > 0.5) amt = requestAnimationFrame(step);
+                            else snap();
+                        })();
+                    } else { snap(); }
+                }, { passive: true });
+                function snap() {
+                    var cards = wrapper.querySelectorAll('.driver-card-el');
+                    if (!cards.length) return;
+                    var center = wrapper.scrollLeft + wrapper.offsetWidth / 2;
+                    var closest = null, minDist = Infinity;
+                    cards.forEach(function(c) {
+                        var dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+                        if (dist < minDist) { minDist = dist; closest = c; }
+                    });
+                    if (closest) closest.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+                wrapper.addEventListener('scroll', function() {
+                    var cards = wrapper.querySelectorAll('.driver-card-el');
+                    var center = wrapper.scrollLeft + wrapper.offsetWidth / 2;
+                    cards.forEach(function(c) {
+                        var dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+                        var maxDist = wrapper.offsetWidth / 2;
+                        var scale = Math.max(0.92, 1 - (dist / maxDist) * 0.08);
+                        c.style.transform = 'scale(' + scale + ')';
+                        c.style.opacity = Math.max(0.6, 1 - (dist / maxDist) * 0.4);
+                    });
+                }, { passive: true });
+            })();
+
             const destInput = document.getElementById('destino-input');
             if (destInput) {
                 const expandPanel = () => {
@@ -2113,7 +2169,7 @@
                     const phone = motorista.telefone_whatsapp || motorista.number || '';
                     const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'Veículo';
                     const color = motorista.cor_veiculo || motorista.carColor || '---';
-                    return '<div class="flex-none w-[260px] snap-center p-3.5 rounded-2xl glass-card border border-white/[0.04] transition-all duration-300 has-[:checked]:border-primary/40 has-[:checked]:bg-primary/[0.03] cursor-pointer relative group">' +
+                    return '<div class="driver-card-el flex-none w-[260px] snap-center p-3.5 rounded-2xl glass-card border border-white/[0.04] has-[:checked]:border-primary/40 has-[:checked]:bg-primary/[0.03] cursor-pointer relative group" style="will-change: transform, opacity; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);">' +
                         '<input type="radio" name="driver_selection" class="peer hidden" id="driver-' + usuarioId + '" value="' + usuarioId + '" data-name="' + displayName.replace(/"/g,'&quot;') + '" data-phone="' + phone + '" data-photo="' + photoUrl + '">' +
                         '<label for="driver-' + usuarioId + '" class="absolute inset-0 z-10 cursor-pointer"></label>' +
                         '<div class="flex items-center gap-3">' +
@@ -2167,10 +2223,12 @@
                     if (countEl) countEl.textContent = motoristasData.length + ' disponível' + (motoristasData.length !== 1 ? 'eis' : '');
                     for (var di = 0; di < motoristasData.length; di++) {
                         var motorista = motoristasData[di];
-                        var cardHtml = renderDriverCard(motorista);
-                        if (di === 0) {
-                            driversContainer.innerHTML += cardHtml;
-                        } else {
+                    var cardHtml = renderDriverCard(motorista);
+                    if (di === 0) {
+                        driversContainer.innerHTML += cardHtml;
+                        var firstCard = driversContainer.querySelector('.driver-card-el');
+                        if (firstCard) { firstCard.style.transform = 'scale(1)'; firstCard.style.opacity = '1'; }
+                    } else {
                             var wrapper = document.createElement('div');
                             wrapper.innerHTML = cardHtml;
                             var cardNode = wrapper.firstChild;
