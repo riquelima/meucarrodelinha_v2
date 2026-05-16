@@ -1,625 +1,310 @@
-﻿<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html class="dark" lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Carro de Linha" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <title>Fale Conosco - Atendimento</title>
+    <title>Fale Conosco - Meu Carro de Linha Salinas</title>
     <script src="/js/tailwind-cdn.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#1949e6",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#111521",
+                        "primary": "#f97316",
+                        "primary-dark": "#ea580c",
+                        "accent": "#00d4ff",
+                        "background-dark": "#0f1320",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
+                        "display": ["Outfit", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        body {
-            min-height: 100dvh;
-        }
+        body { min-height: 100dvh; -webkit-tap-highlight-color: transparent; user-select: none; overscroll-behavior-y: none; }
+        input, textarea, select { user-select: text; -webkit-user-select: text; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-scale { transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-scale:active { transform: scale(0.96); }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { opacity: 0; transform: translateY(24px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scale-in { opacity: 0; transform: scale(0.92); animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 0 40px rgba(249, 115, 22, 0.05); } 50% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.3), 0 0 60px rgba(249, 115, 22, 0.1); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-150 { animation-delay: 150ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .input-premium { background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.08); color: #f1f5f9; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .input-premium:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1), 0 0 20px rgba(249, 115, 22, 0.05); outline: none; background: rgba(255, 255, 255, 0.06); }
+        .input-premium::placeholder { color: rgba(148, 163, 184, 0.4); }
+        .glow-cta { animation: pulseGlow 3s ease-in-out infinite; }
+        .divider-gradient { height: 1px; background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), rgba(0, 212, 255, 0.1), transparent); }
+        .bg-premium-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px; }
+        .gradient-text { background: linear-gradient(135deg, #f97316 0%, #ff8c42 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        .pb-safe {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
+        .category-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
+        .category-card:hover { border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.05); }
+        .category-card.active { border-color: #f97316; background: rgba(249, 115, 22, 0.08); }
 
-        .font-fill {
-            font-variation-settings: 'FILL' 1;
-        }
+        select option { color: #0f1320; background: #ffffff; }
+        .dark select option { color: #f1f5f9; background: #161b2e; }
 
-        /* Custom scrollbar for dark mode */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
+        .modal-backdrop { opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.9) translateY(20px); opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-backdrop.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
 
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(25, 73, 230, 0.2);
-            border-radius: 10px;
-        }
-
-        /* Global Mobile Native Fixes */
-        body {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            overscroll-behavior-y: none;
-        }
-
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        /* Native-like click effect */
-        .active-scale {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .active-scale:active {
-            transform: scale(0.96);
-        }
-
-        /* Entrance Animations */
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-slide-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Stagger Delays */
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .delay-300 {
-            animation-delay: 300ms;
-        }
-
-        .delay-400 {
-            animation-delay: 400ms;
-        }
-
-        .delay-500 {
-            animation-delay: 500ms;
-        }
-
-        /* Confirmation Modal Styles */
-        .modal-backdrop {
-            background-color: rgba(18, 21, 32, 0.85);
-            backdrop-filter: blur(8px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-backdrop.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            transform: scale(0.9) translateY(20px);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-backdrop.active .modal-content {
-            transform: scale(1) translateY(0);
-            opacity: 1;
-        }
-
-        .success-checkmark {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .success-checkmark .check-icon {
-            width: 80px;
-            height: 80px;
-            position: relative;
-            border-radius: 50%;
-            box-sizing: content-box;
-            border: 4px solid #10b981;
-        }
-
-        .success-checkmark .check-icon::before {
-            top: 3px;
-            left: -2px;
-            width: 30px;
-            transform-origin: 100% 50%;
-            border-radius: 100px 0 0 100px;
-        }
-
-        .success-checkmark .check-icon::after {
-            top: 0;
-            left: 30px;
-            width: 60px;
-            transform-origin: 0 50%;
-            border-radius: 0 100px 100px 0;
-            animation: rotate-circle 4.25s ease-in;
-        }
-
-        .check-icon .icon-line {
-            height: 5px;
-            background-color: #10b981;
-            display: block;
-            border-radius: 2px;
-            position: absolute;
-            z-index: 10;
-        }
-
-        .check-icon .icon-line.line-tip {
-            top: 46px;
-            left: 14px;
-            width: 25px;
-            transform: rotate(45deg);
-            animation: icon-line-tip 0.75s;
-        }
-
-        .check-icon .icon-line.line-long {
-            top: 38px;
-            right: 8px;
-            width: 47px;
-            transform: rotate(-45deg);
-            animation: icon-line-long 0.75s;
-        }
-
-        @keyframes icon-line-tip {
-            0% {
-                width: 0;
-                left: 1px;
-                top: 19px;
-            }
-
-            54% {
-                width: 0;
-                left: 1px;
-                top: 19px;
-            }
-
-            70% {
-                width: 50px;
-                left: -8px;
-                top: 37px;
-            }
-
-            84% {
-                width: 17px;
-                left: 21px;
-                top: 48px;
-            }
-
-            100% {
-                width: 25px;
-                left: 14px;
-                top: 46px;
-            }
-        }
-
-        @keyframes icon-line-long {
-            0% {
-                width: 0;
-                right: 46px;
-                top: 54px;
-            }
-
-            65% {
-                width: 0;
-                right: 46px;
-                top: 54px;
-            }
-
-            84% {
-                width: 55px;
-                right: 0px;
-                top: 35px;
-            }
-
-            100% {
-                width: 47px;
-                right: 8px;
-                top: 38px;
-            }
-        }
-
-        /* Force readable text on select options */
-        select option {
-            color: #111827;
-            /* Dark text for light background */
-            background-color: #ffffff;
-        }
-
-        .dark select option {
-            color: #f9fafb;
-            /* Light text for dark background */
-            background-color: #111827;
-        }
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root) { animation: 200ms cubic-bezier(0.4, 0, 1, 1) both fade-out; }
+        ::view-transition-new(root) { animation: 250ms cubic-bezier(0, 0, 0.2, 1) both fade-in; }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        body.fade-out { animation: fadeOut 0.2s ease-in-out forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabaseClient.js"></script>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 h-screen flex flex-col antialiased overflow-hidden">
-    <!-- Header -->
-    <header class="sticky top-0 z-50 flex items-center justify-between bg-black/80 backdrop-blur-md py-3 px-4 border-b border-white/10">
-        <a id="back-button" href="homepage.html" class="text-white flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-white/20 rounded-full transition-colors">
-            <span class="material-symbols-outlined">arrow_back</span>
-        </a>
-        <h1 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">
-            Fale Conosco</h1>
-        <div class="size-10"></div>
-    </header>
+<body class="bg-background-dark font-body text-slate-100 antialiased bg-premium-grid">
+    <div class="relative min-h-screen flex flex-col">
 
-    <main class="flex-1 w-full max-w-md mx-auto px-4 py-6 overflow-y-auto pb-24">
-        <!-- Title Section -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-2">Como podemos ajudar?</h2>
-            <p class="text-slate-500 dark:text-slate-400">Preencha o formulário abaixo ou utilize nossos canais diretos.
-            </p>
-        </div>
-        <!-- Form Section -->
-        <form class="space-y-5">
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium px-1" for="name">Nome</label>
-                <input
-                    class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
-                    id="name" placeholder="Seu nome completo" type="text" />
-            </div>
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium px-1" for="email">E-mail</label>
-                <input
-                    class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
-                    id="email" placeholder="seuemail@exemplo.com" type="email" />
-            </div>
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium px-1" for="phone">Telefone</label>
-                <input
-                    class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
-                    id="phone" placeholder="(71) 99908-8651" type="tel" maxlength="15" />
-            </div>
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium px-1" for="subject">Assunto</label>
-                <select
-                    class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-none"
-                    id="subject">
-                    <option disabled="" selected="" value="">Selecione um assunto</option>
-                    <option value="duvida">Dúvidas sobre viagens</option>
-                    <option value="reclamacao">Reclamações</option>
-                    <option value="sugestao">Sugestões</option>
-                    <option value="financeiro">Financeiro / Pagamentos</option>
-                </select>
-            </div>
-            <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium px-1" for="message">Mensagem</label>
-                <textarea
-                    class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none"
-                    id="message" placeholder="Descreva como podemos te ajudar..." rows="5" required></textarea>
-            </div>
-            <button id="btn-submit"
-                class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-colors shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2"
-                type="submit">
-                <span>Enviar Mensagem</span>
-                <span id="loader" class="material-symbols-outlined animate-spin hidden">sync</span>
-            </button>
-        </form>
-        <!-- Divider -->
-        <div class="relative my-10">
-            <div class="absolute inset-0 flex items-center">
-                <div class="w-full border-t border-slate-200 dark:border-primary/20"></div>
-            </div>
-            <div class="relative flex justify-center text-sm uppercase">
-                <span
-                    class="bg-background-light dark:bg-background-dark px-4 text-slate-500 font-medium tracking-wider">Ou
-                    fale agora</span>
-            </div>
-        </div>
-        <!-- Quick Contact Buttons -->
-        <div class="grid grid-cols-2 gap-4 mb-8">
-            <a class="flex flex-col items-center justify-center p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all group"
-                href="#">
-                <span
-                    class="material-symbols-outlined text-cyan-500 text-3xl mb-2 group-hover:scale-110 transition-transform">chat</span>
-                <span
-                    class="text-sm font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-tight">WhatsApp</span>
-            </a>
-            <a class="flex flex-col items-center justify-center p-4 rounded-xl bg-primary/10 border border-primary/30 hover:bg-primary/20 transition-all group"
-                href="#">
-                <span
-                    class="material-symbols-outlined text-primary text-3xl mb-2 group-hover:scale-110 transition-transform">mail</span>
-                <span class="text-sm font-bold text-primary uppercase tracking-tight">E-mail</span>
-            </a>
-        </div>
-    </main>
+        <div class="fixed top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="fixed bottom-40 left-10 w-60 h-60 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-    <!-- Dynamic Navigation Container -->
-    <div id="nav-container" class="hidden">
-        <!-- Bottom Navigation Bar (Fixed) -->
-        <nav id="nav-passageiro" class="fixed-navbar hidden">
-            <a href="passageiro.html" id="nav-home">
-                <span class="material-symbols-outlined">home</span>
-                <span>Início</span>
+        <!-- ========== HEADER ========== -->
+        <header class="relative z-20 flex items-center justify-between px-4 py-4">
+            <a id="back-button" href="homepage.html"
+                class="active-scale flex items-center justify-center size-10 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300">
+                <span class="material-symbols-outlined text-xl">arrow_back</span>
             </a>
-            <a href="minhasViagens.html" id="nav-trips">
-                <span class="material-symbols-outlined">history</span>
-                <span>Viagens</span>
-            </a>
-            <a href="mensagens.html" id="nav-chats" class="relative">
-                <span class="material-symbols-outlined">chat</span>
-                <span>Chats</span>
-                <span id="chat-badge" class="chat-badge hidden absolute -top-1 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-[#121520]">0</span>
-            </a>
-            <a class="nav-active" href="perfilPassageiro.html" id="nav-profile">
-                <span class="material-symbols-outlined">person</span>
-                <span>Perfil</span>
-            </a>
-        </nav>
+            <span class="text-xs font-medium text-slate-500 uppercase tracking-[0.15em]">Suporte</span>
+            <div class="size-10"></div>
+        </header>
 
-        <nav id="nav-motorista"
-            class="fixed bottom-0 left-0 right-0 bg-[#121520] border-t border-slate-800 py-3 z-50 pb-safe pb-4 hidden">
-            <div class="flex justify-around items-end px-2">
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="motorista.html">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="text-[10px] font-bold">Início</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="meusganhos.html">
-                    <span class="material-symbols-outlined">payments</span>
-                    <span class="text-[10px] font-bold">Ganhos</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="mensagensMotorista.html">
-                    <span class="material-symbols-outlined">chat_bubble</span>
-                    <span class="text-[10px] font-bold">Mensagens</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="historicoViagens.html">
-                    <span class="material-symbols-outlined">history</span>
-                    <span class="text-[10px] font-bold">Histórico</span>
-                </a>
-                <a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-500" href="perfilMotorista.html">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <span class="text-[10px] font-bold">Perfil</span>
-                </a>
-            </div>
-        </nav>
+        <!-- ========== HERO ========== -->
+        <div class="px-4 pt-1 pb-4 animate-scale-in">
+            <div class="relative overflow-hidden rounded-[2rem] px-5 py-7">
+                <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+                <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 30% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);"></div>
 
-        <nav id="nav-admin"
-            class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl px-4 pt-2 z-50 hidden"
-            style="padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem)">
-            <div class="flex gap-2 max-w-lg mx-auto">
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="admin.html">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined"
-                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+                <div class="relative z-10 flex flex-col items-center text-center">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">support_agent</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">Atendimento</span>
                     </div>
-                    <p class="text-[10px] font-bold leading-normal tracking-tight">Painel</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="gerenciarUsuarios.html">
-                    <div class="flex h-8 items-center justify-center"><span
-                            class="material-symbols-outlined">group</span></div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Usuários</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="historicoGeral.html">
-                    <div class="flex h-8 items-center justify-center"><span
-                            class="material-symbols-outlined">route</span></div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Viagens</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400"
-                    href="perfilAdministrador.html">
-                    <div class="flex h-8 items-center justify-center"><span
-                            class="material-symbols-outlined">settings</span></div>
-                    <p class="text-[10px] font-medium leading-normal tracking-tight">Ajustes</p>
-                </a>
+                    <h1 class="font-display font-extrabold leading-[1.1] tracking-tight text-white" style="font-size: clamp(26px, 7vw, 40px);">
+                        Como podemos<br /><span class="gradient-text">ajudar você?</span>
+                    </h1>
+                    <p class="mt-2 text-slate-400 font-medium leading-relaxed max-w-xs mx-auto" style="font-size: clamp(13px, 3vw, 16px);">
+                        Estamos prontos para atender. Escolha um canal ou envie sua mensagem.
+                    </p>
+                </div>
             </div>
-        </nav>
+        </div>
+
+        <div class="divider-gradient mx-4 mb-4"></div>
+
+        <!-- ========== CATEGORY CARDS ========== -->
+        <div class="px-4 mb-4 animate-slide-up delay-100">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">category</span>
+                <h2 class="font-display font-bold text-white text-sm">Tipo de Suporte</h2>
+            </div>
+            <div class="grid grid-cols-4 gap-2">
+                <div class="category-card flex flex-col items-center gap-1.5 p-3 rounded-2xl border border-white/5 bg-white/[0.02] active" data-value="duvida" onclick="selectCategory(this)">
+                    <span class="material-symbols-outlined text-primary text-xl">help</span>
+                    <span class="text-[9px] font-bold text-slate-300 text-center leading-tight">Dúvidas</span>
+                </div>
+                <div class="category-card flex flex-col items-center gap-1.5 p-3 rounded-2xl border border-white/5 bg-white/[0.02]" data-value="reclamacao" onclick="selectCategory(this)">
+                    <span class="material-symbols-outlined text-primary text-xl">feedback</span>
+                    <span class="text-[9px] font-bold text-slate-300 text-center leading-tight">Reclamação</span>
+                </div>
+                <div class="category-card flex flex-col items-center gap-1.5 p-3 rounded-2xl border border-white/5 bg-white/[0.02]" data-value="sugestao" onclick="selectCategory(this)">
+                    <span class="material-symbols-outlined text-primary text-xl">lightbulb</span>
+                    <span class="text-[9px] font-bold text-slate-300 text-center leading-tight">Sugestão</span>
+                </div>
+                <div class="category-card flex flex-col items-center gap-1.5 p-3 rounded-2xl border border-white/5 bg-white/[0.02]" data-value="financeiro" onclick="selectCategory(this)">
+                    <span class="material-symbols-outlined text-primary text-xl">payments</span>
+                    <span class="text-[9px] font-bold text-slate-300 text-center leading-tight">Financeiro</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-gradient mx-4 mb-4"></div>
+
+        <!-- ========== FORM ========== -->
+        <main class="flex-1 px-4 pb-36 space-y-4 animate-slide-up delay-200">
+            <form id="support-form" class="space-y-3.5">
+                <label class="flex flex-col">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">Nome</span>
+                    <div class="relative">
+                        <input id="name" required type="text" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="Seu nome completo" />
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">person</span>
+                    </div>
+                </label>
+                <label class="flex flex-col">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">E-mail</span>
+                    <div class="relative">
+                        <input id="email" required type="email" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="seu@email.com" />
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">mail</span>
+                    </div>
+                </label>
+                <label class="flex flex-col">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">Telefone</span>
+                    <div class="relative">
+                        <input id="phone" type="tel" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="(71) 99908-8651" maxlength="15" />
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">call</span>
+                    </div>
+                </label>
+                <label class="flex flex-col">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1.5 ml-1">Mensagem</span>
+                    <div class="relative">
+                        <textarea id="message" required rows="4" class="input-premium w-full rounded-2xl px-4 py-4 pl-11 text-sm font-medium resize-none" placeholder="Descreva como podemos te ajudar..."></textarea>
+                        <span class="material-symbols-outlined absolute left-4 top-4 text-primary/50 pointer-events-none">edit_note</span>
+                    </div>
+                </label>
+
+                <button id="btn-submit" type="submit"
+                    class="active-scale glow-cta relative w-full h-16 rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary font-display font-bold text-white text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden group mt-2">
+                    <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    <span id="btn-text">Enviar Mensagem</span>
+                    <span id="loader" class="material-symbols-outlined hidden animate-spin">sync</span>
+                </button>
+            </form>
+
+            <!-- Quick Contact -->
+            <div class="divider-gradient my-2"></div>
+            <div class="flex flex-col gap-2 pt-1">
+                <p class="text-xs text-slate-600 font-semibold uppercase tracking-[0.1em] text-center">Canais diretos</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="#"
+                        class="flex items-center justify-center gap-2 p-4 rounded-2xl border border-emerald-500/15 bg-emerald-500/[0.03] hover:bg-emerald-500/10 transition-all duration-300 active-scale">
+                        <span class="material-symbols-outlined text-emerald-400" style="font-variation-settings:'FILL'1">chat</span>
+                        <span class="text-sm font-bold text-emerald-400">WhatsApp</span>
+                    </a>
+                    <a href="#"
+                        class="flex items-center justify-center gap-2 p-4 rounded-2xl border border-primary/15 bg-primary/[0.03] hover:bg-primary/10 transition-all duration-300 active-scale">
+                        <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL'1">mail</span>
+                        <span class="text-sm font-bold text-primary">E-mail</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Dynamic Navigation -->
+        <div id="nav-container"></div>
     </div>
 
     <!-- Success Modal -->
-    <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 modal-backdrop">
-        <div
-            class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-[2.5rem] p-8 text-center shadow-2xl border border-slate-200 dark:border-slate-800 modal-content">
-            <div class="success-checkmark mb-6">
-                <div class="check-icon">
-                    <span class="icon-line line-tip"></span>
-                    <span class="icon-line line-long"></span>
-                </div>
+    <div id="success-modal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-6">
+        <div class="modal-content w-full max-w-sm rounded-[2rem] p-8 text-center border border-white/5" style="background: rgba(15, 19, 32, 0.96); backdrop-filter: blur(24px);">
+            <div class="size-16 mx-auto mb-5 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-emerald-400 text-4xl" style="font-variation-settings:'FILL'1">check_circle</span>
             </div>
-
-            <h3 class="text-2xl font-bold mb-3 text-slate-900 dark:text-slate-100">Mensagem Enviada!</h3>
-            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">
-                Recebemos sua mensagem com sucesso. Em breve, um de nossos colaboradores entrará em contato via
-                **WhatsApp** ou **E-mail**.
+            <h3 class="font-display font-bold text-white text-xl mb-2">Mensagem Enviada!</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                Recebemos sua mensagem com sucesso. Em breve entraremos em contato.
             </p>
-
             <button id="btn-close-modal"
-                class="w-full h-14 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/20 active-scale">
+                class="active-scale w-full h-14 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition-all shadow-lg shadow-emerald-500/20">
                 Entendido
             </button>
         </div>
     </div>
 
+    <script defer src="js/navigation-premium.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const sb = window.supabaseClient;
-            const form = document.querySelector('form');
+            const form = document.getElementById('support-form');
             const btnSubmit = document.getElementById('btn-submit');
+            const btnText = document.getElementById('btn-text');
             const loader = document.getElementById('loader');
             const successModal = document.getElementById('success-modal');
             const btnCloseModal = document.getElementById('btn-close-modal');
             const backBtn = document.getElementById('back-button');
+            const phoneInput = document.getElementById('phone');
 
-            // 1. Check User Session
+            phoneInput.addEventListener('input', function (e) {
+                let v = e.target.value.replace(/\D/g, "");
+                v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+                v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+                e.target.value = v;
+            });
+
             const { data: { user } } = await sb.auth.getUser();
 
             if (user) {
-                // 2. Fetch User Profile (Role)
-                const { data: profile } = await sb
-                    .from('usuarios')
-                    .select('nome, tipo_usuario')
-                    .eq('id', user.id)
-                    .single();
-
-                const role = profile?.tipo_usuario || 'passageiro'; // Default to passenger if null
-
-                // 3. Show Correct Navbar & Link Back Button
+                const { data: profile } = await sb.from('usuarios').select('nome, tipo_usuario').eq('id', user.id).single();
+                const role = profile?.tipo_usuario || 'passageiro';
                 const navContainer = document.getElementById('nav-container');
-                navContainer.classList.remove('hidden');
 
-                // Hide all navs first
-                document.getElementById('nav-admin').classList.add('hidden');
-                document.getElementById('nav-motorista').classList.add('hidden');
-                document.getElementById('nav-passageiro').classList.add('hidden');
+                backBtn.href = role === 'admin' ? 'admin.html' : role === 'motorista' ? 'motorista.html' : 'passageiro.html';
 
-                if (role === 'admin') {
-                    document.getElementById('nav-admin').classList.remove('hidden');
-                    backBtn.href = 'admin.html';
-                } else if (role === 'motorista') {
-                    document.getElementById('nav-motorista').classList.remove('hidden');
-                    backBtn.href = 'motorista.html';
-                } else {
-                    // Passageiro (default)
-                    document.getElementById('nav-passageiro').classList.remove('hidden');
-                    backBtn.href = 'passageiro.html';
-                }
-
-                // 4. Pre-fill Form
                 if (profile?.nome) document.getElementById('name').value = profile.nome;
                 if (user.email) document.getElementById('email').value = user.email;
-
             } else {
-                // Not Logged In -> Homepage
                 backBtn.href = 'homepage.html';
             }
 
-            // Handle Form Submission
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const message = document.getElementById('message').value.trim();
+                if (!name || !email || !message) { alert('Preencha nome, email e mensagem.'); return; }
 
-                // Get values
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
-
-                if (!name || !email || !message || !subject) {
-                    alert('Por favor, preencha todos os campos obrigatórios.');
-                    return;
-                }
+                btnSubmit.disabled = true;
+                btnText.innerText = 'Enviando...';
+                loader.classList.remove('hidden');
 
                 try {
-                    // UI Loading State
-                    btnSubmit.disabled = true;
-                    btnSubmit.querySelector('span').innerText = 'Enviando...';
-                    loader.classList.remove('hidden');
-
-                    const payload = {
+                    const { error } = await sb.from('suporte').insert([{
                         usuario_id: user ? user.id : null,
-                        nome: name,
-                        email: email,
-                        telefone: phone,
-                        assunto: subject,
-                        mensagem: message,
-                        status: 'aberto'
-                    };
-
-                    const { error } = await sb.from('suporte').insert([payload]);
-
+                        nome: name, email: email, telefone: phone,
+                        mensagem: message, status: 'aberto'
+                    }]);
                     if (error) throw error;
-
-                    // Show Success
-                    successModal.classList.add('active'); // CSS class to show modal
+                    successModal.classList.add('active');
                     form.reset();
-
                 } catch (err) {
-                    console.error('Erro ao enviar mensagem:', err);
-                    alert('Erro ao enviar mensagem. Tente novamente.');
+                    console.error(err);
+                    alert('Erro ao enviar. Tente novamente.');
                 } finally {
                     btnSubmit.disabled = false;
-                    btnSubmit.querySelector('span').innerText = 'Enviar Mensagem';
+                    btnText.innerText = 'Enviar Mensagem';
                     loader.classList.add('hidden');
                 }
             });
 
-            // Close Modal
-            btnCloseModal.addEventListener('click', () => {
-                successModal.classList.remove('active');
-            });
-
-            // Phone mask
-            const phoneInput = document.getElementById('phone');
-            if (phoneInput) {
-                phoneInput.addEventListener('input', function (e) {
-                    let v = e.target.value.replace(/\D/g, "");
-                    v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
-                    v = v.replace(/(\d)(\d{4})$/, "$1-$2");
-                    e.target.value = v;
-                });
-            }
+            btnCloseModal.addEventListener('click', () => successModal.classList.remove('active'));
         });
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
     </script>
 </body>
 
