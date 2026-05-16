@@ -245,19 +245,24 @@
                 const likeBtn = document.getElementById('like-button');
                 const shareBtn = document.getElementById('share-button');
 
+                var likedKey = 'mcl_liked_' + (post.slug || post.id);
+                var alreadyLiked = localStorage.getItem(likedKey) === 'true';
+
+                if (alreadyLiked) {
+                    document.getElementById('like-icon').classList.add('text-primary');
+                    document.getElementById('like-icon').style.fontVariationSettings = "'FILL' 1";
+                    likeBtn.disabled = true;
+                }
+
                 likeBtn.addEventListener('click', async () => {
-                    const newLikes = (post.likes || 0) + 1;
-                    const { error: likeError } = await supabaseClient
-                        .from('postagens')
-                        .update({ likes: newLikes })
-                        .eq('id', post.id);
-                    if (!likeError) {
-                        post.likes = newLikes;
-                        likeCountEl.innerText = newLikes;
-                        document.getElementById('like-icon').classList.add('text-primary');
-                        document.getElementById('like-icon').style.fontVariationSettings = "'FILL' 1";
-                        likeBtn.disabled = true;
-                    }
+                    if (alreadyLiked) return;
+                    alreadyLiked = true;
+                    try { localStorage.setItem(likedKey, 'true'); } catch(e) {}
+                    var currentLikes = parseInt(likeCountEl.innerText) || 0;
+                    likeCountEl.innerText = currentLikes + 1;
+                    document.getElementById('like-icon').classList.add('text-primary');
+                    document.getElementById('like-icon').style.fontVariationSettings = "'FILL' 1";
+                    likeBtn.disabled = true;
                 });
 
                 shareBtn.addEventListener('click', async () => {

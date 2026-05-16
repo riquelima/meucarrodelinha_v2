@@ -1,0 +1,153 @@
+
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.anuncios (
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  titulo text NOT NULL,
+  descricao text,
+  imagem_url text,
+  link_acao text,
+  ativo boolean DEFAULT true,
+  criado_por uuid,
+  criado_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  url text,
+  CONSTRAINT anuncios_pkey PRIMARY KEY (id),
+  CONSTRAINT anuncios_criado_por_fkey FOREIGN KEY (criado_por) REFERENCES public.usuarios(id)
+);
+CREATE TABLE public.mensagens (
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  viagem_id uuid,
+  remetente_id uuid NOT NULL,
+  destinatario_id uuid NOT NULL,
+  conteudo text NOT NULL,
+  lida boolean DEFAULT false,
+  enviada_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT mensagens_pkey PRIMARY KEY (id),
+  CONSTRAINT mensagens_viagem_id_fkey FOREIGN KEY (viagem_id) REFERENCES public.viagens(id),
+  CONSTRAINT mensagens_remetente_id_fkey FOREIGN KEY (remetente_id) REFERENCES public.usuarios(id),
+  CONSTRAINT mensagens_destinatario_id_fkey FOREIGN KEY (destinatario_id) REFERENCES public.usuarios(id)
+);
+CREATE TABLE public.motoristas (
+  usuario_id uuid NOT NULL,
+  cpf text UNIQUE,
+  modelo_veiculo text,
+  placa_veiculo text,
+  cor_veiculo text,
+  cnh_url text,
+  documento_veiculo_url text,
+  status_aprovacao text DEFAULT 'aprovado'::text CHECK (status_aprovacao = ANY (ARRAY['pendente'::text, 'aprovado'::text, 'rejeitado'::text])),
+  status_online boolean DEFAULT true,
+  avaliacao_media numeric DEFAULT 5.00,
+  atualizado_em timestamp with time zone DEFAULT timezone('utc'::text, now()),
+  url_cnh text,
+  url_doc_veiculo text,
+  CONSTRAINT motoristas_pkey PRIMARY KEY (usuario_id),
+  CONSTRAINT motoristas_usuario_id_fkey FOREIGN KEY (usuario_id) REFERENCES public.usuarios(id)
+);
+CREATE TABLE public.postagens (
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  titulo text NOT NULL,
+  slug text UNIQUE,
+  categoria text CHECK (categoria = ANY (ARRAY['noticias'::text, 'dicas'::text, 'promocoes'::text, 'avisos'::text])),
+  conteudo text NOT NULL,
+  imagem_capa_url text,
+  autor_id uuid,
+  publicado boolean DEFAULT false,
+  criado_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT postagens_pkey PRIMARY KEY (id),
+  CONSTRAINT postagens_autor_id_fkey FOREIGN KEY (autor_id) REFERENCES public.usuarios(id)
+);
+CREATE TABLE public.push_subscriptions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid,
+  subscription jsonb NOT NULL,
+  device_info jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  endpoint text UNIQUE,
+  CONSTRAINT push_subscriptions_pkey PRIMARY KEY (id),
+  CONSTRAINT push_subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.suporte (
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  usuario_id uuid,
+  nome text,
+  email text,
+  telefone text,
+  assunto text,
+  mensagem text NOT NULL,
+  status text DEFAULT 'aberto'::text CHECK (status = ANY (ARRAY['aberto'::text, 'em_analise'::text, 'resolvido'::text])),
+  criado_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  conversa jsonb DEFAULT '[]'::jsonb,
+  CONSTRAINT suporte_pkey PRIMARY KEY (id),
+  CONSTRAINT suporte_usuario_id_fkey FOREIGN KEY (usuario_id) REFERENCES public.usuarios(id)
+);
+CREATE TABLE public.suporte_respostas (
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  ticket_id uuid NOT NULL,
+  remetente_id text,
+  mensagem text NOT NULL,
+  criado_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT suporte_respostas_pkey PRIMARY KEY (id),
+  CONSTRAINT suporte_respostas_ticket_id_fkey FOREIGN KEY (ticket_id) REFERENCES public.suporte(id)
+);
+CREATE TABLE public.users_migrados (
+  _id text,
+  name text,
+  email text,
+  password text,
+  totalReviews text,
+  avgRating text,
+  profileViews text,
+  avatar text,
+  number text,
+  cnpj text,
+  companyName text,
+  role text,
+  createdAt text,
+  updatedAt text,
+  __v text,
+  vehicle text,
+  licensePlate text,
+  origin text,
+  destination text,
+  description text,
+  carColor text,
+  seatsAvailable text,
+  availableDays text,
+  status text,
+  createAt text
+);
+CREATE TABLE public.usuarios (
+  id uuid NOT NULL,
+  nome text NOT NULL,
+  email text NOT NULL UNIQUE,
+  telefone text,
+  tipo_usuario text DEFAULT 'passageiro'::text CHECK (tipo_usuario = ANY (ARRAY['passageiro'::text, 'motorista'::text, 'admin'::text])),
+  foto_perfil_url text,
+  criado_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT usuarios_pkey PRIMARY KEY (id),
+  CONSTRAINT usuarios_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.viagens (
+  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+  passageiro_id uuid,
+  motorista_id uuid,
+  origem_endereco text NOT NULL,
+  origem_lat numeric,
+  origem_lng numeric,
+  destino_endereco text NOT NULL,
+  destino_lat numeric,
+  destino_lng numeric,
+  data_hora_agendada timestamp with time zone,
+  status text DEFAULT 'pendente'::text CHECK (status = ANY (ARRAY['agendada'::text, 'aceita'::text, 'cancelada'::text, 'Finalizado'::text, 'Em Aberto'::text, 'concluida'::text])),
+  valor_estimado numeric,
+  valor_final numeric,
+  avaliacao_motorista integer CHECK (avaliacao_motorista >= 1 AND avaliacao_motorista <= 5),
+  comentario_passageiro text,
+  criado_em timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT viagens_pkey PRIMARY KEY (id),
+  CONSTRAINT viagens_passageiro_id_fkey FOREIGN KEY (passageiro_id) REFERENCES public.usuarios(id),
+  CONSTRAINT viagens_motorista_id_fkey FOREIGN KEY (motorista_id) REFERENCES public.motoristas(usuario_id)
+);

@@ -966,11 +966,13 @@
             input.value = '';
 
             try {
+                var remetenteUUID = window._toUUID(window._chatState.user.id);
+                var destinatarioUUID = window._toUUID(window._chatState.targetId);
                 const { data, error } = await window.supabaseClient
                     .from('mensagens')
                     .insert({
-                        remetente_id: window._chatState.user.id,
-                        destinatario_id: window._chatState.targetId,
+                        remetente_id: remetenteUUID,
+                        destinatario_id: destinatarioUUID,
                         conteudo: msgText
                     })
                     .select()
@@ -985,7 +987,7 @@
                     const emptyMsg = container.querySelector('.text-slate-400');
                     if (emptyMsg) container.innerHTML = '';
 
-                    const isMine = data.remetente_id === window._chatState.user.id;
+                    const isMine = String(data.remetente_id) === String(window._toUUID(window._chatState.user.id));
                     const div = document.createElement('div');
                     div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-6 group animate-fade-in`;
                     div.innerHTML = `
@@ -1052,6 +1054,9 @@
                 view.classList.remove('translate-x-full');
                 view.classList.add('translate-x-0');
             });
+            // Esconde FAB compartilhar
+            var sf = document.getElementById('shareFab');
+            if (sf) { sf.style.opacity = '0'; sf.style.pointerEvents = 'none'; }
         };
 
         window.fecharSuporte = function() {
@@ -1059,7 +1064,10 @@
             if (!view) return;
             view.classList.add('translate-x-full');
             view.classList.remove('translate-x-0');
-            setTimeout(() => view.classList.add('hidden'), 500);
+            setTimeout(() => { view.classList.add('hidden');
+                var sf = document.getElementById('shareFab');
+                if (sf) { sf.style.opacity = ''; sf.style.pointerEvents = ''; }
+            }, 500);
         };
 
         window.switchAbaSuporte = function(tab) {
@@ -1118,8 +1126,8 @@
                 container.innerHTML = '';
                 if (!window._ticketNums) window._ticketNums = {};
                 tickets.forEach(function(t, i) { window._ticketNums[t.id] = String(i + 1).padStart(2, '0'); });
-                const statusLabels = { aberto: 'Aberto', fechado: 'Fechado', andamento: 'Em Andamento' };
-                const statusColors = { aberto: 'bg-green-500/10 text-green-500', fechado: 'bg-slate-500/10 text-slate-400', andamento: 'bg-primary/10 text-primary' };
+                const statusLabels = { aberto: 'Aberto', em_analise: 'Em Análise', resolvido: 'Resolvido' };
+                const statusColors = { aberto: 'bg-green-500/10 text-green-500', em_analise: 'bg-primary/10 text-primary', resolvido: 'bg-slate-500/10 text-slate-400' };
                 const assuntoLabels = { duvida: 'Dúvida', reclamacao: 'Reclamação', sugestao: 'Sugestão', financeiro: 'Financeiro' };
                 
                 tickets.forEach(t => {
@@ -1162,8 +1170,8 @@
                 var num = window._ticketNums && window._ticketNums[ticketId] ? window._ticketNums[ticketId] : ticketId.slice(0, 4).toUpperCase();
                 document.getElementById('chamado-detail-title').textContent = `Chamado #${num}`;
                 
-                const statusLabels = { aberto: 'Aberto', fechado: 'Fechado', andamento: 'Em Andamento' };
-                const statusColors = { aberto: 'text-green-500', fechado: 'text-slate-400', andamento: 'text-primary' };
+                const statusLabels = { aberto: 'Aberto', em_analise: 'Em Análise', resolvido: 'Resolvido' };
+                const statusColors = { aberto: 'text-green-500', em_analise: 'text-primary', resolvido: 'text-slate-400' };
                 
                 let html = `
                     <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 space-y-2">
@@ -1217,6 +1225,9 @@
                 console.error('Erro ao abrir chamado:', err);
                 alert('Erro ao carregar detalhes do chamado.');
             }
+            // Esconde FAB compartilhar
+            var sf = document.getElementById('shareFab');
+            if (sf) { sf.style.opacity = '0'; sf.style.pointerEvents = 'none'; }
         };
 
         window.fecharChamado = function() {
@@ -1227,6 +1238,8 @@
             setTimeout(() => {
                 detail.classList.add('hidden');
                 document.getElementById('chamado-resposta-input').value = '';
+                var sf = document.getElementById('shareFab');
+                if (sf) { sf.style.opacity = ''; sf.style.pointerEvents = ''; }
             }, 500);
             currentTicketId = null;
         };
@@ -1302,6 +1315,17 @@
                 console.error("Erro ao autenticar usuário:", err);
             }
 
+            // --- UUID Helper — converte IDs não-UUID (ex: MongoDB) para formato UUID válido ---
+            window._toUUID = function(id) {
+                if (!id) return id;
+                var s = String(id);
+                if (s.length === 36 && s.indexOf('-') > 0) return s; // já é UUID
+                var hex = s.replace(/[^0-9a-fA-F]/g, '');
+                if (hex.length === 32) return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
+                hex = hex.padEnd(32, '0').slice(0, 32);
+                return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
+            };
+
             // --- Global Chat Helpers ---
             window.openActiveChat = async function(driver) {
                 const chatView = document.getElementById('active-chat-view');
@@ -1311,8 +1335,43 @@
                 
                 if (!chatView) return;
 
-                window._chatState.targetId = driver.id;
-                activeChatTargetId = driver.id;
+                // Esconde o FAB de compartilhar
+                var shareFab = document.getElementById('shareFab');
+                if (shareFab) { shareFab.style.opacity = '0'; shareFab.style.pointerEvents = 'none'; }
+
+                var driverUUID = window._toUUID(driver.id);
+
+                // Garantir que remetente e destinatário existam na tabela usuarios (FK da tabela mensagens)
+                try {
+                    var sb = window.supabaseClient;
+                    if (sb) {
+                        // Verifica/cria o motorista (destinatário)
+                        var { data: existsD } = await sb.from('usuarios').select('id').eq('id', driverUUID).maybeSingle();
+                        if (!existsD) {
+                            var dName = driver.name || 'Motorista';
+                            var dPhoto = driver.photo || '';
+                            var dEmail = (dName.toLowerCase().replace(/[^a-z0-9]/g, '') + '@migrado.app') || driverUUID + '@migrado.app';
+                            console.log('[Chat] Criando usuario destino:', driverUUID);
+                            await sb.from('usuarios').insert({ id: driverUUID, nome: dName, email: dEmail, foto_perfil_url: dPhoto, tipo_usuario: 'motorista' });
+                        }
+                        // Verifica/cria o passageiro remetente
+                        var myUUID = window._toUUID(window._chatState.user?.id);
+                        if (myUUID && myUUID !== driverUUID) {
+                            var { data: existsR } = await sb.from('usuarios').select('id').eq('id', myUUID).maybeSingle();
+                            if (!existsR) {
+                                var rName = window._chatState.user?.nome || 'Passageiro';
+                                var rEmail = (rName.toLowerCase().replace(/[^a-z0-9]/g, '') + '@migrado.app') || myUUID + '@migrado.app';
+                                console.log('[Chat] Criando usuario remetente:', myUUID);
+                                await sb.from('usuarios').insert({ id: myUUID, nome: rName, email: rEmail, tipo_usuario: 'passageiro' });
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.warn('[Chat] Erro ao verificar/criar usuarios:', err);
+                }
+
+                window._chatState.targetId = driverUUID;
+                activeChatTargetId = driverUUID;
                 if (chatName) chatName.textContent = driver.name;
                 if (driver.photo && chatPhoto) chatPhoto.src = driver.photo;
 
@@ -1330,12 +1389,12 @@
                 if (!phoneFromDriver && driver.id && window.supabaseClient) {
                     (async () => {
                         try {
-                            const [{ data: motorista }, { data: usuario }] = await Promise.all([
-                                window.supabaseClient.from('motoristas').select('telefone_whatsapp').eq('usuario_id', driver.id).maybeSingle(),
-                                window.supabaseClient.from('usuarios').select('telefone').eq('id', driver.id).single()
-                            ]);
-                            if (motorista?.telefone_whatsapp) window._chatState.targetPhone = motorista.telefone_whatsapp;
-                            else if (usuario?.telefone) window._chatState.targetPhone = usuario.telefone;
+                            const { data: usuario } = await window.supabaseClient
+                                .from('usuarios')
+                                .select('telefone')
+                                .eq('id', driverUUID)
+                                .single();
+                            if (usuario?.telefone) window._chatState.targetPhone = usuario.telefone;
                         } catch (err) { console.warn('[Chat] Erro ao buscar telefone:', err); }
                     })();
                 }
@@ -1357,6 +1416,12 @@
                 }
                 window._chatState.targetId = null;
                 activeChatTargetId = null;
+
+                // Mostra o FAB de compartilhar novamente
+                setTimeout(function() {
+                    var shareFab = document.getElementById('shareFab');
+                    if (shareFab) { shareFab.style.opacity = ''; shareFab.style.pointerEvents = ''; }
+                }, 600);
             };
 
             window.scrollToBottom = function scrollToBottom() {
@@ -1970,12 +2035,14 @@
                     let photoUrl = motorista.usuarios?.foto_perfil_url || motorista.avatar;
                     if (!photoUrl) photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
                     const isOnline = motorista.status === 'online' || motorista.status_online === true;
-                    const usuarioId = motorista.usuario_id || motorista._id;
+                    // Usar ID do Supabase (UUID) quando disponível, fallback para _id do MongoDB
+                    const rawId = motorista.usuario_id || motorista.id || motorista._id;
+                    const usuarioId = rawId;
                     const phone = motorista.telefone_whatsapp || motorista.number || '';
                     const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'Veículo';
                     const color = motorista.cor_veiculo || motorista.carColor || '---';
                     return '<div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">' +
-                        '<input type="radio" name="driver_selection" class="peer hidden" id="driver-' + usuarioId + '" value="' + usuarioId + '" data-name="' + displayName.replace(/"/g,'&quot;') + '" data-phone="' + phone + '">' +
+                        '<input type="radio" name="driver_selection" class="peer hidden" id="driver-' + usuarioId + '" value="' + usuarioId + '" data-name="' + displayName.replace(/"/g,'&quot;') + '" data-phone="' + phone + '" data-photo="' + photoUrl + '">' +
                         '<label for="driver-' + usuarioId + '" class="absolute inset-0 z-10 cursor-pointer"></label>' +
                         '<div class="flex items-center gap-3">' +
                             '<div class="size-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-primary/10 shrink-0 group-has-[:checked]:ring-primary">' +
@@ -2055,7 +2122,7 @@
                 const getSelectedDriverData = () => {
                     const selected = document.querySelector('input[name="driver_selection"]:checked');
                     if (!selected) return null;
-                    return { id: selected.value, name: selected.dataset.name, phone: selected.dataset.phone };
+                    return { id: selected.value, name: selected.dataset.name, phone: selected.dataset.phone, photo: selected.dataset.photo };
                 };
 
                 const getRouteMessage = (driverName) => {
@@ -2359,10 +2426,12 @@
                 msgContainer.innerHTML = '<div class="flex justify-center p-4"><span class="animate-spin material-symbols-outlined text-primary">sync</span></div>';
 
                 try {
+                    var myUUID = window._toUUID(user.id);
+                    var targetUUID = window._toUUID(activeChatTargetId);
                     const { data, error } = await window.supabaseClient
                         .from('mensagens')
                         .select('*')
-                        .or(`and(remetente_id.eq.${user.id},destinatario_id.eq.${activeChatTargetId}),and(remetente_id.eq.${activeChatTargetId},destinatario_id.eq.${user.id})`)
+                        .or(`and(remetente_id.eq.${myUUID},destinatario_id.eq.${targetUUID}),and(remetente_id.eq.${targetUUID},destinatario_id.eq.${myUUID})`)
                         .order('enviada_em', { ascending: true });
 
                     if (error) throw error;
@@ -2379,8 +2448,8 @@
                     await window.supabaseClient
                         .from('mensagens')
                         .update({ lida: true })
-                        .eq('destinatario_id', user.id)
-                        .eq('remetente_id', activeChatTargetId)
+                        .eq('destinatario_id', myUUID)
+                        .eq('remetente_id', targetUUID)
                         .eq('lida', false);
 
                 } catch (err) {
@@ -2396,7 +2465,8 @@
                 const emptyMsg = container.querySelector('.text-slate-400');
                 if (emptyMsg) emptyMsg.remove();
 
-                const isMine = msg.remetente_id === user.id;
+                var myUUID = window._toUUID(user.id);
+                const isMine = String(msg.remetente_id) === String(myUUID);
                 const div = document.createElement('div');
                 div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-6 group animate-fade-in`;
                 
@@ -2417,23 +2487,25 @@
             }
 
             function setupChatRealtime() {
-                if (activeChatChannel) activeChatChannel.unsubscribe();
-
-                activeChatChannel = window.supabaseClient.channel(`chat-${activeChatTargetId}`)
-                    .on('postgres_changes', {
-                        event: 'INSERT',
-                        schema: 'public',
-                        table: 'mensagens',
-                        filter: `destinatario_id=eq.${user.id}`
-                    }, (payload) => {
-                        if (payload.new.remetente_id === activeChatTargetId) {
-                            renderSingleMessage(payload.new);
-                            scrollToBottom();
-                            // Marcar como lida
-                            window.supabaseClient.from('mensagens').update({ lida: true }).eq('id', payload.new.id).then();
-                        }
-                    })
-                    .subscribe();
+                if (activeChatChannel) { activeChatChannel.unsubscribe(); activeChatChannel = null; }
+                if (!user || !activeChatTargetId) return;
+                var myUUID = window._toUUID(user.id);
+                var targetUUID = window._toUUID(activeChatTargetId);
+                var channelName = 'chat-' + targetUUID;
+                activeChatChannel = window.supabaseClient.channel(channelName);
+                activeChatChannel.on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'mensagens',
+                    filter: 'destinatario_id=eq.' + myUUID
+                }, function(payload) {
+                    var remId = payload.new.remetente_id;
+                    if (String(remId) === String(targetUUID)) {
+                        renderSingleMessage(payload.new);
+                        scrollToBottom();
+                        window.supabaseClient.from('mensagens').update({ lida: true }).eq('id', payload.new.id).then();
+                    }
+                }).subscribe();
             }
 
             document.getElementById('active-chat-input')?.addEventListener('keypress', (e) => {

@@ -285,10 +285,15 @@
                         </div>
                     </div>
                     <div class="space-y-3">
-                        <button class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5">
+                        <button onclick="abrirVeiculo()" class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5">
                             <div class="flex items-center gap-4">
-                                <span class="material-symbols-outlined text-primary">directions_car</span>
-                                <span class="font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-xs">Dados do Veículo</span>
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <span class="material-symbols-outlined">directions_car</span>
+                                </div>
+                                <div>
+                                    <p class="font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-xs">Dados do Veículo</p>
+                                    <p class="text-xs text-slate-500 font-medium tracking-tight">Modelo, placa e cor</p>
+                                </div>
                             </div>
                             <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                         </button>
@@ -328,7 +333,7 @@
                     </button>
                 </div>
                 <!-- Tela de Suporte -->
-                <div id="suporte-view" class="absolute inset-0 z-50 bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                <div id="suporte-view" class="absolute inset-0 z-50 bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style="padding-top: 60px;">
                     <main class="flex-1 w-full px-4 pt-4 overflow-y-auto pb-32">
                         <div class="flex items-center gap-3 mb-5">
                             <button onclick="fecharSuporte()" class="active-scale flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shrink-0">
@@ -400,8 +405,82 @@
                     </main>
                 </div>
 
+                <!-- Tela de Dados do Veículo -->
+                <div id="veiculo-view" class="absolute inset-0 z-50 bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style="padding-top: 60px;">
+                    <main class="flex-1 w-full px-4 pt-4 overflow-y-auto pb-32">
+                        <div class="flex items-center gap-3 mb-5">
+                            <button onclick="fecharVeiculo()" class="active-scale flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shrink-0">
+                                <span class="material-symbols-outlined text-xl">arrow_back</span>
+                            </button>
+                            <div class="flex-1">
+                                <h2 class="font-display font-bold text-white text-lg">Dados do Veículo</h2>
+                                <p class="text-xs text-slate-500">Suas informações profissionais</p>
+                            </div>
+                        </div>
+
+                        <!-- Avatar -->
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="relative mb-3 cursor-pointer group" onclick="document.getElementById('veic-photo-input').click()">
+                                <div class="size-20 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl shadow-primary/10 transition-all duration-300 group-hover:ring-primary/40">
+                                    <img id="veic-avatar" src="https://ui-avatars.com/api/?name=M&background=f97316&color=fff" alt="" class="w-full h-full object-cover">
+                                </div>
+                                <input type="file" id="veic-photo-input" class="hidden" accept="image/*" />
+                                <div class="absolute -bottom-1 -right-1 size-7 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-background-dark transition-all duration-200 group-hover:scale-110">
+                                    <span class="material-symbols-outlined text-xs">edit</span>
+                                </div>
+                            </div>
+                            <h3 class="font-display font-bold text-white text-base" id="veic-profile-name">Motorista Parceiro</h3>
+                        </div>
+
+                        <div class="divider-gradient mb-4"></div>
+
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings:'FILL'1">badge</span>
+                            <h2 class="font-display font-bold text-white text-lg">Dados Pessoais</h2>
+                        </div>
+                        <div class="space-y-3.5 mb-6">
+                            <div class="relative">
+                                <input id="veic-nome" type="text" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="Seu nome completo" />
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50">person</span>
+                            </div>
+                            <div class="relative">
+                                <input id="veic-phone" type="tel" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="(71) 99908-8651" maxlength="15" />
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50">call</span>
+                            </div>
+                        </div>
+
+                        <div class="divider-gradient mb-4"></div>
+
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-accent text-sm" style="font-variation-settings:'FILL'1">directions_car</span>
+                            <h2 class="font-display font-bold text-white text-lg">Seu Veículo</h2>
+                        </div>
+                        <div class="space-y-3.5">
+                            <div class="relative">
+                                <input id="veic-modelo" type="text" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="Ex: Toyota Corolla 2023" />
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-accent/50">directions_car</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="relative">
+                                    <input id="veic-placa" type="text" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium uppercase" placeholder="ABC-1234" />
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-accent/50">confirmation_number</span>
+                                </div>
+                                <div class="relative">
+                                    <input id="veic-cor" type="text" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="Ex: Prata" />
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-accent/50">palette</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="btn-salvar-veic" class="active-scale relative w-full h-14 rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary font-bold text-white text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 mt-8 overflow-hidden group">
+                            <span id="veic-save-text">Salvar Alterações</span>
+                            <span id="veic-loader" class="material-symbols-outlined hidden animate-spin">sync</span>
+                        </button>
+                    </main>
+                </div>
+
                 <!-- Ticket Detail View -->
-                <div id="chamado-detail-view" class="absolute inset-0 z-[1001] bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                <div id="chamado-detail-view" class="absolute inset-0 z-[1001] bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style="padding-top: 60px;">
                     <header class="flex items-center gap-3 px-4 py-4 shrink-0 border-b border-white/5">
                         <button onclick="fecharChamado()" class="active-scale flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shrink-0">
                             <span class="material-symbols-outlined text-xl">arrow_back</span>
@@ -614,6 +693,30 @@
             window.location.href = `tel:${cleanPhone}`;
         };
 
+        window._toUUID = function(id) {
+            if (!id) return id;
+            var s = String(id);
+            if (s.length === 36 && s.indexOf('-') > 0) return s;
+            var hex = s.replace(/[^0-9a-fA-F]/g, '');
+            if (hex.length === 32) return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
+            hex = hex.padEnd(32, '0').slice(0, 32);
+            return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
+        };
+
+        window.ensureUserExists = async function(userId, nome, email, tipo, photo) {
+            try {
+                var sb = window.supabaseClient;
+                if (!sb || !userId) return userId;
+                var uuid = window._toUUID(userId);
+                var { data: exists } = await sb.from('usuarios').select('id').eq('id', uuid).maybeSingle();
+                if (!exists) {
+                    console.log('[Chat] Criando usuario:', uuid, nome);
+                    await sb.from('usuarios').insert({ id: uuid, nome: nome || 'Usuário', email: email || uuid+'@app.com', foto_perfil_url: photo || '', tipo_usuario: tipo || 'passageiro' });
+                }
+                return uuid;
+            } catch(e) { console.warn('[Chat] Erro ensureUserExists:', e); return userId; }
+        };
+
         window.sendActiveChatMessage = async function() {
             const input = document.getElementById('active-chat-input');
             const text = input?.value?.trim();
@@ -629,11 +732,13 @@
 
             input.value = '';
             try {
+                var remUUID = window._toUUID(window._chatState.user.id);
+                var desUUID = window._toUUID(window._chatState.targetId);
                 const { data, error } = await window.supabaseClient
                     .from('mensagens')
                     .insert({
-                        remetente_id: window._chatState.user.id,
-                        destinatario_id: window._chatState.targetId,
+                        remetente_id: remUUID,
+                        destinatario_id: desUUID,
                         conteudo: text
                     })
                     .select()
@@ -656,7 +761,7 @@
             if (!container) return;
             const emptyMsg = container.querySelector('.text-slate-400');
             if (emptyMsg) container.innerHTML = '';
-            const isMine = msg.remetente_id === window._chatState.user.id;
+            const isMine = String(msg.remetente_id) === String(window._toUUID(window._chatState.user?.id));
             const div = document.createElement('div');
             div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-6 group animate-fade-in`;
             div.innerHTML = `
@@ -681,19 +786,31 @@
             const chatPhoto = document.getElementById('active-chat-photo');
             if (!chatView) return;
 
-            window._chatState.targetId = targetUser.id;
+            var targetUUID = await window.ensureUserExists(targetUser.id, targetUser.nome || targetUser.name, null, 'passageiro', targetUser.foto_perfil_url || targetUser.photo);
+
+            window._chatState.targetId = targetUUID;
             if (chatName) chatName.textContent = targetUser.name || targetUser.nome || 'Passageiro';
             if (targetUser.photo || targetUser.foto_perfil_url) {
                 if (chatPhoto) chatPhoto.src = targetUser.photo || targetUser.foto_perfil_url;
             }
 
+            // Garantir que o motorista (usuário logado) também exista
+            try {
+                var { data: { user: authUser } } = await window.supabaseClient.auth.getUser();
+                if (authUser) {
+                    window._chatState.user = authUser;
+                    await window.ensureUserExists(authUser.id, authUser.user_metadata?.nome || 'Motorista', authUser.email, 'motorista');
+                }
+            } catch(e) { console.warn(e); }
+
             // Buscar telefone do passageiro
             (async () => {
                 try {
+                    var tId = window._chatState.targetId || targetUUID;
                     const { data: usuario } = await window.supabaseClient
                         .from('usuarios')
                         .select('telefone')
-                        .eq('id', targetUser.id)
+                        .eq('id', tId)
                         .single();
                     if (usuario?.telefone) {
                         window._chatState.targetPhone = usuario.telefone;
@@ -712,6 +829,8 @@
             const supabase = window.supabaseClient;
             const { data: { user } } = await supabase.auth.getUser();
             window._chatState.user = user;
+            var myUUID = window._toUUID(user?.id);
+            var tUUID = window._toUUID(window._chatState.targetId);
 
             // Carregar mensagens
             const container = document.getElementById('active-chat-messages');
@@ -721,7 +840,7 @@
                 const { data: messages, error } = await supabase
                     .from('mensagens')
                     .select('*')
-                    .or(`and(remetente_id.eq.${user.id},destinatario_id.eq.${targetUser.id}),and(remetente_id.eq.${targetUser.id},destinatario_id.eq.${user.id})`)
+                    .or(`and(remetente_id.eq.${myUUID},destinatario_id.eq.${tUUID}),and(remetente_id.eq.${tUUID},destinatario_id.eq.${myUUID})`)
                     .order('enviada_em', { ascending: true });
 
                 if (error) throw error;
@@ -737,8 +856,8 @@
                 // Marcar como lidas
                 await supabase.from('mensagens')
                     .update({ lida: true })
-                    .eq('destinatario_id', user.id)
-                    .eq('remetente_id', targetUser.id)
+                    .eq('destinatario_id', myUUID)
+                    .eq('remetente_id', tUUID)
                     .eq('lida', false);
 
                 if (typeof window.loadChatList === 'function') window.loadChatList();
@@ -915,7 +1034,7 @@
 
             if (migratedUser) {
                 const nome = migratedUser.nome || 'Motorista Parceiro';
-                const email = migratedUser.email || '';
+                const email = migratedUser.email || migratedUser.user_email || '';
                 const avatar = migratedUser.avatar || null;
 
                 const profileNameEl = document.getElementById('profile-name');
@@ -1011,6 +1130,59 @@
             setTimeout(function() { view.classList.add('hidden'); }, 500);
             var dv = document.getElementById('chamado-detail-view');
             if (dv) dv.classList.add('hidden');
+        };
+
+        window.abrirVeiculo = async function() {
+            const view = document.getElementById('veiculo-view');
+            if (!view) return;
+            const sb = window.supabaseClient;
+            let nome = '', phone = '', vehicle = '', plate = '', color = '', avatar = '';
+            const cs = localStorage.getItem('mcl_custom_session');
+            const md = localStorage.getItem('mcl_migrado');
+            let isMigrado = false, uid = null, email = '';
+            if (cs || md) {
+                const p = cs ? JSON.parse(cs) : JSON.parse(md);
+                const u = p.user || p; isMigrado = true; uid = u._id || u.id;
+                nome = u.nome || u.name || ''; phone = u.telefone || u.number || '';
+                vehicle = u.vehicle || u.modelo_veiculo || '';
+                plate = u.plate || u.placa_veiculo || '';
+                color = u.carColor || u.cor_veiculo || '';
+                avatar = u.avatar || '';
+                email = u.email || '';
+            } else {
+                const { data: { user } } = await sb.auth.getUser();
+                if (user) {
+                    uid = user.id;
+                    const { data: p } = await sb.from('usuarios').select('nome, telefone, foto_perfil_url').eq('id', uid).single();
+                    if (p) { nome = p.nome || ''; phone = p.telefone || ''; avatar = p.foto_perfil_url || ''; }
+                }
+            }
+            document.getElementById('veic-nome').value = nome;
+            document.getElementById('veic-profile-name').textContent = nome || 'Motorista';
+            var phoneEl = document.getElementById('veic-phone');
+            if (phone) {
+                var v = phone.replace(/\D/g, '').replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d)(\d{4})$/, '$1-$2');
+                phoneEl.value = v;
+            }
+            document.getElementById('veic-modelo').value = vehicle;
+            document.getElementById('veic-placa').value = plate;
+            document.getElementById('veic-cor').value = color;
+            var avEl = document.getElementById('veic-avatar');
+            if (avatar) avEl.src = avatar;
+            view.classList.remove('hidden');
+            requestAnimationFrame(function() {
+                view.classList.remove('translate-x-full');
+                view.classList.add('translate-x-0');
+            });
+            window._veicData = { isMigrado: isMigrado, uid: uid };
+        };
+
+        window.fecharVeiculo = function() {
+            var view = document.getElementById('veiculo-view');
+            if (!view) return;
+            view.classList.add('translate-x-full');
+            view.classList.remove('translate-x-0');
+            setTimeout(function() { view.classList.add('hidden'); }, 500);
         };
 
         window.switchAbaSuporte = function(tab) {
@@ -1222,6 +1394,94 @@
                         btn.querySelector('span').innerText = 'Enviar Mensagem';
                         loader.classList.add('hidden');
                     }
+                });
+            }
+
+            // Salvar Dados do Veículo
+            var btnVeic = document.getElementById('btn-salvar-veic');
+            var veicPhotoInput = document.getElementById('veic-photo-input');
+            if (btnVeic) {
+                btnVeic.addEventListener('click', async function() {
+                    var sb = window.supabaseClient;
+                    var nome = document.getElementById('veic-nome').value.trim();
+                    var phone = document.getElementById('veic-phone').value.trim();
+                    var vehicle = document.getElementById('veic-modelo').value.trim();
+                    var plate = document.getElementById('veic-placa').value.trim().toUpperCase();
+                    var color = document.getElementById('veic-cor').value.trim();
+                    if (!nome || !vehicle || !plate) { alert('Preencha nome, modelo e placa.'); return; }
+                    btnVeic.disabled = true;
+                    document.getElementById('veic-save-text').innerText = 'Salvando...';
+                    document.getElementById('veic-loader').classList.remove('hidden');
+                    try {
+                        var cleanPhone = phone.replace(/\D/g, '');
+                        var vd = window._veicData || {};
+                        if (vd.isMigrado) {
+                            await sb.from('users_migrados').update({ name: nome, number: cleanPhone, vehicle: vehicle, plate: plate, carColor: color }).eq('_id', vd.uid);
+                            var md = JSON.parse(localStorage.getItem('mcl_migrado') || '{}');
+                            var mu = md.user || md;
+                            mu.nome = nome; mu.name = nome; mu.telefone = cleanPhone; mu.number = cleanPhone;
+                            mu.vehicle = vehicle; mu.modelo_veiculo = vehicle;
+                            mu.plate = plate; mu.placa_veiculo = plate;
+                            mu.carColor = color; mu.cor_veiculo = color;
+                            localStorage.setItem('mcl_migrado', JSON.stringify(md.user ? md : mu));
+                            var cs = localStorage.getItem('mcl_custom_session');
+                            if (cs) { var cp = JSON.parse(cs); Object.assign(cp.user || {}, mu); localStorage.setItem('mcl_custom_session', JSON.stringify(cp)); }
+                        } else {
+                            await sb.from('usuarios').update({ nome: nome, telefone: cleanPhone }).eq('id', vd.uid);
+                            await sb.from('motoristas').update({ modelo_veiculo: vehicle, placa_veiculo: plate, cor_veiculo: color }).eq('usuario_id', vd.uid);
+                        }
+                            document.getElementById('veic-profile-name').textContent = nome;
+                            // Atualiza perfil principal em tempo real
+                            var elName = document.getElementById('profile-name');
+                            if (elName) elName.textContent = nome;
+                            var elEmail = document.getElementById('profile-email');
+                            if (elEmail) elEmail.textContent = email;
+                            var elHeader = document.getElementById('header-username');
+                            if (elHeader) elHeader.textContent = nome.split(' ')[0];
+                            // Atualiza localStorage para persistir entre recargas
+                            try {
+                                var md = JSON.parse(localStorage.getItem('mcl_migrado') || '{}');
+                                var mu = md.user || md;
+                                mu.nome = nome; mu.name = nome;
+                                mu.telefone = cleanPhone; mu.number = cleanPhone;
+                                mu.vehicle = vehicle; mu.modelo_veiculo = vehicle;
+                                mu.plate = plate; mu.placa_veiculo = plate;
+                                mu.carColor = color; mu.cor_veiculo = color;
+                                localStorage.setItem('mcl_migrado', JSON.stringify(md.user ? md : mu));
+                            } catch(e) {}
+                            alert('Dados atualizados com sucesso!');
+                    } catch (err) { console.error(err); alert('Erro ao salvar.'); }
+                    finally {
+                        btnVeic.disabled = false;
+                        document.getElementById('veic-save-text').innerText = 'Salvar Alterações';
+                        document.getElementById('veic-loader').classList.add('hidden');
+                    }
+                });
+
+                veicPhotoInput.addEventListener('change', async function(e) {
+                    var file = e.target.files[0];
+                    if (!file) return;
+                    var sb = window.supabaseClient;
+                    var vd = window._veicData || {};
+                    var reader = new FileReader();
+                    reader.onload = function(ev) { document.getElementById('veic-avatar').src = ev.target.result; };
+                    reader.readAsDataURL(file);
+                    try {
+                        var fileName = vd.uid + '/' + Date.now() + '.' + file.name.split('.').pop();
+                        await sb.storage.from('fotos_perfil').upload(fileName, file, { upsert: true });
+                        var { data: { publicUrl } } = sb.storage.from('fotos_perfil').getPublicUrl(fileName);
+                        if (vd.isMigrado) {
+                            await sb.from('users_migrados').update({ avatar: publicUrl }).eq('_id', vd.uid);
+                            var md = JSON.parse(localStorage.getItem('mcl_migrado') || '{}');
+                            var mu = md.user || md; mu.avatar = publicUrl;
+                            localStorage.setItem('mcl_migrado', JSON.stringify(md.user ? md : mu));
+                        } else {
+                            await sb.from('usuarios').update({ foto_perfil_url: publicUrl }).eq('id', vd.uid);
+                        }
+                        document.getElementById('veic-avatar').src = publicUrl;
+                            var mainAvatar = document.getElementById('profile-avatar');
+                            if (mainAvatar) mainAvatar.src = publicUrl;
+                    } catch(err) { console.error(err); }
                 });
             }
 
