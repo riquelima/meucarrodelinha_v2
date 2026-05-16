@@ -135,6 +135,10 @@
         .animate-bounce-arrow {
             animation: bounce-arrow 1.5s ease-in-out infinite;
         }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .input-premium { background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.08); color: #f1f5f9; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .input-premium:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1), 0 0 20px rgba(249, 115, 22, 0.05); outline: none; background: rgba(255, 255, 255, 0.06); }
+        .input-premium::placeholder { color: rgba(148, 163, 184, 0.4); }
     </style>
     <style>
         body {
@@ -324,64 +328,72 @@
                     </button>
                 </div>
                 <!-- Tela de Suporte -->
-                <div id="suporte-view" class="absolute inset-0 z-50 bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                    <main class="flex-1 w-full max-w-md mx-auto px-4 pt-20 overflow-y-auto pb-32">
-                        <div class="flex items-center gap-3 mb-6">
-                            <button onclick="fecharSuporte()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
-                                <span class="material-symbols-outlined">arrow_back</span>
+                <div id="suporte-view" class="absolute inset-0 z-50 bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <main class="flex-1 w-full px-4 pt-4 overflow-y-auto pb-32">
+                        <div class="flex items-center gap-3 mb-5">
+                            <button onclick="fecharSuporte()" class="active-scale flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shrink-0">
+                                <span class="material-symbols-outlined text-xl">arrow_back</span>
                             </button>
-                            <h2 class="text-2xl font-bold">Suporte</h2>
+                            <div class="flex-1">
+                                <h2 class="font-display font-bold text-white text-lg">Suporte</h2>
+                                <p class="text-xs text-slate-500">Como podemos ajudar?</p>
+                            </div>
                         </div>
-                        
-                        <!-- Tabs -->
-                        <div class="flex border-b border-slate-200 dark:border-slate-800 mb-6">
-                            <button onclick="switchAbaSuporte('novo')" id="tab-novo" class="flex-1 pb-3 text-center text-sm font-bold border-b-2 border-primary text-primary transition-all">Novo Chamado</button>
-                            <button onclick="switchAbaSuporte('chamados')" id="tab-chamados" class="flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-slate-500 transition-all">Meus Chamados</button>
+                        <div class="flex gap-1 mb-5 p-1 rounded-xl bg-white/[0.03] border border-white/5">
+                            <button onclick="switchAbaSuporte('novo')" id="tab-novo" class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-primary/20 rounded-lg border border-primary/20 transition-all">Novo Chamado</button>
+                            <button onclick="switchAbaSuporte('chamados')" id="tab-chamados" class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-400 rounded-lg transition-all">Meus Chamados</button>
                         </div>
-                        
-                        <!-- Aba: Novo Chamado -->
                         <div id="aba-novo">
-                            <p class="text-slate-500 dark:text-slate-400 mb-6 -mt-2">Preencha o formulário abaixo para nos enviar uma mensagem.</p>
-                            <form id="form-suporte" class="space-y-5">
-                                <div class="flex flex-col gap-1.5">
-                                    <label class="text-sm font-medium px-1" for="suporte-nome">Nome</label>
-                                    <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-nome" placeholder="Seu nome completo" type="text" />
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <div class="cat-card flex flex-col items-center gap-1 p-3 rounded-2xl border border-white/5 bg-white/[0.02] cursor-pointer transition-all" data-value="duvida" onclick="selectCat(this)">
+                                    <span class="material-symbols-outlined text-primary text-lg">help</span>
+                                    <span class="text-[9px] font-bold text-slate-300">Dúvidas</span>
                                 </div>
-                                <div class="flex flex-col gap-1.5">
-                                    <label class="text-sm font-medium px-1" for="suporte-email">E-mail</label>
-                                    <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-email" placeholder="seuemail@exemplo.com" type="email" />
+                                <div class="cat-card flex flex-col items-center gap-1 p-3 rounded-2xl border border-white/5 bg-white/[0.02] cursor-pointer transition-all" data-value="reclamacao" onclick="selectCat(this)">
+                                    <span class="material-symbols-outlined text-primary text-lg">feedback</span>
+                                    <span class="text-[9px] font-bold text-slate-300">Reclamação</span>
                                 </div>
-                                <div class="flex flex-col gap-1.5">
-                                    <label class="text-sm font-medium px-1" for="suporte-telefone">Telefone</label>
-                                    <input class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" id="suporte-telefone" placeholder="(71) 99908-8651" type="tel" maxlength="15" />
+                                <div class="cat-card flex flex-col items-center gap-1 p-3 rounded-2xl border border-white/5 bg-white/[0.02] cursor-pointer transition-all" data-value="sugestao" onclick="selectCat(this)">
+                                    <span class="material-symbols-outlined text-primary text-lg">lightbulb</span>
+                                    <span class="text-[9px] font-bold text-slate-300">Sugestão</span>
                                 </div>
-                                <div class="flex flex-col gap-1.5">
-                                    <label class="text-sm font-medium px-1" for="suporte-assunto">Assunto</label>
-                                    <select class="w-full h-14 rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-auto" id="suporte-assunto">
-                                        <option disabled selected value="">Selecione um assunto</option>
-                                        <option value="duvida">Dúvidas sobre viagens</option>
-                                        <option value="reclamacao">Reclamações</option>
-                                        <option value="sugestao">Sugestões</option>
-                                        <option value="financeiro">Financeiro / Pagamentos</option>
-                                    </select>
+                                <div class="cat-card flex flex-col items-center gap-1 p-3 rounded-2xl border border-white/5 bg-white/[0.02] cursor-pointer transition-all" data-value="financeiro" onclick="selectCat(this)">
+                                    <span class="material-symbols-outlined text-primary text-lg">payments</span>
+                                    <span class="text-[9px] font-bold text-slate-300">Financeiro</span>
                                 </div>
-                                <div class="flex flex-col gap-1.5">
-                                    <label class="text-sm font-medium px-1" for="suporte-mensagem">Mensagem</label>
-                                    <textarea class="w-full rounded-xl border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/10 p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none" id="suporte-mensagem" placeholder="Descreva como podemos te ajudar..." rows="5" required></textarea>
+                            </div>
+                            <form id="form-suporte" class="space-y-3">
+                                <input id="suporte-assunto" type="hidden" value="" />
+                                <div class="relative">
+                                    <input id="suporte-nome" required type="text" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="Seu nome completo" />
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">person</span>
                                 </div>
-                                <button id="btn-suporte-submit" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 active-scale flex items-center justify-center gap-2" type="submit">
+                                <div class="relative">
+                                    <input id="suporte-email" required type="email" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="seu@email.com" />
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">mail</span>
+                                </div>
+                                <div class="relative">
+                                    <input id="suporte-telefone" type="tel" class="input-premium w-full rounded-2xl h-14 pl-11 pr-4 text-sm font-medium" placeholder="(71) 99908-8651" maxlength="15" />
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50 pointer-events-none">call</span>
+                                </div>
+                                <div class="relative">
+                                    <textarea id="suporte-mensagem" required rows="4" class="input-premium w-full rounded-2xl px-4 py-4 pl-11 text-sm font-medium resize-none" placeholder="Descreva como podemos te ajudar..."></textarea>
+                                    <span class="material-symbols-outlined absolute left-4 top-4 text-primary/50 pointer-events-none">edit_note</span>
+                                </div>
+                                <button id="btn-suporte-submit" type="submit" class="active-scale relative w-full h-14 rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary font-display font-bold text-white text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden group">
                                     <span>Enviar Mensagem</span>
-                                    <span id="suporte-loader" class="material-symbols-outlined animate-spin hidden">sync</span>
+                                    <span id="suporte-loader" class="material-symbols-outlined hidden animate-spin">sync</span>
                                 </button>
                             </form>
                         </div>
-                        
-                        <!-- Aba: Meus Chamados -->
                         <div id="aba-chamados" class="hidden">
+                            <p class="text-sm text-slate-500 font-medium mb-4">Seus chamados de suporte.</p>
                             <div id="meus-chamados-list" class="space-y-3">
-                                <div class="p-8 text-center text-slate-500">
-                                    <span class="material-symbols-outlined text-4xl mb-2 inline-block">support_agent</span>
-                                    <p class="text-sm font-bold">Nenhum chamado encontrado</p>
+                                <div class="flex flex-col items-center justify-center py-12 gap-2">
+                                    <div class="size-14 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5">
+                                        <span class="material-symbols-outlined text-3xl text-slate-500">support_agent</span>
+                                    </div>
+                                    <p class="text-sm text-slate-500 font-medium">Nenhum chamado encontrado.</p>
                                 </div>
                             </div>
                         </div>
@@ -389,14 +401,14 @@
                 </div>
 
                 <!-- Ticket Detail View -->
-                <div id="chamado-detail-view" class="absolute inset-0 z-[1001] bg-background-light dark:bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                    <header class="flex items-center gap-3 px-4 pt-6 pb-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shrink-0">
-                        <button onclick="fecharChamado()" class="flex items-center justify-center size-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-lg shrink-0">
-                            <span class="material-symbols-outlined">arrow_back</span>
+                <div id="chamado-detail-view" class="absolute inset-0 z-[1001] bg-background-dark flex flex-col hidden translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <header class="flex items-center gap-3 px-4 py-4 shrink-0 border-b border-white/5">
+                        <button onclick="fecharChamado()" class="active-scale flex items-center justify-center size-9 rounded-xl glass-card text-slate-400 hover:text-white hover:border-white/20 transition-all duration-300 shrink-0">
+                            <span class="material-symbols-outlined text-xl">arrow_back</span>
                         </button>
                         <div class="flex-1">
-                            <h3 id="chamado-titulo" class="text-lg font-bold">Chamado</h3>
-                            <span id="chamado-status" class="text-xs font-bold uppercase tracking-wider">Aberto</span>
+                            <h3 id="chamado-titulo" class="font-display font-bold text-white text-lg">Chamado</h3>
+                            <span id="chamado-status" class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Aberto</span>
                         </div>
                     </header>
                     <div id="chamado-mensagens" class="flex-1 overflow-y-auto p-4 space-y-4">
@@ -1002,22 +1014,33 @@
         };
 
         window.switchAbaSuporte = function(tab) {
-            var n = document.getElementById('aba-novo');
-            var c = document.getElementById('aba-chamados');
-            var tn = document.getElementById('tab-novo');
-            var tc = document.getElementById('tab-chamados');
+            var novoBtn = document.getElementById('tab-novo');
+            var chamadosBtn = document.getElementById('tab-chamados');
+            var abaNovo = document.getElementById('aba-novo');
+            var abaChamados = document.getElementById('aba-chamados');
+            [novoBtn, chamadosBtn].forEach(function(b) {
+                if (b) { b.classList.remove('bg-primary/20', 'border-primary/20', 'text-white'); b.classList.add('text-slate-400'); }
+            });
             if (tab === 'novo') {
-                if (n) n.classList.remove('hidden');
-                if (c) c.classList.add('hidden');
-                if (tn) { tn.classList.add('border-primary', 'text-primary'); tn.classList.remove('border-transparent', 'text-slate-500'); }
-                if (tc) { tc.classList.add('border-transparent', 'text-slate-500'); tc.classList.remove('border-primary', 'text-primary'); }
+                if (novoBtn) { novoBtn.classList.remove('text-slate-400'); novoBtn.classList.add('bg-primary/20', 'border-primary/20', 'text-white'); }
+                if (abaNovo) abaNovo.classList.remove('hidden');
+                if (abaChamados) abaChamados.classList.add('hidden');
             } else {
-                if (n) n.classList.add('hidden');
-                if (c) c.classList.remove('hidden');
-                if (tn) { tn.classList.add('border-transparent', 'text-slate-500'); tn.classList.remove('border-primary', 'text-primary'); }
-                if (tc) { tc.classList.add('border-primary', 'text-primary'); tc.classList.remove('border-transparent', 'text-slate-500'); }
+                if (chamadosBtn) { chamadosBtn.classList.remove('text-slate-400'); chamadosBtn.classList.add('bg-primary/20', 'border-primary/20', 'text-white'); }
+                if (abaNovo) abaNovo.classList.add('hidden');
+                if (abaChamados) abaChamados.classList.remove('hidden');
                 carregarMeusChamados();
             }
+        };
+
+        window.selectCat = function(el) {
+            document.querySelectorAll('.cat-card').forEach(function(c) {
+                c.classList.remove('bg-primary/10', 'border-primary/30');
+                c.classList.add('bg-white/[0.02]', 'border-white/5');
+            });
+            el.classList.remove('bg-white/[0.02]', 'border-white/5');
+            el.classList.add('bg-primary/10', 'border-primary/30');
+            document.getElementById('suporte-assunto').value = el.getAttribute('data-value');
         };
 
         window.carregarMeusChamados = async function() {

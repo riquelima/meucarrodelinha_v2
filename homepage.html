@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="manifest" href="/manifest.json" />
+    <script>if('serviceWorker'in navigator)navigator.serviceWorker.getRegistrations().then(function(r){for(var i=0;i<r.length;i++){r[i].unregister()}});</script>
 
     <!-- Social Share & PWA Icons -->
     <meta property="og:title" content="Meu Carro de Linha Salinas">

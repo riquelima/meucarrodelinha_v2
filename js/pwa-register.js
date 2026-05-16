@@ -1,6 +1,16 @@
 (function() {
     'use strict';
 
+    // ===== SERVICE WORKER: Desregistrar qualquer SW existente =====
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (var i = 0; i < registrations.length; i++) {
+                registrations[i].unregister();
+                console.log('[PWA] Service Worker desregistrado');
+            }
+        });
+    }
+
     var deferredPrompt = null;
     var installPromptShown = false;
 
