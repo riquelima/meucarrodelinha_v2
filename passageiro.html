@@ -330,58 +330,67 @@
                     <div id="passageiro-map" class="absolute inset-0 z-0 h-full w-full"></div>
                     <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background-dark/80 to-transparent z-10 pointer-events-none"></div>
 
+                    <!-- Bottom Sheet Overlay (blur) -->
+                    <div id="sheet-overlay" class="absolute inset-0 z-20 pointer-events-none opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style="background: linear-gradient(to top, rgba(15,19,32,0.6) 0%, rgba(15,19,32,0.15) 40%, transparent 100%); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);"></div>
+
                     <!-- Bottom Sheet (Dento da Home) -->
                     <div id="bottom-sheet"
-                        class="absolute bottom-0 left-0 right-0 z-30 bg-white dark:bg-slate-900 rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-24 border-t border-slate-100 dark:border-slate-800 dark:bg-[#121520] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col h-[90dvh]"
-                        style="will-change: transform; transform: translateY(55%); opacity: 1;">
-                        <div id="sheet-handle-area" class="flex justify-center py-5 -mt-2 cursor-pointer touch-none shrink-0">
-                            <div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                        class="absolute bottom-0 left-0 right-0 z-30 bg-[#0f1320]/95 backdrop-blur-xl rounded-t-[2.5rem] shadow-[0_-10px_60px_rgba(249,115,22,0.06)] pb-24 border-t border-white/[0.04] flex flex-col h-[90dvh]"
+                        style="will-change: transform; transform: translateY(55%); opacity: 1; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);">
+                        <div id="sheet-handle-area" class="flex justify-center py-4 -mt-2 cursor-pointer touch-none shrink-0">
+                            <div class="w-12 h-1 rounded-full bg-white/10"></div>
                         </div>
-                        <div class="flex-1 overflow-y-auto px-6 pb-20 no-scrollbar">
-                            <div id="sheet-header-content" class="space-y-6 pb-6 pt-2">
+                        <div class="flex-1 overflow-y-auto px-5 pb-20 no-scrollbar">
+                            <div id="sheet-header-content" class="space-y-5 pb-5 pt-1">
                                 <div>
-                                    <p id="user-greeting" class="text-sm text-slate-500 dark:text-slate-400">Olá, Passageiro</p>
-                                    <h2 class="text-xl font-bold dark:text-white">Onde vamos hoje?</h2>
+                                    <p id="user-greeting" class="text-xs text-slate-500 font-medium">Olá, Passageiro</p>
+                                    <h2 class="font-display font-bold text-white text-xl mt-0.5">Onde vamos hoje?</h2>
                                 </div>
-                                <div id="drivers-section" class="space-y-3 flex flex-col pb-2 rounded-xl">
-                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Motoristas Disponíveis</p>
-                                    <div class="relative w-full overflow-hidden mask-gradient-x">
-                                        <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing">
-                                            <div id="drivers-list-container" class="flex gap-4 px-4 pb-4 min-h-[160px]" style="width: max-content;">
-                                                <div class="p-4 text-center text-slate-400 text-sm w-[280px] flex flex-col items-center shrink-0">
-                                                    <span class="material-symbols-outlined animate-spin mb-2">sync</span>
-                                                    <p>Buscando motoristas...</p>
+                                <div id="drivers-section" class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500">Motoristas Disponíveis</p>
+                                        <span class="text-[9px] text-primary font-bold" id="driver-count"></span>
+                                    </div>
+                                    <div class="relative w-full overflow-hidden">
+                                        <div id="drivers-scroll-wrapper" class="overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing -mx-5 px-5">
+                                            <div id="drivers-list-container" class="flex gap-3 pb-2 min-h-[160px]" style="width: max-content;">
+                                                <div class="p-4 text-center text-slate-500 text-sm w-[260px] flex flex-col items-center shrink-0 gap-2">
+                                                    <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                                        <span class="material-symbols-outlined text-2xl text-primary animate-spin">sync</span>
+                                                    </div>
+                                                    <p class="text-xs">Buscando motoristas...</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="space-y-3">
-                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Sua Rota</p>
+                                <div class="space-y-2.5">
+                                    <p class="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500">Sua Rota</p>
                                     <div class="relative w-full">
-                                        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                                            <span class="material-symbols-outlined text-green-500 text-xl">my_location</span>
+                                        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
+                                            <div class="size-2 rounded-full bg-green-500 shadow-lg shadow-green-500/30"></div>
                                         </div>
-                                        <input id="origem-input" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl py-3.5 pl-12 pr-4 text-sm text-slate-600 dark:text-slate-300" placeholder="Sua localização atual" type="text" />
+                                        <input id="origem-input" class="w-full bg-white/[0.03] border border-white/5 rounded-2xl py-3.5 pl-10 pr-4 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-primary/30 focus:bg-primary/[0.02] transition-all" placeholder="Sua localização atual" type="text" />
+                                        <div class="absolute left-[18px] top-[45px] w-px h-[18px] bg-white/10"></div>
                                     </div>
                                     <div class="relative w-full">
-                                        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                                            <span class="material-symbols-outlined text-primary text-xl">location_on</span>
+                                        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
+                                            <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings:'FILL'1">location_on</span>
                                         </div>
-                                        <input id="destino-input" autocomplete="off" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-12 pr-4 text-base font-bold dark:text-white" placeholder="Para onde você vai?" type="text" />
-                                        <ul id="destino-suggestions" class="absolute left-0 right-0 top-[60px] z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden hidden max-h-60 overflow-y-auto"></ul>
+                                        <input id="destino-input" autocomplete="off" class="w-full bg-white/[0.04] border border-white/5 rounded-2xl py-4 pl-10 pr-4 text-sm font-bold text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/30 focus:bg-primary/[0.02] transition-all" placeholder="Para onde você vai?" type="text" />
+                                        <ul id="destino-suggestions" class="absolute left-0 right-0 top-[60px] z-50 bg-[#161b2e] border border-white/5 rounded-2xl shadow-2xl overflow-hidden hidden max-h-60 overflow-y-auto"></ul>
                                     </div>
                                 </div>
                             </div>
-                            <div id="action-buttons-container" class="space-y-3 hidden animate-fade-in">
-                                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Contato Direto</p>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <button id="btn-chat-driver" class="active-scale flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-black py-4 rounded-2xl transition-all border border-slate-700">
-                                        <span class="material-symbols-outlined">chat</span>
+                            <div id="action-buttons-container" class="space-y-3 hidden animate-fade-in mt-5">
+                                <p class="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500">Contato Direto</p>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button id="btn-chat-driver" class="active-scale flex items-center justify-center gap-2 glass-card text-white font-bold py-4 rounded-2xl transition-all hover:bg-white/[0.06]">
+                                        <span class="material-symbols-outlined text-primary">chat</span>
                                         <span>Chat</span>
                                     </button>
-                                    <button id="btn-whatsapp-driver" class="active-scale flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba56] text-white font-black py-4 rounded-2xl shadow-lg shadow-green-500/20 transition-all">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/15713/15713434.png" class="size-6" alt="WhatsApp">
+                                    <button id="btn-whatsapp-driver" class="active-scale flex items-center justify-center gap-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-white font-bold py-4 rounded-2xl border border-[#25D366]/20 transition-all">
+                                        <span class="material-symbols-outlined text-[#25D366]">chat</span>
                                         <span>WhatsApp</span>
                                     </button>
                                 </div>
@@ -752,9 +761,34 @@
         /* Page Transition removida para usar content-enter no main */
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes cardPop {
+            0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+            60% { transform: scale(1.01) translateY(-2px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-slide-in-right {
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-card-pop {
+            animation: cardPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
 
             to {
                 opacity: 1;
@@ -968,6 +1002,31 @@
             try {
                 var remetenteUUID = window._toUUID(window._chatState.user.id);
                 var destinatarioUUID = window._toUUID(window._chatState.targetId);
+
+                // Validar UUIDs antes de enviar
+                if (!remetenteUUID || !destinatarioUUID) {
+                    throw new Error('ID de usuário inválido: ' + remetenteUUID + ' / ' + destinatarioUUID);
+                }
+
+                // Garantir que ambos existam na tabela usuarios antes do insert
+                try {
+                    var sb = window.supabaseClient;
+                    for (var uu = 0; uu < 2; uu++) {
+                        var uid = uu === 0 ? remetenteUUID : destinatarioUUID;
+                        if (!uid) continue;
+                        var { data: ex } = await sb.from('usuarios').select('id').eq('id', uid).maybeSingle();
+                        if (!ex) {
+                            var uname = uu === 0 ? (window._chatState.user?.nome || window._chatState.user?.name || 'Usuário') : 'Motorista';
+                            var uemail = uid + '@app.com';
+                            var utipo = uu === 0 ? 'passageiro' : 'motorista';
+                            console.log('[Chat] Criando usuario faltante:', uid);
+                            await sb.from('usuarios').insert({ id: uid, nome: uname, email: uemail, tipo_usuario: utipo });
+                        }
+                    }
+                } catch (e) {
+                    console.warn('[Chat] Erro ao verificar/criar usuarios:', e);
+                }
+
                 const { data, error } = await window.supabaseClient
                     .from('mensagens')
                     .insert({
@@ -1433,10 +1492,11 @@
 
             // --- Bottom Sheet Logic ---
             const sheet = document.getElementById('bottom-sheet');
+            const sheetOverlay = document.getElementById('sheet-overlay');
             const handle = document.getElementById('sheet-handle-area');
             const headerArea = document.getElementById('sheet-header-content');
             
-            let isMinimized = true; // Começa minimizado por padrão
+            let isMinimized = true;
             let isDragging = false;
             let startY = 0;
             function getHeaderHeight() {
@@ -1492,8 +1552,12 @@
             function setExpansion(expanded) {
                 isMinimized = !expanded;
                 const offset = isMinimized ? getMinimizeOffset() : getFullExpandOffset();
-                sheet.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                sheet.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
                 setTranslateY(offset);
+                if (sheetOverlay) {
+                    sheetOverlay.style.opacity = expanded ? '1' : '0';
+                    sheetOverlay.style.pointerEvents = expanded ? 'auto' : 'none';
+                }
             }
 
             // Initial positioning (minimized)
@@ -1550,6 +1614,15 @@
                 }
 
                 setTranslateY(newY);
+
+                // Atualizar opacidade do overlay dinamicamente durante o arrasto
+                if (sheetOverlay) {
+                    var totalRange = minOffset - maxOffset;
+                    var currentPos = newY - maxOffset;
+                    var progress = Math.max(0, Math.min(1, 1 - (currentPos / totalRange)));
+                    sheetOverlay.style.opacity = progress.toFixed(2);
+                }
+
                 if (e.cancelable && e.type.startsWith('touch')) e.preventDefault();
             }
 
@@ -1563,10 +1636,10 @@
                 const time = Date.now() - dragStartTime;
                 const velocity = dy / time;
 
-                sheet.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                sheet.style.transition = 'transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)';
 
-                // Lógica de Snapping (Mais sensível para expansão)
-                const threshold = (minOffset - maxOffset) * 0.1; // Apenas 10% de movimento
+                // Lógica de Snapping com inércia
+                const threshold = (minOffset - maxOffset) * 0.08;
                 
                 if (velocity < -0.2 || dy < -threshold) {
                     // Expandir (Subir)
@@ -1580,8 +1653,8 @@
                 }
             }
 
-            // Permitir arrastar apenas pela alça (ícone ----)
-            const dragTargets = [handle];
+            // Permitir arrastar pela alça e pelo header
+            const dragTargets = [handle, headerArea];
 
             // Attach events to all drag targets
             dragTargets.forEach(target => {
@@ -2035,32 +2108,33 @@
                     let photoUrl = motorista.usuarios?.foto_perfil_url || motorista.avatar;
                     if (!photoUrl) photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=f97316&color=fff&size=128`;
                     const isOnline = motorista.status === 'online' || motorista.status_online === true;
-                    // Usar ID do Supabase (UUID) quando disponível, fallback para _id do MongoDB
                     const rawId = motorista.usuario_id || motorista.id || motorista._id;
                     const usuarioId = rawId;
                     const phone = motorista.telefone_whatsapp || motorista.number || '';
                     const vehicle = motorista.modelo_veiculo || motorista.vehicle || 'Veículo';
                     const color = motorista.cor_veiculo || motorista.carColor || '---';
-                    return '<div class="flex-none w-[280px] snap-center p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700/50 shadow-sm transition-all has-[:checked]:border-primary dark:has-[:checked]:border-primary/60 has-[:checked]:bg-primary/5 cursor-pointer relative group">' +
+                    return '<div class="flex-none w-[260px] snap-center p-3.5 rounded-2xl glass-card border border-white/[0.04] transition-all duration-300 has-[:checked]:border-primary/40 has-[:checked]:bg-primary/[0.03] cursor-pointer relative group">' +
                         '<input type="radio" name="driver_selection" class="peer hidden" id="driver-' + usuarioId + '" value="' + usuarioId + '" data-name="' + displayName.replace(/"/g,'&quot;') + '" data-phone="' + phone + '" data-photo="' + photoUrl + '">' +
                         '<label for="driver-' + usuarioId + '" class="absolute inset-0 z-10 cursor-pointer"></label>' +
                         '<div class="flex items-center gap-3">' +
-                            '<div class="size-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-primary/10 shrink-0 group-has-[:checked]:ring-primary">' +
-                                '<img alt="' + displayName.replace(/"/g,'&quot;') + '" class="w-full h-full object-cover" src="' + photoUrl + '" onerror="this.src=\'https://ui-avatars.com/api/?name=Motorista&background=random\'"/>' +
+                            '<div class="relative size-12 shrink-0">' +
+                                '<div class="w-full h-full rounded-full overflow-hidden ring-2 ring-primary/[0.08] group-has-[:checked]:ring-primary/30">' +
+                                    '<img alt="' + displayName.replace(/"/g,'&quot;') + '" class="w-full h-full object-cover" src="' + photoUrl + '" onerror="this.src=\'https://ui-avatars.com/api/?name=Motorista&background=random\'"/>' +
+                                '</div>' +
+                                (isOnline ? '<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-background-dark rounded-full shadow-sm"></div>' : '') +
                             '</div>' +
                             '<div class="flex-1 min-w-0">' +
-                                '<p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">' + displayName + '</p>' +
+                                '<p class="font-bold text-sm text-white truncate">' + displayName + '</p>' +
                                 '<div class="flex items-center gap-1.5 mt-0.5">' +
-                                    '<div class="flex items-center text-yellow-500"><span class="material-symbols-outlined text-[12px] font-fill">star</span><span class="text-[10px] font-bold ml-0.5">5.0</span></div>' +
-                                    '<span class="text-slate-400 text-[10px]">·</span>' +
-                                    (isOnline ? '<span class="px-1.5 py-0.5 rounded-md bg-green-500/10 text-green-500 text-[9px] font-black uppercase tracking-wider">Online</span>' : '<span class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase tracking-wider">Agendar</span>') +
+                                    '<div class="flex items-center text-yellow-500/90"><span class="material-symbols-outlined text-[11px]" style="font-variation-settings:\'FILL\' 1">star</span><span class="text-[10px] font-bold ml-0.5">5.0</span></div>' +
+                                    '<span class="text-slate-600 text-[10px]">·</span>' +
+                                    (isOnline ? '<span class="text-[8px] font-bold uppercase tracking-wider text-green-400">Online</span>' : '<span class="text-[8px] font-bold uppercase tracking-wider text-slate-500">Agendar</span>') +
                                 '</div>' +
                             '</div>' +
-                            '<div class="size-6 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-has-[:checked]:bg-primary group-has-[:checked]:border-primary"><span class="material-symbols-outlined text-white text-sm scale-0 group-has-[:checked]:scale-100 transition-transform">check</span></div>' +
                         '</div>' +
-                        '<div class="mt-3 pt-3 border-t border-slate-50 dark:border-slate-700/30 flex items-center justify-between">' +
-                            '<span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[120px]">' + vehicle + ' · ' + color + '</span>' +
-                            '<span class="text-[10px] font-black text-primary uppercase">Selecionar</span>' +
+                        '<div class="mt-3 pt-3 border-t border-white/[0.04] flex items-center justify-between">' +
+                            '<span class="text-[10px] text-slate-500 truncate max-w-[140px]">' + vehicle + ' · ' + color + '</span>' +
+                            '<span class="text-[9px] font-bold text-primary group-has-[:checked]:opacity-100 opacity-70 transition-opacity">Selecionar</span>' +
                         '</div>' +
                     '</div>';
                 };
@@ -2086,11 +2160,32 @@
                 }
 
                 if (!motoristasData || motoristasData.length === 0) {
-                    driversContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700"><p>Nenhum motorista disponível no momento.</p></div>';
+                    driversContainer.innerHTML = '<div class="p-4 text-center text-slate-500 text-sm w-[240px] flex flex-col items-center shrink-0 gap-2 border border-white/5 rounded-2xl"><span class="material-symbols-outlined text-2xl text-slate-600">directions_car</span><p>Nenhum motorista disponível.</p></div>';
                 } else {
                     driversContainer.innerHTML = '';
-                    for (const motorista of motoristasData) {
-                        driversContainer.innerHTML += renderDriverCard(motorista);
+                    var countEl = document.getElementById('driver-count');
+                    if (countEl) countEl.textContent = motoristasData.length + ' disponível' + (motoristasData.length !== 1 ? 'eis' : '');
+                    for (var di = 0; di < motoristasData.length; di++) {
+                        var motorista = motoristasData[di];
+                        var cardHtml = renderDriverCard(motorista);
+                        if (di === 0) {
+                            driversContainer.innerHTML += cardHtml;
+                        } else {
+                            var wrapper = document.createElement('div');
+                            wrapper.innerHTML = cardHtml;
+                            var cardNode = wrapper.firstChild;
+                            cardNode.style.opacity = '0';
+                            cardNode.style.transform = 'scale(0.92) translateY(12px)';
+                            cardNode.style.transition = 'none';
+                            driversContainer.appendChild(cardNode);
+                            (function(node, idx) {
+                                setTimeout(function() {
+                                    node.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                                    node.style.opacity = '1';
+                                    node.style.transform = 'scale(1) translateY(0)';
+                                }, 60 + (idx * 50));
+                            })(cardNode, di);
+                        }
                     }
                     // Attach listeners
                     const driverInputs = document.querySelectorAll('input[name="driver_selection"]');
@@ -2148,7 +2243,10 @@
                     const chatInput = document.getElementById('active-chat-input');
                     if (chatInput) {
                         chatInput.value = message;
-                        setTimeout(() => { document.getElementById('active-chat-send')?.click(); }, 800);
+                        setTimeout(() => {
+                            var sendBtn = document.getElementById('active-chat-send');
+                            if (sendBtn && !sendBtn.disabled) sendBtn.click();
+                        }, 1000);
                     }
                 });
             }

@@ -287,6 +287,37 @@
 
             const email = document.getElementById('email').value.trim().toLowerCase();
 
+            // Hardcoded: admin sempre vai para admin.html
+            if (email === 'meucarrodelinha.adm@gmail.com') {
+                if (migratedUserFound) {
+                    try {
+                        const res = await fetch(EDGE_AUTH_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+                        const data = await res.json();
+                        if (data.success && data.migrado) {
+                            localStorage.setItem('mcl_migrado', JSON.stringify(data.user));
+                            localStorage.setItem('mcl_custom_session', JSON.stringify({ user: data.user }));
+                            document.body.classList.add('fade-out');
+                            setTimeout(() => { window.location.href = 'admin.html'; }, 200);
+                            return;
+                        }
+                    } catch (e) { console.warn(e); }
+                }
+                const password = document.getElementById('senha').value;
+                const result = await signIn(email, password);
+                if (result.success) {
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = 'admin.html'; }, 200);
+                    return;
+                }
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                return;
+            }
+
             if (migratedUserFound) {
                 try {
                     const res = await fetch(EDGE_AUTH_URL, {
