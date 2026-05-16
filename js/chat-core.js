@@ -24,7 +24,7 @@ class ChatManager {
         if (!user) return;
 
         const params = new URLSearchParams(window.location.search);
-        this.targetUserId = params.get('userId') || params.get('driverId');
+        this.targetUserId = window._toUUID(params.get('userId') || params.get('driverId'));
         this.viagemId = params.get('viagemId');
 
         if (this.targetUserId) {
@@ -53,11 +53,13 @@ class ChatManager {
         }
     }
 
-    async loadMessages() {
+        const myUUID = window._toUUID(this.currentUser.id);
+        const tUUID = window._toUUID(this.targetUserId);
+
         const { data: messages, error } = await this.supabase
             .from('mensagens')
             .select('*')
-            .or(`and(remetente_id.eq.${this.currentUser.id},destinatario_id.eq.${this.targetUserId}),and(remetente_id.eq.${this.targetUserId},destinatario_id.eq.${this.currentUser.id})`)
+            .or(`and(remetente_id.eq.${myUUID},destinatario_id.eq.${tUUID}),and(remetente_id.eq.${tUUID},destinatario_id.eq.${myUUID})`)
             .order('enviada_em', { ascending: true });
 
         if (error) {
@@ -423,19 +425,22 @@ class ChatManager {
     }
 
     setupRealtime() {
-        // Canal para mensagens
-        this.supabase.channel(`chat-${this.targetUserId}`)
+        const myUUID = window._toUUID(this.currentUser.id);
+        const tUUID = window._toUUID(this.targetUserId);
+
+        // Canal único para ouvir todas as mensagens destinadas a mim
+        // Filtramos pelo remetente no callback para garantir que é a conversa certa
+        this.supabase.channel(`chat-channel-${myUUID}`)
             .on(
                 'postgres_changes',
                 {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'mensagens',
-                    filter: `destinatario_id=eq.${this.currentUser.id}`
+                    filter: `destinatario_id=eq.${myUUID}`
                 },
                 (payload) => {
-                    // Só renderiza se o remetente for o alvo atual
-                    if (payload.new.remetente_id === this.targetUserId) {
+                    if (String(payload.new.remetente_id) === String(tUUID)) {
                         this.renderMessage(payload.new);
                         this.scrollToBottom();
                         this.markAsRead();
@@ -448,12 +453,11 @@ class ChatManager {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'mensagens',
-                    filter: `remetente_id=eq.${this.currentUser.id}`
+                    filter: `remetente_id=eq.${myUUID}`
                 },
                 (payload) => {
                     // Mensagem que EU enviei em outro dispositivo ou aba
-                    if (payload.new.destinatario_id === this.targetUserId) {
-                        // Verifica se a mensagem já não está na tela (evitar duplicados de envios locais)
+                    if (String(payload.new.destinatario_id) === String(tUUID)) {
                         if (!document.querySelector(`[data-msg-id="${payload.new.id}"]`)) {
                             this.renderMessage(payload.new);
                             this.scrollToBottom();
@@ -467,11 +471,11 @@ class ChatManager {
                     event: 'UPDATE',
                     schema: 'public',
                     table: 'mensagens',
-                    filter: `remetente_id=eq.${this.currentUser.id}`
+                    filter: `remetente_id=eq.${myUUID}`
                 },
                 (payload) => {
                     // Quando o destinatário lê minha mensagem
-                    if (payload.new.lida && payload.new.destinatario_id === this.targetUserId) {
+                    if (payload.new.lida && String(payload.new.destinatario_id) === String(tUUID)) {
                         const msgEl = document.querySelector(`[data-msg-id="${payload.new.id}"]`);
                         if (msgEl) {
                             const icon = msgEl.querySelector('.status-icon');

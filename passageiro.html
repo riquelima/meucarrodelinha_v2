@@ -643,17 +643,45 @@
         <script>
             function switchTab(tabName) {
                 const slider = document.getElementById('view-slider');
+                const tabs = ['home', 'chats', 'profile'];
+                const index = tabs.indexOf(tabName);
+                
+                if (index === -1) return;
+
+                const sectionW = slider.parentElement.clientWidth || window.innerWidth;
+                slider.style.transform = `translate3d(${-index * sectionW}px, 0, 0)`;
+
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('nav-active');
+                    if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
+                });
+
+                document.querySelectorAll('.view-section').forEach((sec, i) => {
+                    sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
+                });
+
+                if (tabName === 'chats' && typeof window.loadChatList === 'function') {
+                    window.loadChatList();
+                }
+            }
+        </script>
+
+        <!-- Painel de Avaliação (Rating Sheet) -->
+        <div id="rating-sheet" class="fixed inset-x-0 bottom-0 z-[1000] bg-white dark:bg-[#0f1320] rounded-t-[2.5rem] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] translate-y-full h-[60dvh] flex flex-col border-t border-white/5 hidden">
+            <div id="rating-expand-handle" class="w-full flex justify-center py-4 shrink-0 cursor-pointer">
+                <div class="w-12 h-1 rounded-full bg-slate-300 dark:bg-white/10"></div>
+            </div>
             
-            <div class="flex-1 overflow-y-auto px-8 py-4 flex flex-col items-center text-center space-y-6 pb-20">
+            <div id="rating-form-content" class="flex-1 overflow-y-auto px-8 py-4 flex flex-col items-center text-center space-y-6 pb-20">
                 <div class="space-y-3">
                      <div id="driver-rating-avatar" class="size-24 rounded-full border-4 border-primary/20 mx-auto overflow-hidden bg-slate-100 shadow-xl">
                          <img src="https://ui-avatars.com/api/?name=Motorista&background=random" class="size-full object-cover">
                      </div>
-                        <p id="rating-driver-name" class="font-black text-xl text-slate-900 dark:text-white tracking-tight">Seu Motorista</p>
-                        <div class="flex items-center gap-1 justify-center text-yellow-500 mt-1">
-                            <span class="material-symbols-outlined text-sm font-fill">star</span>
-                            <span id="driver-current-rating" class="text-xs font-bold">5.0</span>
-                        </div>
+                     <p id="rating-driver-name" class="font-black text-xl text-slate-900 dark:text-white tracking-tight">Seu Motorista</p>
+                     <div class="flex items-center gap-1 justify-center text-yellow-500 mt-1">
+                         <span class="material-symbols-outlined text-sm font-fill">star</span>
+                         <span id="driver-current-rating" class="text-xs font-bold">5.0</span>
+                     </div>
                 </div>
 
                 <div class="space-y-4 w-full">
@@ -686,21 +714,23 @@
                     </button>
                 </div>
             </div>
-        </div>
 
-        <!-- Success View (Hidden by default) -->
-        <div id="rating-success-content" class="hidden flex-col items-center justify-center p-8 text-center space-y-6 animate-fadeIn h-full">
-            <div class="size-32 rounded-full bg-green-500/10 flex items-center justify-center relative shadow-2xl shadow-green-500/20">
-                <span class="material-symbols-outlined text-7xl text-green-500 animate-success-check">check_circle</span>
-                <div class="absolute inset-0 rounded-full border-4 border-green-500/20 animate-ping"></div>
+            <!-- Success View (Hidden by default) -->
+            <div id="rating-success-content" class="hidden flex-col items-center justify-center p-8 text-center space-y-6 animate-fadeIn h-full">
+                <div class="size-32 rounded-full bg-green-500/10 flex items-center justify-center relative shadow-2xl shadow-green-500/20">
+                    <span class="material-symbols-outlined text-7xl text-green-500 animate-success-check">check_circle</span>
+                    <div class="absolute inset-0 rounded-full border-4 border-green-500/20 animate-ping"></div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="text-2xl font-black text-slate-900 dark:text-white">Obrigado!</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium">Sua avaliação ajuda a manter<br>nossa comunidade segura e confiável.</p>
+                </div>
             </div>
-            <div class="space-y-2">
-                <h4 class="text-2xl font-black text-slate-900 dark:text-white">Obrigado!</h4>
-                <p class="text-slate-500 dark:text-slate-400 font-medium">Sua avaliação ajuda a manter<br>nossa comunidade segura e confiável.</p>
-            </div>
+            
+            <button id="close-rating" onclick="setRatingExpansion(false)" class="absolute top-6 right-6 size-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/5 text-slate-400 hover:text-primary transition-all active-scale">
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
-    </div>
-    </div>
     <style>
         .pb-safe {
             padding-bottom: env(safe-area-inset-bottom);
@@ -952,6 +982,27 @@
                 alert('Nenhum motorista selecionado.');
                 return;
             }
+            // Tenta pegar o user localmente ou no Auth
+            if (!window._chatState.user) {
+                let u = null;
+                try {
+                    const sb = window.supabaseClient;
+                    if (sb) {
+                        const { data: { user: authUser } } = await sb.auth.getUser();
+                        if (authUser) u = authUser;
+                    }
+                    if (!u) {
+                        const cs = localStorage.getItem('mcl_custom_session');
+                        const md = localStorage.getItem('mcl_migrado');
+                        if (cs || md) {
+                            const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
+                            u = parsed.user || parsed;
+                        }
+                    }
+                } catch(e) {}
+                if (u) window._chatState.user = u;
+            }
+
             if (!window._chatState.user) {
                 alert('Usuário não autenticado.');
                 return;
@@ -1347,17 +1398,6 @@
                 console.error("Erro ao autenticar usuário:", err);
             }
 
-            // --- UUID Helper — converte IDs não-UUID (ex: MongoDB) para formato UUID válido ---
-            window._toUUID = function(id) {
-                if (!id) return id;
-                var s = String(id);
-                if (s.length === 36 && s.indexOf('-') > 0) return s; // já é UUID
-                var hex = s.replace(/[^0-9a-fA-F]/g, '');
-                if (hex.length === 32) return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
-                hex = hex.padEnd(32, '0').slice(0, 32);
-                return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
-            };
-
             // --- Global Chat Helpers ---
             window.openActiveChat = async function(driver) {
                 const chatView = document.getElementById('active-chat-view');
@@ -1376,6 +1416,23 @@
                 // Garantir que remetente e destinatário existam na tabela usuarios (FK da tabela mensagens)
                 try {
                     var sb = window.supabaseClient;
+                    if (!window._chatState.user) {
+                        let u = null;
+                        if (sb) {
+                            const { data: { user: authUser } } = await sb.auth.getUser();
+                            if (authUser) u = authUser;
+                        }
+                        if (!u) {
+                            const cs = localStorage.getItem('mcl_custom_session');
+                            const md = localStorage.getItem('mcl_migrado');
+                            if (cs || md) {
+                                const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
+                                u = parsed.user || parsed;
+                            }
+                        }
+                        if (u) window._chatState.user = u;
+                    }
+
                     if (sb) {
                         // Verifica/cria o motorista (destinatário)
                         var { data: existsD } = await sb.from('usuarios').select('id').eq('id', driverUUID).maybeSingle();
@@ -2478,7 +2535,8 @@
                 if (!container) return;
 
                 try {
-                    console.log('[ChatList] Buscando mensagens para user.id:', user.id);
+                    const myUUID = window._toUUID(user.id);
+                    console.log('[ChatList] Buscando mensagens para UUID:', myUUID);
                     const { data: messages, error } = await window.supabaseClient
                         .from('mensagens')
                         .select(`
@@ -2486,29 +2544,34 @@
                             remetente:usuarios!remetente_id(id, nome, foto_perfil_url),
                             destinatario:usuarios!destinatario_id(id, nome, foto_perfil_url)
                         `)
-                        .or(`remetente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+                        .or(`remetente_id.eq.${myUUID},destinatario_id.eq.${myUUID}`)
                         .order('enviada_em', { ascending: false });
 
                     if (error) throw error;
-                    console.log('[ChatList] Mensagens encontradas:', messages?.length, messages);
+                    console.log('[ChatList] Mensagens encontradas:', messages?.length);
 
                     const conversationsMap = new Map();
                     (messages || []).forEach(msg => {
-                        console.log('[ChatList] Processando msg:', msg.id, 'remetente:', msg.remetente, 'destinatario:', msg.destinatario);
-                        const target = msg.remetente_id === user.id ? msg.destinatario : msg.remetente;
+                        const isMine = String(msg.remetente_id) === String(myUUID);
+                        let target = isMine ? msg.destinatario : msg.remetente;
+                        let targetId = isMine ? msg.destinatario_id : msg.remetente_id;
+
                         if (!target) {
-                            console.log('[ChatList] target é null para msg:', msg.id);
-                            return;
+                            target = {
+                                id: targetId,
+                                nome: 'Usuário',
+                                foto_perfil_url: null
+                            };
                         }
-                        console.log('[ChatList] target:', target);
-                        if (!conversationsMap.has(target.id)) {
-                            conversationsMap.set(target.id, {
+
+                        if (!conversationsMap.has(targetId)) {
+                            conversationsMap.set(targetId, {
                                 user: target,
                                 lastMessage: msg,
-                                unreadCount: (msg.destinatario_id === user.id && !msg.lida) ? 1 : 0
+                                unreadCount: (!isMine && !msg.lida) ? 1 : 0
                             });
-                        } else if (msg.destinatario_id === user.id && !msg.lida) {
-                            conversationsMap.get(target.id).unreadCount++;
+                        } else if (!isMine && !msg.lida) {
+                            conversationsMap.get(targetId).unreadCount++;
                         }
                     });
 

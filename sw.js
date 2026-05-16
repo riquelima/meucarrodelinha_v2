@@ -51,7 +51,11 @@ self.addEventListener('activate', (event) => {
       })
     ))
   );
-  self.clients.claim();
+  try {
+    self.clients.claim();
+  } catch (e) {
+    console.warn('[SW] Could not claim clients:', e);
+  }
 });
 
 // Listener para forçar atualização

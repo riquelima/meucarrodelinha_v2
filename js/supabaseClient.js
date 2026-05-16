@@ -11,3 +11,15 @@ window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON
         detectSessionInUrl: true
     }
 });
+
+// Função utilitária global para padronização de IDs (Legado -> UUID)
+window._toUUID = function (id) {
+    if (!id) return id;
+    var s = String(id);
+    if (s.length === 36 && s.indexOf('-') > 0) return s;
+    var hex = s.replace(/[^0-9a-fA-F]/g, '');
+    if (hex.length === 32) return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
+    hex = hex.padEnd(32, '0').slice(0, 32);
+    return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
+};
+

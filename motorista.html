@@ -179,7 +179,7 @@
                     <!-- Dica animada: Fique Online -->
                     <div id="online-hint" class="absolute bottom-[170px] left-0 right-0 z-30 flex flex-col items-center animate-bounce-subtle pointer-events-none">
                         <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-3 shadow-2xl flex items-center gap-3">
-                            <span class="text-yellow-400 animate-pulse text-lg">??</span>
+                            <span class="material-symbols-outlined text-yellow-400 animate-pulse text-lg">notifications_active</span>
                             <p class="text-white text-sm font-bold tracking-tight">Fique online para<br><span class="text-primary">receber chamados</span></p>
                         </div>
                         <div class="text-primary mt-1 animate-bounce-arrow">
@@ -693,15 +693,7 @@
             window.location.href = `tel:${cleanPhone}`;
         };
 
-        window._toUUID = function(id) {
-            if (!id) return id;
-            var s = String(id);
-            if (s.length === 36 && s.indexOf('-') > 0) return s;
-            var hex = s.replace(/[^0-9a-fA-F]/g, '');
-            if (hex.length === 32) return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
-            hex = hex.padEnd(32, '0').slice(0, 32);
-            return hex.slice(0,8)+'-'+hex.slice(8,12)+'-'+hex.slice(12,16)+'-'+hex.slice(16,20)+'-'+hex.slice(20,32);
-        };
+        
 
         window.ensureUserExists = async function(userId, nome, email, tipo, photo) {
             try {
@@ -721,18 +713,30 @@
             const input = document.getElementById('active-chat-input');
             const text = input?.value?.trim();
             if (!text) return;
-            if (!window._chatState.targetId) {
-                alert('Nenhum passageiro selecionado.');
+
+            // --- Fallback de Sessão para Migrados ---
+            let user = window._chatState.user;
+            if (!user) {
+                const cs = localStorage.getItem('mcl_custom_session');
+                const md = localStorage.getItem('mcl_migrado');
+                if (cs || md) {
+                    const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
+                    user = parsed.user || parsed;
+                }
+            }
+
+            if (!user) {
+                alert('Usuário não autenticado.');
                 return;
             }
-            if (!window._chatState.user) {
-                alert('Usuário não autenticado.');
+            if (!window._chatState.targetId) {
+                alert('Nenhum passageiro selecionado.');
                 return;
             }
 
             input.value = '';
             try {
-                var remUUID = window._toUUID(window._chatState.user.id);
+                var remUUID = window._toUUID(user.id);
                 var desUUID = window._toUUID(window._chatState.targetId);
                 const { data, error } = await window.supabaseClient
                     .from('mensagens')
@@ -796,12 +800,23 @@
 
             // Garantir que o motorista (usuário logado) também exista
             try {
-                var { data: { user: authUser } } = await window.supabaseClient.auth.getUser();
+                let u = null;
+                const { data: { user: authUser } } = await window.supabaseClient.auth.getUser();
                 if (authUser) {
-                    window._chatState.user = authUser;
-                    await window.ensureUserExists(authUser.id, authUser.user_metadata?.nome || 'Motorista', authUser.email, 'motorista');
+                    u = authUser;
+                } else {
+                    const cs = localStorage.getItem('mcl_custom_session');
+                    const md = localStorage.getItem('mcl_migrado');
+                    if (cs || md) {
+                        const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
+                        u = parsed.user || parsed;
+                    }
                 }
-            } catch(e) { console.warn(e); }
+                if (u) {
+                    window._chatState.user = u;
+                    await window.ensureUserExists(u.id, u.nome || u.user_metadata?.nome || 'Motorista', u.email, 'motorista');
+                }
+            } catch(e) { console.warn('[Chat] Erro no fallback user:', e); }
 
             // Buscar telefone do passageiro
             (async () => {
@@ -827,9 +842,7 @@
             });
 
             const supabase = window.supabaseClient;
-            const { data: { user } } = await supabase.auth.getUser();
-            window._chatState.user = user;
-            var myUUID = window._toUUID(user?.id);
+            var myUUID = window._toUUID(window._chatState.user?.id);
             var tUUID = window._toUUID(window._chatState.targetId);
 
             // Carregar mensagens
@@ -866,15 +879,18 @@
                 container.innerHTML = '<div class="p-8 text-center text-slate-500 text-sm">Erro ao carregar mensagens.</div>';
             }
 
-            // Inscrição Realtime
+            // Inscrição Realtime Padronizada
             if (activeChatChannel) activeChatChannel.unsubscribe();
-            activeChatChannel = supabase.channel(`chat-${user.id}-${targetUser.id}`)
+            activeChatChannel = supabase.channel(`chat-channel-${myUUID}`)
                 .on('postgres_changes',
-                    { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `remetente_id=eq.${targetUser.id}` },
+                    { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `destinatario_id=eq.${myUUID}` },
                     payload => {
-                        if (payload.new.destinatario_id === user.id) {
+                        if (String(payload.new.remetente_id) === String(tUUID)) {
                             renderSingleMessage(payload.new);
                             document.getElementById('active-chat-messages')?.scrollTo({ top: 99999, behavior: 'smooth' });
+                            supabase.from('mensagens').update({ lida: true }).eq('id', payload.new.id).then(() => {
+                                if (typeof window.loadChatList === 'function') window.loadChatList();
+                            });
                         }
                     }
                 )
@@ -907,12 +923,26 @@
             const supabase = window.supabaseClient;
             if (!supabase) return;
 
-            const { data: { user } } = await supabase.auth.getUser();
+            // --- Fallback de Sessão para Migrados ---
+            let user = null;
+            const { data: { user: authUser } } = await supabase.auth.getUser();
+            if (authUser) {
+                user = authUser;
+            } else {
+                const cs = localStorage.getItem('mcl_custom_session');
+                const md = localStorage.getItem('mcl_migrado');
+                if (cs || md) {
+                    const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
+                    user = parsed.user || parsed;
+                }
+            }
+
             if (!user) {
                 container.innerHTML = '<div class="p-6 text-center opacity-40"><span class="material-symbols-outlined text-4xl mb-2">forum</span><p class="font-bold">Faça login para ver suas conversas</p></div>';
                 return;
             }
             window._chatState.user = user;
+            const myUUID = window._toUUID(user.id);
 
             try {
                 const messagesPromise = supabase
@@ -922,7 +952,7 @@
                         remetente:usuarios!remetente_id(id, nome, foto_perfil_url),
                         destinatario:usuarios!destinatario_id(id, nome, foto_perfil_url)
                     `)
-                    .or(`remetente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+                    .or(`remetente_id.eq.${myUUID},destinatario_id.eq.${myUUID}`)
                     .order('enviada_em', { ascending: false });
 
                 let messages;
@@ -940,16 +970,26 @@
 
                 const conversationsMap = new Map();
                 messages.forEach(msg => {
-                    const target = msg.remetente_id === user.id ? msg.destinatario : msg.remetente;
-                    if (!target) return;
-                    if (!conversationsMap.has(target.id)) {
-                        conversationsMap.set(target.id, {
+                    const isMine = String(msg.remetente_id) === String(myUUID);
+                    let target = isMine ? msg.destinatario : msg.remetente;
+                    let targetId = isMine ? msg.destinatario_id : msg.remetente_id;
+
+                    if (!target) {
+                        target = {
+                            id: targetId,
+                            nome: 'Usuário',
+                            foto_perfil_url: null
+                        };
+                    }
+
+                    if (!conversationsMap.has(targetId)) {
+                        conversationsMap.set(targetId, {
                             user: target,
                             lastMessage: msg,
-                            unreadCount: (msg.destinatario_id === user.id && !msg.lida) ? 1 : 0
+                            unreadCount: (!isMine && !msg.lida) ? 1 : 0
                         });
-                    } else if (msg.destinatario_id === user.id && !msg.lida) {
-                        conversationsMap.get(target.id).unreadCount++;
+                    } else if (!isMine && !msg.lida) {
+                        conversationsMap.get(targetId).unreadCount++;
                     }
                 });
 
@@ -983,7 +1023,6 @@
                 container.innerHTML = '<div class="p-6 text-center opacity-40"><span class="material-symbols-outlined text-4xl mb-2">error</span><p class="font-bold">Erro ao carregar conversas</p></div>';
             }
         };
-
         // Upload de foto do perfil do motorista
         const motoristaPhotoInput = document.getElementById('motorista-photo-input');
         motoristaPhotoInput?.addEventListener('change', async (e) => {
@@ -1161,7 +1200,9 @@
             document.getElementById('veic-profile-name').textContent = nome || 'Motorista';
             var phoneEl = document.getElementById('veic-phone');
             if (phone) {
-                var v = phone.replace(/\D/g, '').replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d)(\d{4})$/, '$1-$2');
+                var raw = phone.replace(/\D/g, '');
+                if (raw.length > 11) raw = raw.replace(/^55/, '');
+                var v = raw.replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d)(\d{4})$/, '$1-$2');
                 phoneEl.value = v;
             }
             document.getElementById('veic-modelo').value = vehicle;
@@ -1174,7 +1215,7 @@
                 view.classList.remove('translate-x-full');
                 view.classList.add('translate-x-0');
             });
-            window._veicData = { isMigrado: isMigrado, uid: uid };
+            window._veicData = { isMigrado: isMigrado, uid: uid, email: email };
         };
 
         window.fecharVeiculo = function() {
@@ -1413,7 +1454,7 @@
                     document.getElementById('veic-save-text').innerText = 'Salvando...';
                     document.getElementById('veic-loader').classList.remove('hidden');
                     try {
-                        var cleanPhone = phone.replace(/\D/g, '');
+                        var cleanPhone = phone.replace(/\D/g, '').replace(/^55/, '');
                         var vd = window._veicData || {};
                         if (vd.isMigrado) {
                             await sb.from('users_migrados').update({ name: nome, number: cleanPhone, vehicle: vehicle, plate: plate, carColor: color }).eq('_id', vd.uid);
@@ -1435,7 +1476,7 @@
                             var elName = document.getElementById('profile-name');
                             if (elName) elName.textContent = nome;
                             var elEmail = document.getElementById('profile-email');
-                            if (elEmail) elEmail.textContent = email;
+                            if (elEmail) elEmail.textContent = vd.email || '';
                             var elHeader = document.getElementById('header-username');
                             if (elHeader) elHeader.textContent = nome.split(' ')[0];
                             // Atualiza localStorage para persistir entre recargas
@@ -1490,6 +1531,7 @@
                 input.addEventListener('input', function () {
                     let v = this.value.replace(/\D/g, '');
                     if (v.length > 11) v = v.slice(0, 11);
+                    if (v.length > 10) v = v.replace(/^55/, '');
                     v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
                     v = v.replace(/(\d)(\d{4})$/, '$1-$2');
                     this.value = v;

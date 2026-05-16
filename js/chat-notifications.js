@@ -7,12 +7,26 @@
         try {
             var sb = window.supabaseClient;
             if (!sb) return;
+            let u = null;
             var { data: { user } } = await sb.auth.getUser();
-            if (!user) return;
+            if (user) {
+                u = user;
+            } else {
+                const cs = localStorage.getItem('mcl_custom_session');
+                const md = localStorage.getItem('mcl_migrado');
+                if (cs || md) {
+                    const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
+                    u = parsed.user || parsed;
+                }
+            }
+            if (!u) return;
+
+            var myUUID = window._toUUID(u.id);
+
             var { count, error } = await sb
                 .from('mensagens')
                 .select('*', { count: 'exact', head: true })
-                .eq('destinatario_id', user.id)
+                .eq('destinatario_id', myUUID)
                 .eq('lida', false);
             if (error) { console.warn('[ChatNotif]', error); return; }
             updateUI(count);
@@ -35,15 +49,26 @@
         if (_channel) { _channel.unsubscribe(); _channel = null; }
         var sb = window.supabaseClient;
         if (!sb || !userId) return;
-        _channel = sb.channel('notificacoes-chat');
+        
+        var myUUID = window._toUUID(userId);
+        _channel = sb.channel('notificacoes-chat-' + myUUID);
+        
         _channel.on('postgres_changes', {
             event: 'INSERT', schema: 'public', table: 'mensagens',
-            filter: 'destinatario_id=eq.' + userId
-        }, function() { updateUnreadBadge(); });
+            filter: 'destinatario_id=eq.' + myUUID
+        }, function() { 
+            updateUnreadBadge(); 
+            if (typeof window.loadChatList === 'function') window.loadChatList();
+        });
+        
         _channel.on('postgres_changes', {
             event: 'UPDATE', schema: 'public', table: 'mensagens',
-            filter: 'destinatario_id=eq.' + userId
-        }, function() { updateUnreadBadge(); });
+            filter: 'destinatario_id=eq.' + myUUID
+        }, function() { 
+            updateUnreadBadge(); 
+            if (typeof window.loadChatList === 'function') window.loadChatList();
+        });
+        
         _channel.subscribe();
         updateUnreadBadge();
     }
