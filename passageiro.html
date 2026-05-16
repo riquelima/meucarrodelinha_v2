@@ -643,47 +643,6 @@
         <script>
             function switchTab(tabName) {
                 const slider = document.getElementById('view-slider');
-                const tabs = ['home', 'chats', 'profile'];
-                const index = tabs.indexOf(tabName);
-                
-                if (index === -1) return;
-
-                // Transição via Hardware Acceleration
-                var sectionW = slider.parentElement.clientWidth || window.innerWidth;
-                slider.style.transform = `translate3d(${-index * sectionW}px, 0, 0)`;
-
-                // Atualizar estado visual da Navbar
-                document.querySelectorAll('.nav-item').forEach(btn => {
-                    btn.classList.remove('nav-active');
-                    if (btn.id === `nav-${tabName}`) btn.classList.add('nav-active');
-                });
-
-                // Otimização: Forçar visibilidade das seções vizinhas
-                document.querySelectorAll('.view-section').forEach((sec, i) => {
-                    sec.style.visibility = (Math.abs(i - index) <= 1) ? 'visible' : 'hidden';
-                });
-
-                // Recarregar lista de chats ao entrar na aba
-                if (tabName === 'chats' && typeof window.loadChatList === 'function') {
-                    window.loadChatList();
-                }
-            }
-        </script>
-
-
-    <!-- Rating Sheet Container (Fixed at bottom, above everything) -->
-    <div id="rating-sheet" class="fixed inset-x-0 bottom-0 z-[100] bg-white dark:bg-[#121520] rounded-t-[2.5rem] hidden flex-col shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.5)] border-t border-slate-100 dark:border-slate-800 animate-slide-up h-[60dvh] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-        <div id="rating-expand-handle" class="flex justify-center py-4 shrink-0 cursor-pointer group/handle">
-            <div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full group-hover/handle:bg-primary/50 transition-colors"></div>
-        </div>
-        
-        <div id="rating-form-content" class="flex flex-col h-full overflow-hidden">
-            <div class="flex justify-between items-center px-8 pb-4">
-                <h3 class="text-xl font-black text-slate-900 dark:text-white">Avalie sua Viagem</h3>
-                <button id="close-rating" class="size-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:scale-110 transition-transform">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
             
             <div class="flex-1 overflow-y-auto px-8 py-4 flex flex-col items-center text-center space-y-6 pb-20">
                 <div class="space-y-3">

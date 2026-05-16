@@ -75,18 +75,29 @@
 
     if (isDismissed()) return;
 
-    // Detecta se a view atual é a "Início" (view 0 do slider)
+    // Detecta se a view atual é a "Início"
     function isHomeViewActive() {
+        // Tenta primeiro pelo estado da Navbar (mais confiável)
+        var navHome = document.getElementById('nav-home');
+        if (navHome) {
+            return navHome.classList.contains('nav-active');
+        }
+
+        // Fallback: Verificar o transform do slider
         var slider = document.getElementById('view-slider');
         if (slider) {
             var transform = slider.style.transform;
-            if (transform && transform.indexOf('translate3d(0px') !== -1) return true;
-            if (transform && transform.indexOf('translate3d(0,') !== -1) return true;
-            // Se não tem transform, pode ser que esteja na posição inicial
-            if (!transform) return true;
+            if (!transform || transform === 'none') return true;
+            
+            // Aceita translate3d(0px, ...) ou translate3d(0, ...)
+            var match = transform.match(/translate3d\(\s*(-?\d+)/);
+            if (match) {
+                var x = parseInt(match[1], 10);
+                return x === 0;
+            }
             return false;
         }
-        return true; // sem slider, mostra normalmente
+        return true; 
     }
 
     var blockingSelectors = [
@@ -161,21 +172,27 @@
         }
     }
 
+    window._updateShareFabVisibility = updateFabVisibility;
+
     if (document.body) {
         document.body.insertAdjacentHTML('beforeend', fabHTML);
         attachShareHandlers();
         updateFabVisibility();
-        setInterval(updateFabVisibility, 300);
+        setInterval(updateFabVisibility, 500);
         var observer = new MutationObserver(updateFabVisibility);
-        observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'], subtree: true, childList: true });
+        observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'], subtree: true });
+        
+        // Monitorar especificamente a Navbar se existir
+        var navbar = document.querySelector('.bottom-nav');
+        if (navbar) observer.observe(navbar, { attributes: true, subtree: true });
     } else {
         document.addEventListener('DOMContentLoaded', function () {
             document.body.insertAdjacentHTML('beforeend', fabHTML);
             attachShareHandlers();
             updateFabVisibility();
-            setInterval(updateFabVisibility, 300);
+            setInterval(updateFabVisibility, 500);
             var observer = new MutationObserver(updateFabVisibility);
-            observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'], subtree: true, childList: true });
+            observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'], subtree: true });
         });
     }
 })();
