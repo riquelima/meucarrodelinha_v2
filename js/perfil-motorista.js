@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (customSession || migradoData) {
         const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
         migratedUser = parsed.user || parsed;
+        if (migratedUser && !migratedUser.id && migratedUser._id) migratedUser.id = migratedUser._id;
         user = migratedUser;
     }
 

@@ -715,14 +715,16 @@
             if (!text) return;
 
             // --- Fallback de Sessão para Migrados ---
-            let user = window._chatState.user;
+let user = window._chatState.user;
             if (!user) {
                 const cs = localStorage.getItem('mcl_custom_session');
                 const md = localStorage.getItem('mcl_migrado');
                 if (cs || md) {
                     const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
                     user = parsed.user || parsed;
+                    if (user && !user.id && user._id) user.id = user._id;
                 }
+                if (user) window._chatState.user = user;
             }
 
             if (!user) {
@@ -807,9 +809,10 @@
                 } else {
                     const cs = localStorage.getItem('mcl_custom_session');
                     const md = localStorage.getItem('mcl_migrado');
-                    if (cs || md) {
+if (cs || md) {
                         const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
                         u = parsed.user || parsed;
+                        if (u && !u.id && u._id) u.id = u._id;
                     }
                 }
                 if (u) {
@@ -924,7 +927,7 @@
             if (!supabase) return;
 
             // --- Fallback de Sessão para Migrados ---
-            let user = null;
+let user = null;
             const { data: { user: authUser } } = await supabase.auth.getUser();
             if (authUser) {
                 user = authUser;
@@ -934,6 +937,7 @@
                 if (cs || md) {
                     const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
                     user = parsed.user || parsed;
+                    if (user && !user.id && user._id) user.id = user._id;
                 }
             }
 

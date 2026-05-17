@@ -17,6 +17,7 @@
                 if (cs || md) {
                     const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
                     u = parsed.user || parsed;
+                    if (u && !u.id && u._id) u.id = u._id;
                 }
             }
             if (!u) return;

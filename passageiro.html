@@ -322,7 +322,7 @@
         </header>
 
         <!-- [SPA_HORIZONTAL_MANDATE]: O Carrossel de Views -->
-        <div id="view-slider" class="flex h-full w-[300vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
+        <div id="view-slider" class="flex h-full w-[400vw] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform">
             
             <!-- ABA 1: INÍCIO (MAPA) -->
             <section id="view-home" class="view-section shrink-0 w-[100vw] h-full relative overflow-hidden flex flex-col">
@@ -484,12 +484,17 @@
                     </div>
                     <input type="file" id="photo-upload-input" accept="image/*" class="hidden">
                     <div class="space-y-3">
-                        <button class="w-full flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl active-scale">
-                            <div class="flex items-center gap-3">
-                                <span class="material-symbols-outlined text-primary">settings</span>
-                                <span class="font-bold">Minhas Configurações</span>
+                        <button onclick="switchTab('settings')" class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5">
+                            <div class="flex items-center gap-4">
+                                <div class="size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <span class="material-symbols-outlined">settings</span>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest text-xs">Configurações</p>
+                                    <p class="text-xs text-slate-500 font-medium tracking-tight">Minhas preferências</p>
+                                </div>
                             </div>
-                            <span class="material-symbols-outlined">chevron_right</span>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
                         </button>
                         <button onclick="window.shareApp('settings')" class="w-full flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-3xl active-scale border border-white/5">
                             <div class="flex items-center gap-4">
@@ -620,6 +625,81 @@
                     </main>
                 </div>
             </section>
+
+            <!-- View: Minhas Configurações (Settings) -->
+            <section id="view-settings" class="view-section shrink-0 w-[100vw] h-full relative bg-background-light dark:bg-background-dark flex flex-col pt-16">
+                <!-- Header Secundário Fixo -->
+                <div class="absolute top-0 left-0 right-0 h-16 bg-white/80 dark:bg-background-dark/90 backdrop-blur-xl border-b border-slate-200 dark:border-white/5 flex items-center justify-between px-4 z-[101]">
+                    <button onclick="switchTab('profile')" class="active-scale flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-200 transition-colors shrink-0">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h2 class="font-display font-black text-slate-900 dark:text-white text-lg tracking-tight absolute left-1/2 -translate-x-1/2 whitespace-nowrap">Configurações</h2>
+                    <div class="size-10"></div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto no-scrollbar px-6 pt-6 pb-32">
+                    <!-- Premium Photo Upload Area -->
+                    <div class="flex flex-col items-center justify-center mb-10 mt-2">
+                        <div class="relative group cursor-pointer active-scale" onclick="document.getElementById('settings-photo-upload').click()">
+                            <!-- Glow Effect -->
+                            <div class="absolute inset-0 bg-primary/20 rounded-full blur-2xl scale-110 opacity-60"></div>
+                            
+                            <div id="settings-avatar-container" class="relative size-28 rounded-full p-1 bg-gradient-to-tr from-primary to-orange-400 shadow-xl shadow-primary/20 z-10">
+                                <img id="settings-avatar" class="w-full h-full rounded-full object-cover border-4 border-background-light dark:border-background-dark bg-slate-100 dark:bg-slate-800"
+                                    src="https://ui-avatars.com/api/?name=User&background=f97316&color=fff&size=256" alt="Avatar">
+                                
+                                <div class="absolute bottom-0 right-0 size-8 rounded-full bg-primary text-white flex items-center justify-center shadow-lg border-2 border-background-light dark:border-background-dark">
+                                    <span class="material-symbols-outlined text-[16px]">edit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 mt-4 text-center">Toque para alterar a foto</p>
+                        <input type="file" id="settings-photo-upload" accept="image/*" class="hidden">
+                    </div>
+
+                    <!-- Personal Info Form -->
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Dados Pessoais</label>
+                            
+                            <div class="bg-white dark:bg-slate-800/50 rounded-3xl border border-slate-200 dark:border-white/5 p-2 space-y-2">
+                                <div class="relative group">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                        <span class="material-symbols-outlined">person</span>
+                                    </div>
+                                    <input type="text" id="settings-nome" class="w-full h-14 pl-12 pr-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 rounded-2xl text-slate-900 dark:text-white placeholder:text-slate-400 font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="Seu nome completo">
+                                </div>
+
+                                <div class="relative group">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                        <span class="material-symbols-outlined">call</span>
+                                    </div>
+                                    <input type="tel" id="settings-telefone" class="w-full h-14 pl-12 pr-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 rounded-2xl text-slate-900 dark:text-white placeholder:text-slate-400 font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="(71) 99999-9999" maxlength="15">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Copywriting Premium -->
+                        <div class="bg-gradient-to-r from-primary/10 to-transparent border-l-4 border-primary rounded-xl p-4 flex gap-3">
+                            <span class="material-symbols-outlined text-primary shrink-0">verified_user</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">Mantenha seus dados sempre atualizados para uma melhor comunicação com seus motoristas parceiros e uma experiência mais segura.</p>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Salvar Massivo -->
+                    <div class="mt-10 mb-8">
+                        <button id="btn-save-settings" onclick="saveSettings()" class="w-full group relative flex items-center justify-center p-5 bg-gradient-to-r from-primary to-orange-400 rounded-2xl overflow-hidden shadow-xl shadow-primary/30 active-scale transition-all">
+                            <!-- Shine Effect -->
+                            <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-[shine_1s]"></div>
+                            
+                            <div class="flex items-center gap-3 relative z-10 text-white">
+                                <span class="font-black text-sm uppercase tracking-widest text-shadow-sm">Salvar Alterações</span>
+                                <span id="settings-loader-icon" class="material-symbols-outlined text-lg">check_circle</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- [BOTTOM_NAVBAR_PERSISTENCE]: Navbar Fixa -->
@@ -643,7 +723,7 @@
         <script>
             function switchTab(tabName) {
                 const slider = document.getElementById('view-slider');
-                const tabs = ['home', 'chats', 'profile'];
+                const tabs = ['home', 'chats', 'profile', 'settings'];
                 const index = tabs.indexOf(tabName);
                 
                 if (index === -1) return;
@@ -997,6 +1077,7 @@
                         if (cs || md) {
                             const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
                             u = parsed.user || parsed;
+                            if (u && !u.id && u._id) u.id = u._id;
                         }
                     }
                 } catch(e) {}
@@ -1390,6 +1471,7 @@
                     if (customSession || migradoData) {
                         const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
                         user = parsed.user || parsed;
+                        if (user && !user.id && user._id) user.id = user._id;
                     }
                 }
 
@@ -1428,6 +1510,7 @@
                             if (cs || md) {
                                 const parsed = cs ? JSON.parse(cs) : JSON.parse(md);
                                 u = parsed.user || parsed;
+                                if (u && !u.id && u._id) u.id = u._id;
                             }
                         }
                         if (u) window._chatState.user = u;
@@ -2085,6 +2168,7 @@
                     if (customSession || migradoData) {
                         const parsed = customSession ? JSON.parse(customSession) : JSON.parse(migradoData);
                         migratedUser = parsed.user || parsed;
+                        if (migratedUser && !migratedUser.id && migratedUser._id) migratedUser.id = migratedUser._id;
                     }
 
                     if (migratedUser) {
@@ -2794,9 +2878,175 @@
             sw.addEventListener('mouseleave', resume);
             sw.addEventListener('wheel', function() { pause(); resume(); }, { passive: true });
         })();
+
+        // --- Lógica Minhas Configurações (Settings) ---
+        let settingsUser = null;
+        let settingsFileToUpload = null;
+
+        // Sobrescreve switchTab para inicializar aba settings apenas quando abrir
+        const originalSwitchTab = window.switchTab;
+        window.switchTab = function(tabName) {
+            originalSwitchTab(tabName);
+            if (tabName === 'settings') {
+                loadSettings();
+            }
+        };
+
+        async function loadSettings() {
+            try {
+                const supabase = window.supabaseClient;
+                const { data: { user }, error: authErr } = await supabase.auth.getUser();
+                if (authErr || !user) return;
+                
+                settingsUser = user;
+
+                // Buscar dados do banco
+                const { data: profile, error: dbErr } = await supabase
+                    .from('usuarios')
+                    .select('nome, telefone, foto_perfil_url')
+                    .eq('id', user.id)
+                    .single();
+
+                if (dbErr) {
+                    console.error('Erro ao buscar perfil:', dbErr);
+                    return;
+                }
+
+                // Preencher campos
+                const nomeInput = document.getElementById('settings-nome');
+                const telInput = document.getElementById('settings-telefone');
+                const avatarImg = document.getElementById('settings-avatar');
+
+                if (nomeInput) nomeInput.value = profile.nome || '';
+                if (telInput) telInput.value = profile.telefone || '';
+
+                if (profile.foto_perfil_url) {
+                    avatarImg.src = profile.foto_perfil_url;
+                } else if (profile.nome) {
+                    avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.nome)}&background=f97316&color=fff&size=256`;
+                }
+
+            } catch (err) {
+                console.error('Erro geral ao carregar configurações:', err);
+            }
+        }
+
+        // Preview de upload de foto
+        const fileInput = document.getElementById('settings-photo-upload');
+        if (fileInput) {
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (file.size > 50 * 1024 * 1024) {
+                    alert('A imagem deve ter no máximo 50MB.');
+                    return;
+                }
+
+                settingsFileToUpload = file;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    document.getElementById('settings-avatar').src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Salvar as configurações
+        async function saveSettings() {
+            if (!settingsUser) return;
+            
+            const btn = document.getElementById('btn-save-settings');
+            const icon = document.getElementById('settings-loader-icon');
+            const nome = document.getElementById('settings-nome').value.trim();
+            const telefone = document.getElementById('settings-telefone').value.trim();
+            
+            if (!nome) {
+                alert('O nome é obrigatório.');
+                return;
+            }
+
+            try {
+                // UI Loading state
+                btn.disabled = true;
+                const oldIcon = icon.innerText;
+                icon.innerText = 'sync';
+                icon.classList.add('animate-spin');
+                
+                const supabase = window.supabaseClient;
+                let newPhotoUrl = null;
+
+                // Upload se houver nova foto
+                if (settingsFileToUpload) {
+                    const fileExt = settingsFileToUpload.name.split('.').pop();
+                    const fileName = `${settingsUser.id}-${Math.random()}.${fileExt}`;
+                    const filePath = `avatars/${fileName}`;
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('avatars')
+                        .upload(filePath, settingsFileToUpload, { upsert: true });
+
+                    if (uploadError) throw uploadError;
+
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('avatars')
+                        .getPublicUrl(filePath);
+
+                    newPhotoUrl = publicUrl;
+                }
+
+                // Montar dados para update
+                const updates = { nome, telefone };
+                if (newPhotoUrl) updates.foto_perfil_url = newPhotoUrl;
+
+                // Update no banco
+                const { error: updateErr } = await supabase
+                    .from('usuarios')
+                    .update(updates)
+                    .eq('id', settingsUser.id);
+
+                if (updateErr) throw updateErr;
+
+                // Sucesso: Atualizar UI local Global
+                settingsFileToUpload = null;
+                
+                // Atualizar o nome e foto na tela de perfil global
+                const globalName = document.getElementById('profile-name');
+                const globalAvatar = document.getElementById('profile-avatar');
+                
+                if (globalName) globalName.innerText = nome;
+                if (globalAvatar) {
+                    if (newPhotoUrl) {
+                        globalAvatar.src = newPhotoUrl;
+                    } else if (!globalAvatar.src.includes('http') || globalAvatar.src.includes('ui-avatars')) {
+                        globalAvatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=f97316&color=fff&size=256`;
+                    }
+                }
+
+                // Restaurar icon com animação de sucesso
+                icon.classList.remove('animate-spin');
+                icon.innerText = 'check';
+                setTimeout(() => { icon.innerText = oldIcon; }, 2000);
+                
+                if (window.AppUI && window.AppUI.showDialog) {
+                    window.AppUI.showDialog({ title: 'Sucesso!', message: 'Suas configurações foram salvas.', type: 'info' });
+                }
+
+            } catch (err) {
+                console.error('Erro ao salvar configurações:', err);
+                alert('Ocorreu um erro ao salvar seus dados. Tente novamente.');
+                icon.classList.remove('animate-spin');
+                icon.innerText = 'error';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Exportar para o escopo global explicitamente
+        window.loadSettings = loadSettings;
+        window.saveSettings = saveSettings;
     </script>
     <script src="js/pwa-register.js"></script>
-    <!-- Scripts already loaded above -->
 </body>
 
 </html>
